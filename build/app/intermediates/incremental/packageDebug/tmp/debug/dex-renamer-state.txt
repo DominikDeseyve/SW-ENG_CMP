@@ -1,0 +1,4 @@
+#Tue Jan 21 13:44:04 CET 2020
+base.0=C\:\\Daten_Florian\\RAFI\\Studium\\Semester\\4. Semester\\Software_Engeenering\\SW-ENG_CMP\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
