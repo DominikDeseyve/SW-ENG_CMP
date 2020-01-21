@@ -16,6 +16,7 @@ dependencies:
   nested_navigators:
     git:
       url: https://github.com/n0vah/nested_navigators.git
+  image_picker: ^0.6.1+11
 
   cupertino_icons: ^0.1.2
 
@@ -45,6 +46,8 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  assets:
+    - assets/images/playlist.jpg
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -25,7 +25,7 @@ class _RootScreenState extends State<RootScreen> {
           icon: Icons.search,
         ),
         Navigation.profile: NestedNavigatorItem(
-          initialRoute: '/home',
+          initialRoute: '/playlist/create',
           icon: Icons.add_circle,
         ),
         Navigation.settings: NestedNavigatorItem(
@@ -40,7 +40,7 @@ class _RootScreenState extends State<RootScreen> {
           child: Icon(
             item.icon,
             size: selected ? 28 : 26,
-            color: selected ? Colors.green : Colors.grey,
+            color: selected ? Colors.redAccent : Colors.grey,
           ),
         );
       },
