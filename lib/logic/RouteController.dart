@@ -1,5 +1,6 @@
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
+import 'package:cmp/pages/welcome/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 
 class RouteController {
@@ -15,6 +16,9 @@ class RouteController {
     switch (pRouteSettings.name) {
       case '/root':
         return RootScreen();
+        break;
+      case '/welcome':
+        return Welcome();
         break;
       case '/home':
         return HomeScreen();

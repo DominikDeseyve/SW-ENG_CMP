@@ -21,7 +21,7 @@ class _RootScreenState extends State<RootScreen> {
           icon: Icons.home,
         ),
         Navigation.explore: NestedNavigatorItem(
-          initialRoute: '/home',
+          initialRoute: '/welcome',
           icon: Icons.search,
         ),
         Navigation.profile: NestedNavigatorItem(
