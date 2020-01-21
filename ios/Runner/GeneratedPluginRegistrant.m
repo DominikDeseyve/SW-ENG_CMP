@@ -11,10 +11,8 @@
 #endif
 
 #if __has_include(<nested_navigators/NestedNavigatorsPlugin.h>)
+
 #import <nested_navigators/NestedNavigatorsPlugin.h>
-#else
-@import nested_navigators;
-#endif
 
 @implementation GeneratedPluginRegistrant
 
