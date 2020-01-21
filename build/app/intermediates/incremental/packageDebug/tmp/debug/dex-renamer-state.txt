@@ -1,0 +1,4 @@
+#Tue Jan 21 12:59:16 CET 2020
+base.0=/home/dominsch/Dokumente/dhbw/SW-ENG_CMP/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
