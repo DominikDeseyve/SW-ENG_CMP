@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Jan 21 12:59:18 CET 2020
+#Tue Jan 21 13:30:27 CET 2020
 4.path=flutter_assets/kernel_blob.bin
 8.set=NATIVE_RESOURCE
 6.path=flutter_assets/fonts/MaterialIcons-Regular.ttf
