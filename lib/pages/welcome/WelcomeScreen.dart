@@ -33,7 +33,7 @@ class Welcome extends StatelessWidget {
               onPressed: () {},
               textColor: Colors.white,
               color: Colors.blue,
-              child: Text("Registrieren".toUpperCase()),
+              child: Text("Registrieren12".toUpperCase()),
             ),
           ],
         ),
