@@ -1,5 +1,5 @@
+import 'package:cmp/pages/welcome/app_card.dart';
 import 'package:flutter/material.dart';
-import 'package:cmp_test/common/app_card.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -9,12 +9,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Color(0xFFFF5252), Color(0xDD000000)],
-              begin: FractionalOffset.topLeft,
-              end: FractionalOffset.bottomRight,
-              stops: [0.0, 1.0],
-              tileMode: TileMode.clamp),
+          gradient: LinearGradient(colors: [Color(0xFFFF5252), Color(0xDD000000)], begin: FractionalOffset.topLeft, end: FractionalOffset.bottomRight, stops: [0.0, 1.0], tileMode: TileMode.clamp),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -45,11 +40,7 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {},
                           child: Text("Login"),
                         )),
-                    Container(
-                        alignment: Alignment.centerRight,
-                        child: FlatButton(
-                            onPressed: () {},
-                            child: Text("Passwort vergessen?")))
+                    Container(alignment: Alignment.centerRight, child: FlatButton(onPressed: () {}, child: Text("Passwort vergessen?")))
                   ],
                 ),
               ),
