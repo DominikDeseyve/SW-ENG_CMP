@@ -11,51 +11,58 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: Stack(children: <Widget>[
       Container(
-        color: Color(0xFFF23B5F),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: CustomPaint(
-          painter: CurvePainter(),
+          painter: CurvePainter(Colors.redAccent, 0.415, 0.485, 0.415),
         ),
       ),
-      Container(),
-      Container(),
-      Container(),
-      Container(),
       Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: CustomPaint(
+          painter: CurvePainter(Color(0xFF253A4B), 0.4, 0.47, 0.4),
+        ),
+      ),
+      Container(
+        color: Colors.transparent,
         margin: const EdgeInsets.fromLTRB(40.0, 60.0, 40.0, 60.0),
         child: ListView(children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Willkommen",
+                "Willkommen\nbei",
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 50.0,
-                  color: Colors.black87,
-                ),
-              ),
-              Text(
-                "bei",
-                style: TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.black87,
+                  fontSize: 40.0,
+                  color: Colors.white,
                 ),
               ),
               Text(
                 "CMP",
                 style: TextStyle(
                   fontSize: 60.0,
-                  color: Color(0xFFF23B5F),
+                  color: Colors.white,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ],
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(40.0, 80.0, 40.0, 50.0),
-            height: 50.0,
+            margin: EdgeInsets.fromLTRB(40.0, 90.0, 40.0, 0.0),
+            child: Text(
+              "PLAYLIST",
+              style: TextStyle(fontSize: 28.0),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(30.0, 60.0, 30.0, 20.0),
             child: FlatButton(
               onPressed: () {},
-              color: Color(0xFFF23B5F),
+              padding: const EdgeInsets.all(10),
+              color: Colors.redAccent,
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
               child: Row(
@@ -63,12 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   Icon(
                     Icons.search,
-                    size: 28.0,
+                    size: 20.0,
                     color: Colors.white,
                   ),
                   Text(
-                    "Playlist suchen",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white),
+                    "Suchen",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
                   )
                 ],
               ),
@@ -78,13 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
                 child: Divider(
               thickness: 2.5,
-              indent: 10.0,
+              indent: 0.0,
               endIndent: 10.0,
               color: Colors.black87,
             )),
             Text("ODER",
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.w500,
                   color: Colors.black87,
                 )),
@@ -92,16 +99,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Divider(
               thickness: 2.5,
               indent: 10.0,
-              endIndent: 10.0,
+              endIndent: 0.0,
               color: Colors.black87,
             )),
           ]),
           Container(
-            margin: EdgeInsets.fromLTRB(40.0, 50.0, 40.0, 0.0),
-            height: 50.0,
+            margin: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
             child: FlatButton(
               onPressed: () {},
-              color: Color(0xFFF23B5F),
+              padding: const EdgeInsets.all(10),
+              color: Colors.redAccent,
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
               child: Row(
@@ -109,12 +116,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   Icon(
                     Icons.add,
-                    size: 28.0,
+                    size: 20.0,
                     color: Colors.white,
                   ),
                   Text(
-                    "Playlist erstellen",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white),
+                    "Erstellen",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
                   )
                 ],
               ),
