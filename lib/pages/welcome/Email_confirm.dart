@@ -1,13 +1,18 @@
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 
-String email = "test.spast@web.de";
-
 class Email_confirm extends StatefulWidget {
   _Email_confirm createState() => _Email_confirm();
 }
 
 class _Email_confirm extends State<Email_confirm> {
+  String _email;
+
+  void initState() {
+    super.initState();
+    this._email = "test.spast@web.de";
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -67,7 +72,7 @@ class _Email_confirm extends State<Email_confirm> {
                 Container(
                   margin: EdgeInsets.only(top: 90.0),
                   child: Text(
-                    "Wir haben dir eine E-Mail an " + email + " geschickt. ",
+                    "Wir haben dir eine E-Mail an " + this._email + " geschickt. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20.0),
                   ),
@@ -76,8 +81,7 @@ class _Email_confirm extends State<Email_confirm> {
                   margin: EdgeInsets.only(top: 90.0),
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     height: 50.0,
                     onPressed: () {},
                     textColor: Colors.white,

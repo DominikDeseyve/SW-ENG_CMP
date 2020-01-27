@@ -1,4 +1,3 @@
-import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/RouteController.dart';
 import 'package:cmp/pages/navigation.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +11,6 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   void initState() {
     super.initState();
-    Controller().authentificator.signIn("dominik@deseyve.com", "test123");
-    Controller().authentificator.authentificate().then((var d) {});
   }
 
   Widget build(BuildContext context) {
@@ -24,7 +21,7 @@ class _RootScreenState extends State<RootScreen> {
           icon: Icons.home,
         ),
         Navigation.explore: NestedNavigatorItem(
-          initialRoute: '/welcome',
+          initialRoute: '/playlist/search',
           icon: Icons.search,
         ),
         Navigation.profile: NestedNavigatorItem(

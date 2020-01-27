@@ -23,6 +23,9 @@ class RouteController {
       case '/welcome':
         return Welcome();
         break;
+      case '/playlist/search':
+        return Container();
+        break;
       case '/playlist/create':
         return CreatePlaylistScreen();
         break;

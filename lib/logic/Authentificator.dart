@@ -30,6 +30,10 @@ class Authentificator {
     return false;
   }
 
+  Future<void> signOut() async {
+    await this._firebaseAuth.signOut();
+  }
+
   Future<bool> authentificate() async {
     FirebaseUser user = await this._firebaseAuth.currentUser();
     if (user != null) {

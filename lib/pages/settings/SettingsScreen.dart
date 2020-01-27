@@ -1,14 +1,15 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class SettingsScreen extends StatefulWidget{
+class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>{
+class _SettingsScreenState extends State<SettingsScreen> {
   bool darkMode = false;
 
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: darkMode ? Colors.grey : Colors.white,
       body: Container(
@@ -19,15 +20,15 @@ class _SettingsScreenState extends State<SettingsScreen>{
               "Einstellungen",
               textAlign: TextAlign.center,
               style: TextStyle(
-              fontSize: 30.0,
-              color: Colors.black87,
+                fontSize: 30.0,
+                color: Colors.black87,
               ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
               child: Row(children: <Widget>[
                 Expanded(
-                  child: Divider(
+                    child: Divider(
                   thickness: 2.5,
                   indent: 10.0,
                   endIndent: 10.0,
@@ -49,9 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen>{
                 width: 100,
                 child: FlatButton(
                   color: Colors.redAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -75,9 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen>{
                       width: 200,
                       child: FlatButton(
                         color: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -87,8 +84,8 @@ class _SettingsScreenState extends State<SettingsScreen>{
                             )
                           ],
                         ),
-                        onPressed: (){
-                          setState((){
+                        onPressed: () {
+                          setState(() {
                             darkMode = !darkMode;
                           });
                         },
@@ -117,19 +114,15 @@ class _SettingsScreenState extends State<SettingsScreen>{
                       width: 200,
                       child: FlatButton(
                         color: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)
+                        shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                        child: Text(
+                          'Abmelden',
+                          style: TextStyle(fontSize: 20.0, color: Colors.white),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Abmelden',
-                              style: TextStyle(fontSize: 20.0, color: Colors.white),
-                            )
-                          ],
-                        ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await Controller().authentificator.signOut();
+                          Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
+                        },
                       ),
                     ),
                   ),

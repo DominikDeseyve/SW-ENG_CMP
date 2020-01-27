@@ -7,9 +7,7 @@ class Welcome extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Container(
         color: Colors.white70,
-        width: MediaQuery.of(context)
-            .size
-            .width, //definiert die Breite der App auf den Bildschirm
+        width: MediaQuery.of(context).size.width, //definiert die Breite der App auf den Bildschirm
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,9 +22,7 @@ class Welcome extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.9,
                   decoration: BoxDecoration(
                     color: Colors.redAccent.withOpacity(0.7),
-                    borderRadius: new BorderRadius.only(
-                        bottomLeft: const Radius.circular(80.0),
-                        bottomRight: const Radius.circular(180.0)),
+                    borderRadius: new BorderRadius.only(bottomLeft: const Radius.circular(80.0), bottomRight: const Radius.circular(180.0)),
                   ),
                 ),
 
@@ -47,9 +43,7 @@ class Welcome extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.8,
                   decoration: BoxDecoration(
                     color: Colors.blue.withOpacity(0.5),
-                    borderRadius: new BorderRadius.only(
-                        bottomLeft: const Radius.circular(180.0),
-                        bottomRight: const Radius.circular(360.0)),
+                    borderRadius: new BorderRadius.only(bottomLeft: const Radius.circular(180.0), bottomRight: const Radius.circular(360.0)),
                   ),
                 ),
 
@@ -58,9 +52,7 @@ class Welcome extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.7,
                   decoration: BoxDecoration(
                     color: Colors.redAccent.withOpacity(0.5),
-                    borderRadius: new BorderRadius.only(
-                        bottomLeft: const Radius.circular(180.0),
-                        bottomRight: const Radius.circular(360.0)),
+                    borderRadius: new BorderRadius.only(bottomLeft: const Radius.circular(180.0), bottomRight: const Radius.circular(360.0)),
                   ),
                 ),
 
@@ -77,11 +69,7 @@ class Welcome extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         child: Text(
                           "CMP",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 120.0,
-                              color: Colors.black54,
-                              fontStyle: FontStyle.italic),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 120.0, color: Colors.black54, fontStyle: FontStyle.italic),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -110,10 +98,11 @@ class Welcome extends StatelessWidget {
                           left: 20.0,
                         ),
                         child: MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                           height: 50.0,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/login');
+                          },
                           textColor: Colors.black54,
                           color: Colors.white,
                           child: Text(
@@ -130,8 +119,7 @@ class Welcome extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.8,
                         margin: EdgeInsets.all(20.0),
                         child: MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                           height: 50.0,
                           onPressed: () {},
                           textColor: Colors.black54,
@@ -166,8 +154,7 @@ void paint(Canvas canvas, Size size) {
   var path = Path();
 
   path.moveTo(0, size.height * 0.84);
-  path.quadraticBezierTo(
-      size.width / 2, size.height * 1, size.width, size.height * 0.84);
+  path.quadraticBezierTo(size.width / 2, size.height * 1, size.width, size.height * 0.84);
   path.lineTo(size.width, 0);
   path.lineTo(0, 0);
 
