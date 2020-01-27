@@ -1,5 +1,7 @@
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
+import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
+import 'package:cmp/pages/welcome/LoginScreen.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
 import 'package:cmp/pages/settings/SettingsScreen.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,12 @@ class RouteController {
         break;
       case '/welcome':
         return Welcome();
+        break;
+      case '/playlist/create':
+        return CreatePlaylistScreen();
+        break;
+      case '/login':
+        return LoginPage();
         break;
       case '/home':
         return HomeScreen();
