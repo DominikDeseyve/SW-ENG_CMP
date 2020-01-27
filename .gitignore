@@ -4,6 +4,8 @@
 ### Dart ###
 # See https://www.dartlang.org/guides/libraries/private-files
 
+#android\app\src\main\java\io\flutter\plugins\GeneratedPluginRegistrant.java
+
 # Files and directories created by pub
 .dart_tool/
 .packages
@@ -39,7 +41,8 @@ doc/api/
 **/android/gradlew
 **/android/gradlew.bat
 **/android/local.properties
-*/android/*/GeneratedPluginRegistrant.java
+**/android/**/GeneratedPluginRegistrant.java
+**/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
 
 # iOS/XCode related
 */ios//.mode1v3
@@ -66,7 +69,10 @@ doc/api/
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
-*/ios/Runner/GeneratedPluginRegistrant.
+*/ios/Runner/GeneratedPluginRegistrant.m
+**/ios/Runner/GeneratedPluginRegistrant.m
+*ios/Runner/GeneratedPluginRegistrant.h
+**ios/Runner/GeneratedPluginRegistrant.h
 
 # Exceptions to above rules.
 !*/ios/*/default.mode1v3
