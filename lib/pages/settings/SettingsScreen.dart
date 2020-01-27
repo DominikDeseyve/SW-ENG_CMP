@@ -11,33 +11,125 @@ class _SettingsScreenState extends State<SettingsScreen>{
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: darkMode ? Colors.grey : Colors.white,
-      appBar: AppBar(
-        title: Text("Einstellungen")
-      ),
       body: Container(
         margin: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 30.0),
         child: ListView(
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new RaisedButton(
-                  color: Colors.blue,
-                  child: new Text(darkMode ? 'Dark mode' : 'Light mode'),
-                  onPressed: (){
-                    setState((){
-                      darkMode = !darkMode;
-                    });
-                  },
+            Text(
+              "Einstellungen",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.black87,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+              child: Row(children: <Widget>[
+                Expanded(
+                  child: Divider(
+                  thickness: 2.5,
+                  indent: 10.0,
+                  endIndent: 10.0,
+                  color: Colors.black87,
+                )),
+              ]),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+              child: Image.asset(
+                'assets/images/profilbild.webp',
+                height: 100,
+                width: 100,
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 50,
+                //margin: EdgeInsetsGeometry(),
+                child: FlatButton(
+                  color: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Bild ändern",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  onPressed: () {},
                 ),
-                Text(
-                  "Vorname Nachname",
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.black87,
+              ),
+            ),
+            Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: FlatButton(
+                      color: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            darkMode ? 'Dark mode' : 'Light mode',
+                            style: TextStyle(fontSize: 20.0, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      onPressed: (){
+                        setState((){
+                          darkMode = !darkMode;
+                        });
+                      },
+                    ),
                   ),
                 ),
-              ]
+                Container(
+                  margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'BetziSoftware',
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      child: FlatButton(
+                        color: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'Abmelden',
+                              style: TextStyle(fontSize: 20.0, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

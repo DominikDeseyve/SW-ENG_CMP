@@ -48,6 +48,7 @@ flutter:
   # example:
   assets:
     - assets/images/playlist.jpg
+    - assets/images/profilbild.webp
   # fonts:
   #   - family: Schyler
   #     fonts:
