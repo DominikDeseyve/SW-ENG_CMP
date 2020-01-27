@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class SettingsState extends State<SettingsWidget>{
-  final String variable;
+class SettingsScreen extends StatefulWidget{
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen>{
   bool darkMode = false;
 
-  SettingsState(this.variable);
-
-  @override
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: darkMode ? Colors.grey : Colors.white,
       appBar: AppBar(
-        title: Text(variable)
+        title: Text("Einstellungen")
       ),
       body: Container(
         margin: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 30.0),
@@ -44,11 +44,4 @@ class SettingsState extends State<SettingsWidget>{
       ),
     );
   }
-}
-
-class SettingsWidget extends StatefulWidget{
-  final String variable = "Einstellungen";
-
-  @override
-  createState() => SettingsState(variable);
 }

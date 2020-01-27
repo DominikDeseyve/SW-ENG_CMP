@@ -29,7 +29,7 @@ class _RootScreenState extends State<RootScreen> {
           icon: Icons.add_circle,
         ),
         Navigation.settings: NestedNavigatorItem(
-          initialRoute: '/home',
+          initialRoute: '/settings',
           icon: Icons.settings,
         ),
       },
