@@ -1,50 +1,84 @@
-import 'package:cmp/pages/welcome/app_card.dart';
 import 'package:flutter/material.dart';
+//import 'package:login/home_page.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  static String tag = 'login-page';
+  @override
+  _LoginPageState createState() => new _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Color(0xFFFF5252), Color(0xDD000000)], begin: FractionalOffset.topLeft, end: FractionalOffset.bottomRight, stops: [0.0, 1.0], tileMode: TileMode.clamp),
+    final logo = Hero(
+      tag: 'cmp',
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: 48.0,
+        child: FlutterLogo(
+          size: 200,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    );
+
+    final email = TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      autofocus: false,
+      decoration: InputDecoration(
+        hintText: 'Email',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final password = TextFormField(
+      autofocus: false,
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () {
+          //Navigator.of(context).pushNamed(HomePage.tag);
+        },
+        padding: EdgeInsets.all(12),
+        color: Color(0xFF253A4B),
+        child: Text('Log In', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
+    final forgotLabel = FlatButton(
+      child: Text(
+        'Passwort vergessen?',
+        style: TextStyle(color: Colors.black54),
+      ),
+      onPressed: () {},
+    );
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
-            AppCard(
-              child: Text(
-                "CMP",
-                style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            AppCard(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(labelText: "Email"),
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(labelText: "Passwort"),
-                    ),
-                    Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 20.0),
-                        child: FlatButton(
-                          color: Colors.black,
-                          textColor: Colors.white,
-                          onPressed: () {},
-                          child: Text("Login"),
-                        )),
-                    Container(alignment: Alignment.centerRight, child: FlatButton(onPressed: () {}, child: Text("Passwort vergessen?")))
-                  ],
-                ),
-              ),
-            ),
+            logo,
+            SizedBox(height: 48.0),
+            email,
+            SizedBox(height: 8.0),
+            password,
+            SizedBox(height: 24.0),
+            loginButton,
+            forgotLabel
           ],
         ),
       ),
