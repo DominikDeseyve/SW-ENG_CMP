@@ -46,8 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen>{
             Align(
               alignment: Alignment.center,
               child: Container(
-                width: 50,
-                //margin: EdgeInsetsGeometry(),
+                width: 100,
                 child: FlatButton(
                   color: Colors.redAccent,
                   shape: RoundedRectangleBorder(
@@ -57,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Bild ändern",
+                        "Bild +",
                         style: TextStyle(fontSize: 20.0, color: Colors.white),
                       )
                     ],
@@ -72,24 +71,28 @@ class _SettingsScreenState extends State<SettingsScreen>{
                   margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: FlatButton(
-                      color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)
+                    child: Container(
+                      width: 200,
+                      child: FlatButton(
+                        color: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              darkMode ? 'Dark mode' : 'Light mode',
+                              style: TextStyle(fontSize: 20.0, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        onPressed: (){
+                          setState((){
+                            darkMode = !darkMode;
+                          });
+                        },
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            darkMode ? 'Dark mode' : 'Light mode',
-                            style: TextStyle(fontSize: 20.0, color: Colors.white),
-                          )
-                        ],
-                      ),
-                      onPressed: (){
-                        setState((){
-                          darkMode = !darkMode;
-                        });
-                      },
                     ),
                   ),
                 ),
@@ -111,12 +114,14 @@ class _SettingsScreenState extends State<SettingsScreen>{
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
+                      width: 200,
                       child: FlatButton(
                         color: Colors.redAccent,
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30.0)
                         ),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               'Abmelden',
