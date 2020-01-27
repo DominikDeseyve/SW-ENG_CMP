@@ -18,6 +18,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
 
   void initState() {
     super.initState();
+
     this._nameController = new TextEditingController();
     this._maxAttendeesController = new TextEditingController();
     _visiblenessList = <Visibleness>[
