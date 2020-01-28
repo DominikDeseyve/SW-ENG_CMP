@@ -15,7 +15,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController = new TextEditingController(text: 'dominik@deseyve.com');
+    this._mailController =
+        new TextEditingController(text: 'dominik@deseyve.com');
     this._passwordController = new TextEditingController(text: 'test123');
   }
 
@@ -36,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       decoration: InputDecoration(
+        icon: Icon(Icons.email),
         hintText: 'Email',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -46,8 +48,10 @@ class _LoginPageState extends State<LoginPage> {
       controller: this._passwordController,
       autofocus: false,
       obscureText: true,
+      validator: (input) => input.isEmpty ? "*Required" : null,
       decoration: InputDecoration(
-        hintText: 'Password',
+        icon: Icon(Icons.lock),
+        hintText: 'Passwort',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -63,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
           String email = this._mailController.text;
           String password = this._passwordController.text;
 
-          bool success = await Controller().authentificator.signIn(email, password);
+          bool success =
+              await Controller().authentificator.signIn(email, password);
           if (success) {
             Navigator.of(context).pushReplacementNamed('/root');
           }
@@ -71,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF253A4B),
-        child: Text('Log In', style: TextStyle(color: Colors.white)),
+        child: Text('LOGIN', style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -105,7 +110,16 @@ class _LoginPageState extends State<LoginPage> {
         child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[logo, SizedBox(height: 48.0), email, SizedBox(height: 8.0), password, SizedBox(height: 24.0), loginButton, forgotLabel],
+          children: <Widget>[
+            logo,
+            SizedBox(height: 48.0),
+            email,
+            SizedBox(height: 8.0),
+            password,
+            SizedBox(height: 24.0),
+            loginButton,
+            forgotLabel
+          ],
         ),
       ),
     ));
