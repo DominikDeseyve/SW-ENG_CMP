@@ -69,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
                   child: Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.center,
                     child: Container(
                       width: 200,
                       child: FlatButton(
@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
                   child: Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.center,
                     child: Text(
                       'BetziSoftware',
                       style: TextStyle(
@@ -109,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
                   child: Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.center,
                     child: Container(
                       width: 200,
                       child: FlatButton(
