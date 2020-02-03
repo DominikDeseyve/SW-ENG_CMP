@@ -1,6 +1,9 @@
 import 'dart:io';
 
-import 'package:cmp/models/visibility.dart';
+import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/models/genre.dart';
+import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/visibleness.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,6 +18,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   TextEditingController _nameController;
   TextEditingController _maxAttendeesController;
   Visibleness _visibleness;
+  List<Genre> _blackedGenre = [];
 
   void initState() {
     super.initState();
@@ -75,6 +79,15 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     setState(() {
       this._selectedImage = image;
     });
+  }
+
+  void _createPlaylist() async {
+    Playlist playlist = new Playlist();
+    playlist.name = this._nameController.text;
+    playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
+    playlist.visibleness = _visiblenessList[0];
+    playlist.blackedGenre = this._blackedGenre;
+    await Controller().firebase.createPlaylist(playlist);
   }
 
   Widget build(BuildContext context) {
@@ -241,7 +254,9 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                     child: RawMaterialButton(
                       padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
                       constraints: BoxConstraints(),
-                      onPressed: () {},
+                      onPressed: () async {
+                        Navigator.of(context).pushNamed('/playlist/blacked-genre');
+                      },
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -259,7 +274,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             ),
             FlatButton(
               padding: const EdgeInsets.all(15),
-              onPressed: () {},
+              onPressed: this._createPlaylist,
               color: Colors.redAccent,
               child: Text(
                 "Erstellen",

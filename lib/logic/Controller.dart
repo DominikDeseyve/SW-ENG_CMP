@@ -1,7 +1,9 @@
 import 'package:cmp/logic/Authentificator.dart';
+import 'package:cmp/logic/Firebase.dart';
 
 class Controller {
   Authentificator _authentificator;
+  Firebase _firebase;
   static final Controller _controller = Controller._internal();
 
   factory Controller() {
@@ -11,6 +13,7 @@ class Controller {
   Controller._internal() {
     print("CONSTRUCTOR OF CONTROLLER");
     this._authentificator = new Authentificator(this);
+    this._firebase = new Firebase();
   }
 
   Future<void> initializeUser() async {}
@@ -20,5 +23,9 @@ class Controller {
   //***************************************************//
   Authentificator get authentificator {
     return this._authentificator;
+  }
+
+  Firebase get firebase {
+    return this._firebase;
   }
 }
