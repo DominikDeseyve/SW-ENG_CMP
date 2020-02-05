@@ -45,26 +45,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ],
             ),
-            /*Text(
-              "Einstellungen",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.black87,
-              ),
-            ),*/
-            /*Container(
-              margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
-              child: Row(children: <Widget>[
-                Expanded(
-                    child: Divider(
-                  thickness: 2.5,
-                  indent: 10.0,
-                  endIndent: 10.0,
-                  color: Colors.black87,
-                )),
-              ]),
-            ),*/
             Container(
               margin: EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
               child: Material(
