@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -11,20 +12,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darkMode ? Colors.grey : Colors.white,
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 30.0),
+      body: Stack(children: <Widget>[
+      //backgroundColor: darkMode ? Colors.grey : Colors.white,
+      Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: CustomPaint(
+          painter: CurvePainter(Colors.redAccent, 0.25, 0.325, 0.25),
+        ),
+      ),
+      Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: CustomPaint(
+          painter: CurvePainter(Color(0xFF253A4B), 0.235, 0.31, 0.235),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(top: 35.0),
         child: ListView(
           children: <Widget>[
-            Text(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+              Text(
+                "Einstellungen",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 40.0,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+            ),
+            /*Text(
               "Einstellungen",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30.0,
                 color: Colors.black87,
               ),
-            ),
-            Container(
+            ),*/
+            /*Container(
               margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
               child: Row(children: <Widget>[
                 Expanded(
@@ -35,13 +64,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: Colors.black87,
                 )),
               ]),
-            ),
+            ),*/
             Container(
-              margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
-              child: Image.asset(
-                'assets/images/profilbild.webp',
-                height: 100,
-                width: 100,
+              margin: EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
+              child: Material(
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                color: Colors.transparent,
+                child: Ink.image(
+                  image: AssetImage('assets/images/profilbild.webp'),
+                  fit: BoxFit.cover,
+                  width: 150.0,
+                  height: 150.0,
+                ),
               ),
             ),
             Align(
@@ -67,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                   child: Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -94,11 +129,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'BetziSoftware',
+                      'Name',
                       style: TextStyle(
                         fontSize: 30.0,
                         color: Colors.black87,
@@ -107,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                   child: Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -132,6 +167,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
-    );
+    ]));
   }
 }
