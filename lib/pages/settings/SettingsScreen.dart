@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
+import 'package:cmp/models/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -9,23 +10,24 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool darkMode = false;
+  var color = ColorsClass();
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: darkMode ? color.darkModeBackground : color.lightModeBackground,
       body: Stack(children: <Widget>[
-      //backgroundColor: darkMode ? Colors.grey : Colors.white,
       Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: CustomPaint(
-          painter: CurvePainter(Colors.redAccent, 0.25, 0.325, 0.25),
+          painter: CurvePainter(darkMode ? color.darkModeRed : color.lightModeRed, 0.25, 0.325, 0.25),
         ),
       ),
       Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: CustomPaint(
-          painter: CurvePainter(Color(0xFF253A4B), 0.235, 0.31, 0.235),
+          painter: CurvePainter(darkMode ? color.darkModeBlue: color.lightModeBlue, 0.235, 0.31, 0.235),
         ),
       ),
       Container(
@@ -40,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 40.0,
-                  color: Colors.white,
+                  color: darkMode ? color.darkModeText : color.lightModeText,
                 ),
               ),
             ],
@@ -64,14 +66,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Container(
                 width: 100,
                 child: FlatButton(
-                  color: Colors.redAccent,
+                  color: darkMode ? color.darkModeRed : color.lightModeRed,
                   shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         "Bild +",
-                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                        style: TextStyle(fontSize: 20.0, color: darkMode ? color.darkModeText : color.lightModeText),
                       )
                     ],
                   ),
@@ -88,7 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       width: 200,
                       child: FlatButton(
-                        color: Colors.redAccent,
+                        color: darkMode ? color.darkModeRed : color.lightModeRed,
                         shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       'Name',
                       style: TextStyle(
                         fontSize: 30.0,
-                        color: Colors.black87,
+                        color: darkMode ? color.lightModeText : color.darkModeText,
                       ),
                     ),
                   ),
@@ -128,11 +130,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       width: 200,
                       child: FlatButton(
-                        color: Colors.redAccent,
+                        color: darkMode ? color.darkModeRed : color.lightModeRed,
                         shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                         child: Text(
                           'Abmelden',
-                          style: TextStyle(fontSize: 20.0, color: Colors.white),
+                          style: TextStyle(fontSize: 20.0, color: darkMode ? color.darkModeText : color.lightModeText),
                         ),
                         onPressed: () async {
                           await Controller().authentificator.signOut();
