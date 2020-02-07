@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
+import 'package:cmp/models/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var color = ColorsClass();
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: <Widget>[
@@ -13,14 +15,14 @@ class _HomeScreenState extends State<HomeScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: CustomPaint(
-          painter: CurvePainter(Colors.redAccent, 0.395, 0.465, 0.395),
+          painter: CurvePainter(color.darkMode ? color.darkModeRed : color.lightModeRed, 0.395, 0.465, 0.395),
         ),
       ),
       Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: CustomPaint(
-          painter: CurvePainter(Color(0xFF253A4B), 0.38, 0.45, 0.38),
+          painter: CurvePainter(color.darkMode ? color.darkModeBlue : color.lightModeBlue, 0.38, 0.45, 0.38),
         ),
       ),
       Container(
@@ -34,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 40.0,
-                  color: Colors.white,
+                  color: color.darkMode ? color.darkModeTitleText : color.lightModeTitleText,
                 ),
               ),
               Text(
@@ -42,14 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30.0,
-                  color: Colors.white,
+                  color: color.darkMode ? color.darkModeTitleText : color.lightModeTitleText,
                 ),
               ),
               Text(
                 "CMP",
                 style: TextStyle(
                   fontSize: 60.0,
-                  color: Colors.white,
+                  color: color.darkMode ? color.darkModeTitleText : color.lightModeTitleText,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -68,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FlatButton(
               onPressed: () {},
               padding: const EdgeInsets.all(10),
-              color: Colors.redAccent,
+              color: color.darkMode ? color.darkModeRed : color.lightModeRed,
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
               child: Row(
@@ -79,12 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Icon(
                       Icons.search,
                       size: 20.0,
-                      color: Colors.white,
+                      color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText,
                     ),
                   ),
                   Text(
                     "Suchen",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    style: TextStyle(fontSize: 18.0, color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText),
                   )
                 ],
               ),
@@ -96,20 +98,20 @@ class _HomeScreenState extends State<HomeScreen> {
               thickness: 2.5,
               indent: 30.0,
               endIndent: 10.0,
-              color: Colors.black87,
+              color: color.darkMode ? color.darkModeBackgroundText : color.lightModeBackgroundText,
             )),
             Text("ODER",
                 style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black87,
+                  color: color.darkMode ? color.darkModeBackgroundText : color.lightModeBackgroundText,
                 )),
             Expanded(
                 child: Divider(
               thickness: 2.5,
               indent: 10.0,
               endIndent: 30.0,
-              color: Colors.black87,
+              color: color.darkMode ? color.darkModeBackgroundText : color.lightModeBackgroundText,
             )),
           ]),
           Container(
@@ -117,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FlatButton(
               onPressed: () {},
               padding: const EdgeInsets.all(10),
-              color: Colors.redAccent,
+              color: color.darkMode ? color.darkModeRed : color.lightModeRed,
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
               child: Row(
@@ -128,12 +130,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Icon(
                       Icons.add,
                       size: 20.0,
-                      color: Colors.white,
+                      color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText,
                     ),
                   ),
                   Text(
                     "Erstellen",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    style: TextStyle(fontSize: 18.0, color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText),
                   )
                 ],
               ),
