@@ -1,6 +1,7 @@
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
+import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
@@ -25,7 +26,7 @@ class RouteController {
         return Welcome();
         break;
       case '/playlist/search':
-        return Container();
+        return PlaylistViewScreen();
         break;
       case '/playlist/create':
         return CreatePlaylistScreen();
