@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
+import 'package:cmp/models/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var color = ColorsClass();
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
