@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cmp/logic/Controller.dart';
 
-//import 'package:login/home_page.dart';
-
-class LoginPage extends StatefulWidget {
-  static String tag = 'login-page';
+class RegisterPage extends StatefulWidget {
+  static String tag = 'register-page';
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  _RegisterPageState createState() => new _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController _userController;
   TextEditingController _mailController;
+  TextEditingController _birthController;
   TextEditingController _passwordController;
+  TextEditingController _passwordConfirmController;
 
   void initState() {
     super.initState();
-    this._mailController =
-        new TextEditingController(text: 'dominik@deseyve.com');
-    this._passwordController = new TextEditingController(text: 'test123');
+    this._userController = new TextEditingController();
+    this._mailController = new TextEditingController();
+    this._birthController = new TextEditingController();
+    this._passwordController = new TextEditingController();
+    this._passwordConfirmController = new TextEditingController();
   }
 
   Widget build(BuildContext context) {
@@ -29,6 +32,17 @@ class _LoginPageState extends State<LoginPage> {
         child: FlutterLogo(
           size: 200,
         ),
+      ),
+    );
+
+    final username = TextFormField(
+      controller: this._userController,
+      autofocus: false,
+      decoration: InputDecoration(
+        icon: Icon(Icons.account_circle),
+        hintText: 'Benutzername',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
 
@@ -44,14 +58,37 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
+    final birthDate = TextFormField(
+      controller: this._birthController,
+      keyboardType: TextInputType.datetime,
+      autofocus: false,
+      decoration: InputDecoration(
+        icon: Icon(Icons.date_range),
+        hintText: 'Geburtsdatum',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
     final password = TextFormField(
       controller: this._passwordController,
       autofocus: false,
       obscureText: true,
-      validator: (input) => input.isEmpty ? "*Required" : null,
       decoration: InputDecoration(
         icon: Icon(Icons.lock),
-        hintText: 'Passwort',
+        hintText: 'Password',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final passwordConfirm = TextFormField(
+      controller: this._passwordConfirmController,
+      autofocus: false,
+      obscureText: true,
+      decoration: InputDecoration(
+        icon: Icon(Icons.lock),
+        hintText: 'Passwort wiederholen',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -72,20 +109,21 @@ class _LoginPageState extends State<LoginPage> {
           if (success) {
             Navigator.of(context).pushReplacementNamed('/root');
           }
-          //Navigator.of(context).pushNamed(HomePage.tag);
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF253A4B),
-        child: Text('LOGIN', style: TextStyle(color: Colors.white)),
+        child: Text('REGISTRIEREN', style: TextStyle(color: Colors.white)),
       ),
     );
 
     final forgotLabel = FlatButton(
       child: Text(
-        'Passwort vergessen?',
+        'Sie haben bereits einen Account? Login',
         style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed('/login');
+      },
     );
 
     return Scaffold(
@@ -113,9 +151,15 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             logo,
             SizedBox(height: 48.0),
+            username,
+            SizedBox(height: 8.0),
             email,
             SizedBox(height: 8.0),
+            birthDate,
+            SizedBox(height: 8.0),
             password,
+            SizedBox(height: 8.0),
+            passwordConfirm,
             SizedBox(height: 24.0),
             loginButton,
             forgotLabel

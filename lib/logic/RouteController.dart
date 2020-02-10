@@ -4,6 +4,7 @@ import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
+import 'package:cmp/pages/welcome/RegisterScreen.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
 import 'package:cmp/pages/settings/SettingsScreen.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,9 @@ class RouteController {
         break;
       case '/login':
         return LoginPage();
+        break;
+      case '/register':
+        return RegisterPage();
         break;
       case '/home':
         return HomeScreen();
