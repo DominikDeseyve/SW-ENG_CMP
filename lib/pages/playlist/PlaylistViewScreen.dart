@@ -1,10 +1,13 @@
-import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class PlaylistViewScreen extends StatefulWidget {
+  Playlist _playlist;
+
+  PlaylistViewScreen(this._playlist);
+
   _PlaylistViewScreenState createState() => _PlaylistViewScreenState();
 }
 
@@ -17,7 +20,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
           backgroundColor: Color(0xFF253A4B),
           centerTitle: true,
           elevation: 0,
-          title: Text("Eventname"),
+          title: Text(this.widget._playlist.name),
         ),
       ),
       body: Stack(
@@ -62,7 +65,35 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage('assets/images/playlist.jpg'),
+                            image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
+                          ),
+                        ),
+                      ),
+                      Text(this.widget._playlist.name),
+                      Text("erstellt von ..." /* + this.widget._playlist...*/),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 50),
+                        child: FlatButton(
+                          onPressed: () {},
+                          padding: const EdgeInsets.all(10),
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                "Erstellen",
+                                style: TextStyle(fontSize: 18.0, color: Colors.white),
+                              )
+                            ],
                           ),
                         ),
                       ),
