@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/visibleness.dart';
 
@@ -6,9 +7,18 @@ class Playlist {
   String _name;
   int _maxAttendees;
   Visibleness _visibleness;
+  String _imageURL;
   List<Genre> _blackedGenre;
 
   Playlist() {}
+
+  Playlist.fromFirebase(DocumentSnapshot pSnap) {
+    this._playlistID = pSnap.documentID;
+    this._name = pSnap['name'];
+    this._maxAttendees = pSnap['max_attendees'];
+    this._visibleness = Visibleness(pSnap['visibleness']);
+    this._imageURL = pSnap['image_url'];
+  }
 
   //***************************************************//
   //*********   GETTER
@@ -27,6 +37,10 @@ class Playlist {
 
   Visibleness get visibleness {
     return this._visibleness;
+  }
+
+  String get imageURL {
+    return this._imageURL;
   }
 
   //***************************************************//

@@ -13,7 +13,7 @@ class Controller {
   Controller._internal() {
     print("CONSTRUCTOR OF CONTROLLER");
     this._authentificator = new Authentificator(this);
-    this._firebase = new Firebase();
+    this._firebase = new Firebase(this);
   }
 
   Future<void> initializeUser() async {}
