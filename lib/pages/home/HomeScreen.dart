@@ -1,8 +1,5 @@
-import 'dart:math';
-
-import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:cmp/widgets/CurvePainter.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -11,15 +8,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
-          centerTitle: true,
-          elevation: 0,
-          title: Text("Connected Music Playlist"),
-        ),
-      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -44,249 +32,141 @@ class _HomeScreenState extends State<HomeScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.015, 0.015, 0.015),
+              painter: CurvePainter(Colors.redAccent, 0.395, 0.465, 0.395),
             ),
           ),
-          //kompletter Bildschirm
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: CustomPaint(
+              painter: CurvePainter(Color(0xFF253A4B), 0.38, 0.45, 0.38),
+            ),
+          ),
           Container(
             child: ListView(
               children: <Widget>[
-                //erstellte Playlists
                 Container(
-                  margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "erstellte Playlists",
-                        style: TextStyle(
-                            fontSize: 24.0, fontWeight: FontWeight.w500),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Color(0xFF253A4B),
-                      ),
-                    ],
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Willkommen",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 40.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "bei",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "CMP",
+                          style: TextStyle(
+                            fontSize: 60.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                //Die ganzen Events
                 Container(
-                  height: 160,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                  margin: EdgeInsets.only(top: 30.0),
+                  child: Text(
+                    "PLAYLIST",
+                    style: TextStyle(fontSize: 28.0),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                //beigetretene Playlists
                 Container(
-                  margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "beigetretene Playlists",
-                        style: TextStyle(
-                            fontSize: 24.0, fontWeight: FontWeight.w500),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Color(0xFF253A4B),
-                      ),
-                    ],
+                  margin: EdgeInsets.fromLTRB(50.0, 40.0, 50.0, 20.0),
+                  child: FlatButton(
+                    onPressed: () {},
+                    padding: const EdgeInsets.all(10),
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: Icon(
+                            Icons.search,
+                            size: 20.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Suchen",
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                //Die ganzen Events
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Divider(
+                        thickness: 2.5,
+                        indent: 30.0,
+                        endIndent: 10.0,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    Text(
+                      "ODER",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        thickness: 2.5,
+                        indent: 10.0,
+                        endIndent: 30.0,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
                 Container(
-                  height: 160,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
+                  margin: EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 0.0),
+                  child: FlatButton(
+                    onPressed: () {},
+                    padding: const EdgeInsets.all(10),
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: Icon(
+                            Icons.add,
+                            size: 20.0,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                      //Einzelner Event
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                                width: 110.0,
-                                height: 110.0,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/playlist.jpg')))),
-                            Text(
-                              "Event 1",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15.0),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                        Text(
+                          "Erstellen",
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
