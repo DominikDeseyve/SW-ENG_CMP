@@ -11,22 +11,31 @@ class Authentificator {
     this._firebaseAuth = FirebaseAuth.instance;
   }
 
-  Future<void> signUp(String pEmail, String pPassword) async {
+  Future<bool> signUp(String pEmail, String pPassword) async {
     try {
-      AuthResult authResult = await this._firebaseAuth.createUserWithEmailAndPassword(email: pEmail, password: pPassword);
+      AuthResult authResult = await this
+          ._firebaseAuth
+          .createUserWithEmailAndPassword(email: pEmail, password: pPassword);
       await authResult.user.sendEmailVerification();
+      return true;
     } catch (e) {
       print(e.code);
+      return false;
     }
   }
 
   Future<bool> signIn(String pEmail, String pPassword) async {
-    AuthResult authResult = await this._firebaseAuth.signInWithEmailAndPassword(email: pEmail, password: pPassword);
+    print(pEmail);
+    print(pPassword);
+    AuthResult authResult = await this
+        ._firebaseAuth
+        .signInWithEmailAndPassword(email: pEmail, password: pPassword);
     if (authResult.user.isEmailVerified) {
       this._firebaseUser = authResult.user;
       await this._controller.initializeUser();
       return true;
     }
+    print("keine email verified");
     return false;
   }
 

@@ -15,9 +15,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController =
-        new TextEditingController(text: 'dominik@deseyve.com');
-    this._passwordController = new TextEditingController(text: 'test123');
+    this._mailController = new TextEditingController();
+    this._passwordController = new TextEditingController();
   }
 
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final email = TextFormField(
+    Widget email = TextFormField(
       controller: this._mailController,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -44,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final password = TextFormField(
+    Widget password = TextFormField(
       controller: this._passwordController,
       autofocus: false,
       obscureText: true,
@@ -57,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final loginButton = Padding(
+    Widget loginButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: RaisedButton(
         shape: RoundedRectangleBorder(

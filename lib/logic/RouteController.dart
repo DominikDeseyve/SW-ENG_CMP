@@ -3,6 +3,7 @@ import 'package:cmp/pages/home/HomeScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/SearchScreen.dart';
+import 'package:cmp/pages/welcome/Email_confirm.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
 import 'package:cmp/pages/welcome/RegisterScreen.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
@@ -40,6 +41,9 @@ class RouteController {
         break;
       case '/register':
         return RegisterPage();
+        break;
+      case '/register/email':
+        return Email_confirm(args);
         break;
       case '/home':
         return HomeScreen();
