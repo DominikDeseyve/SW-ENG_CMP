@@ -3,15 +3,15 @@ import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class PlaylistViewScreen extends StatefulWidget {
+class PlaylistDetailScreen extends StatefulWidget {
   Playlist _playlist;
 
-  PlaylistViewScreen(this._playlist);
+  PlaylistDetailScreen(this._playlist);
 
-  _PlaylistViewScreenState createState() => _PlaylistViewScreenState();
+  _PlaylistDetailScreenState createState() => _PlaylistDetailScreenState();
 }
 
-class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
+class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -91,10 +91,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                               ),
                               Text(
                                 "Teilnehmen",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.white,
-                                ),
+                                style: TextStyle(fontSize: 18.0, color: Colors.white),
                               )
                             ],
                           ),
@@ -109,9 +106,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                             color: Colors.black,
                           ),
                           color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -125,10 +120,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                               ),
                               Text(
                                 "Song hinzufügen",
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.black,
-                                ),
+                                style: TextStyle(fontSize: 14.0, color: Colors.black),
                               )
                             ],
                           ),
@@ -144,10 +136,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                     children: <Widget>[
                       Text(
                         "Lieder",
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                       ),
                       Divider(
                         thickness: 1.5,
