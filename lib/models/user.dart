@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmp/models/settings.dart';
 
 class User {
   String _userID;
   String _username;
   DateTime _birthday;
   String _imageURL;
+
+  Settings _settings;
 
   User() {}
 

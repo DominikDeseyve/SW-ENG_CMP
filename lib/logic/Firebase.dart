@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/user.dart';
 
 class Firebase {
@@ -74,6 +75,13 @@ class Firebase {
     return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
       if (!pSnapshot.exists) return null;
       return User.fromFirebase(pSnapshot);
+    });
+  }
+
+  Future<Settings> getSettings(String pUserID) async {
+    return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
+      if (!pSnapshot.exists) return null;
+      //return User.fromFirebase(pSnapshot);
     });
   }
 }
