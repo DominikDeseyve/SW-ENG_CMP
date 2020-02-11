@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/settings.dart';
+import 'package:cmp/models/user.dart';
 
 class Firebase {
   Controller _controller;
@@ -14,12 +16,26 @@ class Firebase {
     this._source = Source.server;
   }
 
-  Future<void> createPlaylist(Playlist pPlaylist) async {
-    await this._ref.collection('playlist').add({
+  Future<String> createPlaylist(Playlist pPlaylist) async {
+    DocumentReference ref = await this._ref.collection('playlist').add({
       'name': pPlaylist.name,
+      'image_url': pPlaylist.imageURL,
       'max_attendees': pPlaylist.maxAttendees,
       'visibleness': pPlaylist.visibleness.key,
-      'blacked_genre': pPlaylist.blackedGenre,
+      'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
+      'creator': pPlaylist.creator.toFirebase(),
+    });
+    return ref.documentID;
+  }
+
+  Future<void> updatePlaylist(Playlist pPlaylist) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
+      'name': pPlaylist.name,
+      'image_url': pPlaylist.imageURL,
+      'max_attendees': pPlaylist.maxAttendees,
+      'visibleness': pPlaylist.visibleness.key,
+      'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
+      'creator': pPlaylist.creator.toFirebase(),
     });
   }
 
@@ -52,6 +68,20 @@ class Firebase {
         playlists.add(Playlist.fromFirebase(pPlaylist));
       });
       return playlists;
+    });
+  }
+
+  Future<User> getUser(String pUserID) async {
+    return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
+      if (!pSnapshot.exists) return null;
+      return User.fromFirebase(pSnapshot);
+    });
+  }
+
+  Future<Settings> getSettings(String pUserID) async {
+    return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
+      if (!pSnapshot.exists) return null;
+      //return User.fromFirebase(pSnapshot);
     });
   }
 }

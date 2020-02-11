@@ -12,6 +12,13 @@ class Genre {
     this._subname = pSnap['subname'];
     this._imageURL = pSnap['image_url'];
   }
+
+  Map<String, dynamic> toFirebase() => {
+        'genre_id': this._genreID,
+        'name': this._name,
+        'subname': this._subname,
+        'image_url': this._imageURL,
+      };
   //***************************************************//
   //*********   GETTER
   //***************************************************//

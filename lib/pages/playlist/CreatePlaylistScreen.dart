@@ -39,11 +39,11 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            color: Colors.grey.withOpacity(0.5),
             width: MediaQuery.of(dialogContext).size.width,
             child: FlatButton(
               onPressed: () {
                 this._visibleness = this._visiblenessList[0];
+                Navigator.of(dialogContext).pop(null);
               },
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Text(
@@ -54,11 +54,13 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
             ),
           ),
+          Divider(),
           Container(
             width: MediaQuery.of(dialogContext).size.width,
             child: FlatButton(
               onPressed: () {
                 this._visibleness = this._visiblenessList[1];
+                Navigator.of(dialogContext).pop(null);
               },
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Text(
@@ -85,9 +87,35 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     Playlist playlist = new Playlist();
     playlist.name = this._nameController.text;
     playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
-    playlist.visibleness = _visiblenessList[0];
+    playlist.visibleness = this._visibleness;
     playlist.blackedGenre = this._blackedGenre;
-    await Controller().firebase.createPlaylist(playlist);
+    playlist.creator = Controller().authentificator.user;
+    playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
+
+    if (this._selectedImage != null) {
+      playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
+      await Controller().firebase.updatePlaylist(playlist);
+    }
+    Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
+  }
+
+  String _generateBlackedGenreLabel() {
+    String label = '';
+    if (this._blackedGenre.length == 0) {
+      label = "Blacked Genre";
+    } else {
+      int length = 3;
+      if (this._blackedGenre.length < 3) {
+        length = this._blackedGenre.length;
+      }
+      for (int i = 0; i < length; i++) {
+        label += this._blackedGenre[i].name;
+        if (i < this._blackedGenre.length - 1) {
+          label += ', ';
+        }
+      }
+    }
+    return label;
   }
 
   Widget build(BuildContext context) {
@@ -222,7 +250,9 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                         showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) => _buildVisibilityDialog(dialogContext),
-                        );
+                        ).then((_) {
+                          setState(() {});
+                        });
                       },
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -254,13 +284,17 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                     child: RawMaterialButton(
                       padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
                       constraints: BoxConstraints(),
-                      onPressed: () async {
-                        Navigator.of(context).pushNamed('/playlist/blacked-genre');
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/playlist/blacked-genre', arguments: this._blackedGenre).then((pBlackedGenre) {
+                          setState(() {
+                            this._blackedGenre = pBlackedGenre;
+                          });
+                        });
                       },
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Blacklisted Genres",
+                          this._generateBlackedGenreLabel(),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

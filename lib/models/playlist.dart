@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/models/genre.dart';
+import 'package:cmp/models/user.dart';
 import 'package:cmp/models/visibleness.dart';
 
 class Playlist {
@@ -9,6 +10,7 @@ class Playlist {
   Visibleness _visibleness;
   String _imageURL;
   List<Genre> _blackedGenre;
+  User _creator;
 
   Playlist() {}
 
@@ -23,6 +25,10 @@ class Playlist {
   //***************************************************//
   //*********   GETTER
   //***************************************************//
+  String get playlistID {
+    return this._playlistID;
+  }
+
   String get name {
     return this._name;
   }
@@ -43,11 +49,23 @@ class Playlist {
     return this._imageURL;
   }
 
+  User get creator {
+    return this._creator;
+  }
+
   //***************************************************//
   //*********   SETTER
   //***************************************************//
+  set playlistID(String pPlaylistID) {
+    this._playlistID = pPlaylistID;
+  }
+
   set name(String pName) {
     this._name = pName;
+  }
+
+  set imageURL(String pImageURL) {
+    this._imageURL = pImageURL;
   }
 
   set maxAttendees(int pMaxAttendees) {
@@ -60,5 +78,9 @@ class Playlist {
 
   set blackedGenre(List<Genre> pBlackedGenre) {
     this._blackedGenre = pBlackedGenre;
+  }
+
+  set creator(User pCreator) {
+    this._creator = pCreator;
   }
 }

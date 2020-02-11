@@ -45,7 +45,7 @@ class RouteController {
         return PlaylistDetailScreen(args);
         break;
       case '/playlist/blacked-genre':
-        return BlackedGenreScreen();
+        return BlackedGenreScreen(args);
         break;
       case '/login':
         return LoginPage();
