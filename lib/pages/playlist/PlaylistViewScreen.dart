@@ -65,7 +65,9 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
+                            image: (this.widget._playlist.imageURL != null
+                                ? NetworkImage(this.widget._playlist.imageURL)
+                                : AssetImage('assets/images/playlist.jpg')),
                           ),
                         ),
                       ),
@@ -77,26 +79,29 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           onPressed: () {},
                           padding: const EdgeInsets.all(10),
                           color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(right: 5.0),
                                 child: Icon(
-                                  Icons.add,
+                                  Icons.person_add,
                                   size: 20.0,
                                   color: Colors.white,
                                 ),
                               ),
                               Text(
-                                "Erstellen",
-                                style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                "Teilnehmen",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.white),
                               )
                             ],
                           ),
                         ),
                       ),
+                      OutlineButton(onPressed: () {}, child: ,)
                     ],
                   ),
                 )
