@@ -1,9 +1,13 @@
 import 'package:cmp/logic/Authentificator.dart';
 import 'package:cmp/logic/Firebase.dart';
+import 'package:cmp/logic/Storage.dart';
+import 'package:cmp/logic/Theming.dart';
 
 class Controller {
   Authentificator _authentificator;
   Firebase _firebase;
+  Storage _storage;
+  Theming _theming;
   static final Controller _controller = Controller._internal();
 
   factory Controller() {
@@ -14,9 +18,9 @@ class Controller {
     print("CONSTRUCTOR OF CONTROLLER");
     this._authentificator = new Authentificator(this);
     this._firebase = new Firebase(this);
+    this._storage = new Storage();
+    this._theming = new Theming();
   }
-
-  Future<void> initializeUser() async {}
 
   //***************************************************//
   //*********   GETTER
@@ -27,5 +31,13 @@ class Controller {
 
   Firebase get firebase {
     return this._firebase;
+  }
+
+  Storage get storage {
+    return this._storage;
+  }
+
+  Theming get theming {
+    return this._theming;
   }
 }

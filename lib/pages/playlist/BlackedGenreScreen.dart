@@ -3,20 +3,35 @@ import 'package:cmp/models/genre.dart';
 import 'package:flutter/material.dart';
 
 class BlackedGenreScreen extends StatefulWidget {
+  List<Genre> _blackedGenre;
+  BlackedGenreScreen(this._blackedGenre);
+
   _BlackedGenreScreenState createState() => _BlackedGenreScreenState();
 }
 
 class _BlackedGenreScreenState extends State<BlackedGenreScreen> {
-  List<Genre> _blackedGenre = [];
+  List<Genre> _selectedGenre = [];
 
   void initState() {
     super.initState();
 
     Controller().firebase.getGenres().then((List<Genre> pGenreList) {
       setState(() {
-        this._blackedGenre = pGenreList;
+        this.widget._blackedGenre = pGenreList;
       });
     });
+  }
+
+  void _selectGenre(Genre pGenre) {
+    if (this._selectedGenre.contains(pGenre)) {
+      setState(() {
+        this._selectedGenre.remove(pGenre);
+      });
+    } else {
+      setState(() {
+        this._selectedGenre.add(pGenre);
+      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -42,8 +57,10 @@ class _BlackedGenreScreenState extends State<BlackedGenreScreen> {
           actions: <Widget>[
             IconButton(
               color: Colors.white,
-              icon: Icon(Icons.more_vert, size: 26),
-              onPressed: () {},
+              icon: Icon(Icons.check, size: 26),
+              onPressed: () {
+                Navigator.of(context).pop(this._selectedGenre);
+              },
             ),
           ],
         ),
@@ -51,19 +68,19 @@ class _BlackedGenreScreenState extends State<BlackedGenreScreen> {
       body: ListView.builder(
         physics: ScrollPhysics(),
         shrinkWrap: true,
-        itemCount: this._blackedGenre.length,
+        itemCount: this.widget._blackedGenre.length,
         itemBuilder: (BuildContext context, int index) {
-          if (index < this._blackedGenre.length - 1) {
+          if (index < this.widget._blackedGenre.length - 1) {
             return Column(
               children: <Widget>[
-                GenreItem(this._blackedGenre[index]),
+                GenreItem(this.widget._blackedGenre[index], this._selectedGenre.contains(this.widget._blackedGenre[index]), this._selectGenre),
                 Divider(
                   height: 10,
                 )
               ],
             );
           } else {
-            return GenreItem(this._blackedGenre[index]);
+            return GenreItem(this.widget._blackedGenre[index], this._selectedGenre.contains(this.widget._blackedGenre[index]), this._selectGenre);
           }
         },
       ),
@@ -73,30 +90,31 @@ class _BlackedGenreScreenState extends State<BlackedGenreScreen> {
 
 class GenreItem extends StatelessWidget {
   final Genre _genre;
-  GenreItem(this._genre);
+  final bool _selected;
+  final Function(Genre) _toggleGenreCallback;
+  GenreItem(this._genre, this._selected, this._toggleGenreCallback);
 
   Widget build(BuildContext context) {
-    return ListTile(
-      onLongPress: () {},
-      //selected: paints[index].selected,
-      leading: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {},
-        child: Container(
-          width: 48,
-          height: 48,
-          padding: EdgeInsets.symmetric(vertical: 4.0),
-          alignment: Alignment.center,
-          child: Material(
-            shape: CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.white,
-            child: Image(
-              width: 150,
-              height: 150,
-              image: NetworkImage(this._genre.imageURL),
-              fit: BoxFit.cover,
-            ),
+    return CheckboxListTile(
+      value: this._selected,
+      onChanged: (bool value) {
+        this._toggleGenreCallback(this._genre);
+      },
+      activeColor: Colors.redAccent,
+      secondary: Container(
+        width: 48,
+        height: 48,
+        padding: EdgeInsets.symmetric(vertical: 4.0),
+        alignment: Alignment.center,
+        child: Material(
+          shape: CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.white,
+          child: Image(
+            width: 150,
+            height: 150,
+            image: NetworkImage(this._genre.imageURL),
+            fit: BoxFit.cover,
           ),
         ),
       ),
@@ -105,7 +123,6 @@ class GenreItem extends StatelessWidget {
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(this._genre.subname),
-      trailing: Icon(Icons.check_box),
     );
   }
 }
