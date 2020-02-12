@@ -20,6 +20,8 @@ class Playlist {
     this._maxAttendees = pSnap['max_attendees'];
     this._visibleness = Visibleness(pSnap['visibleness']);
     this._imageURL = pSnap['image_url'];
+    //this.blackedGenre = pSnap[''];
+    //this._creator = pSnap['']
   }
 
   //***************************************************//

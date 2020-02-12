@@ -24,4 +24,8 @@ class User {
         'birthday': this._birthday,
         'image_url': this._imageURL,
       };
+
+  String get userID {
+    return this._userID;
+  }
 }

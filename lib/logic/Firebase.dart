@@ -51,8 +51,9 @@ class Firebase {
 
   Future<List<Playlist>> getCreatedPlaylist() async {
     List<Playlist> playlists = [];
+    String userID = this._controller.authentificator.user.userID;
 
-    return await this._ref.collection('playlist').where('creator.uid', isEqualTo: "DFJwbs7m0LMdyOOa7YQIFEvtTB83").getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    return await this._ref.collection('playlist').where('creator.user_id', isEqualTo: userID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist));
       });
