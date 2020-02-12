@@ -108,7 +108,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "beigetretene Mitglieder",
+                              "Teilnehmer",
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w500,
@@ -145,7 +145,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                                 ),
                               ),
                               Text(
-                                "Hallo Name",
+                                "BastiSoftware",
                                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
                               ),
                             ],
@@ -167,7 +167,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                                 ),
                               ),
                               Text(
-                                "Hallo Name",
+                                "DanielSoftware",
                                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
                               ),
                             ],
@@ -189,7 +189,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                                 ),
                               ),
                               Text(
-                                "Hallo Name",
+                                "RobinSoftware",
                                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
                               ),
                             ],
@@ -211,7 +211,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                                 ),
                               ),
                               Text(
-                                "Hallo Name",
+                                "DeseyveSoftware",
                                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
                               ),
                             ],
@@ -233,7 +233,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                                 ),
                               ),
                               Text(
-                                "Hallo Name",
+                                "FlobeSoftware",
                                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
                               ),
                             ],
