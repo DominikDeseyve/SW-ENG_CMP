@@ -65,7 +65,6 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
                   },
                   child: Container(
-                    color: Colors.red,
                     height: (MediaQuery.of(context).size.height * 0.21) - 30,
                     width: MediaQuery.of(context).size.width,
                     alignment: Alignment(0, -0.5),
@@ -86,7 +85,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 children: <Widget>[
                   Container(
                     height: 28,
-                    margin: EdgeInsets.fromLTRB(90, 50, 90, 0),
+                    margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
                     child: OutlineButton(
                       onPressed: () {},
                       borderSide: BorderSide(
@@ -371,6 +370,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20,
             )
           ],
         ),

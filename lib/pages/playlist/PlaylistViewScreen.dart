@@ -43,13 +43,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
               ),
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.015, 0.015, 0.015),
-            ),
-          ),
+
           //kompletter Bildschirm
           Container(
             child: ListView(
@@ -249,8 +243,16 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.015,
+            color: Colors.redAccent,
           ),
         ],
       ),
