@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Authentificator.dart';
 import 'package:cmp/logic/Firebase.dart';
+import 'package:cmp/logic/SoundPlayer.dart';
 import 'package:cmp/logic/Storage.dart';
 import 'package:cmp/logic/Theming.dart';
 
@@ -8,8 +9,9 @@ class Controller {
   Firebase _firebase;
   Storage _storage;
   Theming _theming;
-  static final Controller _controller = Controller._internal();
+  SoundPlayer _soundPlayer;
 
+  static final Controller _controller = Controller._internal();
   factory Controller() {
     return _controller;
   }
@@ -20,6 +22,7 @@ class Controller {
     this._firebase = new Firebase(this);
     this._storage = new Storage();
     this._theming = new Theming();
+    this._soundPlayer = new SoundPlayer();
   }
 
   //***************************************************//
@@ -39,5 +42,9 @@ class Controller {
 
   Theming get theming {
     return this._theming;
+  }
+
+  SoundPlayer get soundPlayer {
+    return this._soundPlayer;
   }
 }

@@ -25,7 +25,6 @@ class User {
         'image_url': this._imageURL,
       };
 
-
   //***************************************************//
   //*********   SETTER
   //***************************************************//
@@ -39,9 +38,9 @@ class User {
 
   Settings get settings {
     return this._settings;
+  }
 
   String get userID {
     return this._userID;
-
   }
 }

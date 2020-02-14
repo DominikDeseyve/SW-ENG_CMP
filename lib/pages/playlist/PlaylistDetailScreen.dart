@@ -1,5 +1,4 @@
 import 'package:cmp/models/playlist.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

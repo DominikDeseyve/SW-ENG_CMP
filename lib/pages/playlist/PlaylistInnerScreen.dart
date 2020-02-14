@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
@@ -377,6 +381,131 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: SoundBar(),
+      ),
     );
+  }
+}
+
+class SoundBar extends StatefulWidget {
+  _SoundBarState createState() => _SoundBarState();
+}
+
+class _SoundBarState extends State<SoundBar> {
+  bool _isPlaying;
+  double _percentage;
+  StreamSubscription _durationStream;
+
+  void initState() {
+    super.initState();
+    this._percentage = 0;
+
+    AudioPlayerState state = Controller().soundPlayer.state;
+    if (state == AudioPlayerState.PLAYING) {
+      this._isPlaying = true;
+    } else {
+      this._isPlaying = false;
+    }
+    Controller().soundPlayer.duration.then((int duration) {
+      this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
+        setState(() {
+          this._percentage = (p.inMilliseconds / duration);
+          print(this._percentage);
+        });
+        //print('Current position: ' + percentage.toString());
+      });
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * this._percentage,
+          height: 5,
+          color: Colors.redAccent,
+        ),
+        Container(
+          color: Color(0xFF253A4B),
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            children: <Widget>[
+              Material(
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                color: Colors.white,
+                child: InkWell(
+                  child: Image(
+                    width: 45,
+                    height: 45,
+                    image: AssetImage('assets/images/playlist.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'Apache 207',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Warum tust du dir das an?',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: () {
+                  if (this._isPlaying) {
+                    setState(() {
+                      Controller().soundPlayer.pause();
+                      this._isPlaying = false;
+                    });
+                  } else {
+                    setState(() {
+                      Controller().soundPlayer.play();
+                      this._isPlaying = true;
+                    });
+                  }
+                },
+                icon: Icon(
+                  (this._isPlaying ? Icons.pause : Icons.play_arrow),
+                  color: Colors.white,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.skip_next,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void dispose() {
+    this._durationStream.cancel();
+    super.dispose();
   }
 }
