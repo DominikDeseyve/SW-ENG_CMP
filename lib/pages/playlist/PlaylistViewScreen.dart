@@ -43,13 +43,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
               ),
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.015, 0.015, 0.015),
-            ),
-          ),
+
           //kompletter Bildschirm
           Container(
             child: ListView(
@@ -60,7 +54,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                       Container(
                         width: 180.0,
                         height: 180.0,
-                        margin: EdgeInsets.only(top: 35.0),
+                        margin: EdgeInsets.fromLTRB(0, 35, 0, 22),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -69,10 +63,18 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           ),
                         ),
                       ),
-                      Text(this.widget._playlist.name),
-                      Text("erstellt von ..." /* + this.widget._playlist...*/),
+                      Text(
+                        this.widget._playlist.name,
+                        style: TextStyle(fontSize: 22),
+                      ),
+                      Text(
+                        "erstellt von " + this.widget._playlist.creator.toString(),
+                        style: TextStyle(
+                          fontSize: 14.0,
+                        ),
+                      ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50),
+                        margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
                         child: FlatButton(
                           onPressed: () {},
                           padding: const EdgeInsets.all(10),
@@ -101,72 +103,156 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                         ),
                       ),
                       Container(
-                        height: 28,
-                        margin: EdgeInsets.symmetric(horizontal: 90),
-                        child: OutlineButton(
-                          onPressed: () {},
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          child: Row(
+                        margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Teilnehmer",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Divider(
+                              thickness: 1.5,
+                              color: Color(0xFF253A4B),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GridView.count(
+                        primary: false,
+                        shrinkWrap: true,
+                        mainAxisSpacing: 15,
+                        childAspectRatio: 1,
+                        crossAxisCount: 3,
+                        children: <Widget>[
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 16.0,
-                                  color: Colors.black,
+                              Container(
+                                height: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: (AssetImage('assets/images/playlist.jpg')),
+                                  ),
                                 ),
                               ),
                               Text(
-                                "Song hinzufügen",
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.black,
-                                ),
-                              )
+                                "BastiSoftware",
+                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                              ),
                             ],
                           ),
-                        ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: (AssetImage('assets/images/playlist.jpg')),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "DanielSoftware",
+                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: (AssetImage('assets/images/playlist.jpg')),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "RobinSoftware",
+                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: (AssetImage('assets/images/playlist.jpg')),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "DeseyveSoftware",
+                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: (AssetImage('assets/images/playlist.jpg')),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "FlobeSoftware",
+                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(30, 20, 30, 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Lieder",
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Color(0xFF253A4B),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: <Widget>[
-                    InkWell(
-                      child: Row(
-                        children: <Widget>[Text("Lied")],
-                      ),
-                    )
-                  ],
-                ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.015,
+            color: Colors.redAccent,
           ),
         ],
       ),

@@ -162,7 +162,7 @@ class PlaylistItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/playlist/view', arguments: this._playlist);
+        Navigator.of(context).pushNamed('/playlist/innerview', arguments: this._playlist);
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(20, 10, 0, 0),

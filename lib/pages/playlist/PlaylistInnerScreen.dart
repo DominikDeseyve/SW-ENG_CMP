@@ -20,144 +20,362 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           backgroundColor: Color(0xFF253A4B),
           centerTitle: true,
           elevation: 0,
-          title: Text(this.widget._playlist.name),
-        ),
-      ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            // Add box decoration
-            decoration: BoxDecoration(
-              // Box decoration takes a gradient
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                // Add one stop for each color. Stops should increase from 0 to 1
-                stops: [0.0, 1.0],
-                colors: [
-                  // Colors are easy thanks to Flutter's Colors class.
-                  Colors.grey[400],
-                  Colors.white,
-                ],
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.block,
               ),
             ),
+          ],
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 1.0],
+            colors: [
+              Colors.grey[400],
+              Colors.white,
+            ],
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.015, 0.015, 0.015),
-            ),
-          ),
-          //kompletter Bildschirm
-          Container(
-            child: ListView(
+        ),
+        child: ListView(
+          children: <Widget>[
+            Stack(
               children: <Widget>[
                 Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 180.0,
-                        height: 180.0,
-                        margin: EdgeInsets.only(top: 35.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
-                          ),
-                        ),
-                      ),
-                      Text(this.widget._playlist.name),
-                      Text("erstellt von ..." /* + this.widget._playlist...*/),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50),
-                        child: FlatButton(
-                          onPressed: () {},
-                          padding: const EdgeInsets.all(10),
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  Icons.person_add,
-                                  size: 20.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                "Teilnehmen",
-                                style: TextStyle(fontSize: 18.0, color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 28,
-                        margin: EdgeInsets.symmetric(horizontal: 90),
-                        child: OutlineButton(
-                          onPressed: () {},
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 16.0,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "Song hinzufügen",
-                                style: TextStyle(fontSize: 14.0, color: Colors.black),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.225,
+                  child: CustomPaint(
+                    painter: CurvePainter(Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(30, 20, 30, 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Lieder",
-                        style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Color(0xFF253A4B),
-                      ),
-                    ],
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.21,
+                  child: CustomPaint(
+                    painter: CurvePainter(Color(0xFF253A4B), (0.14 / 0.21), 1, (0.14 / 0.21)),
                   ),
                 ),
-                Column(
-                  children: <Widget>[
-                    InkWell(
-                      child: Row(
-                        children: <Widget>[Text("Lied")],
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
+                  },
+                  child: Container(
+                    height: (MediaQuery.of(context).size.height * 0.21) - 30,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment(0, -0.5),
+                    child: Text(
+                      this.widget._playlist.name,
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
                       ),
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            Container(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 28,
+                    margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
+                    child: OutlineButton(
+                      onPressed: () {},
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                      ),
+                      color: Colors.redAccent,
+                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: Icon(
+                              Icons.playlist_add,
+                              size: 18.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "Song hinzufügen",
+                            style: TextStyle(fontSize: 14.0, color: Colors.black),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(30, 35, 30, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Warteschlange",
+                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                  ),
+                  Divider(
+                    thickness: 1.5,
+                    color: Color(0xFF253A4B),
+                  ),
+                ],
+              ),
+            ),
+            ListView(
+              primary: false,
+              shrinkWrap: true,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListTile(
+                    title: Text(
+                      "Liedname",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "irgendein Pupssubtitle",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.thumb_up),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.thumb_down),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ),
       ),
     );
   }
