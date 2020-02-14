@@ -321,6 +321,41 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            children: <Widget>[
+              Material(
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                color: Colors.white,
+                child: InkWell(
+                  onTap: this._chooseFile,
+                  child: Image(
+                    width: 45,
+                    height: 45,
+                    image: AssetImage('assets/images/playlist.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Apache 207'),
+                    Text('Warum tust du dir das an?'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        color: Colors.greenAccent,
+      ),
     );
   }
 }

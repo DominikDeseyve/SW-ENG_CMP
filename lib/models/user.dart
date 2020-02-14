@@ -24,4 +24,19 @@ class User {
         'birthday': this._birthday,
         'image_url': this._imageURL,
       };
+
+  //***************************************************//
+  //*********   SETTER
+  //***************************************************//
+  set settings(Settings pSettings) {
+    this._settings = pSettings;
+  }
+
+  //***************************************************//
+  //*********   GETTER
+  //***************************************************//
+
+  Settings get settings {
+    return this._settings;
+  }
 }

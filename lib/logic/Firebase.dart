@@ -79,9 +79,9 @@ class Firebase {
   }
 
   Future<Settings> getSettings(String pUserID) async {
-    return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
+    return await this._ref.collection('settings').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
       if (!pSnapshot.exists) return null;
-      //return User.fromFirebase(pSnapshot);
+      return Settings.fromFirebase(pSnapshot);
     });
   }
 }
