@@ -2,15 +2,15 @@ import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 
 class Email_confirm extends StatefulWidget {
+  final String _email;
+  Email_confirm(this._email);
+
   _Email_confirm createState() => _Email_confirm();
 }
 
 class _Email_confirm extends State<Email_confirm> {
-  String _email;
-
   void initState() {
     super.initState();
-    this._email = "test.spast@web.de";
   }
 
   Widget build(BuildContext context) {
@@ -72,7 +72,9 @@ class _Email_confirm extends State<Email_confirm> {
                 Container(
                   margin: EdgeInsets.only(top: 90.0),
                   child: Text(
-                    "Wir haben dir eine E-Mail an " + this._email + " geschickt. ",
+                    "Wir haben dir eine E-Mail an " +
+                        this.widget._email +
+                        " geschickt. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20.0),
                   ),
@@ -81,13 +83,34 @@ class _Email_confirm extends State<Email_confirm> {
                   margin: EdgeInsets.only(top: 90.0),
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: MaterialButton(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
                     height: 50.0,
                     onPressed: () {},
                     textColor: Colors.white,
                     color: Colors.redAccent,
                     child: Text(
                       "Email erneut senden".toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    height: 50.0,
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/login');
+                    },
+                    textColor: Colors.white,
+                    color: Colors.redAccent,
+                    child: Text(
+                      "Weiter zu Login".toUpperCase(),
                       style: TextStyle(
                         fontSize: 20.0,
                       ),

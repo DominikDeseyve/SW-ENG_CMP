@@ -105,9 +105,10 @@ class _RegisterPageState extends State<RegisterPage> {
           String password = this._passwordController.text;
 
           bool success =
-              await Controller().authentificator.signIn(email, password);
+              await Controller().authentificator.signUp(email, password);
           if (success) {
-            Navigator.of(context).pushReplacementNamed('/root');
+            Navigator.of(context)
+                .pushReplacementNamed('/register/email', arguments: email);
           }
         },
         padding: EdgeInsets.all(12),
