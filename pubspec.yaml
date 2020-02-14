@@ -23,8 +23,9 @@ dependencies:
   firebase_auth: ^0.15.0
   cupertino_icons: ^0.1.2
 
-  #audio
+  #song-player-stuff
   audioplayers: ^0.13.6
+  youtube_api: ^0.7.2
 
 dev_dependencies:
   flutter_test:

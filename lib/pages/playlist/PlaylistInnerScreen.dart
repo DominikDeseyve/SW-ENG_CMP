@@ -411,9 +411,7 @@ class _SoundBarState extends State<SoundBar> {
       this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
         setState(() {
           this._percentage = (p.inMilliseconds / duration);
-          print(this._percentage);
         });
-        //print('Current position: ' + percentage.toString());
       });
     });
   }
@@ -441,7 +439,7 @@ class _SoundBarState extends State<SoundBar> {
                   child: Image(
                     width: 45,
                     height: 45,
-                    image: AssetImage('assets/images/playlist.jpg'),
+                    image: NetworkImage('https://i1.rgstatic.net/ii/profile.image/389167491108866-1469796168262_Q512/Andreas_Judt.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -491,7 +489,9 @@ class _SoundBarState extends State<SoundBar> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Controller().soundPlayer.skip();
+                },
                 icon: Icon(
                   Icons.skip_next,
                   color: Colors.white,

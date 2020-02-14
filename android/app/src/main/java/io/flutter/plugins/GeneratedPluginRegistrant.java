@@ -9,6 +9,7 @@ import io.flutter.plugins.firebase.storage.FirebaseStoragePlugin;
 import io.flutter.plugins.imagepicker.ImagePickerPlugin;
 import com.vb.nested_navigators.NestedNavigatorsPlugin;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
+import io.github.nitishk72.youtubeapi.youtubeapi.YoutubeApiPlugin;
 
 /**
  * Generated file. Do not edit.
@@ -26,6 +27,7 @@ public final class GeneratedPluginRegistrant {
     ImagePickerPlugin.registerWith(registry.registrarFor("io.flutter.plugins.imagepicker.ImagePickerPlugin"));
     NestedNavigatorsPlugin.registerWith(registry.registrarFor("com.vb.nested_navigators.NestedNavigatorsPlugin"));
     PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
+    YoutubeApiPlugin.registerWith(registry.registrarFor("io.github.nitishk72.youtubeapi.youtubeapi.YoutubeApiPlugin"));
   }
 
   private static boolean alreadyRegisteredWith(PluginRegistry registry) {

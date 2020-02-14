@@ -1,23 +1,31 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cmp/models/song.dart';
 
 class SoundPlayer {
   AudioPlayer _audioPlayer;
+  Song _currentSong;
 
   SoundPlayer() {
     this._audioPlayer = AudioPlayer();
     AudioPlayer.logEnabled = false;
+    this._init();
+  }
+
+  void _init() {
+    this._audioPlayer.setVolume(1);
+    String url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    this._audioPlayer.setUrl(url);
   }
 
   void play() async {
-    this._audioPlayer.setVolume(1);
-    String url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-    int result = await this._audioPlayer.setUrl(url);
-    if (result == 1) {
-      this._audioPlayer.resume();
-    }
+    this._audioPlayer.resume();
   }
 
   void pause() {
+    this._audioPlayer.pause();
+  }
+
+  void skip() {
     this._audioPlayer.pause();
   }
 

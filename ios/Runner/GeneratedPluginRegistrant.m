@@ -11,6 +11,7 @@
 #import <image_picker/ImagePickerPlugin.h>
 #import <nested_navigators/NestedNavigatorsPlugin.h>
 #import <path_provider/PathProviderPlugin.h>
+#import <youtube_api/YoutubeApiPlugin.h>
 
 @implementation GeneratedPluginRegistrant
 
@@ -23,6 +24,7 @@
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [NestedNavigatorsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NestedNavigatorsPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
+  [YoutubeApiPlugin registerWithRegistrar:[registry registrarForPlugin:@"YoutubeApiPlugin"]];
 }
 
 @end
