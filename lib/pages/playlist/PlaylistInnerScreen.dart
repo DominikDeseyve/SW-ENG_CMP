@@ -34,6 +34,12 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             IconButton(
               onPressed: () {},
               icon: Icon(
+                Icons.edit,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
                 Icons.block,
               ),
             ),
@@ -60,22 +66,19 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.225,
                   child: CustomPaint(
-                    painter: CurvePainter(
-                        Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
+                    painter: CurvePainter(Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.21,
                   child: CustomPaint(
-                    painter: CurvePainter(
-                        Color(0xFF253A4B), (0.145 / 0.21), 1, (0.145 / 0.21)),
+                    painter: CurvePainter(Color(0xFF253A4B), (0.145 / 0.21), 1, (0.145 / 0.21)),
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/playlist/detailview',
-                        arguments: this.widget._playlist);
+                    Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
                   },
                   child: Container(
                     height: (MediaQuery.of(context).size.height * 0.21) - 30,
@@ -113,8 +116,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                         color: Colors.black,
                       ),
                       color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
+                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -128,8 +130,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                           ),
                           Text(
                             "Song hinzufügen",
-                            style:
-                                TextStyle(fontSize: 14.0, color: Colors.black),
+                            style: TextStyle(fontSize: 14.0, color: Colors.black),
                           )
                         ],
                       ),
@@ -145,8 +146,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 children: <Widget>[
                   Text(
                     "Warteschlange",
-                    style:
-                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                   ),
                   Divider(
                     thickness: 1.5,
@@ -428,8 +428,7 @@ class _SoundBarState extends State<SoundBar> {
       this._isPlaying = false;
     }
     Controller().soundPlayer.duration.then((int duration) {
-      this._durationStream =
-          Controller().soundPlayer.durationStream.listen((Duration p) {
+      this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
         setState(() {
           this._percentage = (p.inMilliseconds / duration);
         });
@@ -460,8 +459,7 @@ class _SoundBarState extends State<SoundBar> {
                   child: Image(
                     width: 45,
                     height: 45,
-                    image: NetworkImage(
-                        'https://i1.rgstatic.net/ii/profile.image/389167491108866-1469796168262_Q512/Andreas_Judt.jpg'),
+                    image: NetworkImage('https://i1.rgstatic.net/ii/profile.image/389167491108866-1469796168262_Q512/Andreas_Judt.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),

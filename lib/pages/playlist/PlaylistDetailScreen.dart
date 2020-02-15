@@ -1,4 +1,8 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/pages/playlist/tabs/DetailScreen.dart';
+import 'package:cmp/pages/playlist/tabs/RequestsScreen.dart';
+import 'package:cmp/pages/playlist/tabs/SubscriberScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -13,27 +17,37 @@ class PlaylistDetailScreen extends StatefulWidget {
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: (Controller().authentificator.user.userID != null /*this.widget._playlist.creator.userID*/ ? 3 : 2),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Color(0xFF253A4B),
           bottom: TabBar(
             indicator: BoxDecoration(),
-            tabs: [
-              Tab(
-                text: "Details",
-                icon: Icon(Icons.info),
-              ),
-              Tab(
-                text: "Teilnehmer",
-                icon: Icon(Icons.people),
-              ),
-              Tab(
-                text: "Anfragen",
-                icon: Icon(Icons.person_add),
-              ),
-            ],
+            tabs: (Controller().authentificator.user.userID != null /*this.widget._playlist.creator.userID*/ ? [
+                    Tab(
+                      text: "Details",
+                      icon: Icon(Icons.info),
+                    ),
+                    Tab(
+                      text: "Teilnehmer",
+                      icon: Icon(Icons.people),
+                    ),
+                    Tab(
+                      text: "Anfragen",
+                      icon: Icon(Icons.person_add),
+                    ),
+                  ]
+                : [
+                    Tab(
+                      text: "Details",
+                      icon: Icon(Icons.info),
+                    ),
+                    Tab(
+                      text: "Teilnehmer",
+                      icon: Icon(Icons.people),
+                    ),
+                  ]),
           ),
           title: Text("Informationen zu " + this.widget._playlist.name),
         ),
@@ -63,403 +77,15 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
               child: TabBarView(
                 children: <Widget>[
                   // Details View
-                  Center(
-                    child: Container(
-                      child: Text("Details"),
-                    ),
-                  ),
+                  DetailScreen(this.widget._playlist),
 
                   // Teilnehmer View
-                  ListView(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "DeseyveSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Admin",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.speaker),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "RobinSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Masterdevice",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.star),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "FlobeSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Member",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.speaker),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "DanielSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Member",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.speaker),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "BastiSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Member",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.speaker),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  SubscriberScreen(this.widget._playlist),
 
-                  // Anfragen View
-                  ListView(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "DeseyveSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Irgendeine Info",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.done),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "RobinSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Irgendeine Info",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.done),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "FlobeSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Irgendeine Info",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.done),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "DanielSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Irgendeine Info",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.done),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            //margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (AssetImage('assets/images/playlist.jpg')),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            "BastiSoftware",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            "Irgendeine Info",
-                            style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.done),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  (Controller().authentificator.user.userID != null /*this.widget._playlist.creator.userID*/ ?
+                      // Anfragen View
+                      RequestScreen(this.widget._playlist)
+                      : Container()),
                 ],
               ),
             ),
