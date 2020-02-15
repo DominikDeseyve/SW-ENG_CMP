@@ -21,6 +21,12 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
+          title: Text(
+            this.widget._playlist.name,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
           backgroundColor: Color(0xFF253A4B),
           centerTitle: true,
           elevation: 0,
@@ -54,30 +60,41 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.225,
                   child: CustomPaint(
-                    painter: CurvePainter(Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
+                    painter: CurvePainter(
+                        Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.21,
                   child: CustomPaint(
-                    painter: CurvePainter(Color(0xFF253A4B), (0.14 / 0.21), 1, (0.14 / 0.21)),
+                    painter: CurvePainter(
+                        Color(0xFF253A4B), (0.145 / 0.21), 1, (0.145 / 0.21)),
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
+                    Navigator.of(context).pushNamed('/playlist/detailview',
+                        arguments: this.widget._playlist);
                   },
                   child: Container(
                     height: (MediaQuery.of(context).size.height * 0.21) - 30,
                     width: MediaQuery.of(context).size.width,
-                    alignment: Alignment(0, -0.5),
-                    child: Text(
-                      this.widget._playlist.name,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(
+                      top: 2,
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.height * 0.15,
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: (this.widget._playlist.imageURL != null
+                              ? NetworkImage(this.widget._playlist.imageURL)
+                              : AssetImage('assets/images/playlist.jpg')),
+                        ),
                       ),
                     ),
                   ),
@@ -96,7 +113,8 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                         color: Colors.black,
                       ),
                       color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -110,7 +128,8 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                           ),
                           Text(
                             "Song hinzufügen",
-                            style: TextStyle(fontSize: 14.0, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
                           )
                         ],
                       ),
@@ -126,7 +145,8 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 children: <Widget>[
                   Text(
                     "Warteschlange",
-                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                    style:
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                   ),
                   Divider(
                     thickness: 1.5,
@@ -408,7 +428,8 @@ class _SoundBarState extends State<SoundBar> {
       this._isPlaying = false;
     }
     Controller().soundPlayer.duration.then((int duration) {
-      this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
+      this._durationStream =
+          Controller().soundPlayer.durationStream.listen((Duration p) {
         setState(() {
           this._percentage = (p.inMilliseconds / duration);
         });
@@ -439,7 +460,8 @@ class _SoundBarState extends State<SoundBar> {
                   child: Image(
                     width: 45,
                     height: 45,
-                    image: NetworkImage('https://i1.rgstatic.net/ii/profile.image/389167491108866-1469796168262_Q512/Andreas_Judt.jpg'),
+                    image: NetworkImage(
+                        'https://i1.rgstatic.net/ii/profile.image/389167491108866-1469796168262_Q512/Andreas_Judt.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
