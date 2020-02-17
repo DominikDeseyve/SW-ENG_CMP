@@ -8,9 +8,11 @@
 #import <firebase_auth/FirebaseAuthPlugin.h>
 #import <firebase_core/FirebaseCorePlugin.h>
 #import <firebase_storage/FirebaseStoragePlugin.h>
+#import <flutter_youtube_extractor/FlutterYoutubeExtractorPlugin.h>
 #import <image_picker/ImagePickerPlugin.h>
 #import <nested_navigators/NestedNavigatorsPlugin.h>
 #import <path_provider/PathProviderPlugin.h>
+#import <webview_flutter/WebViewFlutterPlugin.h>
 #import <youtube_api/YoutubeApiPlugin.h>
 
 @implementation GeneratedPluginRegistrant
@@ -21,9 +23,11 @@
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
+  [FlutterYoutubeExtractorPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterYoutubeExtractorPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [NestedNavigatorsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NestedNavigatorsPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
+  [FLTWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTWebViewFlutterPlugin"]];
   [YoutubeApiPlugin registerWithRegistrar:[registry registrarForPlugin:@"YoutubeApiPlugin"]];
 }
 

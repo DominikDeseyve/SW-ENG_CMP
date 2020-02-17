@@ -26,6 +26,9 @@ dependencies:
   #song-player-stuff
   audioplayers: ^0.13.6
   youtube_api: ^0.7.2
+  youtube_extractor: ^1.0.4
+  youtube_player_flutter: ^6.0.3+2
+  flutter_youtube_extractor: ^0.0.7
 
 dev_dependencies:
   flutter_test:

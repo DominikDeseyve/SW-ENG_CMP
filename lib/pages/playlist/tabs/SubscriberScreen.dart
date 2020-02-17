@@ -1,9 +1,11 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class SubscriberScreen extends StatefulWidget {
-  Playlist _playlist;
+  final Playlist _playlist;
 
   SubscriberScreen(this._playlist);
 
@@ -11,200 +13,73 @@ class SubscriberScreen extends StatefulWidget {
 }
 
 class _SubscriberScreenState extends State<SubscriberScreen> {
+  List<User> _joinedUser = [];
+
+  void initState() {
+    super.initState();
+
+    Controller().firebase.getPlaylistUser(this.widget._playlist).then((List<User> pUserList) {
+      setState(() {
+        this._joinedUser = pUserList;
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ListTile(
-            leading: Container(
-              height: 50,
-              width: 50,
-              //margin: EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: (AssetImage('assets/images/playlist.jpg')),
-                ),
-              ),
-            ),
-            title: Text(
-              "DeseyveSoftware",
-              style: TextStyle(fontSize: 18),
-            ),
-            subtitle: Text(
-              "Admin",
-              style: TextStyle(fontSize: 14, color: Colors.redAccent),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.speaker),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {},
-                ),
-              ],
+    return ListView.builder(
+      physics: ClampingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: this._joinedUser.length,
+      itemBuilder: (BuildContext context, int index) {
+        return UserItem(this._joinedUser[index]);
+      },
+    );
+  }
+}
+
+class UserItem extends StatelessWidget {
+  final User _user;
+
+  UserItem(this._user);
+
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: ListTile(
+        leading: Container(
+          height: 50,
+          width: 50,
+          //margin: EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: (AssetImage('assets/images/playlist.jpg')),
             ),
           ),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ListTile(
-            leading: Container(
-              height: 50,
-              width: 50,
-              //margin: EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: (AssetImage('assets/images/playlist.jpg')),
-                ),
-              ),
-            ),
-            title: Text(
-              "RobinSoftware",
-              style: TextStyle(fontSize: 18),
-            ),
-            subtitle: Text(
-              "Masterdevice",
-              style: TextStyle(fontSize: 14, color: Colors.redAccent),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.star),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
+        title: Text(
+          this._user.username,
+          style: TextStyle(fontSize: 18),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ListTile(
-            leading: Container(
-              height: 50,
-              width: 50,
-              //margin: EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: (AssetImage('assets/images/playlist.jpg')),
-                ),
-              ),
-            ),
-            title: Text(
-              "FlobeSoftware",
-              style: TextStyle(fontSize: 18),
-            ),
-            subtitle: Text(
-              "Member",
-              style: TextStyle(fontSize: 14, color: Colors.redAccent),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.speaker),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
+        subtitle: Text(
+          this._user.role.name.toUpperCase(),
+          style: TextStyle(fontSize: 14, color: Colors.redAccent),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ListTile(
-            leading: Container(
-              height: 50,
-              width: 50,
-              //margin: EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: (AssetImage('assets/images/playlist.jpg')),
-                ),
-              ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(this._user.role.icon),
+              onPressed: () {},
             ),
-            title: Text(
-              "DanielSoftware",
-              style: TextStyle(fontSize: 18),
+            IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {},
             ),
-            subtitle: Text(
-              "Member",
-              style: TextStyle(fontSize: 14, color: Colors.redAccent),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.speaker),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: ListTile(
-            leading: Container(
-              height: 50,
-              width: 50,
-              //margin: EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: (AssetImage('assets/images/playlist.jpg')),
-                ),
-              ),
-            ),
-            title: Text(
-              "BastiSoftware",
-              style: TextStyle(fontSize: 18),
-            ),
-            subtitle: Text(
-              "Member",
-              style: TextStyle(fontSize: 14, color: Colors.redAccent),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.speaker),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

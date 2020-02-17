@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -81,7 +82,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
                         child: FlatButton(
                           onPressed: () async {
-                            await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user);
+                            await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER));
                             Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
                           },
                           padding: const EdgeInsets.all(10),

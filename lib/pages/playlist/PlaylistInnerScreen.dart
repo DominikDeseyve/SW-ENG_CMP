@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/logic/YouTubePlayer.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlaylistInnerScreen extends StatefulWidget {
   Playlist _playlist;
@@ -16,6 +18,19 @@ class PlaylistInnerScreen extends StatefulWidget {
 }
 
 class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
+  YoutubePlayerController _controller;
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: 'iLnmTe5Q2Qw',
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        forceHideAnnotation: true,
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -498,6 +513,7 @@ class _SoundBarState extends State<SoundBar> {
               Spacer(),
               IconButton(
                 onPressed: () {
+                  //YouTubeSoundPlayer();
                   if (this._isPlaying) {
                     setState(() {
                       Controller().soundPlayer.pause();
