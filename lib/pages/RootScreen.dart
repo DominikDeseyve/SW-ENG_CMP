@@ -14,37 +14,39 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   Widget build(BuildContext context) {
-    return NestedNavigators(
-      items: {
-        Navigation.home: NestedNavigatorItem(
-          initialRoute: '/home',
-          icon: Icons.home,
-        ),
-        Navigation.explore: NestedNavigatorItem(
-          initialRoute: '/playlist/search',
-          icon: Icons.search,
-        ),
-        Navigation.profile: NestedNavigatorItem(
-          initialRoute: '/playlist/create',
-          icon: Icons.add_circle,
-        ),
-        Navigation.settings: NestedNavigatorItem(
-          initialRoute: '/settings',
-          icon: Icons.settings,
-        ),
-      },
-      clearStackAfterTapOnCurrentTab: true,
-      buildCustomBottomNavigationItem: (key, item, selected) {
-        return Container(
-          height: 50,
-          child: Icon(
-            item.icon,
-            size: selected ? 28 : 26,
-            color: selected ? Colors.redAccent : Colors.grey,
+    return Scaffold(
+      body: NestedNavigators(
+        items: {
+          Navigation.home: NestedNavigatorItem(
+            initialRoute: '/home',
+            icon: Icons.home,
           ),
-        );
-      },
-      generateRoute: RouteController.generateRoute,
+          Navigation.explore: NestedNavigatorItem(
+            initialRoute: '/playlist/search',
+            icon: Icons.search,
+          ),
+          Navigation.profile: NestedNavigatorItem(
+            initialRoute: '/playlist/create',
+            icon: Icons.add_circle,
+          ),
+          Navigation.settings: NestedNavigatorItem(
+            initialRoute: '/settings',
+            icon: Icons.settings,
+          ),
+        },
+        clearStackAfterTapOnCurrentTab: true,
+        buildCustomBottomNavigationItem: (key, item, selected) {
+          return Container(
+            height: 50,
+            child: Icon(
+              item.icon,
+              size: selected ? 28 : 26,
+              color: selected ? Colors.redAccent : Colors.grey,
+            ),
+          );
+        },
+        generateRoute: RouteController.generateRoute,
+      ),
     );
   }
 }

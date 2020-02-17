@@ -12,6 +12,7 @@
 #import <image_picker/ImagePickerPlugin.h>
 #import <nested_navigators/NestedNavigatorsPlugin.h>
 #import <path_provider/PathProviderPlugin.h>
+#import <sqflite/SqflitePlugin.h>
 #import <webview_flutter/WebViewFlutterPlugin.h>
 #import <youtube_api/YoutubeApiPlugin.h>
 
@@ -27,6 +28,7 @@
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [NestedNavigatorsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NestedNavigatorsPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
+  [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [FLTWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTWebViewFlutterPlugin"]];
   [YoutubeApiPlugin registerWithRegistrar:[registry registrarForPlugin:@"YoutubeApiPlugin"]];
 }

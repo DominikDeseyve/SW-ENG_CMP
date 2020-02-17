@@ -5,6 +5,7 @@ import 'package:cmp/models/settings.dart';
 class User {
   String _userID;
   String _username;
+
   DateTime _birthday;
   String _imageURL;
   Role _role;
@@ -58,7 +59,15 @@ class User {
     return this._username;
   }
 
+  DateTime get birthday {
+    return this._birthday;
+  }
+
   Role get role {
     return this._role;
+  }
+
+  String get imageURL {
+    return this._imageURL;
   }
 }

@@ -5,6 +5,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/user.dart';
+import 'package:cmp/widgets/Pagination.dart';
 
 class Firebase {
   Controller _controller;
@@ -30,6 +31,15 @@ class Firebase {
     return keywordList;
   }
 
+  Future<String> createUser(User pUser) async {
+    DocumentReference ref = await this._ref.collection('user').add({
+      'username': pUser.username,
+      'image_url': null,
+      'birthday': pUser.birthday,
+    });
+    return ref.documentID;
+  }
+
   Future<String> createPlaylist(Playlist pPlaylist) async {
     DocumentReference ref = await this._ref.collection('playlist').add({
       'name': pPlaylist.name,
@@ -39,7 +49,8 @@ class Firebase {
       'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
       'creator': pPlaylist.creator.toFirebase(),
       'keywords:': this._generateKeywords([pPlaylist.name]),
-      'user_count': 0
+      'joined_user_count': 0,
+      'queued_song_count': 0,
     });
     return ref.documentID;
   }
@@ -104,8 +115,8 @@ class Firebase {
     });
   }
 
-  Stream<QuerySnapshot> getPlaylistQueue(String pPlaylistID) {
-    return this._ref.collection(pPlaylistID).document(pPlaylistID).collection('queued_song').snapshots();
+  Stream<QuerySnapshot> getPlaylistQueue(Playlist pPlaylist, PaginationStream pPagination) {
+    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking').snapshots();
   }
 
   Future<User> getUser(String pUserID) async {

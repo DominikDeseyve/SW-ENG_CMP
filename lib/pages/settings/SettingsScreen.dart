@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/logic/HTTP.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/models/colors.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,14 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   var color = ColorsClass();
 
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: color.darkMode ? color.darkModeBackground : color.lightModeBackground,
-      body: Stack(
-        children: <Widget>[
+        backgroundColor: color.darkMode ? color.darkModeBackground : color.lightModeBackground,
+        body: Stack(children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -27,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(color.darkMode ? color.darkModeBlue: color.lightModeBlue, 0.235, 0.31, 0.235),
+              painter: CurvePainter(color.darkMode ? color.darkModeBlue : color.lightModeBlue, 0.235, 0.31, 0.235),
             ),
           ),
           Container(
@@ -37,15 +41,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                  Text(
-                    "Einstellungen",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 40.0,
-                      color: color.darkMode ? color.darkModeTitleText : color.lightModeTitleText,
+                    Text(
+                      "Einstellungen",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        color: color.darkMode ? color.darkModeTitleText : color.lightModeTitleText,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
@@ -149,8 +153,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
           ),
-        ]
-      )
-    );
+        ]));
   }
 }

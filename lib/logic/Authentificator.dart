@@ -15,9 +15,8 @@ class Authentificator {
 
   Future<bool> signUp(String pEmail, String pPassword) async {
     try {
-      AuthResult authResult = await this
-          ._firebaseAuth
-          .createUserWithEmailAndPassword(email: pEmail, password: pPassword);
+      AuthResult authResult = await this._firebaseAuth.createUserWithEmailAndPassword(email: pEmail, password: pPassword);
+      //this._controller.firebase.createUser(pUser);
       await authResult.user.sendEmailVerification();
       return true;
     } catch (e) {
@@ -27,11 +26,7 @@ class Authentificator {
   }
 
   Future<bool> signIn(String pEmail, String pPassword) async {
-    print(pEmail);
-    print(pPassword);
-    AuthResult authResult = await this
-        ._firebaseAuth
-        .signInWithEmailAndPassword(email: pEmail, password: pPassword);
+    AuthResult authResult = await this._firebaseAuth.signInWithEmailAndPassword(email: pEmail, password: pPassword);
     if (authResult.user.isEmailVerified) {
       this._firebaseUser = authResult.user;
       await this.initializeUser();
