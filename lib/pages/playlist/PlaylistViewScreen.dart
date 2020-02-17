@@ -1,5 +1,5 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -12,6 +12,10 @@ class PlaylistViewScreen extends StatefulWidget {
 }
 
 class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -76,7 +80,10 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
                         child: FlatButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user);
+                            Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
+                          },
                           padding: const EdgeInsets.all(10),
                           color: Colors.redAccent,
                           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/Firebase.dart';
+import 'package:cmp/models/song.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -10,7 +12,12 @@ class _SearchScreenState extends State<SearchScreen> {
   var queryResultSet = [];
   var tempSearchStore = [];
 
-  initiateSearch(value) {
+  initiateSearch(value) async {
+    List<Song> songs = await Controller().youTube.search(value);
+    //Controller().soundPlayer.song = songs[0];
+    songs.forEach((Song song) {
+      print(song.soundURL);
+    });
     if (value.length == 0) {
       setState(() {
         queryResultSet = [];
@@ -18,8 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
       });
     }
 
-    var capitalizedValue =
-        value.substring(0, 1).toUpperCase() + value.substring(1);
+    var capitalizedValue = value.substring(0, 1).toUpperCase() + value.substring(1);
 
     if (queryResultSet.length == 0 && value.length == 1) {
       SearchService().searchByName(value).then((QuerySnapshot docs) {
@@ -58,15 +64,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 50.0, bottom: 20.0),
                 width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
                 child: TextField(
                   onChanged: (val) {
                     initiateSearch(val);
                   },
-                  style: TextStyle(
-                      color: Colors.white, decorationColor: Colors.white),
+                  style: TextStyle(color: Colors.white, decorationColor: Colors.white),
                   autocorrect: false,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search, color: Colors.white),
@@ -91,14 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
 Widget builtItems(data) {
   return Container(
     child: ListTile(
-      leading: Container(
-          width: 60.0,
-          height: 60.0,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/images/playlist.jpg')))),
+      leading: Container(width: 60.0, height: 60.0, decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/playlist.jpg')))),
       title: Container(
         child: Text(
           data['name'],
@@ -119,10 +115,6 @@ Widget builtItems(data) {
 
 class SearchService {
   searchByName(String searchField) {
-    return Firestore.instance
-        .collection('playlist')
-        .where('searchKey',
-            isEqualTo: searchField.substring(0, 1).toUpperCase())
-        .getDocuments();
+    return Firestore.instance.collection('playlist').where('searchKey', isEqualTo: searchField.substring(0, 1).toUpperCase()).getDocuments();
   }
 }

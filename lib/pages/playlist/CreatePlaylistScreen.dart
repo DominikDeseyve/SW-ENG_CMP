@@ -91,12 +91,14 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     playlist.blackedGenre = this._blackedGenre;
     playlist.creator = Controller().authentificator.user;
     playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
+    await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user);
 
     if (this._selectedImage != null) {
       playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
       await Controller().firebase.updatePlaylist(playlist);
     }
     Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
+    Navigator.of(context).pushNamed('/playlist', arguments: playlist);
   }
 
   String _generateBlackedGenreLabel() {

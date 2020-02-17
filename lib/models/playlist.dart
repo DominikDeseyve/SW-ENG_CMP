@@ -15,7 +15,6 @@ class Playlist {
   User _creator;
 
   Playlist() {}
-
   Playlist.fromFirebase(DocumentSnapshot pSnap) {
     this._playlistID = pSnap.documentID;
     this._name = pSnap['name'];

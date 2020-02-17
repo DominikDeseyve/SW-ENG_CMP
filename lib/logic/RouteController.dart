@@ -1,3 +1,5 @@
+import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/models/playlist.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
@@ -36,11 +38,25 @@ class RouteController {
       case '/playlist/create':
         return CreatePlaylistScreen();
         break;
-      case '/playlist/view':
-        return PlaylistViewScreen(args);
-        break;
-      case '/playlist/innerview':
-        return PlaylistInnerScreen(args);
+      case '/playlist':
+        Playlist playlist = args;
+
+        return FutureBuilder<bool>(
+          future: Controller().firebase.isUserJoiningPlaylist(playlist, Controller().authentificator.user),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data == true) {
+                return PlaylistInnerScreen(args);
+              } else {
+                return PlaylistViewScreen(args);
+              }
+            }
+            return Container(
+              color: Colors.white,
+            );
+          },
+        );
+
         break;
       case '/playlist/detailview':
         return PlaylistDetailScreen(args);
