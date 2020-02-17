@@ -11,11 +11,15 @@ class User {
 
   User() {}
 
-  User.fromFirebase(DocumentSnapshot pSnap) {
-    this._userID = pSnap.documentID;
-    this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnap['birthday'].seconds * 1000);
-    this._username = pSnap['username'];
-    this._imageURL = pSnap['image_url'];
+  User.fromFirebase(var pSnapOrMap) {
+    if (pSnapOrMap['user_id'] != null) {
+      this._userID = pSnapOrMap['user_id'];
+    } else {
+      this._userID = pSnapOrMap.documentID;
+    }
+    this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
+    this._username = pSnapOrMap['username'];
+    this._imageURL = pSnapOrMap['image_url'];
   }
 
   Map<String, dynamic> toFirebase() => {

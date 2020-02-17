@@ -30,20 +30,29 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           backgroundColor: Color(0xFF253A4B),
           centerTitle: true,
           elevation: 0,
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.edit,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.block,
-              ),
-            ),
-          ],
+          actions: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+              ? <Widget>[
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.edit,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.block,
+                    ),
+                  ),
+                ]
+              : <Widget>[
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.block,
+                    ),
+                  ),
+                ]),
         ),
       ),
       body: Container(
@@ -94,9 +103,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: (this.widget._playlist.imageURL != null
-                              ? NetworkImage(this.widget._playlist.imageURL)
-                              : AssetImage('assets/images/playlist.jpg')),
+                          image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
                         ),
                       ),
                     ),

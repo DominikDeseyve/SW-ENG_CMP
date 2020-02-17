@@ -17,14 +17,15 @@ class PlaylistDetailScreen extends StatefulWidget {
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: (Controller().authentificator.user.userID != null /*this.widget._playlist.creator.userID*/ ? 3 : 2),
+      length: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID ? 3 : 2),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Color(0xFF253A4B),
           bottom: TabBar(
             indicator: BoxDecoration(),
-            tabs: (Controller().authentificator.user.userID != null /*this.widget._playlist.creator.userID*/ ? [
+            tabs: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+                ? [
                     Tab(
                       text: "Details",
                       icon: Icon(Icons.info),
@@ -82,7 +83,8 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                   // Teilnehmer View
                   SubscriberScreen(this.widget._playlist),
 
-                  (Controller().authentificator.user.userID != null /*this.widget._playlist.creator.userID*/ ?
+                  (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+                      ?
                       // Anfragen View
                       RequestScreen(this.widget._playlist)
                       : Container()),

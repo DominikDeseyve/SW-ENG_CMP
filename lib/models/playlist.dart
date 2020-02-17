@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/logic/Firebase.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/models/visibleness.dart';
@@ -21,7 +23,7 @@ class Playlist {
     this._visibleness = Visibleness(pSnap['visibleness']);
     this._imageURL = pSnap['image_url'];
     //this.blackedGenre = pSnap[''];
-    //this._creator = pSnap['']
+    this._creator = User.fromFirebase(pSnap['creator']);
   }
 
   //***************************************************//
