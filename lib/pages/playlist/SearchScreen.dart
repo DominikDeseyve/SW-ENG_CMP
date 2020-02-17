@@ -106,7 +106,7 @@ Widget builtItems(data) {
         ),
       ),
       subtitle: Text(
-        "Apache",
+        "Playlist",
         style: TextStyle(color: Color(0xFF253A4B)),
       ),
       trailing: Icon(
@@ -121,8 +121,7 @@ class SearchService {
   searchByName(String searchField) {
     return Firestore.instance
         .collection('playlist')
-        .where('searchKey',
-            isEqualTo: searchField.substring(0, 1).toUpperCase())
+        .where('keywords', arrayContains: searchField)
         .getDocuments();
   }
 }
