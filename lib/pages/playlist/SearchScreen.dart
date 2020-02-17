@@ -16,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
     List<Song> songs = await Controller().youTube.search(value);
     //Controller().soundPlayer.song = songs[0];
     songs.forEach((Song song) {
-      print(song.soundURL);
+      print(song.titel);
     });
     if (value.length == 0) {
       setState(() {

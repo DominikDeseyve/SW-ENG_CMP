@@ -10,7 +10,6 @@ class Song {
     this._titel = pItem.title;
     this._imageURL = pItem.thumbnail['high']['url'];
     this._soundURL = pItem.url.replaceAll(' ', '');
-    print('ID: ' + pItem.id);
   }
   Song.fromFirebase(DocumentSnapshot pSnap) {
     this._titel = pSnap['titel'];

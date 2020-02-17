@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/user.dart';
 
@@ -43,10 +44,9 @@ class Firebase {
     return ref.documentID;
   }
 
-  Future<void> joinPlaylist(Playlist pPlaylist, User pUser) {
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(
-          pUser.toFirebase(),
-        );
+  Future<void> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) {
+    Map userWithRole = pUser.toFirebase()..addAll(pRole.toFirebase());
+    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
   }
 
   Future<void> updatePlaylist(Playlist pPlaylist) async {

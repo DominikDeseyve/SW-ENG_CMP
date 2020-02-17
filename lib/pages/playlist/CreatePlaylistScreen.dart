@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,7 +92,8 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     playlist.blackedGenre = this._blackedGenre;
     playlist.creator = Controller().authentificator.user;
     playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
-    await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user);
+    Role role = new Role(ROLE.ADMIN);
+    await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user, role);
 
     if (this._selectedImage != null) {
       playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);

@@ -53,4 +53,12 @@ class User {
   String get userID {
     return this._userID;
   }
+
+  String get username {
+    return this._username;
+  }
+
+  Role get role {
+    return this._role;
+  }
 }

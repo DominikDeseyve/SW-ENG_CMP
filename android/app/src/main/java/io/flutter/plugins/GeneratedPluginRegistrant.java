@@ -6,9 +6,11 @@ import io.flutter.plugins.firebase.cloudfirestore.CloudFirestorePlugin;
 import io.flutter.plugins.firebaseauth.FirebaseAuthPlugin;
 import io.flutter.plugins.firebase.core.FirebaseCorePlugin;
 import io.flutter.plugins.firebase.storage.FirebaseStoragePlugin;
+import io.fluttervn.flutteryoutubeextractor.FlutterYoutubeExtractorPlugin;
 import io.flutter.plugins.imagepicker.ImagePickerPlugin;
 import com.vb.nested_navigators.NestedNavigatorsPlugin;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
+import io.flutter.plugins.webviewflutter.WebViewFlutterPlugin;
 import io.github.nitishk72.youtubeapi.youtubeapi.YoutubeApiPlugin;
 
 /**
@@ -24,9 +26,11 @@ public final class GeneratedPluginRegistrant {
     FirebaseAuthPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebaseauth.FirebaseAuthPlugin"));
     FirebaseCorePlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebase.core.FirebaseCorePlugin"));
     FirebaseStoragePlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebase.storage.FirebaseStoragePlugin"));
+    FlutterYoutubeExtractorPlugin.registerWith(registry.registrarFor("io.fluttervn.flutteryoutubeextractor.FlutterYoutubeExtractorPlugin"));
     ImagePickerPlugin.registerWith(registry.registrarFor("io.flutter.plugins.imagepicker.ImagePickerPlugin"));
     NestedNavigatorsPlugin.registerWith(registry.registrarFor("com.vb.nested_navigators.NestedNavigatorsPlugin"));
     PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
+    WebViewFlutterPlugin.registerWith(registry.registrarFor("io.flutter.plugins.webviewflutter.WebViewFlutterPlugin"));
     YoutubeApiPlugin.registerWith(registry.registrarFor("io.github.nitishk72.youtubeapi.youtubeapi.YoutubeApiPlugin"));
   }
 
