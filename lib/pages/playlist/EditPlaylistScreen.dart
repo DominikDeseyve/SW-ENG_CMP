@@ -92,7 +92,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     //playlist.blackedGenre = this._blackedGenre;
     playlist.creator = Controller().authentificator.user;
     playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
-    await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user);
+    //await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user);
 
     if (this._selectedImage != null) {
       playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
