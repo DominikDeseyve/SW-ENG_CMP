@@ -3,6 +3,7 @@ import 'package:cmp/logic/Firebase.dart';
 import 'package:cmp/logic/SoundPlayer.dart';
 import 'package:cmp/logic/Storage.dart';
 import 'package:cmp/logic/Theming.dart';
+import 'package:cmp/logic/YouTube.dart';
 
 class Controller {
   Authentificator _authentificator;
@@ -10,6 +11,7 @@ class Controller {
   Storage _storage;
   Theming _theming;
   SoundPlayer _soundPlayer;
+  YouTube _youTube;
 
   static final Controller _controller = Controller._internal();
   factory Controller() {
@@ -23,6 +25,7 @@ class Controller {
     this._storage = new Storage();
     this._theming = new Theming();
     this._soundPlayer = new SoundPlayer();
+    this._youTube = new YouTube();
   }
 
   //***************************************************//
@@ -46,5 +49,9 @@ class Controller {
 
   SoundPlayer get soundPlayer {
     return this._soundPlayer;
+  }
+
+  YouTube get youTube {
+    return this._youTube;
   }
 }

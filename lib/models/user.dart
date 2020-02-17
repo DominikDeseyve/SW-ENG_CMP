@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
 
 class User {
@@ -6,6 +7,7 @@ class User {
   String _username;
   DateTime _birthday;
   String _imageURL;
+  Role _role;
 
   Settings _settings;
 
@@ -16,6 +18,10 @@ class User {
     this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnap['birthday'].seconds * 1000);
     this._username = pSnap['username'];
     this._imageURL = pSnap['image_url'];
+
+    if (pSnap['role'] != null) {
+      this._role = Role.fromFirebase(pSnap['role']);
+    }
   }
 
   Map<String, dynamic> toFirebase() => {
