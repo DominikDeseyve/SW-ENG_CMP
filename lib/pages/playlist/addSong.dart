@@ -1,38 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/Firebase.dart';
+import 'package:cmp/logic/YouTube.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
 import 'package:flutter/material.dart';
 
-class SearchScreen extends StatefulWidget {
-  _SearchScreenState createState() => _SearchScreenState();
+class AddSong extends StatefulWidget {
+  _AddSong createState() => _AddSong();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
-  List<Playlist> selectedPlaylists = [];
+class _AddSong extends State<AddSong> {
+  List<Song> selectedSong = [];
+
+  /*Playlist playlist = new Playlist.fromFirebase(docs.documents[i]);
+          selectedPlaylists.add(playlist);*/
 
   initiateSearch(value) async {
-    /*List<Song> songs = await Controller().youTube.search(value);
-    //Controller().soundPlayer.song = songs[0];
-    songs.forEach((Song song) {
-      print(song.titel);
-    });*/
-    if (value.length == 0) {
-      setState(() {
-        selectedPlaylists = [];
-      });
-    }
-
-    SearchService().searchByName(value).then((QuerySnapshot docs) {
-      print(docs.documents.length);
-      setState(() {
-        selectedPlaylists = [];
-
-        for (int i = 0; i < docs.documents.length; ++i) {
-          Playlist playlist = new Playlist.fromFirebase(docs.documents[i]);
-          selectedPlaylists.add(playlist);
-        }
+    List<Song> songs = await Controller().youTube.search(value);
+    setState(() {
+      songs.forEach((Song song) {
+        print(song.titel);
+        selectedSong.add(song);
       });
     });
   }
@@ -47,7 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(children: <Widget>[
               Container(
                 child: Text(
-                  "Suchen",
+                  "Song Suchen",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 50.0, color: Color(0xFF253A4B)),
                 ),
@@ -68,7 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   autocorrect: false,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search, color: Colors.white),
-                    hintText: "Playlist eingeben",
+                    hintText: "Song eingeben",
                     hintStyle: TextStyle(color: Colors.white),
                     suffixIcon: Icon(Icons.camera_alt, color: Colors.white),
                     border: InputBorder.none,
@@ -78,23 +67,23 @@ class _SearchScreenState extends State<SearchScreen> {
               ListView.builder(
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: this.selectedPlaylists.length,
+                itemCount: this.selectedSong.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return PlaylistItem(this.selectedPlaylists[index]);
+                  return SongtItem(this.selectedSong[index]);
                 },
               ),
             ])));
   }
 }
 
-class PlaylistItem extends StatelessWidget {
-  final Playlist _playlist;
-  PlaylistItem(this._playlist);
+class SongtItem extends StatelessWidget {
+  final Song _song;
+  SongtItem(this._song);
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/playlist', arguments: _playlist);
+        //Navigator.pushNamed(context, '/playlist', arguments: _song);
       },
       child: ListTile(
         leading: Container(
@@ -104,18 +93,16 @@ class PlaylistItem extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  //image: AssetImage('assets/images/playlist.jpg')
-                  image: NetworkImage(_playlist.imageURL),
-                  //image: Image.network(data['url']),
+                  image: NetworkImage(_song.imageURL),
                 ))),
         title: Container(
           child: Text(
-            _playlist.name,
+            _song.titel,
             style: TextStyle(color: Color(0xFF253A4B), fontSize: 20.0),
           ),
         ),
         subtitle: Text(
-          "Playlist",
+          "Song",
           style: TextStyle(color: Color(0xFF253A4B)),
         ),
         trailing: Icon(
@@ -124,14 +111,5 @@ class PlaylistItem extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class SearchService {
-  searchByName(String searchKeyword) {
-    return Firestore.instance
-        .collection('playlist')
-        .where('keywords', arrayContains: searchKeyword)
-        .getDocuments();
   }
 }
