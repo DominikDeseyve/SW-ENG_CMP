@@ -67,13 +67,21 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           actions: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
               ? <Widget>[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/playlist/edit', arguments: this.widget._playlist);
+                    },
                     icon: Icon(
                       Icons.edit,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertClass("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?"),
+                        barrierDismissible: false,
+                      );
+                    },
                     icon: Icon(
                       Icons.block,
                     ),
@@ -81,7 +89,13 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 ]
               : <Widget>[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertClass("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?"),
+                        barrierDismissible: false,
+                      );
+                    },
                     icon: Icon(
                       Icons.block,
                     ),
@@ -128,7 +142,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     width: MediaQuery.of(context).size.width,
                     alignment: Alignment.topCenter,
                     padding: EdgeInsets.only(
-                      top: 2,
+                      top: 8,
                     ),
                     child: Container(
                       width: MediaQuery.of(context).size.height * 0.15,
@@ -424,5 +438,35 @@ class _SoundBarState extends State<SoundBar> {
     this._durationStream.cancel();
     Controller().soundPlayer.removeListener(this._initSoundbar);
     super.dispose();
+  }
+}
+
+class AlertClass extends StatelessWidget {
+  String title;
+  String subtitle;
+
+  AlertClass(this.title, this.subtitle);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(this.title),
+      content: Text(this.subtitle),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Ja'),
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
+        ),
+        FlatButton(
+          child: Text('Nein'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 }
