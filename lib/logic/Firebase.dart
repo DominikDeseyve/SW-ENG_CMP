@@ -42,14 +42,19 @@ class Firebase {
   }
 
   Future<String> createPlaylist(Playlist pPlaylist) async {
+    if (pPlaylist.description == null) {
+      pPlaylist.description = "test";
+    }
+
     DocumentReference ref = await this._ref.collection('playlist').add({
       'name': pPlaylist.name,
       'image_url': pPlaylist.imageURL,
       'max_attendees': pPlaylist.maxAttendees,
+      'description': pPlaylist.description,
       'visibleness': pPlaylist.visibleness.key,
       'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
       'creator': pPlaylist.creator.toFirebase(),
-      'keywords:': this._generateKeywords([pPlaylist.name]),
+      'keywords': this._generateKeywords([pPlaylist.name]),
       'joined_user_count': 0,
       'queued_song_count': 0,
     });
@@ -66,8 +71,9 @@ class Firebase {
       'name': pPlaylist.name,
       'image_url': pPlaylist.imageURL,
       'max_attendees': pPlaylist.maxAttendees,
+      'description': pPlaylist.description,
       'visibleness': pPlaylist.visibleness.key,
-      'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
+      //'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
       'creator': pPlaylist.creator.toFirebase(),
     });
   }

@@ -10,7 +10,7 @@ class Visibleness {
   String get value {
     switch (this._key) {
       case 'PRIVATE':
-        return 'geheim';
+        return 'privat';
         break;
       case 'PUBLIC':
         return 'öffentlich';
@@ -24,7 +24,7 @@ class Visibleness {
   String get longValue {
     switch (this._key) {
       case 'PRIVATE':
-        return 'geheimes Event';
+        return 'privates Event';
         break;
       case 'PUBLIC':
         return 'öffentliches Event';

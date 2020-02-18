@@ -32,7 +32,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 margin: EdgeInsets.only(top: 5),
                 width: MediaQuery.of(context).size.width,
                 child: Text(
-                  "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+                  this.widget._playlist.description,
                   style: TextStyle(
                     fontSize: 15.0,
                   ),

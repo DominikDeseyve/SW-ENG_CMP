@@ -8,6 +8,7 @@ class Playlist {
   String _name;
   int _maxAttendees;
   Visibleness _visibleness;
+  String _description;
   String _imageURL;
   List<Genre> _blackedGenre;
   User _creator;
@@ -17,6 +18,7 @@ class Playlist {
     this._playlistID = pSnap.documentID;
     this._name = pSnap['name'];
     this._maxAttendees = pSnap['max_attendees'];
+    this._description = pSnap['description'];
     this._visibleness = Visibleness(pSnap['visibleness']);
     this._imageURL = pSnap['image_url'];
     //this.blackedGenre = pSnap[''];
@@ -36,6 +38,10 @@ class Playlist {
 
   int get maxAttendees {
     return this._maxAttendees;
+  }
+
+  String get description {
+    return this._description;
   }
 
   List<Genre> get blackedGenre {
@@ -67,6 +73,10 @@ class Playlist {
 
   set imageURL(String pImageURL) {
     this._imageURL = pImageURL;
+  }
+
+  set description(String pDescription) {
+    this._description = pDescription;
   }
 
   set maxAttendees(int pMaxAttendees) {
