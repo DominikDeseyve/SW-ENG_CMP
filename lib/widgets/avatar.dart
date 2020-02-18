@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cmp/models/user.dart';
 import 'package:flutter/material.dart';
 
-class UserAvatar extends StatelessWidget {
+class Avatar extends StatelessWidget {
   final dynamic _item;
   final double width;
   final Key key;
 
-  UserAvatar(this._item, {this.width = 60.0, this.key});
+  Avatar(this._item, {this.width = 60.0, this.key});
 
   Widget build(BuildContext context) {
     return Material(

@@ -7,6 +7,7 @@ class Song {
   String _titel;
   String _artist;
   String _youTubeURL;
+  String _soundURL;
   String _imageURL;
   double _ranking;
 
@@ -21,7 +22,7 @@ class Song {
     this._artist = pSnap['artist'];
     this._youTubeURL = pSnap['youtube_url'];
     this._imageURL = pSnap['image_url'];
-    this._ranking = double.parse(pSnap['ranking']);
+    this._ranking = pSnap['ranking'];
     this.loadURL();
   }
   Map<String, dynamic> toFirebase() {
@@ -36,7 +37,7 @@ class Song {
 
   void loadURL() {
     HTTP.getSoundURL('31kEycTIXnI').then((String pURL) {
-      this._youTubeURL = pURL;
+      this._soundURL = pURL;
     });
   }
 
@@ -55,8 +56,8 @@ class Song {
     return this._artist;
   }
 
-  String get youTubeURL {
-    return this._youTubeURL;
+  String get soundURL {
+    return this._soundURL;
   }
 
   String get imageURL {

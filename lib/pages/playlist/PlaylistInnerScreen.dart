@@ -240,7 +240,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               shrinkWrap: true,
               itemCount: this._queue.songs.length,
               itemBuilder: (BuildContext context, int index) {
-                return SongItem(this._queue.songs[index]);
+                return SongItem(this._queue.songs[index], this.widget._playlist);
               },
             ),
           ],
@@ -255,17 +255,19 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
 class SongItem extends StatefulWidget {
   final Song _song;
-  SongItem(this._song);
+  final Playlist _playlist;
+  SongItem(this._song, this._playlist);
   _SongItemState createState() => _SongItemState();
 }
 
 class _SongItemState extends State<SongItem> {
   Widget build(BuildContext context) {
     return Container(
+      color: (Controller().soundPlayer.queue.currentSong.songID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: ListTile(
         onTap: () {},
-        leading: UserAvatar(
+        leading: Avatar(
           this.widget._song,
         ),
         title: Text(
@@ -287,11 +289,15 @@ class _SongItemState extends State<SongItem> {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.thumb_up),
-              onPressed: () {},
+              onPressed: () {
+                Controller().firebase.thumbUpSong(this.widget._playlist, this.widget._song);
+              },
             ),
             IconButton(
               icon: Icon(Icons.thumb_down),
-              onPressed: () {},
+              onPressed: () {
+                Controller().firebase.thumbDownSong(this.widget._playlist, this.widget._song);
+              },
             ),
           ],
         ),
@@ -305,30 +311,40 @@ class SoundBar extends StatefulWidget {
 }
 
 class _SoundBarState extends State<SoundBar> {
-  bool _isPlaying;
   double _percentage;
   StreamSubscription _durationStream;
 
   void initState() {
     super.initState();
+    Controller().soundPlayer.addListener(this._initSoundbar);
     this._percentage = 0;
+  }
 
-    AudioPlayerState state = Controller().soundPlayer.state;
-    if (state == AudioPlayerState.PLAYING) {
-      this._isPlaying = true;
+  void _togglePlay() async {
+    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
+      Controller().soundPlayer.pause();
+      this._durationStream.pause();
     } else {
-      this._isPlaying = false;
-    }
-    Controller().soundPlayer.duration.then((int duration) {
+      Controller().soundPlayer.play();
+
+      int duration = await Controller().soundPlayer.duration;
       this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
         setState(() {
           this._percentage = (p.inMilliseconds / duration);
         });
       });
+    }
+  }
+
+  void _initSoundbar() {
+    print("CHANGE NOTIFIER IN INIT SOUNDBAR");
+    setState(() {
+      var t = 123;
     });
   }
 
   Widget build(BuildContext context) {
+    if (Controller().soundPlayer.queue.currentSong == null) return SizedBox.shrink();
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -351,7 +367,7 @@ class _SoundBarState extends State<SoundBar> {
                   child: Image(
                     width: 45,
                     height: 45,
-                    image: NetworkImage('https://i1.rgstatic.net/ii/profile.image/389167491108866-1469796168262_Q512/Andreas_Judt.jpg'),
+                    image: NetworkImage(Controller().soundPlayer.queue.currentSong.imageURL),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -363,14 +379,14 @@ class _SoundBarState extends State<SoundBar> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      'Apache 207',
+                      Controller().soundPlayer.queue.currentSong.artist,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      'Warum tust du dir das an?',
+                      Controller().soundPlayer.queue.currentSong.titel,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 16,
@@ -382,22 +398,9 @@ class _SoundBarState extends State<SoundBar> {
               ),
               Spacer(),
               IconButton(
-                onPressed: () {
-                  //YouTubeSoundPlayer();
-                  if (this._isPlaying) {
-                    setState(() {
-                      Controller().soundPlayer.pause();
-                      this._isPlaying = false;
-                    });
-                  } else {
-                    setState(() {
-                      Controller().soundPlayer.play();
-                      this._isPlaying = true;
-                    });
-                  }
-                },
+                onPressed: this._togglePlay,
                 icon: Icon(
-                  (this._isPlaying ? Icons.pause : Icons.play_arrow),
+                  (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
                   color: Colors.white,
                 ),
               ),
@@ -419,6 +422,7 @@ class _SoundBarState extends State<SoundBar> {
 
   void dispose() {
     this._durationStream.cancel();
+    Controller().soundPlayer.removeListener(this._initSoundbar);
     super.dispose();
   }
 }

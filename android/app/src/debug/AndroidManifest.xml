@@ -7,9 +7,5 @@
     
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <application
-    tools:replace="android:label"  
-    android:label="flutter_bloc_pattern"
-    android:icon="@mipmap/ic_launcher">
-    </application>
+  
 </manifest>

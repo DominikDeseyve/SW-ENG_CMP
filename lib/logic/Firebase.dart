@@ -4,6 +4,7 @@ import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
+import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/widgets/Pagination.dart';
 
@@ -68,6 +69,20 @@ class Firebase {
       'visibleness': pPlaylist.visibleness.key,
       'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
       'creator': pPlaylist.creator.toFirebase(),
+    });
+  }
+
+  Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).updateData({
+      'upvotes': FieldValue.arrayUnion([Controller().authentificator.user.userID]),
+      'downvotes': FieldValue.arrayRemove([Controller().authentificator.user.userID]),
+    });
+  }
+
+  Future<void> thumbDownSong(Playlist pPlaylist, Song pSong) async {
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).updateData({
+      'upvotes': FieldValue.arrayRemove([Controller().authentificator.user.userID]),
+      'downvotes': FieldValue.arrayUnion([Controller().authentificator.user.userID]),
     });
   }
 
