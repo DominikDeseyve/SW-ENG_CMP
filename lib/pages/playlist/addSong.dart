@@ -13,12 +13,10 @@ class AddSong extends StatefulWidget {
 class _AddSong extends State<AddSong> {
   List<Song> selectedSong = [];
 
-  /*Playlist playlist = new Playlist.fromFirebase(docs.documents[i]);
-          selectedPlaylists.add(playlist);*/
-
   initiateSearch(value) async {
     List<Song> songs = await Controller().youTube.search(value);
     setState(() {
+      selectedSong = [];
       songs.forEach((Song song) {
         print(song.titel);
         selectedSong.add(song);

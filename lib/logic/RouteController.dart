@@ -9,6 +9,7 @@ import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
 import 'package:cmp/pages/playlist/SearchScreen.dart';
+import 'package:cmp/pages/playlist/addSong.dart';
 import 'package:cmp/pages/welcome/Email_confirm.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
 import 'package:cmp/pages/welcome/RegisterScreen.dart';
@@ -43,7 +44,8 @@ class RouteController {
         Playlist playlist = args;
 
         return FutureBuilder<bool>(
-          future: Controller().firebase.isUserJoiningPlaylist(playlist, Controller().authentificator.user),
+          future: Controller().firebase.isUserJoiningPlaylist(
+              playlist, Controller().authentificator.user),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
@@ -82,6 +84,9 @@ class RouteController {
         break;
       case '/settings':
         return SettingsScreen();
+        break;
+      case '/playlist/add':
+        return AddSong();
         break;
       default:
         print(pRouteSettings.name);
