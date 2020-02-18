@@ -205,7 +205,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     height: 28,
                     margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
                     child: OutlineButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/playlist/add');
+                      },
                       borderSide: BorderSide(
                         color: Colors.black,
                       ),
