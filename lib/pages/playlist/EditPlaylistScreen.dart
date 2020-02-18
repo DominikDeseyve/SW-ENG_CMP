@@ -53,52 +53,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     this._visibleness = this._visiblenessList[0];
   }
 
-/*
-  Widget _buildVisibilityDialog(BuildContext dialogContext) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(dialogContext).size.width,
-            child: FlatButton(
-              onPressed: () {
-                this._visibleness = this._visiblenessList[0];
-                Navigator.of(dialogContext).pop(null);
-              },
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-              child: Text(
-                this._visiblenessList[0].longValue,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-          Divider(),
-          Container(
-            width: MediaQuery.of(dialogContext).size.width,
-            child: FlatButton(
-              onPressed: () {
-                this._visibleness = this._visiblenessList[1];
-                Navigator.of(dialogContext).pop(null);
-              },
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-              child: Text(
-                this._visiblenessList[1].longValue,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-*/
-
   void _chooseFile() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -112,27 +66,26 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   }
 
   void _editPlaylist() async {
-    Playlist playlist = new Playlist();
-    playlist.name = this._nameController.text;
-    playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
-    playlist.visibleness = this._visibleness;
-    playlist.description = this._descriptionController.text;
+    this.widget._playlist.name = this._nameController.text;
+    this.widget._playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
+    this.widget._playlist.visibleness = this._visibleness;
+    this.widget._playlist.description = this._descriptionController.text;
     //playlist.blackedGenre = this.widget._playlist.blackedGenre;
-    playlist.creator = Controller().authentificator.user;
-    playlist.playlistID = this.widget._playlist.playlistID;
+    this.widget._playlist.creator = Controller().authentificator.user;
+    this.widget._playlist.playlistID = this.widget._playlist.playlistID;
 
     if (this._selectedImage != null) {
       if (this._selectedImage.runtimeType == String) {
-        playlist.imageURL = this._selectedImage;
+        this.widget._playlist.imageURL = this._selectedImage;
       } else {
-        playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
+        this.widget._playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + this.widget._playlist.playlistID);
       }
 
-      await Controller().firebase.updatePlaylist(playlist);
+      await Controller().firebase.updatePlaylist(this.widget._playlist);
     }
 
     Controller().theming.showSnackbar(context, "Die Playlist wurde erfolgreich bearbeitet!");
-    Navigator.of(context).pushNamed('/playlist', arguments: playlist);
+    Navigator.of(context).pushNamed('/playlist', arguments: this.widget._playlist);
   }
 
 /*
@@ -159,7 +112,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   @override
   void dispose() {
     // Clean up the controller when the widget is closed
-
     _nameController.dispose();
     _descriptionController.dispose();
     _maxAttendeesController.dispose();

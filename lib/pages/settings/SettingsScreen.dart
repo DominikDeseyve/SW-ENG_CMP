@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     clipBehavior: Clip.hardEdge,
                     color: Colors.transparent,
                     child: Ink.image(
-                      image: AssetImage('assets/images/profilbild.webp'),
+                      image: AssetImage('assets/images/plus.png'),
                       fit: BoxFit.cover,
                       width: 150.0,
                       height: 150.0,
