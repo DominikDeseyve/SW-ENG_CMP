@@ -60,7 +60,7 @@ class RouteController {
 
         break;
       case '/playlist/edit':
-        return EditPlaylistScreen();
+        return EditPlaylistScreen(args);
         break;
       case '/playlist/detailview':
         return PlaylistDetailScreen(args);

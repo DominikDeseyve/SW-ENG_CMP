@@ -14,6 +14,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState() {
     super.initState();
+
+    getPlaylists();
+  }
+
+  Future<void> getPlaylists() async {
     Controller().firebase.getCreatedPlaylist().then((pCreatedPlaylist) {
       setState(() {
         this._createdPlaylist = pCreatedPlaylist;
@@ -67,85 +72,88 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           //kompletter Bildschirm
           Container(
-            child: ListView(
-              children: <Widget>[
-                //erstellte Playlists
-                (this._createdPlaylist.length > 0
-                    ? Column(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "Erstellte Playlists",
-                                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
-                                ),
-                                Divider(
-                                  thickness: 1.5,
-                                  color: Color(0xFF253A4B),
-                                ),
-                              ],
+            child: RefreshIndicator(
+              onRefresh: this.getPlaylists,
+              child: ListView(
+                children: <Widget>[
+                  //erstellte Playlists
+                  (this._createdPlaylist.length > 0
+                      ? Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Erstellte Playlists",
+                                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+                                  ),
+                                  Divider(
+                                    thickness: 1.5,
+                                    color: Color(0xFF253A4B),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          //Die ganzen Events
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 160,
-                            child: ListView.builder(
-                              physics: ScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.only(right: 20),
-                              shrinkWrap: true,
-                              itemCount: this._createdPlaylist.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return PlaylistItem(this._createdPlaylist.elementAt(index));
-                              },
+                            //Die ganzen Events
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 160,
+                              child: ListView.builder(
+                                physics: ScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.only(right: 20),
+                                shrinkWrap: true,
+                                itemCount: this._createdPlaylist.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return PlaylistItem(this._createdPlaylist.elementAt(index));
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    : Container()),
-                //beigetretene Playlists
-                (this._joinedPlaylist.length > 0
-                    ? Column(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "Beigetretene Playlists",
-                                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
-                                ),
-                                Divider(
-                                  thickness: 1.5,
-                                  color: Color(0xFF253A4B),
-                                ),
-                              ],
+                          ],
+                        )
+                      : Container()),
+                  //beigetretene Playlists
+                  (this._joinedPlaylist.length > 0
+                      ? Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Beigetretene Playlists",
+                                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+                                  ),
+                                  Divider(
+                                    thickness: 1.5,
+                                    color: Color(0xFF253A4B),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          //Die ganzen Events
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 160,
-                            child: ListView.builder(
-                              physics: ScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.only(right: 20),
-                              shrinkWrap: true,
-                              itemCount: this._joinedPlaylist.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return PlaylistItem(this._joinedPlaylist.elementAt(index));
-                              },
+                            //Die ganzen Events
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 160,
+                              child: ListView.builder(
+                                physics: ScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.only(right: 20),
+                                shrinkWrap: true,
+                                itemCount: this._joinedPlaylist.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return PlaylistItem(this._joinedPlaylist.elementAt(index));
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    : Container()),
-              ],
+                          ],
+                        )
+                      : Container()),
+                ],
+              ),
             ),
           ),
         ],
