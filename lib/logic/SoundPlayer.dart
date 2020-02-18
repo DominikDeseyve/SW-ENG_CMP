@@ -1,42 +1,51 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cmp/models/Queue.dart';
 import 'package:cmp/models/song.dart';
+import 'package:cmp/widgets/Queue.dart';
 import 'package:flutter/foundation.dart';
-import 'package:media_notification_control/media_notification.dart';
 
 class SoundPlayer extends ChangeNotifier {
   AudioPlayer _audioPlayer;
-  Queue _queue;
+  Queue _playingQueue;
+  int _index;
 
   SoundPlayer() {
     this._audioPlayer = AudioPlayer();
+    this._playingQueue = null;
     AudioPlayer.logEnabled = false;
 
-    this._audioPlayer.onPlayerCompletion.listen((_) {
+    this._index = 0;
+    /*this._audioPlayer.onPlayerCompletion.listen((_) {
       print("SOUND ENDED");
       this.skip();
-    });
+    });*/
   }
 
-  void _loadSong() {
-    this._audioPlayer.setVolume(1);
-    this._audioPlayer.setUrl(this._queue.currentSong.soundURL);
+  Future<void> _loadSong() async {
+    await this._audioPlayer.setVolume(1);
+    await this._audioPlayer.setUrl(this.currentSong.soundURL);
   }
 
   void play() async {
     await this._audioPlayer.resume();
 
+    /*await this._audioPlayer.setNotification(
+          title: 'Title',
+          artist: 'Apache 207',
+          albumTitle: 'Test',
+        );*/
+/*
     MediaNotification.setListener('pause', () {
       this.pause();
     });
     MediaNotification.setListener('play', () {
       this.play();
-    });
+    });*/
 
-    await MediaNotification.show(
+    /*await MediaNotification.show(
       title: this._queue.currentSong.titel,
       author: this._queue.currentSong.artist,
-    );
+    );*/
+
     this.notifyListeners();
   }
 
@@ -45,32 +54,40 @@ class SoundPlayer extends ChangeNotifier {
     this.notifyListeners();
   }
 
-  void skip() {
+  Future<void> prepareNextSong() async {
+    print("prepare next song");
+    if (this._playingQueue.songs[this._index + 1].soundURL == null) {
+      await this._playingQueue.songs[this._index + 1].loadURL();
+    }
+  }
+
+  void nextSong() async {
     print("skip Song");
     this.pause();
-    this._queue.skipSong();
-    this._loadSong();
+    await this.prepareNextSong();
+    this._index++;
+    await this._loadSong();
     this.play();
   }
 
-  void startQueue() {
-    this._loadSong();
-    this.play();
+  void setQueue(Queue pQueue) {
+    this._playingQueue = pQueue;
+    this._playingQueue.songs[0].loadURL().then((_) {
+      this._loadSong().then((_) {
+        this.play();
+      });
+    });
   }
 
   //***************************************************//
   //*********   SETTER
   //***************************************************//
-  set queue(Queue pQueue) {
-    this._queue = pQueue;
-    //this._audioPlayer.setUrl(pSong.soundURL);
-  }
 
   //***************************************************//
   //*********   GETTER
   //***************************************************//
   bool get isEmpty {
-    return this._queue == null;
+    //return this._queue == null;
   }
 
   AudioPlayerState get state {
@@ -86,6 +103,13 @@ class SoundPlayer extends ChangeNotifier {
   }
 
   Queue get queue {
-    return this._queue;
+    return this._playingQueue;
+  }
+
+  Song get currentSong {
+    if (this._playingQueue != null) {
+      return this._playingQueue.songs[this._index];
+    }
+    return null;
   }
 }

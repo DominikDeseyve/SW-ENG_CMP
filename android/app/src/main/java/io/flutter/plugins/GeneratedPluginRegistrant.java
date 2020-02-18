@@ -7,7 +7,6 @@ import io.flutter.plugins.firebaseauth.FirebaseAuthPlugin;
 import io.flutter.plugins.firebase.core.FirebaseCorePlugin;
 import io.flutter.plugins.firebase.storage.FirebaseStoragePlugin;
 import io.flutter.plugins.imagepicker.ImagePickerPlugin;
-import com.example.medianotification.MediaNotificationPlugin;
 import com.vb.nested_navigators.NestedNavigatorsPlugin;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
 import com.tekartik.sqflite.SqflitePlugin;
@@ -28,7 +27,6 @@ public final class GeneratedPluginRegistrant {
     FirebaseCorePlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebase.core.FirebaseCorePlugin"));
     FirebaseStoragePlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebase.storage.FirebaseStoragePlugin"));
     ImagePickerPlugin.registerWith(registry.registrarFor("io.flutter.plugins.imagepicker.ImagePickerPlugin"));
-    MediaNotificationPlugin.registerWith(registry.registrarFor("com.example.medianotification.MediaNotificationPlugin"));
     NestedNavigatorsPlugin.registerWith(registry.registrarFor("com.vb.nested_navigators.NestedNavigatorsPlugin"));
     PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
     SqflitePlugin.registerWith(registry.registrarFor("com.tekartik.sqflite.SqflitePlugin"));

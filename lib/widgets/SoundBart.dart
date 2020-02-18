@@ -1,0 +1,125 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/widgets/avatar.dart';
+import 'package:flutter/material.dart';
+
+class SoundBar extends StatefulWidget {
+  _SoundBarState createState() => _SoundBarState();
+}
+
+class _SoundBarState extends State<SoundBar> {
+  double _percentage;
+  StreamSubscription _durationStream;
+
+  void initState() {
+    super.initState();
+    Controller().soundPlayer.addListener(this._initSoundbar);
+    this._percentage = 0;
+  }
+
+  void _togglePlay() async {
+    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
+      Controller().soundPlayer.pause();
+      this._durationStream.pause();
+    } else {
+      Controller().soundPlayer.play();
+    }
+  }
+
+  void _initSoundbar() {
+    print("CHANGE NOTIFIER IN INIT SOUNDBAR");
+    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
+      this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
+        Controller().soundPlayer.duration.then((int duration) {
+          //load new url
+          if (p.inSeconds > duration - 1000 * 5) {
+            Controller().soundPlayer.prepareNextSong();
+          }
+          setState(() {
+            this._percentage = (p.inMilliseconds / duration);
+          });
+        });
+      });
+    } else {
+      setState(() {});
+    }
+  }
+
+  Widget build(BuildContext context) {
+    if (Controller().soundPlayer.currentSong == null) return SizedBox.shrink();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * this._percentage,
+          height: 5,
+          color: Colors.redAccent,
+        ),
+        Container(
+          color: Color(0xFF253A4B),
+          height: 50,
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            children: <Widget>[
+              Avatar(
+                Controller().soundPlayer.currentSong,
+                width: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      Controller().soundPlayer.currentSong.artist,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      Controller().soundPlayer.currentSong.titel,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: this._togglePlay,
+                icon: Icon(
+                  (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
+                  color: Colors.white,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Controller().soundPlayer.nextSong();
+                },
+                icon: Icon(
+                  Icons.skip_next,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void dispose() {
+    this._durationStream.cancel();
+
+    Controller().soundPlayer.removeListener(this._initSoundbar);
+    super.dispose();
+  }
+}

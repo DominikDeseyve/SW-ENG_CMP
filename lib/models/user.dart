@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
+import 'package:cmp/models/song.dart';
 
 class User {
   String _userID;
@@ -9,6 +9,8 @@ class User {
   DateTime _birthday;
   String _imageURL;
   Role _role;
+  List<String> _upvotedSongs;
+  List<String> _downvotedSongs;
 
   Settings _settings;
 
@@ -27,6 +29,13 @@ class User {
     if (pSnapOrMap['role'] != null) {
       this._role = Role.fromFirebase(pSnapOrMap['role']);
     }
+
+    if (pSnapOrMap['downvotes'] != null) {
+      this._upvotedSongs = List.from(pSnapOrMap['upvotes']);
+      this._downvotedSongs = List.from(pSnapOrMap['downvotes']);
+      print(_downvotedSongs);
+      print(upvotedSongs);
+    }
   }
 
   Map<String, dynamic> toFirebase() => {
@@ -35,6 +44,15 @@ class User {
         'birthday': this._birthday,
         'image_url': this._imageURL,
       };
+  void thumbUpSong(Song pSong) {
+    this._downvotedSongs.remove(pSong.songID);
+    this._upvotedSongs.add(pSong.songID);
+  }
+
+  void thumbDownSong(Song pSong) {
+    this._upvotedSongs.remove(pSong.songID);
+    this._downvotedSongs.add(pSong.songID);
+  }
 
   //***************************************************//
   //*********   SETTER
@@ -69,5 +87,13 @@ class User {
 
   String get imageURL {
     return this._imageURL;
+  }
+
+  List<String> get upvotedSongs {
+    return this._upvotedSongs;
+  }
+
+  List<String> get downvotedSongs {
+    return this._downvotedSongs;
   }
 }

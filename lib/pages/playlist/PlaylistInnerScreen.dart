@@ -1,14 +1,13 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/models/Queue.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
-import 'package:cmp/widgets/Pagination.dart';
+import 'package:cmp/widgets/Queue.dart';
+import 'package:cmp/widgets/SoundBart.dart';
 import 'package:cmp/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -20,34 +19,30 @@ class PlaylistInnerScreen extends StatefulWidget {
 }
 
 class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
-  PaginationStream _pagination;
   Queue _queue;
+  ScrollController _scrollController;
 
   void initState() {
     super.initState();
+    this._queue = new Queue(this.widget._playlist);
+    this._queue.setCallback(this._loadMoreSongs);
 
-    this._queue = new Queue();
-
-    this._pagination = new PaginationStream();
-    this._pagination.setCallback(this._loadMoreItems);
-    this._pagination.stream = Controller().firebase.getPlaylistQueue(this.widget._playlist, this._pagination);
-    this._pagination.listen();
+    this._scrollController = new ScrollController();
+    this._scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        print("END OF SCREEN --> LOAD MORE");
+        this._queue.loadMore();
+      }
+    });
   }
 
-  void _loadMoreItems(QuerySnapshot pQuery) async {
-    setState(() {
-      pQuery.documents.forEach((DocumentSnapshot pSong) {
-        Song song = Song.fromFirebase(pSong);
-        int index = this._queue.songs.indexWhere((item) => item.songID == song.songID);
-        if (index > -1) {
-          this._queue.songs.removeAt(index);
-          this._queue.songs.insert(index, song);
-        } else {
-          this._queue.songs.add(song);
-        }
-      });
-      Controller().soundPlayer.queue = this._queue;
-    });
+  void _loadMoreSongs(QuerySnapshot pQuery) {
+    print("SONGS LOADED: " + pQuery.documentChanges.length.toString());
+    setState(() {});
+  }
+
+  void _buildQueue() {
+    setState(() {});
   }
 
   Widget build(BuildContext context) {
@@ -116,6 +111,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           ),
         ),
         child: ListView(
+          controller: this._scrollController,
           children: <Widget>[
             Stack(
               children: <Widget>[
@@ -168,7 +164,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                           margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
                           child: OutlineButton(
                             onPressed: () {
-                              Controller().soundPlayer.startQueue();
+                              Controller().soundPlayer.setQueue(this._queue);
                             },
                             borderSide: BorderSide(
                               color: Colors.black,
@@ -252,7 +248,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
             ),
             ListView.builder(
-              physics: ClampingScrollPhysics(),
+              physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: this._queue.songs.length,
               itemBuilder: (BuildContext context, int index) {
@@ -262,10 +258,16 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
+      /*bottomNavigationBar: BottomAppBar(
         child: SoundBar(),
-      ),
+      ),*/
     );
+  }
+
+  void dispose() {
+    this._queue.cancel();
+    //Controller().soundPlayer.queue.removeListener(this._buildQueue);
+    super.dispose();
   }
 }
 
@@ -278,9 +280,13 @@ class SongItem extends StatefulWidget {
 
 class _SongItemState extends State<SongItem> {
   Widget build(BuildContext context) {
+    String _currentSongID = '-1';
+    if (Controller().soundPlayer.currentSong != null) {
+      _currentSongID = Controller().soundPlayer.currentSong.songID;
+    }
     return Container(
-      color: (Controller().soundPlayer.queue.currentSong.songID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.only(top: 30),
+      color: (_currentSongID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
       child: ListTile(
         onTap: () {},
         leading: Avatar(
@@ -296,150 +302,54 @@ class _SongItemState extends State<SongItem> {
         subtitle: Text(
           this.widget._song.titel,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 18,
             color: Colors.black,
           ),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.thumb_up),
-              onPressed: () {
-                Controller().firebase.thumbUpSong(this.widget._playlist, this.widget._song);
-              },
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  child: Icon(
+                    Icons.thumb_up,
+                    color: (this.widget._song.isUpvoting ? Colors.redAccent : Colors.grey),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      Controller().authentificator.user.thumbUpSong(this.widget._song);
+                      Controller().firebase.thumbUpSong(this.widget._playlist, this.widget._song);
+                    });
+                  },
+                ),
+                Text(this.widget._song.upvoteCount.toString()),
+              ],
             ),
-            IconButton(
-              icon: Icon(Icons.thumb_down),
-              onPressed: () {
-                Controller().firebase.thumbDownSong(this.widget._playlist, this.widget._song);
-              },
+            SizedBox(width: 20),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  child: Icon(
+                    Icons.thumb_down,
+                    color: (this.widget._song.isDownvoting ? Colors.redAccent : Colors.grey),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      Controller().authentificator.user.thumbDownSong(this.widget._song);
+                      Controller().firebase.thumbDownSong(this.widget._playlist, this.widget._song);
+                    });
+                  },
+                ),
+                Text(this.widget._song.downvoteCount.toString()),
+              ],
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-class SoundBar extends StatefulWidget {
-  _SoundBarState createState() => _SoundBarState();
-}
-
-class _SoundBarState extends State<SoundBar> {
-  double _percentage;
-  StreamSubscription _durationStream;
-
-  void initState() {
-    super.initState();
-    Controller().soundPlayer.addListener(this._initSoundbar);
-    this._percentage = 0;
-  }
-
-  void _togglePlay() async {
-    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
-      Controller().soundPlayer.pause();
-      this._durationStream.pause();
-    } else {
-      Controller().soundPlayer.play();
-
-      int duration = await Controller().soundPlayer.duration;
-      this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
-        setState(() {
-          this._percentage = (p.inMilliseconds / duration);
-        });
-      });
-    }
-  }
-
-  void _initSoundbar() {
-    print("CHANGE NOTIFIER IN INIT SOUNDBAR");
-    setState(() {
-      var t = 123;
-    });
-  }
-
-  Widget build(BuildContext context) {
-    if (Controller().soundPlayer.queue.currentSong == null) return SizedBox.shrink();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * this._percentage,
-          height: 5,
-          color: Colors.redAccent,
-        ),
-        Container(
-          color: Color(0xFF253A4B),
-          padding: const EdgeInsets.all(5),
-          child: Row(
-            children: <Widget>[
-              Material(
-                shape: CircleBorder(),
-                clipBehavior: Clip.hardEdge,
-                color: Colors.white,
-                child: InkWell(
-                  child: Image(
-                    width: 45,
-                    height: 45,
-                    image: NetworkImage(Controller().soundPlayer.queue.currentSong.imageURL),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      Controller().soundPlayer.queue.currentSong.artist,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      Controller().soundPlayer.queue.currentSong.titel,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: this._togglePlay,
-                icon: Icon(
-                  (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
-                  color: Colors.white,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Controller().soundPlayer.skip();
-                },
-                icon: Icon(
-                  Icons.skip_next,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  void dispose() {
-    this._durationStream.cancel();
-    Controller().soundPlayer.removeListener(this._initSoundbar);
-    super.dispose();
   }
 }
 
