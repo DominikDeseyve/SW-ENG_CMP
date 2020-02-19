@@ -83,6 +83,10 @@ class Queue {
     });
   }
 
+  void deleteFirst() {
+    this._songs.remove(0);
+  }
+
   void cancel() {
     this._streamSubscription.cancel();
   }
@@ -105,5 +109,9 @@ class Queue {
 
   List<Song> get songs {
     return this._songs;
+  }
+
+  int get length {
+    return this._songs.length;
   }
 }

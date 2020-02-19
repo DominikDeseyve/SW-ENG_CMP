@@ -4,7 +4,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
-import 'package:cmp/widgets/Queue.dart';
+import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -21,6 +21,8 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void initState() {
     super.initState();
+    Controller().soundPlayer.addListener(this._buildQueue);
+
     this._queue = new Queue(this.widget._playlist);
     this._queue.setCallback(this._loadMoreSongs);
 
@@ -39,6 +41,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   void _buildQueue() {
+    if (!mounted) return;
     setState(() {});
   }
 
@@ -249,7 +252,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void dispose() {
     this._queue.cancel();
-    //Controller().soundPlayer.queue.removeListener(this._buildQueue);
+    Controller().soundPlayer.removeListener(this._buildQueue);
     super.dispose();
   }
 }

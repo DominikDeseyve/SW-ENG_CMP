@@ -33,10 +33,6 @@ class _SoundBarState extends State<SoundBar> {
     if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
       this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
         Controller().soundPlayer.duration.then((int duration) {
-          //load new url
-          if (p.inSeconds > duration - 1000 * 5) {
-            Controller().soundPlayer.prepareNextSong();
-          }
           setState(() {
             this._percentage = (p.inMilliseconds / duration);
           });

@@ -7,11 +7,17 @@ class CurrentSongScreen extends StatefulWidget {
 }
 
 class _CurrentSongScreenState extends State<CurrentSongScreen> {
-  double _value;
+  Duration _position;
 
   void initState() {
     super.initState();
-    this._value = 0.0;
+    this._position = new Duration();
+  }
+
+  String _formatDuration(Duration pDuration) {
+    int minutes = pDuration.inMinutes;
+    int seconds = pDuration.inSeconds - (minutes * 60);
+    return minutes.toString() + ':' + seconds.toString();
   }
 
   Widget build(BuildContext context) {
@@ -49,22 +55,23 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             child: Image.network('https://images.genius.com/1437b72d059745e7dfaa8d109ff4d9fe.1000x1000x1.jpg'),
           ),
           Slider(
-            value: _value,
+            value: this._position.inSeconds.toDouble(),
             min: 0,
-            max: 100,
-            divisions: 100,
+            max: 352,
+            divisions: 352,
             activeColor: Colors.redAccent,
-            label: this._value.toString(),
+            label: this._formatDuration(this._position),
             inactiveColor: Colors.black,
-            onChanged: (double newValue) {
+            onChanged: (double pNewSeconds) {
               setState(() {
-                _value = newValue;
+                _position = new Duration(seconds: pNewSeconds.toInt());
+                Controller().soundPlayer.seek(_position);
               });
             },
           ),
           Row(
             children: <Widget>[
-              Text('0:00'),
+              Text(this._formatDuration(this._position)),
               Spacer(),
               Text('3:55'),
             ],

@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/models/song.dart';
-import 'package:cmp/widgets/Queue.dart';
+import 'package:cmp/logic/Queue.dart';
 import 'package:flutter/foundation.dart';
 
 class SoundPlayer extends ChangeNotifier {
@@ -12,16 +12,16 @@ class SoundPlayer extends ChangeNotifier {
     this._audioPlayer = AudioPlayer();
     this._playingQueue = null;
     AudioPlayer.logEnabled = false;
-
+    this._audioPlayer.setVolume(1);
     this._index = 0;
-    /*this._audioPlayer.onPlayerCompletion.listen((_) {
+    this._audioPlayer.onPlayerCompletion.listen((_) {
       print("SOUND ENDED");
-      this.skip();
-    });*/
+      this.nextSong();
+      this.play();
+    });
   }
 
   Future<void> _loadSong() async {
-    await this._audioPlayer.setVolume(1);
     await this._audioPlayer.setUrl(this.currentSong.soundURL);
   }
 
@@ -54,20 +54,30 @@ class SoundPlayer extends ChangeNotifier {
     this.notifyListeners();
   }
 
-  Future<void> prepareNextSong() async {
+  void seek(Duration pPosition) async {
+    await this._audioPlayer.seek(pPosition);
+  }
+
+  Future<void> _prepareNextSongs() async {
     print("prepare next song");
-    if (this._playingQueue.songs[this._index + 1].soundURL == null) {
-      await this._playingQueue.songs[this._index + 1].loadURL();
+    for (int i = this._index; i < this._index + 2; i++) {
+      if (this._playingQueue.length - 1 < i) {
+        this._playingQueue.loadMore();
+      }
+      if (this._playingQueue.songs[i].soundURL == null) {
+        await this._playingQueue.songs[i].loadURL();
+      }
     }
   }
 
   void nextSong() async {
     print("skip Song");
-    this.pause();
-    await this.prepareNextSong();
-    this._index++;
+    //this._index++;
+    //delete old song
+    this._playingQueue.deleteFirst();
     await this._loadSong();
-    this.play();
+    this.notifyListeners();
+    this._prepareNextSongs();
   }
 
   void setQueue(Queue pQueue) {
@@ -77,18 +87,12 @@ class SoundPlayer extends ChangeNotifier {
         this.play();
       });
     });
+    this._prepareNextSongs();
   }
-
-  //***************************************************//
-  //*********   SETTER
-  //***************************************************//
 
   //***************************************************//
   //*********   GETTER
   //***************************************************//
-  bool get isEmpty {
-    //return this._queue == null;
-  }
 
   AudioPlayerState get state {
     return this._audioPlayer.state;

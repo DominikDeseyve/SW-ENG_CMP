@@ -6,7 +6,7 @@ import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
-import 'package:cmp/widgets/Queue.dart';
+import 'package:cmp/logic/Queue.dart';
 
 class Firebase {
   Controller _controller;
