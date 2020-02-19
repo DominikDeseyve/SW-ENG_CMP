@@ -1,6 +1,7 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
+import 'package:cmp/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -176,17 +177,9 @@ class PlaylistItem extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
         child: Column(
           children: <Widget>[
-            Container(
-              width: 110.0,
-              height: 110.0,
-              margin: EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: (this._playlist.imageURL != null ? NetworkImage(this._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
-                ),
-              ),
+            Avatar(
+              this._playlist,
+              width: 110,
             ),
             Text(
               this._playlist.name,

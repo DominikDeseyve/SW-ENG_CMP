@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
@@ -7,7 +5,6 @@ import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/widgets/Queue.dart';
-import 'package:cmp/widgets/SoundBart.dart';
 import 'package:cmp/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -57,8 +54,6 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             ),
           ),
           backgroundColor: Color(0xFF253A4B),
-          centerTitle: true,
-          elevation: 0,
           actions: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
               ? <Widget>[
                   IconButton(
@@ -98,166 +93,154 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 ]),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.0, 1.0],
-            colors: [
-              Colors.grey[400],
-              Colors.white,
+      body: ListView(
+        controller: this._scrollController,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.225,
+                child: CustomPaint(
+                  painter: CurvePainter(Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.21,
+                child: CustomPaint(
+                  painter: CurvePainter(Color(0xFF253A4B), (0.145 / 0.21), 1, (0.145 / 0.21)),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
+                },
+                child: Container(
+                  height: (MediaQuery.of(context).size.height * 0.21) - 30,
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.only(
+                    top: 8,
+                  ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-        child: ListView(
-          controller: this._scrollController,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.225,
-                  child: CustomPaint(
-                    painter: CurvePainter(Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.21,
-                  child: CustomPaint(
-                    painter: CurvePainter(Color(0xFF253A4B), (0.145 / 0.21), 1, (0.145 / 0.21)),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
-                  },
-                  child: Container(
-                    height: (MediaQuery.of(context).size.height * 0.21) - 30,
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(
-                      top: 8,
-                    ),
-                    child: Container(
-                      width: MediaQuery.of(context).size.height * 0.15,
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
+          (Controller().authentificator.user.role.role == ROLE.MASTER || Controller().authentificator.user.role.role == ROLE.ADMIN
+              ? Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 28,
+                        margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
+                        child: OutlineButton(
+                          onPressed: () {
+                            Controller().soundPlayer.setQueue(this._queue);
+                          },
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          ),
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: Icon(
+                                  Icons.playlist_add,
+                                  size: 18.0,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                "Play",
+                                style: TextStyle(fontSize: 14.0, color: Colors.black),
+                              )
+                            ],
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink()),
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 28,
+                  margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
+                  child: OutlineButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/playlist/add');
+                    },
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: Icon(
+                            Icons.playlist_add,
+                            size: 18.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          "Song hinzufügen",
+                          style: TextStyle(fontSize: 14.0, color: Colors.black),
+                        )
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
-            (Controller().authentificator.user.role.role == ROLE.MASTER || Controller().authentificator.user.role.role == ROLE.ADMIN
-                ? Container(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: 28,
-                          margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
-                          child: OutlineButton(
-                            onPressed: () {
-                              Controller().soundPlayer.setQueue(this._queue);
-                            },
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                            color: Colors.redAccent,
-                            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5.0),
-                                  child: Icon(
-                                    Icons.playlist_add,
-                                    size: 18.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Text(
-                                  "Play",
-                                  style: TextStyle(fontSize: 14.0, color: Colors.black),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : SizedBox.shrink()),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 28,
-                    margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
-                    child: OutlineButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/playlist/add');
-                      },
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                      color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
-                            child: Icon(
-                              Icons.playlist_add,
-                              size: 18.0,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            "Song hinzufügen",
-                            style: TextStyle(fontSize: 14.0, color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(30, 35, 30, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Warteschlange",
+                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                ),
+                Divider(
+                  thickness: 1.5,
+                  color: Color(0xFF253A4B),
+                ),
+              ],
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(30, 35, 30, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Warteschlange",
-                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
-                  ),
-                  Divider(
-                    thickness: 1.5,
-                    color: Color(0xFF253A4B),
-                  ),
-                ],
-              ),
-            ),
-            ListView.builder(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: this._queue.songs.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SongItem(this._queue.songs[index], this.widget._playlist);
-              },
-            ),
-          ],
-        ),
+          ),
+          ListView.builder(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: this._queue.songs.length,
+            itemBuilder: (BuildContext context, int index) {
+              return SongItem(this._queue.songs[index], this.widget._playlist);
+            },
+          ),
+        ],
       ),
+
       /*bottomNavigationBar: BottomAppBar(
         child: SoundBar(),
       ),*/
@@ -284,68 +267,83 @@ class _SongItemState extends State<SongItem> {
     if (Controller().soundPlayer.currentSong != null) {
       _currentSongID = Controller().soundPlayer.currentSong.songID;
     }
-    return Container(
-      padding: EdgeInsets.only(top: 30),
-      color: (_currentSongID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
-      child: ListTile(
-        onTap: () {},
-        leading: Avatar(
-          this.widget._song,
-        ),
-        title: Text(
-          this.widget._song.artist,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[600],
-          ),
-        ),
-        subtitle: Text(
-          this.widget._song.titel,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        color: (_currentSongID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            SizedBox(width: 15),
+            Avatar(
+              this.widget._song,
+            ),
+            SizedBox(width: 10),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  child: Icon(
-                    Icons.thumb_up,
-                    color: (this.widget._song.isUpvoting ? Colors.redAccent : Colors.grey),
+                Text(
+                  this.widget._song.artist,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
                   ),
-                  onTap: () {
-                    setState(() {
-                      Controller().authentificator.user.thumbUpSong(this.widget._song);
-                      Controller().firebase.thumbUpSong(this.widget._playlist, this.widget._song);
-                    });
-                  },
                 ),
-                Text(this.widget._song.upvoteCount.toString()),
+                Text(
+                  this.widget._song.titel,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
               ],
             ),
-            SizedBox(width: 20),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  child: Icon(
-                    Icons.thumb_down,
-                    color: (this.widget._song.isDownvoting ? Colors.redAccent : Colors.grey),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      Controller().authentificator.user.thumbDownSong(this.widget._song);
-                      Controller().firebase.thumbDownSong(this.widget._playlist, this.widget._song);
-                    });
-                  },
+            Spacer(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      child: Icon(
+                        Icons.thumb_up,
+                        color: (this.widget._song.isUpvoting ? Colors.redAccent : Colors.grey),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          Controller().authentificator.user.thumbUpSong(this.widget._song);
+                          Controller().firebase.thumbUpSong(this.widget._playlist, this.widget._song);
+                        });
+                      },
+                    ),
+                    Text(this.widget._song.upvoteCount.toString()),
+                  ],
                 ),
-                Text(this.widget._song.downvoteCount.toString()),
+                SizedBox(width: 15),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      child: Icon(
+                        Icons.thumb_down,
+                        color: (this.widget._song.isDownvoting ? Colors.redAccent : Colors.grey),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          Controller().authentificator.user.thumbDownSong(this.widget._song);
+                          Controller().firebase.thumbDownSong(this.widget._playlist, this.widget._song);
+                        });
+                      },
+                    ),
+                    Text(this.widget._song.downvoteCount.toString()),
+                  ],
+                ),
               ],
             ),
+            SizedBox(width: 25),
           ],
         ),
       ),

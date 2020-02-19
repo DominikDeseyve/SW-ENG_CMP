@@ -17,7 +17,7 @@ class Avatar extends StatelessWidget {
           ? Image(
               width: this.width,
               height: this.width,
-              image: AssetImage('assets/images/profilbild.webp'),
+              image: AssetImage('assets/images/playlist.jpg'),
             )
           : CachedNetworkImage(
               width: this.width,
@@ -26,12 +26,12 @@ class Avatar extends StatelessWidget {
               placeholder: (context, url) => Image(
                 width: this.width,
                 height: this.width,
-                image: AssetImage('assets/images/profilbild.webp'),
+                image: AssetImage('assets/images/playlist.jpg'),
               ),
               errorWidget: (context, url, error) => Image(
                 width: this.width,
                 height: this.width,
-                image: AssetImage('assets/images/profilbild.webp'),
+                image: AssetImage('assets/images/playlist.jpg'),
               ),
               imageBuilder: (context, imageProvider) => Container(
                 width: this.width,

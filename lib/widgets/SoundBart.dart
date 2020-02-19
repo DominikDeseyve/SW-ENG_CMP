@@ -49,70 +49,78 @@ class _SoundBarState extends State<SoundBar> {
 
   Widget build(BuildContext context) {
     if (Controller().soundPlayer.currentSong == null) return SizedBox.shrink();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * this._percentage,
-          height: 5,
-          color: Colors.redAccent,
-        ),
-        Container(
-          color: Color(0xFF253A4B),
-          height: 50,
-          padding: const EdgeInsets.all(5),
-          child: Row(
-            children: <Widget>[
-              Avatar(
-                Controller().soundPlayer.currentSong,
-                width: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      Controller().soundPlayer.currentSong.artist,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      Controller().soundPlayer.currentSong.titel,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: this._togglePlay,
-                icon: Icon(
-                  (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
-                  color: Colors.white,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Controller().soundPlayer.nextSong();
-                },
-                icon: Icon(
-                  Icons.skip_next,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+    return InkWell(
+      splashColor: Colors.white,
+      onTap: () {
+        Navigator.of(context).pushNamed('/song/current');
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * this._percentage,
+            height: 5,
+            color: Colors.redAccent,
           ),
-        ),
-      ],
+          Container(
+            color: Color(0xFF253A4B),
+            height: 60,
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              children: <Widget>[
+                Avatar(
+                  Controller().soundPlayer.currentSong,
+                  width: 50,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        Controller().soundPlayer.currentSong.artist,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.6),
+                        ),
+                      ),
+                      Text(
+                        Controller().soundPlayer.currentSong.titel,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                IconButton(
+                  onPressed: this._togglePlay,
+                  icon: Icon(
+                    (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
+                    color: Colors.white,
+                    size: 26,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Controller().soundPlayer.nextSong();
+                  },
+                  icon: Icon(
+                    Icons.skip_next,
+                    size: 26,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

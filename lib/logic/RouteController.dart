@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/pages/CurrentSongScreen.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
@@ -44,8 +45,7 @@ class RouteController {
         Playlist playlist = args;
 
         return FutureBuilder<bool>(
-          future: Controller().firebase.isUserJoiningPlaylist(
-              playlist, Controller().authentificator.user),
+          future: Controller().firebase.isUserJoiningPlaylist(playlist, Controller().authentificator.user),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
@@ -69,6 +69,9 @@ class RouteController {
         break;
       case '/playlist/blacked-genre':
         return BlackedGenreScreen(args);
+        break;
+      case '/song/current':
+        return CurrentSongScreen();
         break;
       case '/login':
         return LoginPage();
