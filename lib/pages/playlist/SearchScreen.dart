@@ -56,15 +56,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 50.0, bottom: 20.0),
                 width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
                 child: TextField(
                   onChanged: (val) {
                     initiateSearch(val);
                   },
-                  style: TextStyle(
-                      color: Colors.white, decorationColor: Colors.white),
+                  style: TextStyle(color: Colors.white, decorationColor: Colors.white),
                   autocorrect: false,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search, color: Colors.white),
@@ -129,9 +126,6 @@ class PlaylistItem extends StatelessWidget {
 
 class SearchService {
   searchByName(String searchKeyword) {
-    return Firestore.instance
-        .collection('playlist')
-        .where('keywords', arrayContains: searchKeyword)
-        .getDocuments();
+    return Firestore.instance.collection('playlist').where('keywords', arrayContains: searchKeyword).getDocuments();
   }
 }

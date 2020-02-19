@@ -9,7 +9,6 @@
 #import <firebase_core/FirebaseCorePlugin.h>
 #import <firebase_storage/FirebaseStoragePlugin.h>
 #import <image_picker/ImagePickerPlugin.h>
-#import <media_notification_control/MediaNotificationPlugin.h>
 #import <nested_navigators/NestedNavigatorsPlugin.h>
 #import <path_provider/PathProviderPlugin.h>
 #import <sqflite/SqflitePlugin.h>
@@ -25,7 +24,6 @@
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
-  [MediaNotificationPlugin registerWithRegistrar:[registry registrarForPlugin:@"MediaNotificationPlugin"]];
   [NestedNavigatorsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NestedNavigatorsPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];

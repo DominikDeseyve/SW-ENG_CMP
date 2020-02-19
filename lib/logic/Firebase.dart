@@ -6,7 +6,7 @@ import 'package:cmp/models/role.dart';
 import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
-import 'package:cmp/widgets/Pagination.dart';
+import 'package:cmp/widgets/Queue.dart';
 
 class Firebase {
   Controller _controller;
@@ -79,17 +79,23 @@ class Firebase {
   }
 
   Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).updateData({
-      'upvotes': FieldValue.arrayUnion([Controller().authentificator.user.userID]),
-      'downvotes': FieldValue.arrayRemove([Controller().authentificator.user.userID]),
+    String userID = Controller().authentificator.user.userID;
+    await this._ref.collection('user').document(userID).updateData({
+      'upvotes': FieldValue.arrayUnion([pSong.songID]),
+      'downvotes': FieldValue.arrayRemove([pSong.songID]),
     });
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).delete();
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).setData({});
   }
 
   Future<void> thumbDownSong(Playlist pPlaylist, Song pSong) async {
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).updateData({
-      'upvotes': FieldValue.arrayRemove([Controller().authentificator.user.userID]),
-      'downvotes': FieldValue.arrayUnion([Controller().authentificator.user.userID]),
+    String userID = Controller().authentificator.user.userID;
+    await this._ref.collection('user').document(userID).updateData({
+      'downvotes': FieldValue.arrayUnion([pSong.songID]),
+      'upvotes': FieldValue.arrayRemove([pSong.songID]),
     });
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).delete();
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).setData({});
   }
 
   Future<List<Genre>> getGenres() async {
@@ -136,8 +142,21 @@ class Firebase {
     });
   }
 
-  Stream<QuerySnapshot> getPlaylistQueue(Playlist pPlaylist, PaginationStream pPagination) {
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking').snapshots();
+  Stream<QuerySnapshot> getPlaylistQueue(Playlist pPlaylist, Queue pQueue) {
+    if (pQueue.lastDocument == null) {
+      return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking', descending: true).orderBy('created_at').limit(pQueue.stepSize).snapshots();
+    } else {
+      return this
+          ._ref
+          .collection('playlist')
+          .document(pPlaylist.playlistID)
+          .collection('queued_song')
+          .orderBy('ranking', descending: true)
+          .orderBy('created_at')
+          .startAfterDocument(pQueue.lastDocument)
+          .limit(pQueue.stepSize)
+          .snapshots();
+    }
   }
 
   Future<User> getUser(String pUserID) async {
