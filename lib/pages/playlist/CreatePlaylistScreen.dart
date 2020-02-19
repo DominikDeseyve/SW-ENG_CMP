@@ -29,8 +29,13 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     super.initState();
 
     this._nameController = new TextEditingController();
+    this._nameController.text = "";
+
     this._maxAttendeesController = new TextEditingController();
+    this._maxAttendeesController.text = "";
+
     this._descriptionController = new TextEditingController();
+    this._descriptionController.text = " ";
 
     _visiblenessList = <Visibleness>[
       Visibleness('PUBLIC'),
@@ -137,7 +142,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               children: <Widget>[
                 Container(
                   height: 150,
-                  margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                  margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: this._chooseFile,

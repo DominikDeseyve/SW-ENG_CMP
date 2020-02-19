@@ -25,7 +25,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   TextEditingController _nameController;
   TextEditingController _maxAttendeesController;
   TextEditingController _descriptionController;
-  TextEditingController _visibilenessController;
   Visibleness _visibleness;
   //List<Genre> _blackedGenre = [];
 
@@ -42,9 +41,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
     this._descriptionController = new TextEditingController();
     this._descriptionController.text = this.widget._playlist.description;
-
-    this._visibilenessController = new TextEditingController();
-    this._visibilenessController.text = this.widget._playlist.visibleness.longValue.toString();
 
     _visiblenessList = <Visibleness>[
       Visibleness('PUBLIC'),
@@ -156,7 +152,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               children: <Widget>[
                 Container(
                   height: 150,
-                  margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                  margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: this._chooseFile,
@@ -167,7 +163,9 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: (this._selectedImage == null ? AssetImage('assets/images/playlist.jpg') : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
+                          image: (this._selectedImage == null
+                              ? AssetImage('assets/images/playlist.jpg')
+                              : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
                         ),
                       ),
                     ),
@@ -215,38 +213,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                     ),
                   ),
                 ),
-                /*
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: TextField(
-                    controller: _visibilenessController,
-                    style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Art des Events",
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                      labelStyle: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 18,
-                      ),
-                      focusColor: Colors.redAccent,
-                    ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) => _buildVisibilityDialog(dialogContext),
-                      ).then((_) {
-                        setState(() {
-                          this._visibilenessController.text = this._visibleness.longValue.toString();
-                        });
-                      });
-                    },
-                  ),
-                ),
-                */
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
@@ -296,11 +262,12 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                   value: 1,
                                   groupValue: radioGroup,
                                   onChanged: (t) {
-                                    setState(() {
-                                      this._visibleness = this._visiblenessList[t];
-                                      radioGroup = t;
-                                    });
-                                    ;
+                                    setState(
+                                      () {
+                                        this._visibleness = this._visiblenessList[t];
+                                        radioGroup = t;
+                                      },
+                                    );
                                   },
                                 ),
                                 Text("private Playlist"),
