@@ -18,6 +18,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   TextEditingController _birthdayController;
   TextEditingController _passwordController;
 
+  bool _darkmode = true;
+
   void initState() {
     super.initState();
 
@@ -92,92 +94,288 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          Text(
-            "Profil",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          Divider(
-            thickness: 1.5,
-            color: Color(0xFF253A4B),
-          ),
           Container(
-            height: 50,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Benutzername"),
-                Flexible(
-                  child: TextField(
-                    controller: _usernameController,
-                    style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Benutzername",
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                      labelStyle: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 18,
+                Text(
+                  "Profil",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+                Divider(
+                  thickness: 1.5,
+                  color: Color(0xFF253A4B),
+                ),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: 120,
+                          child: Text(
+                            "Benutzername",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       ),
-                      focusColor: Colors.redAccent,
-                    ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: TextField(
+                          controller: _usernameController,
+                          style: TextStyle(fontSize: 18),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            helperStyle: TextStyle(fontSize: 18),
+                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                            labelStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                            focusColor: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: 120,
+                          child: Text(
+                            "Vorname",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: TextField(
+                          controller: _usernameController,
+                          style: TextStyle(fontSize: 18),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            helperStyle: TextStyle(fontSize: 18),
+                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                            labelStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                            focusColor: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: 120,
+                          child: Text(
+                            "Nachname",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: TextField(
+                          controller: _usernameController,
+                          style: TextStyle(fontSize: 18),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            helperStyle: TextStyle(fontSize: 18),
+                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                            labelStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                            focusColor: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: 120,
+                          child: Text(
+                            "Geburtsdatum",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: TextField(
+                          controller: _usernameController,
+                          style: TextStyle(fontSize: 18),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            helperStyle: TextStyle(fontSize: 18),
+                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                            labelStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                            focusColor: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: 120,
+                          child: Text(
+                            "Passwort",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: TextField(
+                          controller: _usernameController,
+                          style: TextStyle(fontSize: 18),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            helperStyle: TextStyle(fontSize: 18),
+                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                            labelStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                            focusColor: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          Text(
-            "Allgemeines",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          Divider(
-            thickness: 1.5,
-            color: Color(0xFF253A4B),
-          ),
           Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
-            child: TextField(
-              controller: _usernameController,
-              style: TextStyle(fontSize: 18),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: "Darkmode",
-                contentPadding: EdgeInsets.symmetric(vertical: 10),
-                helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                labelStyle: TextStyle(
-                  color: Colors.redAccent,
-                  fontSize: 18,
+            margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Allgemeines",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
                 ),
-                focusColor: Colors.redAccent,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
-            child: TextField(
-              //controller: _firstnameController,
-              style: TextStyle(fontSize: 18),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: "Sprache",
-                contentPadding: EdgeInsets.symmetric(vertical: 10),
-                helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                labelStyle: TextStyle(
-                  color: Colors.redAccent,
-                  fontSize: 18,
+                Divider(
+                  thickness: 1.5,
+                  color: Color(0xFF253A4B),
                 ),
-                focusColor: Colors.redAccent,
-              ),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: 120,
+                          child: Text(
+                            "DarkMode",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: Switch(
+                            activeColor: Colors.redAccent,
+                            value: _darkmode,
+                            onChanged: (value) {
+                              _darkmode = value;
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
