@@ -3,6 +3,7 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
+import 'package:cmp/models/user.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/avatar.dart';
@@ -46,6 +47,34 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     setState(() {});
   }
 
+  void _showOptionAlert(String pTitle, String pSubtitle) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        title: Text(pTitle),
+        content: Text(pSubtitle),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ja'),
+            onPressed: () {
+              User user = Controller().authentificator.user;
+              Controller().firebase.leavePlaylist(this.widget._playlist, user).then((_) {
+                Navigator.of(dialogContext).pop();
+                Navigator.of(context).pop();
+              });
+            },
+          ),
+          FlatButton(
+            child: Text('Nein'),
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -70,11 +99,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertClass("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?"),
-                        barrierDismissible: false,
-                      );
+                      _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
                     },
                     icon: Icon(
                       Icons.block,
@@ -84,11 +109,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               : <Widget>[
                   IconButton(
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertClass("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?"),
-                        barrierDismissible: false,
-                      );
+                      _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
                     },
                     icon: Icon(
                       Icons.block,
@@ -414,36 +435,6 @@ class _SongItemState extends State<SongItem> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class AlertClass extends StatelessWidget {
-  String title;
-  String subtitle;
-
-  AlertClass(this.title, this.subtitle);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(this.title),
-      content: Text(this.subtitle),
-      actions: <Widget>[
-        FlatButton(
-          child: Text('Ja'),
-          onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-          },
-        ),
-        FlatButton(
-          child: Text('Nein'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
     );
   }
 }

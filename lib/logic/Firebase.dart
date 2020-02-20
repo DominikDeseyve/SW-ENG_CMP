@@ -72,15 +72,16 @@ class Firebase {
   }
 
   Future<void> requestPlaylist(Playlist pPlaylist, Request pRequest) async {
-    User user = this._controller.authentificator.user;
-    Map userWithRequest = user.toFirebase()..addAll(pRequest.toFirebase());
-
-    await this._ref.collection('user_requested_playlist').document(user.userID).setData(userWithRequest);
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').document(pRequest.user.userID).setData(pRequest.toFirebase());
   }
 
   Future<void> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) {
     Map userWithRole = pUser.toFirebase()..addAll(pRole.toFirebase());
     return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
+  }
+
+  Future<void> leavePlaylist(Playlist pPlaylist, User pUser) {
+    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).delete();
   }
 
   Future<void> updateUserData(User pUser) async {
@@ -211,9 +212,15 @@ class Firebase {
     return user;
   }
 
-  Future<List<Request>> getPlaylistRequests(Playlist pPlaylist) async {
+  Future<List<Request>> getPlaylistRequests(Playlist pPlaylist, {User pUser}) async {
     List<Request> requests = [];
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    Query query;
+    if (pUser == null) {
+      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN');
+    } else {
+      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN').where('user.user_id', isEqualTo: pUser.userID);
+    }
+    await query.getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         requests.add(Request.fromFirebase(pSnap));
       });

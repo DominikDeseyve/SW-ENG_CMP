@@ -1,11 +1,12 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class PlaylistViewScreen extends StatefulWidget {
-  Playlist _playlist;
+  final Playlist _playlist;
 
   PlaylistViewScreen(this._playlist);
 
@@ -13,8 +14,54 @@ class PlaylistViewScreen extends StatefulWidget {
 }
 
 class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
+  Request _request;
+
   void initState() {
     super.initState();
+
+    if (this.widget._playlist.visibleness.key == 'PRIVATE') {
+      Controller().firebase.getPlaylistRequests(this.widget._playlist, pUser: Controller().authentificator.user).then((pList) {
+        if (pList.length == 1) {
+          setState(() {
+            this._request = pList[0];
+          });
+        }
+      });
+    }
+  }
+
+  String _getLabel() {
+    if (this.widget._playlist.visibleness.key == 'PUBLIC') {
+      return "Teilnehmen";
+    } else {
+      if (this._request == null) {
+        return "Anfrage senden";
+      } else {
+        return "Anfrage gesendet";
+      }
+    }
+  }
+
+  IconData _getIcon() {
+    if (this._request == null) {
+      return Icons.person_add;
+    } else {
+      return Icons.check;
+    }
+  }
+
+  void _joinPlaylist() async {
+    if (this.widget._playlist.visibleness.key == 'PUBLIC') {
+      await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER));
+      Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
+    } else {
+      if (this._request == null) {
+        setState(() {
+          this._request = new Request('OPEN', Controller().authentificator.user);
+          Controller().firebase.requestPlaylist(this.widget._playlist, this._request);
+        });
+      }
+    }
   }
 
   Widget build(BuildContext context) {
@@ -73,7 +120,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                         style: TextStyle(fontSize: 22),
                       ),
                       Text(
-                        "erstellt von " + this.widget._playlist.creator.toString(),
+                        "erstellt von " + this.widget._playlist.creator.username.toString(),
                         style: TextStyle(
                           fontSize: 14.0,
                         ),
@@ -81,10 +128,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
                         child: FlatButton(
-                          onPressed: () async {
-                            await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER));
-                            Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
-                          },
+                          onPressed: this._joinPlaylist,
                           padding: const EdgeInsets.all(10),
                           color: Colors.redAccent,
                           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
@@ -94,13 +138,13 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 5.0),
                                 child: Icon(
-                                  Icons.person_add,
+                                  this._getIcon(),
                                   size: 20.0,
                                   color: Colors.white,
                                 ),
                               ),
                               Text(
-                                "Teilnehmen",
+                                this._getLabel(),
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.white,

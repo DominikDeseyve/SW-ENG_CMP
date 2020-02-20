@@ -31,6 +31,11 @@ class _RequestScreenState extends State<RequestScreen> {
   }
 
   Widget build(BuildContext context) {
+    if (this._requests.length == 0) {
+      return Center(
+        child: Text("Keine Anfragen vorhanden"),
+      );
+    }
     return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
