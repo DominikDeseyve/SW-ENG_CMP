@@ -1,158 +1,219 @@
+import 'dart:io';
+
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/logic/HTTP.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
-import 'package:cmp/models/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  var color = ColorsClass();
+  File _selectedImage;
+
+  TextEditingController _usernameController;
+  TextEditingController _firstnameController;
+  TextEditingController _lastnameController;
+  TextEditingController _birthdayController;
+  TextEditingController _passwordController;
 
   void initState() {
     super.initState();
+
+    this._usernameController = new TextEditingController();
+    this._usernameController.text = "test";
+
+    this._firstnameController = new TextEditingController();
+    this._firstnameController.text = "test";
+
+    this._lastnameController = new TextEditingController();
+    this._lastnameController.text = "test";
+
+    this._birthdayController = new TextEditingController();
+    this._birthdayController.text = "test";
+
+    this._passwordController = new TextEditingController();
+    this._passwordController.text = "test";
+  }
+
+  void _chooseFile() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      this._selectedImage = image;
+    });
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: color.darkMode ? color.darkModeBackground : color.lightModeBackground,
-        body: Stack(children: <Widget>[
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: AppBar(
+          backgroundColor: Color(0xFF253A4B),
+          centerTitle: true,
+          elevation: 0,
+          title: Text("Einstellungen"),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.save_alt,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
+        shrinkWrap: false,
+        primary: true,
+        children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(color.darkMode ? color.darkModeRed : color.lightModeRed, 0.25, 0.325, 0.25),
-            ),
+            height: MediaQuery.of(context).size.height * 0.015,
+            color: Colors.redAccent,
           ),
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(color.darkMode ? color.darkModeBlue : color.lightModeBlue, 0.235, 0.31, 0.235),
+            height: 150,
+            margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
+            alignment: Alignment.center,
+            child: GestureDetector(
+              onTap: this._chooseFile,
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: Colors.black26),
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: (this._selectedImage == null ? AssetImage('assets/images/plus.png') : FileImage(this._selectedImage)),
+                  ),
+                ),
+              ),
             ),
           ),
+          Text(
+            "Profil",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          Divider(
+            thickness: 1.5,
+            color: Color(0xFF253A4B),
+          ),
           Container(
-            margin: const EdgeInsets.only(top: 35.0),
-            child: ListView(
+            height: 50,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Einstellungen",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 40.0,
-                        color: color.darkMode ? color.darkModeTitleText : color.lightModeTitleText,
+                Text("Benutzername"),
+                Flexible(
+                  child: TextField(
+                    controller: _usernameController,
+                    style: TextStyle(fontSize: 18),
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: "Benutzername",
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
+                      helperStyle: TextStyle(fontSize: 18),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                      labelStyle: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 18,
                       ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
-                  child: Material(
-                    shape: CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    color: Colors.transparent,
-                    child: Ink.image(
-                      image: AssetImage('assets/images/plus.png'),
-                      fit: BoxFit.cover,
-                      width: 150.0,
-                      height: 150.0,
+                      focusColor: Colors.redAccent,
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 100,
-                    child: FlatButton(
-                      color: color.darkMode ? color.darkModeRed : color.lightModeRed,
-                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Bild +",
-                            style: TextStyle(fontSize: 20.0, color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText),
-                          )
-                        ],
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 200,
-                          child: FlatButton(
-                            color: color.darkMode ? color.darkModeRed : color.lightModeRed,
-                            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  color.darkMode ? 'Dark mode' : 'Light mode',
-                                  style: TextStyle(fontSize: 20.0, color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText),
-                                )
-                              ],
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                color.darkMode = !color.darkMode;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Name',
-                          style: TextStyle(
-                            fontSize: 30.0,
-                            color: color.darkMode ? color.darkModeBackgroundText : color.lightModeBackgroundText,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 200,
-                          child: FlatButton(
-                            color: color.darkMode ? color.darkModeRed : color.lightModeRed,
-                            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                            child: Text(
-                              'Abmelden',
-                              style: TextStyle(fontSize: 20.0, color: color.darkMode ? color.darkModeButtonText : color.lightModeButtonText),
-                            ),
-                            onPressed: () async {
-                              await Controller().authentificator.signOut();
-                              Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
           ),
-        ]));
+          Text(
+            "Allgemeines",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          Divider(
+            thickness: 1.5,
+            color: Color(0xFF253A4B),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
+            child: TextField(
+              controller: _usernameController,
+              style: TextStyle(fontSize: 18),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: "Darkmode",
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                labelStyle: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 18,
+                ),
+                focusColor: Colors.redAccent,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
+            child: TextField(
+              //controller: _firstnameController,
+              style: TextStyle(fontSize: 18),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: "Sprache",
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                labelStyle: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 18,
+                ),
+                focusColor: Colors.redAccent,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+            child: FlatButton(
+              onPressed: () async {
+                await Controller().authentificator.signOut();
+                Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
+              },
+              padding: const EdgeInsets.all(10),
+              color: Colors.redAccent,
+              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      Icons.directions_run,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "Abmelden",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

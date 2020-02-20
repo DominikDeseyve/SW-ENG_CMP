@@ -19,7 +19,7 @@ class EditPlaylistScreen extends StatefulWidget {
 class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   List<Visibleness> _visiblenessList;
 
-  int radioGroup = 0;
+  int _radioGroup = 0;
 
   var _selectedImage;
   TextEditingController _nameController;
@@ -163,9 +163,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: (this._selectedImage == null
-                              ? AssetImage('assets/images/playlist.jpg')
-                              : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
+                          image: (this._selectedImage == null ? AssetImage('assets/images/playlist.jpg') : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
                         ),
                       ),
                     ),
@@ -239,11 +237,11 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                 Radio(
                                   activeColor: Colors.redAccent,
                                   value: 0,
-                                  groupValue: radioGroup,
+                                  groupValue: _radioGroup,
                                   onChanged: (t) {
                                     setState(() {
                                       this._visibleness = this._visiblenessList[t];
-                                      radioGroup = t;
+                                      _radioGroup = t;
                                     });
                                   },
                                 ),
@@ -260,12 +258,12 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                 Radio(
                                   activeColor: Colors.redAccent,
                                   value: 1,
-                                  groupValue: radioGroup,
+                                  groupValue: _radioGroup,
                                   onChanged: (t) {
                                     setState(
                                       () {
                                         this._visibleness = this._visiblenessList[t];
-                                        radioGroup = t;
+                                        _radioGroup = t;
                                       },
                                     );
                                   },

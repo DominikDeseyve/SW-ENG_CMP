@@ -16,7 +16,7 @@ class CreatePlaylistScreen extends StatefulWidget {
 class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   List<Visibleness> _visiblenessList;
 
-  int radioGroup = 0;
+  int _radioGroup = 0;
 
   File _selectedImage;
   TextEditingController _nameController;
@@ -228,11 +228,11 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                 Radio(
                                   activeColor: Colors.redAccent,
                                   value: 0,
-                                  groupValue: radioGroup,
+                                  groupValue: _radioGroup,
                                   onChanged: (t) {
                                     setState(() {
                                       this._visibleness = this._visiblenessList[t];
-                                      radioGroup = t;
+                                      _radioGroup = t;
                                     });
                                   },
                                 ),
@@ -249,11 +249,11 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                 Radio(
                                   activeColor: Colors.redAccent,
                                   value: 1,
-                                  groupValue: radioGroup,
+                                  groupValue: _radioGroup,
                                   onChanged: (t) {
                                     setState(() {
                                       this._visibleness = this._visiblenessList[t];
-                                      radioGroup = t;
+                                      _radioGroup = t;
                                     });
                                     ;
                                   },
