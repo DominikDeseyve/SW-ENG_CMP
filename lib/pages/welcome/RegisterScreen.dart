@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cmp/logic/Controller.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
@@ -14,11 +15,29 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController;
   TextEditingController _passwordConfirmController;
 
+  String confirmed = "";
+
+  Future<DateTime> selectedDate;
+  String geburtsdatum = "";
+
+  DateTime selected;
+
+  _showDateTimePicker() async {
+    selected = await showDatePicker(
+      context: context,
+      initialDate: new DateTime.now(),
+      firstDate: new DateTime(1960),
+      lastDate: new DateTime(2050),
+    );
+
+    setState(() {});
+  }
+
   void initState() {
     super.initState();
     this._userController = new TextEditingController();
     this._mailController = new TextEditingController();
-    this._birthController = new TextEditingController();
+    this._birthController = new TextEditingController(text: geburtsdatum);
     this._passwordController = new TextEditingController();
     this._passwordConfirmController = new TextEditingController();
   }
@@ -58,17 +77,28 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    final birthDate = TextFormField(
+    final birthDate = InkWell(
+        child: Container(
+            child: TextField(
+      onTap: () async {
+        await _showDateTimePicker();
+        FocusScope.of(context).requestFocus(new FocusNode());
+
+        var now = selected;
+        var formatter = new DateFormat("dd.MM.yyyy");
+        String formatted = formatter.format(now);
+        print(formatted);
+        _birthController.text = formatted;
+      },
       controller: this._birthController,
-      keyboardType: TextInputType.datetime,
       autofocus: false,
       decoration: InputDecoration(
         icon: Icon(Icons.date_range),
-        hintText: 'Geburtsdatum',
+        hintText: 'Geburtdatum',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
-    );
+    )));
 
     final password = TextFormField(
       controller: this._passwordController,
@@ -76,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
       obscureText: true,
       decoration: InputDecoration(
         icon: Icon(Icons.lock),
-        hintText: 'Password',
+        hintText: 'Passwort',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -88,13 +118,13 @@ class _RegisterPageState extends State<RegisterPage> {
       obscureText: true,
       decoration: InputDecoration(
         icon: Icon(Icons.lock),
-        hintText: 'Passwort wiederholen',
+        labelText: confirmed,
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
 
-    final loginButton = Padding(
+    final registerButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
@@ -103,12 +133,25 @@ class _RegisterPageState extends State<RegisterPage> {
         onPressed: () async {
           String email = this._mailController.text;
           String password = this._passwordController.text;
-
-          bool success =
-              await Controller().authentificator.signUp(email, password);
-          if (success) {
-            Navigator.of(context)
-                .pushReplacementNamed('/register/email', arguments: email);
+          String passwordConfirm = this._passwordConfirmController.text;
+          try {
+            if (password == passwordConfirm) {
+              confirmed = "";
+              bool success =
+                  await Controller().authentificator.signUp(email, password);
+              if (success) {
+                Navigator.of(context)
+                    .pushReplacementNamed('/register/email', arguments: email);
+              }
+            } else {
+              setState(() {
+                confirmed = "Falsches Passwort";
+              });
+            }
+          } catch (e) {
+            print(e.code);
+            //Navigator.of(context)
+            //    .pushReplacementNamed('/register', arguments: email);
           }
         },
         padding: EdgeInsets.all(12),
@@ -162,7 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 8.0),
             passwordConfirm,
             SizedBox(height: 24.0),
-            loginButton,
+            registerButton,
             forgotLabel
           ],
         ),
