@@ -317,6 +317,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Text(
+                    "Einstellungen speichern",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+            child: FlatButton(
+              onPressed: () async {
+                await Controller().authentificator.signOut();
+                Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
+              },
+              padding: const EdgeInsets.all(10),
+              color: Colors.redAccent,
+              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      Icons.directions_run,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
                     "Abmelden",
                     style: TextStyle(
                       fontSize: 18.0,
