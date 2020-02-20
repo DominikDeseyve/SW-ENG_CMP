@@ -63,12 +63,16 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () async {
-          String email = this._mailController.text;
-          String password = this._passwordController.text;
+          try {
+            String email = this._mailController.text;
+            String password = this._passwordController.text;
 
-          bool success = await Controller().authentificator.signIn(email, password);
-          if (success) {
-            Navigator.of(context).pushReplacementNamed('/root');
+            bool success = await Controller().authentificator.signIn(email, password);
+            if (success) {
+              Navigator.of(context).pushReplacementNamed('/root');
+            }
+          } catch (e) {
+            print(e.code);
           }
           //Navigator.of(context).pushNamed(HomePage.tag);
         },
