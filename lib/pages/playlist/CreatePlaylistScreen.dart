@@ -58,7 +58,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
     playlist.description = this._descriptionController.text;
     playlist.visibleness = this._visibleness;
-    //playlist.blackedGenre = this._blackedGenre;
+    playlist.blackedGenre = [];
     playlist.creator = Controller().authentificator.user;
     playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
     Role role = new Role(ROLE.ADMIN);

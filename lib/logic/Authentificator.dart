@@ -13,10 +13,11 @@ class Authentificator {
     this._firebaseAuth = FirebaseAuth.instance;
   }
 
-  Future<bool> signUp(String pEmail, String pPassword) async {
+  Future<bool> signUp(String pEmail, String pPassword, User pUser) async {
     try {
       AuthResult authResult = await this._firebaseAuth.createUserWithEmailAndPassword(email: pEmail, password: pPassword);
-      //this._controller.firebase.createUser(pUser);
+      pUser.userID = authResult.user.uid;
+      this._controller.firebase.createUser(pUser);
       await authResult.user.sendEmailVerification();
       return true;
     } catch (e) {

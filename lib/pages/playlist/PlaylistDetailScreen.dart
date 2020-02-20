@@ -51,21 +51,20 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           ),
           title: Text("Informationen zu " + this.widget._playlist.name),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            // Details View
-            DetailScreen(this.widget._playlist),
-
-            // Teilnehmer View
-            SubscriberScreen(this.widget._playlist),
-
-            (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
-                ?
-                // Anfragen View
-                RequestScreen(this.widget._playlist)
-                : Container()),
-          ],
-        ),
+        body: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+            ? TabBarView(
+                children: <Widget>[
+                  DetailScreen(this.widget._playlist),
+                  SubscriberScreen(this.widget._playlist),
+                  RequestScreen(this.widget._playlist),
+                ],
+              )
+            : TabBarView(
+                children: <Widget>[
+                  DetailScreen(this.widget._playlist),
+                  SubscriberScreen(this.widget._playlist),
+                ],
+              )),
       ),
     );
   }
