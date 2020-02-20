@@ -163,92 +163,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Container(
                           width: 120,
                           child: Text(
-                            "Vorname",
-                            style: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Flexible(
-                        child: TextField(
-                          controller: _usernameController,
-                          style: TextStyle(fontSize: 18),
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 10),
-                            helperStyle: TextStyle(fontSize: 18),
-                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                            labelStyle: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 18,
-                            ),
-                            focusColor: Colors.redAccent,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 5),
-                        child: Container(
-                          width: 120,
-                          child: Text(
-                            "Nachname",
-                            style: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Flexible(
-                        child: TextField(
-                          controller: _usernameController,
-                          style: TextStyle(fontSize: 18),
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 10),
-                            helperStyle: TextStyle(fontSize: 18),
-                            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                            labelStyle: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 18,
-                            ),
-                            focusColor: Colors.redAccent,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 5),
-                        child: Container(
-                          width: 120,
-                          child: Text(
                             "Geburtsdatum",
                             style: TextStyle(
                               color: Colors.redAccent,
@@ -346,6 +260,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 40,
                   margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Padding(
@@ -369,7 +284,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             activeColor: Colors.redAccent,
                             value: _darkmode,
                             onChanged: (value) {
-                              _darkmode = value;
+                              setState(() {
+                                _darkmode = value;
+                              });
                             }),
                       ),
                     ],
