@@ -21,12 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getPlaylists() async {
     Controller().firebase.getCreatedPlaylist().then((pCreatedPlaylist) {
+      if (!mounted) return;
       setState(() {
         this._createdPlaylist = pCreatedPlaylist;
       });
     });
 
     Controller().firebase.getJoinedPlaylist().then((pJoinedPlaylist) {
+      if (!mounted) return;
       setState(() {
         this._joinedPlaylist = pJoinedPlaylist;
       });

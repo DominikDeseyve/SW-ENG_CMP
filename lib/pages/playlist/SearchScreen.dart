@@ -12,17 +12,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   List<Playlist> selectedPlaylists = [];
 
-  initiateSearch(value) async {
-    /*List<Song> songs = await Controller().youTube.search(value);
-    //Controller().soundPlayer.song = songs[0];
-    songs.forEach((Song song) {
-      print(song.titel);
-    });*/
-    if (value.length == 0) {
-      setState(() {
-        selectedPlaylists = [];
-      });
-    }
+  initiateSearch(String value) {
+    if (value.isEmpty) return;
 
     SearchService().searchByName(value).then((QuerySnapshot docs) {
       print(docs.documents.length);
@@ -58,9 +49,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
                 child: TextField(
-                  onChanged: (val) {
-                    initiateSearch(val);
-                  },
+                  onChanged: this.initiateSearch,
                   style: TextStyle(color: Colors.white, decorationColor: Colors.white),
                   autocorrect: false,
                   decoration: InputDecoration(

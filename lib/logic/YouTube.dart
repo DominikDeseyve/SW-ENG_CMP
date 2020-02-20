@@ -5,14 +5,16 @@ class YouTube {
   static String _key = 'AIzaSyDBPz81OJwsDN5EgcSo-L3gGwt2zdw2ix8';
   YoutubeAPI _youtubeAPI;
 
+  String _searchType;
+
   YouTube() {
-    int max = 25;
-    String type = "channel";
-    this._youtubeAPI = new YoutubeAPI(_key, maxResults: max, type: type);
+    int max = 5;
+    _searchType = "video";
+    this._youtubeAPI = new YoutubeAPI(_key, maxResults: max, type: _searchType);
   }
 
   Future<List<Song>> search(String pQuery) async {
-    List<YT_API> results = await this._youtubeAPI.search(pQuery);
+    List<YT_API> results = await this._youtubeAPI.search(pQuery, type: _searchType);
     List<Song> songs = [];
     results.forEach((YT_API item) async {
       Song song = new Song.fromYoutube(item);

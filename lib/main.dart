@@ -44,9 +44,8 @@ class CMP extends StatelessWidget {
     return NestedNavigatorsBlocProvider(
       bloc: NestedNavigatorsBloc<Navigation>(),
       child: MaterialApp(
-        title: 'Eventiger',
+        title: 'CMP',
         home: this._authentificate(),
-        theme: ThemeData(primaryColor: Colors.blueAccent),
         onGenerateRoute: RouteController.generateRoute,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

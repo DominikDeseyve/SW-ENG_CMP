@@ -8,6 +8,7 @@ import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 class PlaylistInnerScreen extends StatefulWidget {
   final Playlist _playlist;
@@ -188,7 +189,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
                   child: OutlineButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/playlist/add');
+                      Navigator.pushNamed(context, '/playlist/add', arguments: this.widget._playlist);
                     },
                     borderSide: BorderSide(
                       color: Colors.black,
@@ -265,6 +266,64 @@ class SongItem extends StatefulWidget {
 }
 
 class _SongItemState extends State<SongItem> {
+  void _showOptionDialog() {
+    HapticFeedback.vibrate();
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        contentPadding: const EdgeInsets.all(0),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Divider(
+              height: 1,
+            ),
+            FlatButton(
+              color: Colors.transparent,
+              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+              onPressed: () async {
+                Controller().firebase.deleteSong(this.widget._playlist, this.widget._song);
+                Navigator.of(dialogContext).pop(null);
+              },
+              child: Container(
+                width: MediaQuery.of(dialogContext).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 5, bottom: 5, right: 0),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: Text(
+                            'Song entfernen',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     String _currentSongID = '-1';
     if (Controller().soundPlayer.currentSong != null) {
@@ -272,6 +331,11 @@ class _SongItemState extends State<SongItem> {
     }
     return InkWell(
       onTap: () {},
+      onLongPress: () {
+        if (this.widget._song.creator.userID == Controller().authentificator.user.userID) {
+          this._showOptionDialog();
+        }
+      },
       child: Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         color: (_currentSongID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),

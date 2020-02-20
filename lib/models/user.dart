@@ -22,19 +22,18 @@ class User {
     } else {
       this._userID = pSnapOrMap.documentID;
     }
-    this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
     this._username = pSnapOrMap['username'];
     this._imageURL = pSnapOrMap['image_url'];
+    if (pSnapOrMap['birthday'] != null) {
+      this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
+    }
 
     if (pSnapOrMap['role'] != null) {
       this._role = Role.fromFirebase(pSnapOrMap['role']);
     }
-
-    if (pSnapOrMap['downvotes'] != null) {
+    if (pSnapOrMap['upvotes'] != null) {
       this._upvotedSongs = List.from(pSnapOrMap['upvotes']);
       this._downvotedSongs = List.from(pSnapOrMap['downvotes']);
-      print(_downvotedSongs);
-      print(upvotedSongs);
     }
   }
 
@@ -57,6 +56,14 @@ class User {
   //***************************************************//
   //*********   SETTER
   //***************************************************//
+  set userID(String pUserID) {
+    this._userID = pUserID;
+  }
+
+  set username(String pUsername) {
+    this._username = pUsername;
+  }
+
   set settings(Settings pSettings) {
     this._settings = pSettings;
   }

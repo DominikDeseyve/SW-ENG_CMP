@@ -20,7 +20,6 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
       length: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID ? 3 : 2),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           backgroundColor: Color(0xFF253A4B),
           bottom: TabBar(
             indicator: BoxDecoration(),
@@ -52,50 +51,19 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           ),
           title: Text("Informationen zu " + this.widget._playlist.name),
         ),
-        body: Stack(
+        body: TabBarView(
           children: <Widget>[
-            Container(
-              // Add box decoration
-              decoration: BoxDecoration(
-                // Box decoration takes a gradient
-                gradient: LinearGradient(
-                  // Where the linear gradient begins and ends
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  // Add one stop for each color. Stops should increase from 0 to 1
-                  stops: [0.0, 1.0],
-                  colors: [
-                    // Colors are easy thanks to Flutter's Colors class.
-                    Colors.grey[400],
-                    Colors.white,
-                  ],
-                ),
-              ),
-            ),
-            //kompletter Bildschirm
-            Container(
-              padding: EdgeInsets.only(top: 15),
-              child: TabBarView(
-                children: <Widget>[
-                  // Details View
-                  DetailScreen(this.widget._playlist),
+            // Details View
+            DetailScreen(this.widget._playlist),
 
-                  // Teilnehmer View
-                  SubscriberScreen(this.widget._playlist),
+            // Teilnehmer View
+            SubscriberScreen(this.widget._playlist),
 
-                  (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
-                      ?
-                      // Anfragen View
-                      RequestScreen(this.widget._playlist)
-                      : Container()),
-                ],
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.01,
-              color: Colors.redAccent,
-            ),
+            (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+                ?
+                // Anfragen View
+                RequestScreen(this.widget._playlist)
+                : Container()),
           ],
         ),
       ),

@@ -19,6 +19,7 @@ class _SubscriberScreenState extends State<SubscriberScreen> {
     super.initState();
 
     Controller().firebase.getPlaylistUser(this.widget._playlist).then((List<User> pUserList) {
+      if (!mounted) return;
       setState(() {
         this._joinedUser = pUserList;
       });

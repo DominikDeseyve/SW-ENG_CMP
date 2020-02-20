@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/HTTP.dart';
+import 'package:cmp/models/user.dart';
 import 'package:youtube_api/youtube_api.dart';
 
 class Song {
@@ -11,14 +12,20 @@ class Song {
   String _soundURL;
   String _imageURL;
   double _ranking;
+  User _creator;
   DateTime _createdAt;
   int _upvoteCount;
   int _downvoteCount;
 
   Song.fromYoutube(YT_API pItem) {
+    this._artist = pItem.channelTitle;
     this._titel = pItem.title;
     this._imageURL = pItem.thumbnail['high']['url'];
     this._youTubeURL = pItem.url.replaceAll(' ', '');
+    User creator = new User();
+    creator.userID = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.userID;
+    this._creator = creator;
   }
   Song.fromFirebase(DocumentSnapshot pSnap) {
     this._songID = pSnap.documentID;
@@ -28,6 +35,7 @@ class Song {
     this._imageURL = pSnap['image_url'];
     this._ranking = double.parse(pSnap['ranking'].toString());
     this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
+    this._creator = new User.fromFirebase(pSnap['creator']);
     this._downvoteCount = pSnap['downvote_count'];
     this._upvoteCount = pSnap['upvote_count'];
     //this.loadURL();
@@ -43,6 +51,7 @@ class Song {
       'upvote_count': 0,
       'downvote_count': 0,
       'time': -1,
+      'creator': this._creator.toFirebase(),
     };
   }
 
@@ -98,5 +107,9 @@ class Song {
 
   int get upvoteCount {
     return this._upvoteCount;
+  }
+
+  User get creator {
+    return this._creator;
   }
 }

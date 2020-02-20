@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
@@ -61,9 +62,32 @@ class Firebase {
     return ref.documentID;
   }
 
+  Future<void> createSong(Playlist pPlaylist, Song pSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').add(pSong.toFirebase());
+  }
+
+  Future<void> deleteSong(Playlist pPlaylist, Song pSong) async {
+    //TODO: remove whole song data
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
+  }
+
+  Future<void> requestPlaylist(Playlist pPlaylist, Request pRequest) async {
+    User user = this._controller.authentificator.user;
+    Map userWithRequest = user.toFirebase()..addAll(pRequest.toFirebase());
+
+    await this._ref.collection('user_requested_playlist').document(user.userID).setData(userWithRequest);
+  }
+
   Future<void> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) {
     Map userWithRole = pUser.toFirebase()..addAll(pRole.toFirebase());
     return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
+  }
+
+  Future<void> updateUserData(User pUser) async {
+    await this._ref.collection('user_requested_playlist').document(pUser.userID).updateData({
+      'user': pUser.toFirebase(),
+    });
+    await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
   }
 
   Future<void> updatePlaylist(Playlist pPlaylist) async {
@@ -185,5 +209,22 @@ class Firebase {
       });
     });
     return user;
+  }
+
+  Future<List<Request>> getPlaylistRequests(Playlist pPlaylist) async {
+    List<Request> requests = [];
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((DocumentSnapshot pSnap) {
+        requests.add(Request.fromFirebase(pSnap));
+      });
+    });
+    return requests;
+  }
+
+  Future<void> updateRequest(Playlist pPlaylist, Request pRequest) async {
+    if (pRequest.status == 'ACCEPT') {
+      await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pRequest.user.userID).setData(pRequest.user.toFirebase());
+    }
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').document(pRequest.requestID).updateData(pRequest.toFirebase());
   }
 }

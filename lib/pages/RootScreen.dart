@@ -15,52 +15,46 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Scaffold(
-            body: NestedNavigators(
-              items: {
-                Navigation.home: NestedNavigatorItem(
-                  initialRoute: '/home',
-                  icon: Icons.home,
-                ),
-                Navigation.explore: NestedNavigatorItem(
-                  initialRoute: '/playlist/search',
-                  icon: Icons.search,
-                ),
-                Navigation.profile: NestedNavigatorItem(
-                  initialRoute: '/playlist/create',
-                  icon: Icons.add_circle,
-                ),
-                Navigation.settings: NestedNavigatorItem(
-                  initialRoute: '/settings',
-                  icon: Icons.settings,
-                ),
-              },
-              clearStackAfterTapOnCurrentTab: true,
-              buildCustomBottomNavigationItem: (key, item, selected) {
-                return Container(
-                  height: 50,
-                  child: Icon(
-                    item.icon,
-                    size: selected ? 28 : 26,
-                    color: selected ? Colors.redAccent : Colors.grey,
-                  ),
-                );
-              },
-              generateRoute: RouteController.generateRoute,
-            ),
+    return NestedNavigators(
+      initialNavigatorKey: Navigation.home,
+      items: {
+        Navigation.home: NestedNavigatorItem(
+          initialRoute: '/home',
+          icon: Icons.home,
+        ),
+        Navigation.explore: NestedNavigatorItem(
+          initialRoute: '/playlist/search',
+          icon: Icons.search,
+        ),
+        Navigation.profile: NestedNavigatorItem(
+          initialRoute: '/playlist/create',
+          icon: Icons.add_circle,
+        ),
+        Navigation.settings: NestedNavigatorItem(
+          initialRoute: '/settings',
+          icon: Icons.settings,
+        ),
+      },
+      clearStackAfterTapOnCurrentTab: true,
+      buildCustomBottomNavigationItem: (key, item, selected) {
+        return Container(
+          height: 50,
+          child: Icon(
+            item.icon,
+            size: selected ? 28 : 26,
+            color: selected ? Colors.redAccent : Colors.grey,
           ),
-          Positioned(
-            bottom: 50,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: SoundBar(),
-            ),
+        );
+      },
+      generateRoute: RouteController.generateRoute,
+
+      /*Positioned(
+          bottom: 50,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: SoundBar(),
           ),
-        ],
-      ),
+        ),*/
     );
   }
 }
