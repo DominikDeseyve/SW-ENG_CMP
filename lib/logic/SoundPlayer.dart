@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/foundation.dart';
 class SoundPlayer extends ChangeNotifier {
   AudioPlayer _audioPlayer;
   Queue _playingQueue;
+  Playlist _playlingPlaylist;
   int _index;
 
   SoundPlayer() {
@@ -73,21 +75,32 @@ class SoundPlayer extends ChangeNotifier {
   void nextSong() async {
     print("skip Song");
     //this._index++;
+   
     //delete old song
+    await this._audioPlayer.pause();
+    print(this.currentSong.titel);
     this._playingQueue.deleteFirst();
+    print(this.currentSong.titel);
     await this._loadSong();
+    await this._audioPlayer.resume();
     this.notifyListeners();
     this._prepareNextSongs();
   }
 
-  void setQueue(Queue pQueue) {
+  void setQueue(Queue pQueue, Playlist pPlaylist) {
     this._playingQueue = pQueue;
+    this._playlingPlaylist = pPlaylist;
     this._playingQueue.songs[0].loadURL().then((_) {
       this._loadSong().then((_) {
         this.play();
       });
     });
     this._prepareNextSongs();
+  }
+
+  void dispose() {
+    this._audioPlayer.release();
+    super.dispose();
   }
 
   //***************************************************//
@@ -108,6 +121,10 @@ class SoundPlayer extends ChangeNotifier {
 
   Queue get queue {
     return this._playingQueue;
+  }
+
+  Playlist get playlist {
+    return this._playlingPlaylist;
   }
 
   Song get currentSong {

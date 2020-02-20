@@ -24,10 +24,10 @@ class Visibleness {
   String get longValue {
     switch (this._key) {
       case 'PRIVATE':
-        return 'privates Event';
+        return 'private Playlist';
         break;
       case 'PUBLIC':
-        return 'öffentliches Event';
+        return 'öffentliche Playlist';
         break;
       default:
         return 'error';

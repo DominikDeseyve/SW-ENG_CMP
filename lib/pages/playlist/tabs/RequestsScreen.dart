@@ -85,7 +85,8 @@ class RequestItem extends StatelessWidget {
               icon: Icon(Icons.check),
               onPressed: () {
                 this._request.accept();
-                Controller().firebase.updateRequest(this._playlist, this._request);
+                Controller().firebase.updateRequest(this._playlist, this._request).then((_) {});
+                this._deleteRequestCallback(this._request);
               },
             ),
             IconButton(

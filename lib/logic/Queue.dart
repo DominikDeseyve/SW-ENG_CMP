@@ -63,10 +63,9 @@ class Queue {
             this._songs[index] = song;
             break;
           case DocumentChangeType.removed:
-            /*int index = this._songs.indexWhere((item) => item.songID == song.songID);
-            if (song.ranking == this._songs[index].ranking) {
-              this._songs.removeAt(index);
-            }*/
+            print("removed");
+            int index = this._songs.indexWhere((item) => item.songID == song.songID);
+            this._songs.removeAt(index);
             break;
         }
       });
@@ -84,7 +83,7 @@ class Queue {
   }
 
   void deleteFirst() {
-    this._songs.remove(0);
+    this._songs.removeAt(0);
   }
 
   void cancel() {

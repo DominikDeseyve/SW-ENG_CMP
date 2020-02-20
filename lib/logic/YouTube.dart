@@ -2,7 +2,8 @@ import 'package:cmp/models/song.dart';
 import 'package:youtube_api/youtube_api.dart';
 
 class YouTube {
-  static String _key = 'AIzaSyDBPz81OJwsDN5EgcSo-L3gGwt2zdw2ix8';
+  //static String _key = 'AIzaSyDBPz81OJwsDN5EgcSo-L3gGwt2zdw2ix8';
+  static String _key = 'AIzaSyC3VdXymAHtvfsrkf3wgBauGdCbCY4VqVY';
   YoutubeAPI _youtubeAPI;
 
   String _searchType;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +10,34 @@ class CurrentSongScreen extends StatefulWidget {
 
 class _CurrentSongScreenState extends State<CurrentSongScreen> {
   Duration _position;
+  Duration _duration;
+  StreamSubscription _durationStream;
 
   void initState() {
     super.initState();
     this._position = new Duration();
+    this._duration = new Duration();
+
+    Controller().soundPlayer.duration.then((int duration) {
+      setState(() {
+        this._duration = new Duration(milliseconds: duration);
+      });
+    });
+    this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
+      setState(() {
+        this._position = p;
+      });
+    });
   }
 
   String _formatDuration(Duration pDuration) {
     int minutes = pDuration.inMinutes;
     int seconds = pDuration.inSeconds - (minutes * 60);
-    return minutes.toString() + ':' + seconds.toString();
+    String secondsString = seconds.toString();
+    if (seconds < 10) {
+      secondsString = '0' + secondsString;
+    }
+    return minutes.toString() + ':' + secondsString;
   }
 
   Widget build(BuildContext context) {
@@ -52,13 +72,13 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             width: 300,
             height: 300,
             padding: const EdgeInsets.only(top: 30, bottom: 30),
-            child: Image.network('https://images.genius.com/1437b72d059745e7dfaa8d109ff4d9fe.1000x1000x1.jpg'),
+            child: Image.network(Controller().soundPlayer.currentSong.imageURL),
           ),
           Slider(
             value: this._position.inSeconds.toDouble(),
             min: 0,
-            max: 352,
-            divisions: 352,
+            max: this._duration.inSeconds.toDouble(),
+            divisions: this._duration.inSeconds,
             activeColor: Colors.redAccent,
             label: this._formatDuration(this._position),
             inactiveColor: Colors.black,
@@ -73,7 +93,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             children: <Widget>[
               Text(this._formatDuration(this._position)),
               Spacer(),
-              Text('3:55'),
+              Text(this._formatDuration(this._duration)),
             ],
           ),
           SizedBox(
@@ -111,5 +131,10 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
         ],
       ),
     );
+  }
+
+  void dispose() {
+    this._durationStream.cancel();
+    super.dispose();
   }
 }

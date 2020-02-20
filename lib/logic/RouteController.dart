@@ -9,8 +9,8 @@ import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/EditPlaylistScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
+import 'package:cmp/pages/playlist/PlaylistSearchScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
-import 'package:cmp/pages/playlist/SearchScreen.dart';
 import 'package:cmp/pages/welcome/Email_confirm.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
 import 'package:cmp/pages/welcome/RegisterScreen.dart';
@@ -36,7 +36,7 @@ class RouteController {
         return Welcome();
         break;
       case '/playlist/search':
-        return SearchScreen();
+        return PlaylistSearchScreen();
         break;
       case '/playlist/create':
         return CreatePlaylistScreen();

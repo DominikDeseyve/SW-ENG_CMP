@@ -69,31 +69,32 @@ class _SoundBarState extends State<SoundBar> {
                   Controller().soundPlayer.currentSong,
                   width: 50,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        Controller().soundPlayer.currentSong.artist,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withOpacity(0.6),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          Controller().soundPlayer.currentSong.artist + ' aus  ' + Controller().soundPlayer.playlist.name,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white.withOpacity(0.6),
+                          ),
                         ),
-                      ),
-                      Text(
-                        Controller().soundPlayer.currentSong.titel,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
+                        Text(
+                          Controller().soundPlayer.currentSong.titel,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                Spacer(),
                 IconButton(
                   onPressed: this._togglePlay,
                   icon: Icon(

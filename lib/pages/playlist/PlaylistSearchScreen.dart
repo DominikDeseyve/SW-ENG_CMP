@@ -1,43 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/logic/Firebase.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddSongScreen extends StatefulWidget {
-  final Playlist _playlist;
-  AddSongScreen(this._playlist);
-
-  _AddSongScreenState createState() => _AddSongScreenState();
+class PlaylistSearchScreen extends StatefulWidget {
+  _PlaylistSearchScreenState createState() => _PlaylistSearchScreenState();
 }
 
-class _AddSongScreenState extends State<AddSongScreen> {
-  List<Song> selectedSong = [];
+class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
+  List<Playlist> selectedPlaylists = [];
 
-  initiateSearch(String pValue) async {
-    if (pValue.isEmpty) return;
-    List<Song> songs = await Controller().youTube.search(pValue);
-    setState(() {
-      selectedSong = [];
-      songs.forEach((Song song) {
-        selectedSong.add(song);
+  initiateSearch(String value) {
+    Controller().firebase.searchPlaylist(value).then((List<Playlist> pPlaylists) {
+      setState(() {
+        this.selectedPlaylists = pPlaylists;
       });
     });
   }
 
-  void _saveSong(Song pSong) async {
-    await Controller().firebase.createSong(this.widget._playlist, pSong);
-    Navigator.of(context).pop();
-  }
-
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[
           Container(
             child: Text(
-              "Song suchen",
+              "Suchen",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 50.0, color: Color(0xFF253A4B)),
             ),
@@ -48,13 +39,14 @@ class _AddSongScreenState extends State<AddSongScreen> {
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
             child: TextField(
-              onSubmitted: this.initiateSearch,
+              onChanged: this.initiateSearch,
               style: TextStyle(color: Colors.white, decorationColor: Colors.white),
               autocorrect: false,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search, color: Colors.white),
                 hintText: "Playlist eingeben",
                 hintStyle: TextStyle(color: Colors.white),
+                suffixIcon: Icon(Icons.camera_alt, color: Colors.white),
                 border: InputBorder.none,
               ),
             ),
@@ -62,9 +54,9 @@ class _AddSongScreenState extends State<AddSongScreen> {
           ListView.builder(
             physics: ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: this.selectedSong.length,
+            itemCount: this.selectedPlaylists.length,
             itemBuilder: (BuildContext context, int index) {
-              return SongtItem(this.selectedSong[index], this._saveSong);
+              return PlaylistItem(this.selectedPlaylists[index]);
             },
           ),
         ],
@@ -73,36 +65,35 @@ class _AddSongScreenState extends State<AddSongScreen> {
   }
 }
 
-class SongtItem extends StatelessWidget {
-  final Song _song;
-  final Function(Song) _saveSongCallback;
-  SongtItem(this._song, this._saveSongCallback);
+class PlaylistItem extends StatelessWidget {
+  final Playlist _playlist;
+  PlaylistItem(this._playlist);
 
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        this._saveSongCallback(this._song);
+        Navigator.pushNamed(context, '/playlist', arguments: _playlist);
       },
       child: ListTile(
         leading: Container(
-          width: 60.0,
-          height: 60.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(_song.imageURL),
-            ),
-          ),
-        ),
+            width: 60.0,
+            height: 60.0,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  //image: AssetImage('assets/images/playlist.jpg')
+                  image: NetworkImage(_playlist.imageURL),
+                  //image: Image.network(data['url']),
+                ))),
         title: Container(
           child: Text(
-            _song.titel,
+            _playlist.name,
             style: TextStyle(color: Color(0xFF253A4B), fontSize: 20.0),
           ),
         ),
         subtitle: Text(
-          this._song.artist,
+          "Playlist von " + this._playlist.creator.username,
           style: TextStyle(color: Color(0xFF253A4B)),
         ),
         trailing: Icon(

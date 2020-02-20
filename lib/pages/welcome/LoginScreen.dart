@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController = new TextEditingController(text: 'dominik@deseyve.com');
+    this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
     this._passwordController = new TextEditingController(text: 'test123');
   }
 

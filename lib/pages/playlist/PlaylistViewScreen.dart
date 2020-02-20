@@ -2,6 +2,8 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
+import 'package:cmp/models/user.dart';
+import 'package:cmp/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -15,9 +17,16 @@ class PlaylistViewScreen extends StatefulWidget {
 
 class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
   Request _request;
+  List<User> _previewUser = [];
 
   void initState() {
     super.initState();
+
+    Controller().firebase.getPlaylistUser(this.widget._playlist).then((List<User> pUsers) {
+      setState(() {
+        this._previewUser = pUsers;
+      });
+    });
 
     if (this.widget._playlist.visibleness.key == 'PRIVATE') {
       Controller().firebase.getPlaylistRequests(this.widget._playlist, pUser: Controller().authentificator.user).then((pList) {
@@ -173,124 +182,27 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           ],
                         ),
                       ),
-                      GridView.count(
+                      GridView.builder(
                         primary: false,
                         shrinkWrap: true,
-                        mainAxisSpacing: 15,
-                        childAspectRatio: 1,
-                        crossAxisCount: 3,
-                        children: <Widget>[
-                          Column(
+                        itemCount: this._previewUser.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.width * 0.22,
+                              Avatar(
+                                this._previewUser[index],
                                 width: MediaQuery.of(context).size.width * 0.22,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: (AssetImage('assets/images/playlist.jpg')),
-                                  ),
-                                ),
                               ),
                               Text(
-                                "BastiSoftware",
+                                this._previewUser[index].username,
                                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
                               ),
                             ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.width * 0.22,
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: (AssetImage('assets/images/playlist.jpg')),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "DanielSoftware",
-                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.width * 0.22,
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: (AssetImage('assets/images/playlist.jpg')),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "RobinSoftware",
-                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.width * 0.22,
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: (AssetImage('assets/images/playlist.jpg')),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "DeseyveSoftware",
-                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.width * 0.22,
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: (AssetImage('assets/images/playlist.jpg')),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "FlobeSoftware",
-                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ],
                   ),

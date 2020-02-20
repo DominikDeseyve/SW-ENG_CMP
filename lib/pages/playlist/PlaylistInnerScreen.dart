@@ -39,6 +39,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void _loadMoreSongs(QuerySnapshot pQuery) {
     print("SONGS LOADED: " + pQuery.documentChanges.length.toString());
+    if (!mounted) return;
     setState(() {});
   }
 
@@ -171,7 +172,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
                   child: OutlineButton(
                     onPressed: () {
-                      Controller().soundPlayer.setQueue(this._queue);
+                      Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
                     },
                     borderSide: BorderSide(
                       color: Colors.black,
@@ -367,26 +368,28 @@ class _SongItemState extends State<SongItem> {
               this.widget._song,
             ),
             SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  this.widget._song.artist,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    this.widget._song.artist,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
                   ),
-                ),
-                Text(
-                  this.widget._song.titel,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
+                  Text(
+                    this.widget._song.titel,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Spacer(),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

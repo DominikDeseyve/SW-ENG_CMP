@@ -2,8 +2,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatefulWidget {
-  Playlist _playlist;
-
+  final Playlist _playlist;
   DetailScreen(this._playlist);
 
   _DetailScreenState createState() => _DetailScreenState();
@@ -58,6 +57,28 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
               Text(
                 this.widget._playlist.maxAttendees.toString(),
+                style: TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Sichtbarkeit der Playlist",
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+              Divider(
+                thickness: 1.5,
+                color: Color(0xFF253A4B),
+              ),
+              Text(
+                this.widget._playlist.visibleness.longValue,
                 style: TextStyle(fontSize: 15),
               ),
             ],

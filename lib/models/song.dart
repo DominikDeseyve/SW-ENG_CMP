@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/HTTP.dart';
 import 'package:cmp/models/user.dart';
+import 'package:html_unescape/html_unescape_small.dart';
 import 'package:youtube_api/youtube_api.dart';
 
 class Song {
   String _songID;
   String _titel;
   String _artist;
-  String _youTubeURL;
+  String _youTubeID;
   String _soundURL;
   String _imageURL;
   double _ranking;
@@ -19,9 +20,9 @@ class Song {
 
   Song.fromYoutube(YT_API pItem) {
     this._artist = pItem.channelTitle;
-    this._titel = pItem.title;
+    this._titel = new HtmlUnescape().convert(pItem.title);
     this._imageURL = pItem.thumbnail['high']['url'];
-    this._youTubeURL = pItem.url.replaceAll(' ', '');
+    this._youTubeID = pItem.id;
     User creator = new User();
     creator.userID = Controller().authentificator.user.userID;
     creator.username = Controller().authentificator.user.userID;
@@ -31,7 +32,7 @@ class Song {
     this._songID = pSnap.documentID;
     this._titel = pSnap['titel'];
     this._artist = pSnap['artist'];
-    this._youTubeURL = pSnap['youtube_url'];
+    this._youTubeID = pSnap['youtube_id'];
     this._imageURL = pSnap['image_url'];
     this._ranking = double.parse(pSnap['ranking'].toString());
     this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
@@ -45,7 +46,7 @@ class Song {
       'titel': this._titel,
       'artist': this._artist,
       'image_url': this._imageURL,
-      'youtube_url': this._youTubeURL,
+      'youtube_id': this._youTubeID,
       'ranking': 1,
       'created_at': DateTime.now(),
       'upvote_count': 0,
@@ -56,10 +57,18 @@ class Song {
   }
 
   Future<void> loadURL() async {
-    return await HTTP.getSoundURL('31kEycTIXnI').then((String pURL) {
+    return await HTTP.getSoundURL(this._youTubeID).then((String pURL) {
       print("URL LOADED: " + pURL);
       this._soundURL = pURL;
     });
+  }
+
+  set upvoteCount(int pNr) {
+    this._upvoteCount = pNr;
+  }
+
+  set downvoteCount(int pNr) {
+    this._downvoteCount = pNr;
   }
 
   //***************************************************//

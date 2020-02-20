@@ -12,8 +12,8 @@ class Role {
   Role(ROLE pRole) {
     this._role = pRole;
   }
-  Role.fromFirebase(String pValue) {
-    switch (pValue) {
+  Role.fromFirebase(Map pMap) {
+    switch (pMap['key']) {
       case 'ROLE.MEMBER':
         this._role = ROLE.MEMBER;
         break;
@@ -28,7 +28,10 @@ class Role {
 
   Map<String, dynamic> toFirebase() {
     return {
-      'role': this._role.toString(),
+      'role': {
+        'key': this._role.toString(),
+        'priority': this.priority,
+      },
     };
   }
 
@@ -69,6 +72,23 @@ class Role {
         break;
       default:
         return Icons.error;
+        break;
+    }
+  }
+
+  int get priority {
+    switch (this._role) {
+      case ROLE.MEMBER:
+        return 0;
+        break;
+      case ROLE.ADMIN:
+        return 2;
+        break;
+      case ROLE.MASTER:
+        return 1;
+        break;
+      default:
+        return -1;
         break;
     }
   }
