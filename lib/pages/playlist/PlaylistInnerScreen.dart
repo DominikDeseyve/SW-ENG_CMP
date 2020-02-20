@@ -163,45 +163,43 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
             ],
           ),
-          (Controller().authentificator.user.role.role == ROLE.MASTER || Controller().authentificator.user.role.role == ROLE.ADMIN
-              ? Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 28,
-                        margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
-                        child: OutlineButton(
-                          onPressed: () {
-                            Controller().soundPlayer.setQueue(this._queue);
-                          },
-                          borderSide: BorderSide(
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 28,
+                  margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
+                  child: OutlineButton(
+                    onPressed: () {
+                      Controller().soundPlayer.setQueue(this._queue);
+                    },
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: Icon(
+                            Icons.playlist_add,
+                            size: 18.0,
                             color: Colors.black,
                           ),
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  Icons.playlist_add,
-                                  size: 18.0,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "Play",
-                                style: TextStyle(fontSize: 14.0, color: Colors.black),
-                              )
-                            ],
-                          ),
                         ),
-                      ),
-                    ],
+                        Text(
+                          "Play",
+                          style: TextStyle(fontSize: 14.0, color: Colors.black),
+                        )
+                      ],
+                    ),
                   ),
-                )
-              : SizedBox.shrink()),
+                ),
+              ],
+            ),
+          ),
           Container(
             child: Column(
               children: <Widget>[

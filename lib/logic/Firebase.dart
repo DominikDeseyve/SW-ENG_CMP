@@ -33,13 +33,14 @@ class Firebase {
     return keywordList;
   }
 
-  Future<String> createUser(User pUser) async {
-    DocumentReference ref = await this._ref.collection('user').add({
+  Future<void> createUser(User pUser) async {
+    await this._ref.collection('user').document(pUser.userID).setData({
       'username': pUser.username,
       'image_url': null,
       'birthday': pUser.birthday,
+      'downvotes': [],
+      'upvotes': [],
     });
-    return ref.documentID;
   }
 
   Future<String> createPlaylist(Playlist pPlaylist) async {

@@ -64,6 +64,10 @@ class User {
     this._username = pUsername;
   }
 
+  set birthday(DateTime pBirthday) {
+    this._birthday = pBirthday;
+  }
+
   set settings(Settings pSettings) {
     this._settings = pSettings;
   }

@@ -1,3 +1,4 @@
+import 'package:cmp/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:intl/intl.dart';
@@ -137,11 +138,12 @@ class _RegisterPageState extends State<RegisterPage> {
           try {
             if (password == passwordConfirm) {
               confirmed = "";
-              bool success =
-                  await Controller().authentificator.signUp(email, password);
+              User user = new User();
+              user.username = this._userController.text;
+              user.birthday = DateTime.now();
+              bool success = await Controller().authentificator.signUp(email, password, user);
               if (success) {
-                Navigator.of(context)
-                    .pushReplacementNamed('/register/email', arguments: email);
+                Navigator.of(context).pushReplacementNamed('/register/email', arguments: email);
               }
             } else {
               setState(() {
