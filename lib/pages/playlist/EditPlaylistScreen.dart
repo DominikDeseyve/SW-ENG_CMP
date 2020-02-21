@@ -17,15 +17,15 @@ class EditPlaylistScreen extends StatefulWidget {
 }
 
 class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
-  List<Visibleness> _visiblenessList;
-
   int _radioGroup = 0;
 
   var _selectedImage;
   TextEditingController _nameController;
   TextEditingController _maxAttendeesController;
   TextEditingController _descriptionController;
+
   Visibleness _visibleness;
+  List<Visibleness> _visiblenessList;
   //List<Genre> _blackedGenre = [];
 
   void initState() {

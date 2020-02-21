@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +12,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  File _selectedImage;
+  var _selectedImage;
 
   TextEditingController _usernameController;
-  TextEditingController _firstnameController;
-  TextEditingController _lastnameController;
   TextEditingController _birthdayController;
   TextEditingController _passwordController;
 
@@ -22,11 +22,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
+    if (Controller().authentificator.user.imageURL != null) {
+      this._selectedImage = Controller().authentificator.user.imageURL;
+    }
+
     this._usernameController = new TextEditingController();
     this._usernameController.text = Controller().authentificator.user.username;
 
     this._birthdayController = new TextEditingController();
-    this._birthdayController.text = Controller().authentificator.user.birthday.toString();
+    this._birthdayController.text = DateFormat("dd.MM.yyyy").format(Controller().authentificator.user.birthday);
 
     this._passwordController = new TextEditingController();
     this._passwordController.text = "passwort hier!";
@@ -37,6 +41,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       this._selectedImage = image;
     });
+  }
+
+  void _editUser() async {
+    Controller().authentificator.user.username = this._usernameController.text;
+    Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
+
+    if (this._selectedImage != null) {
+      if (this._selectedImage.runtimeType == String) {
+        Controller().authentificator.user.imageURL = this._selectedImage;
+      } else {
+        Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
+      }
+    }
+
+    await Controller().firebase.updateUser();
+
+    Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
+    Navigator.of(context).pop();
+  }
+
+  Future<String> _chooseDate() async {
+    int year = DateTime.now().year + 1;
+
+    DateTime selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(year),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark(),
+          child: child,
+        );
+      },
+    );
+
+    return DateFormat("dd.MM.yyyy").format(selectedDate);
   }
 
   @override
@@ -74,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: (this._selectedImage == null ? AssetImage('assets/images/plus.png') : FileImage(this._selectedImage)),
+                    image: (this._selectedImage == null ? AssetImage("assets/images/person.png") : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
                   ),
                 ),
               ),
@@ -149,7 +190,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: TextField(
                     controller: _birthdayController,
                     style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.datetime,
+                    onTap: () {
+                      setState(() {
+                        _chooseDate().then((value) => _birthdayController.text = value);
+                      });
+                    },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10),
                       helperStyle: TextStyle(fontSize: 18),
@@ -168,7 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           Container(
             height: 40,
-            margin: EdgeInsets.fromLTRB(30, 0, 30, 10),
+            margin: EdgeInsets.fromLTRB(30, 0, 30, 30),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -193,6 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     controller: _passwordController,
                     style: TextStyle(fontSize: 18),
                     keyboardType: TextInputType.text,
+                    obscureText: true,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10),
                       helperStyle: TextStyle(fontSize: 18),
@@ -212,17 +259,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
             child: FlatButton(
-              onPressed: null,
+              onPressed: () async {
+                this._editUser();
+              },
               padding: const EdgeInsets.all(10),
               color: Colors.redAccent,
-              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
                     child: Icon(
-                      Icons.directions_run,
+                      Icons.check,
                       size: 20.0,
                       color: Colors.white,
                     ),

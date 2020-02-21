@@ -11,16 +11,18 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _darkmode;
-  String _imageUrl;
+  var _userImage;
+  String _username;
 
   void initState() {
-    //_darkmode = Controller().authentificator.user.settings.darkMode;
-    _darkmode = false;
-    _imageUrl = Controller().authentificator.user.imageURL;
+    _darkmode = Controller().authentificator.user.darkmode;
+    _userImage = Controller().authentificator.user.imageURL;
+    _username = Controller().authentificator.user.username;
 
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -41,32 +43,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
             height: MediaQuery.of(context).size.height * 0.015,
             color: Colors.redAccent,
           ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed('/settings/profile');
-            },
-            child: Container(
-              height: 40,
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (_imageUrl == null ? AssetImage('assets/images/playlist.jpg') : NetworkImage(_imageUrl)),
-                      ),
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed('/settings/profile').then((value) {
+                  setState(() {
+                    this._userImage = Controller().authentificator.user.imageURL;
+                    this._username = Controller().authentificator.user.username;
+                  });
+                });
+              },
+              child: ListTile(
+                leading: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.black26),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: (this._userImage == null ? AssetImage("assets/images/person.png") : NetworkImage(this._userImage)),
                     ),
                   ),
-                ],
+                ),
+                title: Text(
+                  _username,
+                  style: TextStyle(fontSize: 18),
+                ),
+                subtitle: Text(
+                  "Profil anzeigen",
+                  style: TextStyle(fontSize: 14, color: Colors.redAccent),
+                ),
+                trailing: Icon(Icons.keyboard_arrow_right),
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(20, 35, 20, 0),
+            margin: EdgeInsets.fromLTRB(20, 25, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -81,7 +95,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: Color(0xFF253A4B),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      if (_darkmode == true) {
+                        _darkmode = false;
+                      } else {
+                        _darkmode = true;
+                      }
+                    });
+                  },
                   child: Container(
                     height: 40,
                     margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
@@ -150,7 +172,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 onTap: () {},
                                 child: Container(
                                   margin: EdgeInsets.only(top: 5),
-                                  width: 60,
+                                  width: 30,
+                                  height: 30,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
@@ -159,10 +182,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 5,
+                              ),
                               InkWell(
                                 onTap: () {},
                                 child: Container(
-                                  width: 60,
+                                  width: 30,
+                                  height: 30,
                                   margin: EdgeInsets.only(top: 5),
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
