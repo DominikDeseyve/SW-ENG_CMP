@@ -62,6 +62,9 @@ flutter:
   assets:
     - assets/images/playlist.jpg
     - assets/images/plus.png
+    - assets/images/flags/germany.png
+    - assets/images/flags/united-kingdom.png
+    
   # fonts:
   #   - family: Schyler
   #     fonts:

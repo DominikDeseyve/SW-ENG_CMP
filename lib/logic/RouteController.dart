@@ -11,6 +11,7 @@ import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
 import 'package:cmp/pages/playlist/SearchScreen.dart';
+import 'package:cmp/pages/settings/ProfileScreen.dart';
 import 'package:cmp/pages/welcome/Email_confirm.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
 import 'package:cmp/pages/welcome/RegisterScreen.dart';
@@ -90,6 +91,9 @@ class RouteController {
         break;
       case '/settings':
         return SettingsScreen();
+        break;
+      case '/settings/profile':
+        return ProfileScreen();
         break;
 
       default:
