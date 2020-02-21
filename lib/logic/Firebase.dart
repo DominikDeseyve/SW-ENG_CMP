@@ -8,6 +8,7 @@ import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/logic/Queue.dart';
+import 'package:flutter/cupertino.dart';
 
 class Firebase {
   Controller _controller;
@@ -33,6 +34,10 @@ class Firebase {
     return keywordList;
   }
 
+  //***************************************************//
+  //*********       USER FUNKTIONEN         ***********//
+  //***************************************************//
+  // Erstellen
   Future<void> createUser(User pUser) async {
     await this._ref.collection('user').document(pUser.userID).setData({
       'username': pUser.username,
@@ -40,9 +45,44 @@ class Firebase {
       'birthday': pUser.birthday,
       'downvotes': [],
       'upvotes': [],
+      'dark_mode': false,
+      'language': 'GERMAN',
     });
   }
 
+  // Bearbeiten
+  Future<void> updateUserData(User pUser) async {
+    await this._ref.collection('user_requested_playlist').document(pUser.userID).updateData({
+      'user': pUser.toFirebase(),
+    });
+    await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
+  }
+
+  // Bearbeiten
+  Future<void> updateUser() async {
+    await this._ref.collection('user').document(Controller().authentificator.user.userID).updateData(Controller().authentificator.user.toFirebase());
+  }
+
+  // Get
+  Future<User> getUser(String pUserID) async {
+    return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
+      if (!pSnapshot.exists) return null;
+      return User.fromFirebase(pSnapshot);
+    });
+  }
+
+  // Löschen
+
+  // User-Joins
+  Future<bool> isUserJoiningPlaylist(Playlist pPlaylist, User pUser) async {
+    DocumentSnapshot ref = await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).get(source: this._source);
+    return ref.exists;
+  }
+
+  //***************************************************//
+  //*********       PLAYLIST-FUNKTIONEN     ***********//
+  //***************************************************//
+  // Erstellen
   Future<String> createPlaylist(Playlist pPlaylist) async {
     if (pPlaylist.description == null) {
       pPlaylist.description = "test";
@@ -63,15 +103,7 @@ class Firebase {
     return ref.documentID;
   }
 
-  Future<void> createSong(Playlist pPlaylist, Song pSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').add(pSong.toFirebase());
-  }
-
-  Future<void> deleteSong(Playlist pPlaylist, Song pSong) async {
-    //TODO: remove whole song data
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
-  }
-
+  // Suchen
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
     List<Playlist> playlists = [];
     return this._ref.collection('playlist').where('keywords', arrayContains: pKeyword).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
@@ -82,26 +114,7 @@ class Firebase {
     });
   }
 
-  Future<void> requestPlaylist(Playlist pPlaylist, Request pRequest) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').document(pRequest.user.userID).setData(pRequest.toFirebase());
-  }
-
-  Future<void> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) {
-    Map userWithRole = pUser.toFirebase()..addAll(pRole.toFirebase());
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
-  }
-
-  Future<void> leavePlaylist(Playlist pPlaylist, User pUser) {
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).delete();
-  }
-
-  Future<void> updateUserData(User pUser) async {
-    await this._ref.collection('user_requested_playlist').document(pUser.userID).updateData({
-      'user': pUser.toFirebase(),
-    });
-    await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
-  }
-
+  // Bearbeiten
   Future<void> updatePlaylist(Playlist pPlaylist) async {
     await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
       'name': pPlaylist.name,
@@ -114,36 +127,23 @@ class Firebase {
     });
   }
 
-  Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
-    String userID = Controller().authentificator.user.userID;
-    await this._ref.collection('user').document(userID).updateData({
-      'upvotes': FieldValue.arrayUnion([pSong.songID]),
-      'downvotes': FieldValue.arrayRemove([pSong.songID]),
-    });
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).delete();
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).setData({});
+  // Request
+  Future<void> requestPlaylist(Playlist pPlaylist, Request pRequest) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').document(pRequest.user.userID).setData(pRequest.toFirebase());
   }
 
-  Future<void> thumbDownSong(Playlist pPlaylist, Song pSong) async {
-    String userID = Controller().authentificator.user.userID;
-    await this._ref.collection('user').document(userID).updateData({
-      'downvotes': FieldValue.arrayUnion([pSong.songID]),
-      'upvotes': FieldValue.arrayRemove([pSong.songID]),
-    });
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).delete();
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).setData({});
+  // Beitreten
+  Future<void> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) {
+    Map userWithRole = pUser.toFirebase()..addAll(pRole.toFirebase());
+    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
   }
 
-  Future<List<Genre>> getGenres() async {
-    List<Genre> genres = [];
-    return await this._ref.collection('genre').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
-      pQuery.documents.forEach((pGenre) {
-        genres.add(Genre.fromFirebase(pGenre));
-      });
-      return genres;
-    });
+  // Verlassen
+  Future<void> leavePlaylist(Playlist pPlaylist, User pUser) {
+    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).delete();
   }
 
+  // Get (Erstellte Playlists)
   Future<List<Playlist>> getCreatedPlaylist() async {
     List<Playlist> playlists = [];
     String userID = this._controller.authentificator.user.userID;
@@ -156,6 +156,7 @@ class Firebase {
     });
   }
 
+  // Get (Beigetretene Playlists)
   Future<List<Playlist>> getJoinedPlaylist() async {
     List<Playlist> playlists = [];
 
@@ -167,62 +168,48 @@ class Firebase {
     });
   }
 
-  Future<bool> isUserJoiningPlaylist(Playlist pPlaylist, User pUser) async {
-    DocumentSnapshot ref = await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).get(source: this._source);
-    return ref.exists;
+  //***************************************************//
+  //*********       SONG-FUNKTIONEN         ***********//
+  //***************************************************//
+  // Erstellen
+  Future<void> createSong(Playlist pPlaylist, Song pSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').add(pSong.toFirebase());
   }
 
-  Future<Playlist> getPlaylistDetails(Playlist pPlaylist) async {
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source).then((pSnap) {
-      return Playlist.fromFirebase(pSnap);
+  // Löschen
+  Future<void> deleteSong(Playlist pPlaylist, Song pSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
+  }
+
+  // Like
+  Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
+    String userID = Controller().authentificator.user.userID;
+    await this._ref.collection('user').document(userID).updateData({
+      'upvotes': FieldValue.arrayUnion([pSong.songID]),
+      'downvotes': FieldValue.arrayRemove([pSong.songID]),
     });
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).delete();
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).setData({});
   }
 
-  Stream<QuerySnapshot> getPlaylistQueue(Playlist pPlaylist, Queue pQueue) {
-    if (pQueue.lastDocument == null) {
-      return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking', descending: true).orderBy('created_at').limit(pQueue.stepSize).snapshots();
-    } else {
-      return this
-          ._ref
-          .collection('playlist')
-          .document(pPlaylist.playlistID)
-          .collection('queued_song')
-          .orderBy('ranking', descending: true)
-          .orderBy('created_at')
-          .startAfterDocument(pQueue.lastDocument)
-          .limit(pQueue.stepSize)
-          .snapshots();
-    }
-  }
-
-  Future<User> getUser(String pUserID) async {
-    return await this._ref.collection('user').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
-      if (!pSnapshot.exists) return null;
-      return User.fromFirebase(pSnapshot);
+  // Dislike
+  Future<void> thumbDownSong(Playlist pPlaylist, Song pSong) async {
+    String userID = Controller().authentificator.user.userID;
+    await this._ref.collection('user').document(userID).updateData({
+      'downvotes': FieldValue.arrayUnion([pSong.songID]),
+      'upvotes': FieldValue.arrayRemove([pSong.songID]),
     });
-  }
-
-  Future<Settings> getSettings(String pUserID) async {
-    return await this._ref.collection('settings').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
-      if (!pSnapshot.exists) return null;
-      return Settings.fromFirebase(pSnapshot);
-    });
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).delete();
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).setData({});
   }
 
   //***************************************************//
-  //*********   PLAYLIST DETAIL
+  //*********       PLAYLIST DETAIL         ***********//
   //***************************************************//
-
+  // Playlist-User
   Future<List<User>> getPlaylistUser(Playlist pPlaylist) async {
     List<User> user = [];
-    await this
-        ._ref
-        .collection('playlist')
-        .document(pPlaylist.playlistID)
-        .collection('joined_user')
-        .orderBy('role.priority', descending: true)
-        .getDocuments(source: this._source)
-        .then((QuerySnapshot pQuery) {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').orderBy('role.priority', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         user.add(User.fromFirebase(pSnap));
       });
@@ -230,6 +217,7 @@ class Firebase {
     return user;
   }
 
+  // Playlist-Requests
   Future<List<Request>> getPlaylistRequests(Playlist pPlaylist, {User pUser}) async {
     List<Request> requests = [];
     Query query;
@@ -246,10 +234,49 @@ class Firebase {
     return requests;
   }
 
+  // Playlist-Details
+  Future<Playlist> getPlaylistDetails(Playlist pPlaylist) async {
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source).then((pSnap) {
+      return Playlist.fromFirebase(pSnap);
+    });
+  }
+
+  // Playlist-Queue
+  Stream<QuerySnapshot> getPlaylistQueue(Playlist pPlaylist, Queue pQueue) {
+    if (pQueue.lastDocument == null) {
+      return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking', descending: true).orderBy('created_at').limit(pQueue.stepSize).snapshots();
+    } else {
+      return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking', descending: true).orderBy('created_at').startAfterDocument(pQueue.lastDocument).limit(pQueue.stepSize).snapshots();
+    }
+  }
+
+  // Bearbeite Request
   Future<void> updateRequest(Playlist pPlaylist, Request pRequest) async {
     if (pRequest.status == 'ACCEPT') {
       await this.joinPlaylist(pPlaylist, pRequest.user, Role(ROLE.MEMBER));
     }
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').document(pRequest.requestID).updateData(pRequest.toFirebase());
+  }
+
+  //***************************************************//
+  //*********          SONSTIGES            ***********//
+  //***************************************************//
+  // Get-Genres
+  Future<List<Genre>> getGenres() async {
+    List<Genre> genres = [];
+    return await this._ref.collection('genre').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((pGenre) {
+        genres.add(Genre.fromFirebase(pGenre));
+      });
+      return genres;
+    });
+  }
+
+  // Get-Settings
+  Future<Settings> getSettings(String pUserID) async {
+    return await this._ref.collection('settings').document(pUserID).get(source: this._source).then((DocumentSnapshot pSnapshot) {
+      if (!pSnapshot.exists) return null;
+      return Settings.fromFirebase(pSnapshot);
+    });
   }
 }

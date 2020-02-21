@@ -11,6 +11,7 @@ class User {
   Role _role;
   List<String> _upvotedSongs;
   List<String> _downvotedSongs;
+  bool _darkmode;
 
   Settings _settings;
 
@@ -28,6 +29,8 @@ class User {
       this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
     }
 
+    this._darkmode = pSnapOrMap['dark_mode'];
+
     if (pSnapOrMap['role'] != null) {
       this._role = Role.fromFirebase(pSnapOrMap['role']);
     }
@@ -42,7 +45,11 @@ class User {
         'username': this._username,
         'birthday': this._birthday,
         'image_url': this._imageURL,
+        'downvotes': this._downvotedSongs,
+        'upvotes': this._upvotedSongs,
+        'dark_mode': this._darkmode,
       };
+
   void thumbUpSong(Song pSong) {
     this._downvotedSongs.remove(pSong.songID);
     this._upvotedSongs.add(pSong.songID);
@@ -60,12 +67,20 @@ class User {
     this._userID = pUserID;
   }
 
+  set imageURL(String pImageURL) {
+    this._imageURL = pImageURL;
+  }
+
   set username(String pUsername) {
     this._username = pUsername;
   }
 
   set birthday(DateTime pBirthday) {
     this._birthday = pBirthday;
+  }
+
+  set darkmode(bool pDarkmode) {
+    this._darkmode = pDarkmode;
   }
 
   set settings(Settings pSettings) {
@@ -75,11 +90,6 @@ class User {
   //***************************************************//
   //*********   GETTER
   //***************************************************//
-
-  Settings get settings {
-    return this._settings;
-  }
-
   String get userID {
     return this._userID;
   }
@@ -106,5 +116,13 @@ class User {
 
   List<String> get downvotedSongs {
     return this._downvotedSongs;
+  }
+
+  Settings get settings {
+    return this._settings;
+  }
+
+  bool get darkmode {
+    return this._darkmode;
   }
 }
