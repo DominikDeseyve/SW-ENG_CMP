@@ -57,12 +57,23 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
         actions: <Widget>[
           FlatButton(
             child: Text('Ja'),
-            onPressed: () {
+            onPressed: () async {
               User user = Controller().authentificator.user;
-              Controller().firebase.leavePlaylist(this.widget._playlist, user).then((_) {
-                Navigator.of(dialogContext).pop();
-                Navigator.of(context).pop();
-              });
+              String userID = Controller().authentificator.user.userID;
+
+              if (this.widget._playlist.creator.userID == userID) {
+                print("playlist löschen");
+                await Controller().firebase.deletePlaylist(this.widget._playlist).then((_) {
+                  Navigator.of(dialogContext).pop();
+                  Navigator.of(context).pop();
+                });
+              } else {
+                Controller().firebase.leavePlaylist(this.widget._playlist, user).then((_) {
+                  print("playlist verlassen");
+                  Navigator.of(dialogContext).pop();
+                  Navigator.of(context).pop();
+                });
+              }
             },
           ),
           FlatButton(
@@ -92,7 +103,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ? <Widget>[
                   IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/playlist/edit', arguments: this.widget._playlist);
+                      Navigator.of(context).pushNamed('/playlist/edit', arguments: this.widget._playlist).then((value) {
+                        setState(() {});
+                      });
                     },
                     icon: Icon(
                       Icons.edit,

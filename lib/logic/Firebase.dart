@@ -85,7 +85,7 @@ class Firebase {
   // Erstellen
   Future<String> createPlaylist(Playlist pPlaylist) async {
     if (pPlaylist.description == null) {
-      pPlaylist.description = "test";
+      pPlaylist.description = " ";
     }
 
     DocumentReference ref = await this._ref.collection('playlist').add({
@@ -121,10 +121,16 @@ class Firebase {
       'image_url': pPlaylist.imageURL,
       'max_attendees': pPlaylist.maxAttendees,
       'description': pPlaylist.description,
+
       'visibleness': pPlaylist.visibleness.key,
       //'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
       'creator': pPlaylist.creator.toFirebase(),
     });
+  }
+
+  // Löschen
+  Future<void> deletePlaylist(Playlist pPlaylist) {
+    return this._ref.collection('playlist').document(pPlaylist.playlistID).delete();
   }
 
   // Request

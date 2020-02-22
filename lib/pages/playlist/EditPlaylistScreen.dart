@@ -6,6 +6,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditPlaylistScreen extends StatefulWidget {
@@ -76,12 +77,11 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
       } else {
         this.widget._playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + this.widget._playlist.playlistID);
       }
-
-      await Controller().firebase.updatePlaylist(this.widget._playlist);
     }
+    await Controller().firebase.updatePlaylist(this.widget._playlist);
 
     Controller().theming.showSnackbar(context, "Die Playlist wurde erfolgreich bearbeitet!");
-    Navigator.of(context).pushNamed('/playlist', arguments: this.widget._playlist);
+    Navigator.of(context).pop();
   }
 
 /*
@@ -194,7 +194,8 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                   child: TextField(
                     controller: _maxAttendeesController,
                     style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.text,
+                    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
                     maxLength: 3,
                     decoration: InputDecoration(
                       counter: Offstage(),

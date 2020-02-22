@@ -1,10 +1,30 @@
 class Visibleness {
-  final String _key;
+  String _key;
 
   Visibleness(this._key);
 
   String get key {
     return this._key;
+  }
+
+  set key(String pKey) {
+    switch (pKey) {
+      case 'privat':
+        this._key = 'PRIVATE';
+        break;
+      case 'private Playlist':
+        this._key = 'PRIVATE';
+        break;
+      case 'öffentlich':
+        this._key = 'PUBLIC';
+        break;
+      case 'öffentliche Playlist':
+        this._key = 'PUBLIC';
+        break;
+      default:
+        this._key = 'error';
+        break;
+    }
   }
 
   String get value {

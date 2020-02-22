@@ -7,6 +7,7 @@ import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreatePlaylistScreen extends StatefulWidget {
@@ -51,7 +52,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     });
   }
 
-  void _createPlaylist() async {
+  Future _createPlaylist() async {
     Playlist playlist = new Playlist();
 
     playlist.name = this._nameController.text;
@@ -61,16 +62,27 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     playlist.blackedGenre = [];
     playlist.creator = Controller().authentificator.user;
     playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
+
     Role role = new Role(ROLE.ADMIN);
     await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user, role);
 
     if (this._selectedImage != null) {
       playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
-      await Controller().firebase.updatePlaylist(playlist);
     }
 
     Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
     Navigator.of(context).pushNamed('/playlist', arguments: playlist);
+  }
+
+  void clearTextfields() {
+    setState(() {
+      _selectedImage = null;
+
+      this._nameController.text = "";
+      this._maxAttendeesController.text = "";
+      this._descriptionController.text = " ";
+      this._visibleness = this._visiblenessList[0];
+    });
   }
 
 /*
@@ -185,7 +197,8 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   child: TextField(
                     controller: _maxAttendeesController,
                     style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.text,
+                    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
                     maxLength: 3,
                     decoration: InputDecoration(
                       counter: Offstage(),
@@ -255,7 +268,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                       this._visibleness = this._visiblenessList[t];
                                       _radioGroup = t;
                                     });
-                                    ;
                                   },
                                 ),
                                 Text("private Playlist"),
@@ -293,8 +305,8 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
                   child: FlatButton(
                     onPressed: () async {
-                      this._createPlaylist();
-                      //Navigator.of(context).pop();
+                      await this._createPlaylist();
+                      clearTextfields();
                     },
                     padding: const EdgeInsets.all(10),
                     color: Colors.redAccent,
