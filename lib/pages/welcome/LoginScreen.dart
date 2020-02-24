@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
 
             bool success = await Controller().authentificator.signIn(email, password);
             if (success) {
-              Navigator.of(context).pushReplacementNamed('/root');
+              Navigator.of(context).pushReplacementNamed('/start');
             }
           } catch (e) {
             print(e.code);

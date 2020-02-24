@@ -15,12 +15,16 @@ class SubscriberScreen extends StatefulWidget {
   _SubscriberScreenState createState() => _SubscriberScreenState();
 }
 
-class _SubscriberScreenState extends State<SubscriberScreen> {
+class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepAliveClientMixin {
   List<User> _joinedUser = [];
 
   void initState() {
     super.initState();
 
+    this._fetchSubscriber();
+  }
+
+  Future<void> _fetchSubscriber() async {
     Controller().firebase.getPlaylistUser(this.widget._playlist).then((List<User> pUserList) {
       if (!mounted) return;
       setState(() {
@@ -30,30 +34,36 @@ class _SubscriberScreenState extends State<SubscriberScreen> {
   }
 
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: ClampingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: this._joinedUser.length,
-      itemBuilder: (BuildContext context, int index) {
-        if (index < this._joinedUser.length - 1) {
-          return Column(
-            children: <Widget>[
-              UserItem(this._joinedUser[index]),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Divider(
-                  thickness: 0.2,
-                  color: Colors.grey,
-                  height: 4,
+    super.build(context);
+    return RefreshIndicator(
+      color: Colors.redAccent,
+      onRefresh: this._fetchSubscriber,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: this._joinedUser.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (index < this._joinedUser.length - 1) {
+            return Column(
+              children: <Widget>[
+                UserItem(this._joinedUser[index]),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Divider(
+                    thickness: 0.2,
+                    color: Colors.grey,
+                    height: 4,
+                  ),
                 ),
-              ),
-            ],
-          );
-        }
-        return UserItem(this._joinedUser[index]);
-      },
+              ],
+            );
+          }
+          return UserItem(this._joinedUser[index]);
+        },
+      ),
     );
   }
+
+  bool get wantKeepAlive => true;
 }
 
 class UserItem extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/pages/CurrentSongScreen.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
+import 'package:cmp/pages/home/StartScreen.dart';
 import 'package:cmp/pages/playlist/AddSongScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
@@ -11,7 +12,6 @@ import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistSearchScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
-//import 'package:cmp/pages/playlist/SearchScreen.dart';
 import 'package:cmp/pages/settings/ProfileScreen.dart';
 import 'package:cmp/pages/welcome/Email_confirm.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
@@ -33,6 +33,9 @@ class RouteController {
     switch (pRouteSettings.name) {
       case '/root':
         return RootScreen();
+        break;
+      case '/start':
+        return StartScreen();
         break;
       case '/welcome':
         return Welcome();

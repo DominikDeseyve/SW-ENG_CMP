@@ -11,12 +11,16 @@ class RequestScreen extends StatefulWidget {
   _RequestScreenState createState() => _RequestScreenState();
 }
 
-class _RequestScreenState extends State<RequestScreen> {
+class _RequestScreenState extends State<RequestScreen> with AutomaticKeepAliveClientMixin {
   List<Request> _requests = [];
 
   void initState() {
     super.initState();
 
+    this._fetchRequests();
+  }
+
+  Future<void> _fetchRequests() async {
     Controller().firebase.getPlaylistRequests(this.widget._playlist).then((pRequests) {
       setState(() {
         this._requests = pRequests;
@@ -31,20 +35,31 @@ class _RequestScreenState extends State<RequestScreen> {
   }
 
   Widget build(BuildContext context) {
-    if (this._requests.length == 0) {
-      return Center(
-        child: Text("Keine Anfragen vorhanden"),
-      );
-    }
-    return ListView.builder(
-      physics: ClampingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: this._requests.length,
-      itemBuilder: (BuildContext context, int index) {
-        return RequestItem(this.widget._playlist, this._requests[index], this._deleteRequest);
-      },
+    super.build(context);
+
+    return RefreshIndicator(
+      onRefresh: this._fetchRequests,
+      color: Colors.redAccent,
+      child: (this._requests.length == 0
+          ? ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(40),
+                  child: Text("Keine Anfragen vorhanden"),
+                ),
+              ],
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              itemCount: this._requests.length,
+              itemBuilder: (BuildContext context, int index) {
+                return RequestItem(this.widget._playlist, this._requests[index], this._deleteRequest);
+              },
+            )),
     );
   }
+
+  bool get wantKeepAlive => true;
 }
 
 class RequestItem extends StatelessWidget {

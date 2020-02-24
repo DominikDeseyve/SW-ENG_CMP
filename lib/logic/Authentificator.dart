@@ -61,8 +61,12 @@ class Authentificator {
     }
   }
 
-  Future<void> updatePasswort(String pPassword) {
-    this._firebaseUser.updatePassword(pPassword);
+  Future<void> updatePasswort(String pPassword) async {
+    await this._firebaseUser.updatePassword(pPassword);
+  }
+
+  Future<void> resetPasswort(String pEmail) async {
+    await this._firebaseAuth.sendPasswordResetEmail(email: pEmail);
   }
 
   //***************************************************//
