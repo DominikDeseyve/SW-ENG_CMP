@@ -184,6 +184,7 @@ class PlaylistItem extends StatelessWidget {
               this._playlist,
               width: 110,
             ),
+            SizedBox(height: 7),
             Text(
               this._playlist.name,
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
