@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     this._birthdayController.text = DateFormat("dd.MM.yyyy").format(Controller().authentificator.user.birthday);
 
     this._passwordController = new TextEditingController();
-    this._passwordController.text = "passwort hier!";
+    //this._passwordController.text = "passwort hier!";
   }
 
   void _chooseFile() async {
@@ -54,6 +54,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     await Controller().firebase.updateUser();
+    
+    if(this._passwordController.text != null) {
+      await Controller().authentificator.updatePasswort(this._passwordController.text);
+    }
 
     Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
     Navigator.of(context).pop();
@@ -259,6 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: FlatButton(
               onPressed: () async {
                 this._editUser();
+                if()
               },
               padding: const EdgeInsets.all(10),
               color: Colors.redAccent,

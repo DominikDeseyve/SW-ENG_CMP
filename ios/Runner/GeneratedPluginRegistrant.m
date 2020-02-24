@@ -58,10 +58,10 @@
 @import sqflite;
 #endif
 
-#if __has_include(<webview_flutter/FLTWebViewFlutterPlugin.h>)
-#import <webview_flutter/FLTWebViewFlutterPlugin.h>
+#if __has_include(<webview_media/FLTWebViewFlutterPlugin.h>)
+#import <webview_media/FLTWebViewFlutterPlugin.h>
 #else
-@import webview_flutter;
+@import webview_media;
 #endif
 
 #if __has_include(<youtube_api/YoutubeApiPlugin.h>)

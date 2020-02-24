@@ -198,14 +198,6 @@ class Firebase {
   //*********       SONG-FUNKTIONEN         ***********//
   //***************************************************//
   // Erstellen
-  Future<void> createSong(Playlist pPlaylist, Song pSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').add(pSong.toFirebase());
-  }
-
-  // Löschen
-  Future<void> deleteSong(Playlist pPlaylist, Song pSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
-  }
 
   // Like
   Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
