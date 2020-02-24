@@ -48,21 +48,21 @@ class _StartScreenState extends State<StartScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.395, 0.465, 0.395),
+              painter: CurvePainter(Colors.redAccent, 0.235, 0.305, 0.235),
             ),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(Color(0xFF253A4B), 0.38, 0.45, 0.38),
+              painter: CurvePainter(Color(0xFF253A4B), 0.22, 0.29, 0.22),
             ),
           ),
           Container(
             child: ListView(
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  //height: MediaQuery.of(context).size.height * 0.20,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +71,7 @@ class _StartScreenState extends State<StartScreen> {
                           "Willkommen",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 40.0,
+                            fontSize: 34.0,
                             color: Colors.white,
                           ),
                         ),
@@ -79,14 +79,14 @@ class _StartScreenState extends State<StartScreen> {
                           "bei",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 30.0,
+                            fontSize: 26.0,
                             color: Colors.white,
                           ),
                         ),
                         Text(
                           "CMP",
                           style: TextStyle(
-                            fontSize: 60.0,
+                            fontSize: 46.0,
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                           ),
@@ -96,7 +96,7 @@ class _StartScreenState extends State<StartScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 30.0),
+                  margin: EdgeInsets.only(top: 90.0),
                   child: Text(
                     "PLAYLIST",
                     style: TextStyle(fontSize: 28.0),
@@ -104,7 +104,7 @@ class _StartScreenState extends State<StartScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(50.0, 40.0, 50.0, 20.0),
+                  margin: EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 20.0),
                   child: FlatButton(
                     onPressed: () {},
                     padding: const EdgeInsets.all(10),

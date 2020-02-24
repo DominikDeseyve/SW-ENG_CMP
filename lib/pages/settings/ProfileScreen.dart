@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 5),
                     child: Container(
-                      width: 120,
+                      width: (MediaQuery.of(context).size.width / 2) - 40,
                       child: Text(
                         "Benutzername",
                         style: TextStyle(
@@ -184,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 5),
                     child: Container(
-                      width: 120,
+                      width: (MediaQuery.of(context).size.width / 2) - 40,
                       child: Text(
                         "Geburtsdatum",
                         style: TextStyle(
@@ -233,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 5),
                     child: Container(
-                      width: 120,
+                      width: (MediaQuery.of(context).size.width / 2) - 40,
                       child: Text(
                         "Passwort",
                         style: TextStyle(

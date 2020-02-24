@@ -45,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           primary: true,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 5),
+              margin: EdgeInsets.only(top: 10),
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).pushNamed('/settings/profile').then((value) {
