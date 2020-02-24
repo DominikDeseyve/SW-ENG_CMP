@@ -13,7 +13,7 @@ class Playlist {
   List<Genre> _blackedGenre;
   User _creator;
 
-  Playlist() {}
+  Playlist();
 
   Playlist.fromFirebase(DocumentSnapshot pSnap) {
     this._playlistID = pSnap.documentID;

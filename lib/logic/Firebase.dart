@@ -8,7 +8,6 @@ import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/logic/Queue.dart';
-import 'package:flutter/cupertino.dart';
 
 class Firebase {
   Controller _controller;
@@ -110,18 +109,13 @@ class Firebase {
 
   // Lösche Song
   Future<void> deleteSong(Playlist pPlaylist, Song pSong) async {
-    //TODO: remove whole song data
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
   }
 
-  Future<void> updateSongStatus(Playlist pPlaylist, Song pCurrentSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
-      'song_status': {
-        'song_id': pCurrentSong.songID,
-        'status': 'PLAYING',
-        'time': 300,
-      },
-    });
+  Future<void> updateSong(Playlist pPlaylist, Song pCurrentSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData(
+          pCurrentSong.toFirebase(),
+        );
   }
 
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
@@ -197,15 +191,6 @@ class Firebase {
   //***************************************************//
   //*********       SONG-FUNKTIONEN         ***********//
   //***************************************************//
-  // Erstellen
-  Future<void> createSong(Playlist pPlaylist, Song pSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').add(pSong.toFirebase());
-  }
-
-  // Löschen
-  Future<void> deleteSong(Playlist pPlaylist, Song pSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
-  }
 
   // Like
   Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
@@ -235,7 +220,14 @@ class Firebase {
   // Playlist-User
   Future<List<User>> getPlaylistUser(Playlist pPlaylist) async {
     List<User> user = [];
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').orderBy('role.priority', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    await this
+        ._ref
+        .collection('playlist')
+        .document(pPlaylist.playlistID)
+        .collection('joined_user')
+        .orderBy('role.priority', descending: true)
+        .getDocuments(source: this._source)
+        .then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         user.add(User.fromFirebase(pSnap));
       });
@@ -270,9 +262,28 @@ class Firebase {
   // Playlist-Queue
   Stream<QuerySnapshot> getPlaylistQueue(Playlist pPlaylist, Queue pQueue) {
     if (pQueue.lastDocument == null) {
-      return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking', descending: true).orderBy('created_at').limit(pQueue.stepSize).snapshots();
+      return this
+          ._ref
+          .collection('playlist')
+          .document(pPlaylist.playlistID)
+          .collection('queued_song')
+          .where('song_status.is_past', isEqualTo: false)
+          .orderBy('ranking', descending: true)
+          .orderBy('created_at')
+          .limit(pQueue.stepSize)
+          .snapshots();
     } else {
-      return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').orderBy('ranking', descending: true).orderBy('created_at').startAfterDocument(pQueue.lastDocument).limit(pQueue.stepSize).snapshots();
+      return this
+          ._ref
+          .collection('playlist')
+          .document(pPlaylist.playlistID)
+          .collection('queued_song')
+          .where('song_status.is_past', isEqualTo: false)
+          .orderBy('ranking', descending: true)
+          .orderBy('created_at')
+          .startAfterDocument(pQueue.lastDocument)
+          .limit(pQueue.stepSize)
+          .snapshots();
     }
   }
 

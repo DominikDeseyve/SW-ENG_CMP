@@ -2,21 +2,35 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CurrentSongScreen extends StatefulWidget {
   _CurrentSongScreenState createState() => _CurrentSongScreenState();
 }
 
 class _CurrentSongScreenState extends State<CurrentSongScreen> {
+  YoutubePlayerController _youtubePlayerController;
   Duration _position;
   Duration _duration;
   StreamSubscription _durationStream;
 
   void initState() {
     super.initState();
+    this._youtubePlayerController = YoutubePlayerController(
+      initialVideoId: Controller().soundPlayer.currentSong.youTubeID,
+      flags: YoutubePlayerFlags(
+        controlsVisibleAtStart: false,
+        disableDragSeek: true,
+        mute: true,
+        autoPlay: true,
+        hideControls: true,
+        forceHideAnnotation: true,
+      ),
+    );
+
     Controller().soundPlayer.addListener(this._updateScreen);
     this._position = new Duration();
-    this._duration = new Duration();
+    this._duration = new Duration(seconds: 1);
 
     Controller().soundPlayer.duration.then((int duration) {
       setState(() {
@@ -80,11 +94,20 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
         children: <Widget>[
-          Container(
-            width: 300,
-            height: 300,
-            padding: const EdgeInsets.only(top: 30, bottom: 30),
-            child: Image.network(Controller().soundPlayer.currentSong.imageURL),
+          GestureDetector(
+            onDoubleTap: () {
+              this._youtubePlayerController.toggleFullScreenMode();
+            },
+            child: YoutubePlayer(
+              controller: _youtubePlayerController,
+              showVideoProgressIndicator: true,
+              topActions: <Widget>[],
+              onReady: () {
+                print('Player is ready.');
+                this._youtubePlayerController.play();
+                this._youtubePlayerController.seekTo(this._position, allowSeekAhead: false);
+              },
+            ),
           ),
           Slider(
             value: this._position.inSeconds.toDouble(),
@@ -98,6 +121,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
               setState(() {
                 _position = new Duration(seconds: pNewSeconds.toInt());
                 Controller().soundPlayer.seek(_position);
+                this._youtubePlayerController.seekTo(this._position);
               });
             },
           ),

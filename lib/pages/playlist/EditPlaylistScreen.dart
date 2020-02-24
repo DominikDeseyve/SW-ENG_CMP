@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
@@ -10,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditPlaylistScreen extends StatefulWidget {
-  Playlist _playlist;
+  final Playlist _playlist;
 
   EditPlaylistScreen(this._playlist);
 
@@ -163,7 +160,9 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: (this._selectedImage == null ? AssetImage('assets/images/playlist.jpg') : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
+                          image: (this._selectedImage == null
+                              ? AssetImage('assets/images/playlist.jpg')
+                              : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
                         ),
                       ),
                     ),

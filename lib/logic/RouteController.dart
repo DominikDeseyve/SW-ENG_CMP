@@ -85,7 +85,7 @@ class RouteController {
         return RegisterPage();
         break;
       case '/register/email':
-        return Email_confirm(args);
+        return MailConfirmScreen(args);
         break;
       case '/home':
         return HomeScreen();

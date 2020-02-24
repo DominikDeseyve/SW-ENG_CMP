@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();

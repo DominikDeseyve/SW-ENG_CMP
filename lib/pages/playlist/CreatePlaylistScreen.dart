@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';

@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/logic/Firebase.dart';
 import 'package:cmp/models/playlist.dart';
-import 'package:cmp/models/song.dart';
 import 'package:flutter/material.dart';
 
 class PlaylistSearchScreen extends StatefulWidget {

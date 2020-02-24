@@ -174,90 +174,78 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 ),
               ),
-            ],
-          ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 28,
-                  margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
-                  child: OutlineButton(
+              Positioned(
+                bottom: 5,
+                left: 50,
+                child: Container(
+                  child: RawMaterialButton(
                     onPressed: () {
+                      Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wird abgespielt...');
                       Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
                     },
-                    borderSide: BorderSide(
-                      color: Colors.black,
+                    child: Icon(
+                      Icons.play_arrow,
+                      size: 30,
+                      color: Colors.white,
                     ),
-                    color: Colors.redAccent,
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5.0),
-                          child: Icon(
-                            Icons.playlist_add,
-                            size: 18.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          "Play",
-                          style: TextStyle(fontSize: 14.0, color: Colors.black),
-                        )
-                      ],
-                    ),
+                    shape: new CircleBorder(),
+                    fillColor: Colors.redAccent,
+                    padding: const EdgeInsets.all(15.0),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 28,
-                  margin: EdgeInsets.fromLTRB(90, 15, 90, 0),
-                  child: OutlineButton(
+              ),
+              Positioned(
+                bottom: 5,
+                right: 50,
+                child: Container(
+                  child: RawMaterialButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/playlist/add', arguments: this.widget._playlist);
                     },
-                    borderSide: BorderSide(
-                      color: Colors.black,
+                    child: Icon(
+                      Icons.playlist_add,
+                      size: 30,
+                      color: Colors.white,
                     ),
-                    color: Colors.redAccent,
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5.0),
-                          child: Icon(
-                            Icons.playlist_add,
-                            size: 18.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          "Song hinzufügen",
-                          style: TextStyle(fontSize: 14.0, color: Colors.black),
-                        )
-                      ],
-                    ),
+                    shape: new CircleBorder(),
+                    fillColor: Colors.redAccent,
+                    padding: const EdgeInsets.all(15.0),
                   ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
+          (this._queue.currentSong != null
+              ? Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 35, 30, 0),
+                        child: Text(
+                          "Gerade läuft",
+                          style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1.5,
+                        color: Color(0xFF253A4B),
+                      ),
+                      CurrentSongItem(this._queue.currentSong),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink()),
           Container(
-            margin: EdgeInsets.fromLTRB(30, 35, 30, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Warteschlange",
-                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30, 35, 30, 0),
+                  child: Text(
+                    "Warteschlange",
+                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 Divider(
                   thickness: 1.5,
@@ -266,14 +254,18 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ],
             ),
           ),
-          ListView.builder(
-            physics: ScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: this._queue.songs.length,
-            itemBuilder: (BuildContext context, int index) {
-              return SongItem(this._queue.songs[index], this.widget._playlist);
-            },
-          ),
+          (this._queue.length > 0
+              ? ListView.builder(
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: this._queue.songs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return SongItem(this._queue.songs[index], this.widget._playlist);
+                  },
+                )
+              : Center(
+                  child: Text('Keine Songs vorhanden'),
+                )),
         ],
       ),
 
@@ -298,16 +290,8 @@ class SongItem extends StatefulWidget {
 }
 
 class _SongItemState extends State<SongItem> {
-  bool _isPlayingThisSong = false;
-
   void initState() {
     super.initState();
-
-    if (Controller().soundPlayer.currentSong != null) {
-      if (this.widget._song.songID == Controller().soundPlayer.currentSong.songID) {
-        this._isPlayingThisSong = true;
-      }
-    }
   }
 
   void _showOptionDialog() {
@@ -378,7 +362,6 @@ class _SongItemState extends State<SongItem> {
       },
       child: Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        color: (this._isPlayingThisSong ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -451,6 +434,54 @@ class _SongItemState extends State<SongItem> {
                   ],
                 ),
               ],
+            ),
+            SizedBox(width: 25),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CurrentSongItem extends StatelessWidget {
+  final Song _song;
+  CurrentSongItem(this._song);
+
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(width: 15),
+            Avatar(
+              this._song,
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    this._song.artist,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  Text(
+                    this._song.titel,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
             SizedBox(width: 25),
           ],

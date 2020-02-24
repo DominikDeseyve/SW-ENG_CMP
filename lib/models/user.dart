@@ -15,7 +15,7 @@ class User {
 
   Settings _settings;
 
-  User() {}
+  User();
 
   User.fromFirebase(var pSnapOrMap) {
     if (pSnapOrMap['user_id'] != null) {

@@ -12,6 +12,7 @@ class Queue {
   Stream<QuerySnapshot> _stream;
   StreamSubscription<QuerySnapshot> _streamSubscription;
 
+  Song _currentSong;
   List<Song> _songs = [];
   Playlist _playlist;
 
@@ -51,22 +52,33 @@ class Queue {
       pQuery.documentChanges.forEach((DocumentChange pSong) {
         Song song = Song.fromFirebase(pSong.document);
 
-        switch (pSong.type) {
-          case DocumentChangeType.added:
-            int index = this._songs.indexWhere((item) => item.songID == song.songID);
-            if (index == -1) {
-              this._songs.add(song);
-            }
-            break;
-          case DocumentChangeType.modified:
-            int index = this._songs.indexWhere((item) => item.songID == song.songID);
-            this._songs[index] = song;
-            break;
-          case DocumentChangeType.removed:
-            print("removed");
-            int index = this._songs.indexWhere((item) => item.songID == song.songID);
-            this._songs.removeAt(index);
-            break;
+        if (song.songStatus.isPlaying) {
+          this._currentSong = song;
+        } else {
+          switch (pSong.type) {
+            case DocumentChangeType.added:
+              int index = this._songs.indexWhere((item) => item.songID == song.songID);
+              if (index == -1) {
+                this._songs.add(song);
+              }
+              break;
+            case DocumentChangeType.modified:
+              int index = this._songs.indexWhere((item) => item.songID == song.songID);
+              if (index == -1 && song.songStatus.isPlaying == false) {
+                //Song went from current song in queue
+                this._currentSong = null;
+                this._songs.add(song);
+              } else {
+                this._songs[index] = song;
+              }
+
+              break;
+            case DocumentChangeType.removed:
+              print("removed");
+              int index = this._songs.indexWhere((item) => item.songID == song.songID);
+              this._songs.removeAt(index);
+              break;
+          }
         }
       });
       this._sort();
@@ -83,11 +95,17 @@ class Queue {
   }
 
   Song getCurrentSong() {
-    Song song = this._songs[0];
-    //delete first one
+    if (this._currentSong == null) {
+      this._currentSong = this._songs[0];
+      this._songs.removeAt(0);
+    }
+    return this._currentSong;
+  }
 
+  Song skip() {
+    this._currentSong = this._songs[0];
     this._songs.removeAt(0);
-    return song;
+    return this._currentSong;
   }
 
   void cancel() {
@@ -116,5 +134,9 @@ class Queue {
 
   int get length {
     return this._songs.length;
+  }
+
+  Song get currentSong {
+    return this._currentSong;
   }
 }

@@ -9,7 +9,6 @@ class SoundPlayer extends ChangeNotifier {
   AudioPlayer _audioPlayer;
   Queue _playingQueue;
   Playlist _playlingPlaylist;
-  int _index;
 
   Song _currentSong;
 
@@ -18,7 +17,7 @@ class SoundPlayer extends ChangeNotifier {
     this._playingQueue = null;
     AudioPlayer.logEnabled = false;
     this._audioPlayer.setVolume(1);
-    this._index = 0;
+
     this._audioPlayer.onPlayerCompletion.listen((_) {
       print("SOUND ENDED");
       this.nextSong();
@@ -82,14 +81,17 @@ class SoundPlayer extends ChangeNotifier {
 
   void nextSong() async {
     print("skip Song");
-    //this._index++;
+    if (this._playingQueue.songs.length == 0) {
+      return;
+    }
 
-    //delete old song
     await this._audioPlayer.pause();
-    print(this.currentSong.titel);
     //change song
-    this._currentSong = this._playingQueue.getCurrentSong();
-
+    this._currentSong.songStatus.end();
+    Controller().firebase.updateSong(this._playlingPlaylist, this._currentSong);
+    this._currentSong = this._playingQueue.skip();
+    this._currentSong.songStatus.play();
+    Controller().firebase.updateSong(this._playlingPlaylist, this._currentSong);
     await this._loadSong();
     await this._audioPlayer.resume();
     this.notifyListeners();
@@ -99,7 +101,9 @@ class SoundPlayer extends ChangeNotifier {
   void setQueue(Queue pQueue, Playlist pPlaylist) {
     this._playingQueue = pQueue;
     this._playlingPlaylist = pPlaylist;
-    this.currentSong = this._playingQueue.getCurrentSong();
+    this._currentSong = this._playingQueue.getCurrentSong();
+    this._currentSong.songStatus.play();
+    Controller().firebase.updateSong(pPlaylist, this._currentSong);
     this._currentSong.loadURL().then((_) {
       this._loadSong().then((_) {
         this.play();
@@ -142,9 +146,5 @@ class SoundPlayer extends ChangeNotifier {
       return this._currentSong;
     }
     return null;
-  }
-
-  set currentSong(Song pCurrentSong) {
-    Controller().firebase.updateSongStatus(this._playlingPlaylist, this.currentSong);
   }
 }
