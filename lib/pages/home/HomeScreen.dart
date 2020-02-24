@@ -66,15 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.015, 0.015, 0.015),
-            ),
-          ),
           //kompletter Bildschirm
           Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  width: MediaQuery.of(context).size.height * 0.01,
+                  color: Colors.redAccent,
+                ),
+              ),
+            ),
             child: RefreshIndicator(
               onRefresh: this.getPlaylists,
               child: ListView(

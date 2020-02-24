@@ -3,10 +3,10 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class CreatePlaylistScreen extends StatefulWidget {
   _CreatePlaylistScreenState createState() => _CreatePlaylistScreenState();
@@ -15,6 +15,7 @@ class CreatePlaylistScreen extends StatefulWidget {
 class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   List<Visibleness> _visiblenessList;
 
+  State _imageState;
   int _radioGroup = 0;
 
   File _selectedImage;
@@ -148,6 +149,14 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
           ),
           //kompletter Bildschirm
           Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  width: MediaQuery.of(context).size.height * 0.01,
+                  color: Colors.redAccent,
+                ),
+              ),
+            ),
             child: ListView(
               children: <Widget>[
                 Container(
@@ -247,7 +256,15 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                     });
                                   },
                                 ),
-                                Text("öffentliche Playlist"),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      this._visibleness = this._visiblenessList[0];
+                                      _radioGroup = 0;
+                                    });
+                                  },
+                                  child: Text("öffentliche Playlist"),
+                                ),
                               ],
                             ),
                           ),
@@ -268,7 +285,15 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                     });
                                   },
                                 ),
-                                Text("private Playlist"),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      this._visibleness = this._visiblenessList[1];
+                                      _radioGroup = 1;
+                                    });
+                                  },
+                                  child: Text("private Playlist"),
+                                ),
                               ],
                             ),
                           )
@@ -332,13 +357,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.015,
-            child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 1, 1, 1),
             ),
           ),
         ],

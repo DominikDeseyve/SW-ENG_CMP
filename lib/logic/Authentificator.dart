@@ -61,6 +61,10 @@ class Authentificator {
     }
   }
 
+  Future<void> updatePasswort(String pPassword) {
+    this._firebaseUser.updatePassword(pPassword);
+  }
+
   //***************************************************//
   //*********   GETTER
   //***************************************************//

@@ -13,7 +13,7 @@ class _DetailScreenState extends State<DetailScreen> {
     return ListView(
       children: [
         Container(
-          margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
+          margin: EdgeInsets.fromLTRB(25, 25, 25, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -41,7 +41,7 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
+          margin: EdgeInsets.fromLTRB(25, 35, 25, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -63,7 +63,7 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
+          margin: EdgeInsets.fromLTRB(25, 35, 25, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -84,6 +84,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
         ),
+        /*
         Container(
           margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
           child: Column(
@@ -182,6 +183,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
         ),
+        */
       ],
     );
   }

@@ -191,6 +191,7 @@ class Firebase {
   //***************************************************//
   //*********       SONG-FUNKTIONEN         ***********//
   //***************************************************//
+  // Erstellen
 
   // Like
   Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
@@ -220,14 +221,7 @@ class Firebase {
   // Playlist-User
   Future<List<User>> getPlaylistUser(Playlist pPlaylist) async {
     List<User> user = [];
-    await this
-        ._ref
-        .collection('playlist')
-        .document(pPlaylist.playlistID)
-        .collection('joined_user')
-        .orderBy('role.priority', descending: true)
-        .getDocuments(source: this._source)
-        .then((QuerySnapshot pQuery) {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').orderBy('role.priority', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         user.add(User.fromFirebase(pSnap));
       });

@@ -245,7 +245,15 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                     });
                                   },
                                 ),
-                                Text("öffentliche Playlist"),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      this._visibleness = this._visiblenessList[0];
+                                      _radioGroup = 0;
+                                    });
+                                  },
+                                  child: Text("öffentliche Playlist"),
+                                ),
                               ],
                             ),
                           ),
@@ -268,7 +276,15 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                     );
                                   },
                                 ),
-                                Text("private Playlist"),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      this._visibleness = this._visiblenessList[1];
+                                      _radioGroup = 1;
+                                    });
+                                  },
+                                  child: Text("private Playlist"),
+                                ),
                               ],
                             ),
                           )

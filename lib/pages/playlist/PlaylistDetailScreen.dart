@@ -51,20 +51,30 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           ),
           title: Text("Informationen zu " + this.widget._playlist.name),
         ),
-        body: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
-            ? TabBarView(
-                children: <Widget>[
-                  DetailScreen(this.widget._playlist),
-                  SubscriberScreen(this.widget._playlist),
-                  RequestScreen(this.widget._playlist),
-                ],
-              )
-            : TabBarView(
-                children: <Widget>[
-                  DetailScreen(this.widget._playlist),
-                  SubscriberScreen(this.widget._playlist),
-                ],
-              )),
+        body: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                width: MediaQuery.of(context).size.height * 0.01,
+                color: Colors.redAccent,
+              ),
+            ),
+          ),
+          child: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+              ? TabBarView(
+                  children: <Widget>[
+                    DetailScreen(this.widget._playlist),
+                    SubscriberScreen(this.widget._playlist),
+                    RequestScreen(this.widget._playlist),
+                  ],
+                )
+              : TabBarView(
+                  children: <Widget>[
+                    DetailScreen(this.widget._playlist),
+                    SubscriberScreen(this.widget._playlist),
+                  ],
+                )),
+        ),
       ),
     );
   }
