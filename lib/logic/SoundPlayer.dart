@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/logic/Queue.dart';
@@ -9,6 +10,8 @@ class SoundPlayer extends ChangeNotifier {
   Queue _playingQueue;
   Playlist _playlingPlaylist;
   int _index;
+
+  Song _currentSong;
 
   SoundPlayer() {
     this._audioPlayer = AudioPlayer();
@@ -62,7 +65,12 @@ class SoundPlayer extends ChangeNotifier {
 
   Future<void> _prepareNextSongs() async {
     print("prepare next song");
-    for (int i = this._index; i < this._index + 2; i++) {
+    const LOAD_RANGE = 2;
+    int rangeEnd = LOAD_RANGE;
+    if (this._playingQueue.songs.length < LOAD_RANGE) {
+      rangeEnd = this._playingQueue.songs.length;
+    }
+    for (int i = 0; i < rangeEnd; i++) {
       if (this._playingQueue.length - 1 < i) {
         this._playingQueue.loadMore();
       }
@@ -75,12 +83,13 @@ class SoundPlayer extends ChangeNotifier {
   void nextSong() async {
     print("skip Song");
     //this._index++;
-   
+
     //delete old song
     await this._audioPlayer.pause();
     print(this.currentSong.titel);
-    this._playingQueue.deleteFirst();
-    print(this.currentSong.titel);
+    //change song
+    this._currentSong = this._playingQueue.getCurrentSong();
+
     await this._loadSong();
     await this._audioPlayer.resume();
     this.notifyListeners();
@@ -90,7 +99,8 @@ class SoundPlayer extends ChangeNotifier {
   void setQueue(Queue pQueue, Playlist pPlaylist) {
     this._playingQueue = pQueue;
     this._playlingPlaylist = pPlaylist;
-    this._playingQueue.songs[0].loadURL().then((_) {
+    this.currentSong = this._playingQueue.getCurrentSong();
+    this._currentSong.loadURL().then((_) {
       this._loadSong().then((_) {
         this.play();
       });
@@ -129,8 +139,12 @@ class SoundPlayer extends ChangeNotifier {
 
   Song get currentSong {
     if (this._playingQueue != null) {
-      return this._playingQueue.songs[this._index];
+      return this._currentSong;
     }
     return null;
+  }
+
+  set currentSong(Song pCurrentSong) {
+    Controller().firebase.updateSongStatus(this._playlingPlaylist, this.currentSong);
   }
 }

@@ -72,6 +72,16 @@ class Firebase {
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
   }
 
+  Future<void> updateSongStatus(Playlist pPlaylist, Song pCurrentSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
+      'song_status': {
+        'song_id': pCurrentSong.songID,
+        'status': 'PLAYING',
+        'time': 300,
+      },
+    });
+  }
+
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
     List<Playlist> playlists = [];
     return this._ref.collection('playlist').where('keywords', arrayContains: pKeyword).getDocuments(source: this._source).then((QuerySnapshot pQuery) {

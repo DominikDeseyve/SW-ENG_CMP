@@ -82,8 +82,12 @@ class Queue {
     });
   }
 
-  void deleteFirst() {
+  Song getCurrentSong() {
+    Song song = this._songs[0];
+    //delete first one
+
     this._songs.removeAt(0);
+    return song;
   }
 
   void cancel() {
