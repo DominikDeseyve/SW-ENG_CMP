@@ -2,14 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/models/colors.dart';
 
-class HomeScreen extends StatefulWidget {
-  _HomeScreenState createState() => _HomeScreenState();
+class StartScreen extends StatefulWidget {
+  _StartScreenState createState() => _StartScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _StartScreenState extends State<StartScreen> {
   var color = ColorsClass();
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: AppBar(
+          backgroundColor: Color(0xFF253A4B),
+          centerTitle: true,
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/root');
+            },
+            child: Icon(Icons.close),
+          ),
+        ),
+      ),
       body: Stack(
         children: <Widget>[
           Container(

@@ -6,7 +6,6 @@ import 'package:cmp/models/visibleness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_cropper/image_cropper.dart';
 
 class CreatePlaylistScreen extends StatefulWidget {
   _CreatePlaylistScreenState createState() => _CreatePlaylistScreenState();
@@ -68,7 +67,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     if (this._selectedImage != null) {
       playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
     }
-
+    await Controller().firebase.updatePlaylist(playlist);
     Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
     Navigator.of(context).pushNamed('/playlist', arguments: playlist);
   }

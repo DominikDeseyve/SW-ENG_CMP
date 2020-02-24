@@ -46,14 +46,6 @@ class _RootScreenState extends State<RootScreen> {
         );
       },
       generateRoute: RouteController.generateRoute,
-
-      /*Positioned(
-          bottom: 50,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: SoundBar(),
-          ),
-        ),*/
     );
   }
 }
