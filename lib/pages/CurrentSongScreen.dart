@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +14,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
 
   void initState() {
     super.initState();
+    Controller().soundPlayer.addListener(this._updateScreen);
     this._position = new Duration();
     this._duration = new Duration();
 
@@ -28,6 +28,18 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
         this._position = p;
       });
     });
+  }
+
+  void _updateScreen() {
+    setState(() {});
+  }
+
+  void _togglePlay() async {
+    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
+      Controller().soundPlayer.pause();
+    } else {
+      Controller().soundPlayer.play();
+    }
   }
 
   String _formatDuration(Duration pDuration) {
@@ -120,11 +132,22 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             children: <Widget>[
               IconButton(
                 color: Colors.black,
+                iconSize: 40,
                 icon: Icon(
-                  Icons.pause,
-                  size: 40,
+                  (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
                 ),
-                onPressed: () {},
+                onPressed: this._togglePlay,
+              ),
+              IconButton(
+                color: Colors.black,
+                iconSize: 40,
+                icon: Icon(
+                  Icons.skip_next,
+                ),
+                onPressed: () {
+                  this._position = new Duration();
+                  Controller().soundPlayer.nextSong();
+                },
               ),
             ],
           )
@@ -134,6 +157,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   }
 
   void dispose() {
+    Controller().soundPlayer.removeListener(this._updateScreen);
     this._durationStream.cancel();
     super.dispose();
   }

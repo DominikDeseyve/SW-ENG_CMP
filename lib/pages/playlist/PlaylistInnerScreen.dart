@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
-import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
@@ -299,6 +298,18 @@ class SongItem extends StatefulWidget {
 }
 
 class _SongItemState extends State<SongItem> {
+  bool _isPlayingThisSong = false;
+
+  void initState() {
+    super.initState();
+
+    if (Controller().soundPlayer.currentSong != null) {
+      if (this.widget._song.songID == Controller().soundPlayer.currentSong.songID) {
+        this._isPlayingThisSong = true;
+      }
+    }
+  }
+
   void _showOptionDialog() {
     HapticFeedback.vibrate();
     showDialog(
@@ -358,10 +369,6 @@ class _SongItemState extends State<SongItem> {
   }
 
   Widget build(BuildContext context) {
-    String _currentSongID = '-1';
-    if (Controller().soundPlayer.currentSong != null) {
-      _currentSongID = Controller().soundPlayer.currentSong.songID;
-    }
     return InkWell(
       onTap: () {},
       onLongPress: () {
@@ -371,7 +378,7 @@ class _SongItemState extends State<SongItem> {
       },
       child: Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        color: (_currentSongID == this.widget._song.songID ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
+        color: (this._isPlayingThisSong ? Colors.redAccent.withOpacity(0.2) : Colors.transparent),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,

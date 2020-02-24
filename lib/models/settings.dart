@@ -13,4 +13,5 @@ class Settings {
   bool get darkMode {
     return this._darkMode;
   }
+  
 }
