@@ -88,10 +88,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
+          backgroundColor: Controller().theming.primary,
           centerTitle: true,
           elevation: 0,
-          title: Text("Profil"),
+          title: Text(
+            "Profil",
+            style: TextStyle(
+              color: Controller().theming.fontSecondary,
+            ),
+          ),
         ),
       ),
       body: Container(
@@ -99,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           border: Border(
             top: BorderSide(
               width: MediaQuery.of(context).size.height * 0.01,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ),
         ),
@@ -140,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         "Benutzername",
                         style: TextStyle(
-                          color: Colors.redAccent,
+                          color: Controller().theming.fontPrimary,
                           fontSize: 18,
                         ),
                       ),
@@ -157,18 +162,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return 'Das Feld darf nicht leer sein';
                         }
                       },
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Controller().theming.fontPrimary,
+                      ),
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 10),
                         helperStyle: TextStyle(fontSize: 18),
-                        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Controller().theming.fontTertiary,
+                          ),
+                        ),
                         labelStyle: TextStyle(
-                          color: Colors.redAccent,
+                          color: Controller().theming.fontTertiary,
                           fontSize: 18,
                         ),
-                        focusColor: Colors.redAccent,
+                        focusColor: Controller().theming.tertiary,
                       ),
                     ),
                   ),
@@ -188,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         "Geburtsdatum",
                         style: TextStyle(
-                          color: Colors.redAccent,
+                          color: Controller().theming.fontPrimary,
                           fontSize: 18,
                         ),
                       ),
@@ -211,8 +227,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 10),
                         helperStyle: TextStyle(fontSize: 18),
-                        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Controller().theming.fontTertiary,
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           color: Colors.redAccent,
                           fontSize: 18,
@@ -237,7 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         "Passwort",
                         style: TextStyle(
-                          color: Colors.redAccent,
+                          color: Controller().theming.fontPrimary,
                           fontSize: 18,
                         ),
                       ),
@@ -254,7 +278,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return 'Feld darf nicht leer sein!';
                         }
                       },
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Controller().theming.fontPrimary,
+                      ),
                       keyboardType: TextInputType.text,
                       obscureText: true,
                       onTap: () {
@@ -272,13 +299,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 10),
                         helperStyle: TextStyle(fontSize: 18),
-                        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Controller().theming.fontTertiary,
+                          ),
+                        ),
                         labelStyle: TextStyle(
-                          color: Colors.redAccent,
                           fontSize: 18,
                         ),
-                        focusColor: Colors.redAccent,
+                        focusColor: Controller().theming.tertiary,
                       ),
                     ),
                   ),
@@ -292,7 +326,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   this._editUser();
                 },
                 padding: const EdgeInsets.all(10),
-                color: Colors.redAccent,
+                color: Controller().theming.accent,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -302,14 +336,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Icon(
                         Icons.check,
                         size: 20.0,
-                        color: Colors.white,
+                        color: Controller().theming.fontSecondary,
                       ),
                     ),
                     Text(
                       "Profil speichern",
                       style: TextStyle(
                         fontSize: 18.0,
-                        color: Colors.white,
+                        color: Controller().theming.fontSecondary,
                       ),
                     )
                   ],

@@ -47,6 +47,8 @@ class Firebase {
       'dark_mode': false,
       'language': 'GERMAN',
     });
+    Settings settings = new Settings();
+    await this._ref.collection('settings').document(pUser.userID).setData(settings.toFirebase());
   }
 
   // Bearbeiten

@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/logic/Theming.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -25,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
+          backgroundColor: Controller().theming.primary,
           centerTitle: true,
           elevation: 0,
           title: Text("Einstellungen"),
@@ -36,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           border: Border(
             top: BorderSide(
               width: MediaQuery.of(context).size.height * 0.01,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ),
         ),
@@ -70,13 +71,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   title: Text(
                     _username,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Controller().theming.fontPrimary,
+                    ),
                   ),
                   subtitle: Text(
                     "Profil anzeigen",
-                    style: TextStyle(fontSize: 14, color: Colors.redAccent),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Controller().theming.tertiary,
+                    ),
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
+                  trailing: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Controller().theming.tertiary,
+                  ),
                 ),
               ),
             ),
@@ -89,18 +99,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     "Allgemeines",
                     style: TextStyle(
                       fontSize: 20.0,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
                   Divider(
                     thickness: 1.5,
-                    color: Color(0xFF253A4B),
+                    color: Controller().theming.fontPrimary,
                   ),
                   InkWell(
                     onTap: () {
                       setState(() {
                         if (_darkmode == true) {
+                          Controller().theming.initLight();
+
+                          // Darkmode in Firebase speichern
+
                           _darkmode = false;
                         } else {
+                          Controller().theming.initDark();
                           _darkmode = true;
                         }
                       });
@@ -119,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Text(
                                 "DarkMode",
                                 style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Controller().theming.fontPrimary,
                                   fontSize: 18,
                                 ),
                               ),
@@ -129,11 +145,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child: Padding(
                               padding: EdgeInsets.only(top: 2),
                               child: Switch(
-                                  activeColor: Colors.redAccent,
+                                  activeColor: Controller().theming.accent,
+                                  inactiveTrackColor: Controller().theming.tertiary,
                                   value: _darkmode,
                                   onChanged: (value) {
                                     setState(() {
                                       _darkmode = value;
+
+                                      if (_darkmode == false) {
+                                        Controller().theming.initLight();
+                                      } else {
+                                        Controller().theming.initDark();
+                                      }
                                     });
                                   }),
                             ),
@@ -158,7 +181,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Text(
                                 "Sprache",
                                 style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Controller().theming.fontPrimary,
                                   fontSize: 18,
                                 ),
                               ),
@@ -218,7 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
                 },
                 padding: const EdgeInsets.all(10),
-                color: Colors.redAccent,
+                color: Controller().theming.accent,
                 shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -228,14 +251,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: Icon(
                         Icons.directions_run,
                         size: 20.0,
-                        color: Colors.white,
+                        color: Controller().theming.fontSecondary,
                       ),
                     ),
                     Text(
                       "Abmelden",
                       style: TextStyle(
                         fontSize: 18.0,
-                        color: Colors.white,
+                        color: Controller().theming.fontSecondary,
                       ),
                     )
                   ],

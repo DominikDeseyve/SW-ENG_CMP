@@ -20,10 +20,10 @@ class Controller {
 
   Controller._internal() {
     print("CONSTRUCTOR OF CONTROLLER");
+    this._theming = new Theming();
     this._authentificator = new Authentificator(this);
     this._firebase = new Firebase(this);
     this._storage = new Storage();
-    this._theming = new Theming();
     this._soundPlayer = new SoundPlayer();
     this._youTube = new YouTube();
   }
