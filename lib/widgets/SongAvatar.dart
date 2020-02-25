@@ -27,11 +27,13 @@ class SongAvatar extends StatelessWidget {
               placeholder: (context, url) => Image(
                 width: this.width,
                 height: this.width,
+                fit: BoxFit.cover,
                 image: AssetImage('assets/images/default-song-avatar.png'),
               ),
               errorWidget: (context, url, error) => Image(
                 width: this.width,
                 height: this.width,
+                fit: BoxFit.cover,
                 image: AssetImage('assets/images/default-song-avatar.png'),
               ),
               imageBuilder: (context, imageProvider) => Container(

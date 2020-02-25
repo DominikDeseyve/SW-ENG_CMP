@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/models/genre.dart';
-import 'package:cmp/models/role.dart';
+import 'package:intl/intl.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/models/visibleness.dart';
 
@@ -13,6 +13,7 @@ class Playlist {
   String _imageURL;
   List<Genre> _blackedGenre;
   User _creator;
+  DateTime _createdAt;
 
   Playlist();
 
@@ -25,6 +26,7 @@ class Playlist {
     this._imageURL = pSnap['image_url'];
     //this.blackedGenre = pSnap[''];
     this._creator = User.fromFirebase(pSnap['creator']);
+    this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
   }
 
   //***************************************************//
@@ -60,6 +62,10 @@ class Playlist {
 
   User get creator {
     return this._creator;
+  }
+
+  String get createdAtString {
+    return DateFormat("EEEE - dd. MMMM yyyy").format(this._createdAt);
   }
 
   //***************************************************//

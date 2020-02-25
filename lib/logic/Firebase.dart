@@ -67,6 +67,11 @@ class Firebase {
         });
       });
     });
+    await this._ref.collectionGroup('joined_user').where('user_id').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((DocumentSnapshot pSnap) {
+        pSnap.reference.updateData(pUser.toFirebase());
+      });
+    });
     await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
   }
 
@@ -112,6 +117,7 @@ class Firebase {
       'keywords': this._generateKeywords([pPlaylist.name]),
       'joined_user_count': 0,
       'queued_song_count': 0,
+      'created_at': DateTime.now(),
     });
     return ref.documentID;
   }

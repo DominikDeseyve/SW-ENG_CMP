@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/models/user.dart';
+import 'package:intl/intl.dart';
 
 class Request {
   String _requestID;
@@ -50,5 +51,9 @@ class Request {
 
   DateTime get createdAt {
     return this._createdAt;
+  }
+
+  String get createdAtString {
+    return DateFormat("EEEE - dd. MMMM yyyy").format(this._createdAt);
   }
 }

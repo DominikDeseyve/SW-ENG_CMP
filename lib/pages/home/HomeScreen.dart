@@ -64,31 +64,44 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             //erstellte Playlists
+            SizedBox(height: 15),
             (this._createdPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Erstellte Playlists",
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.normal,
-                                color: Controller().theming.fontPrimary,
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                ),
+                                width: 20,
+                                height: 15,
                               ),
-                            ),
-                            Divider(
-                              thickness: 1.5,
-                              color: Controller().theming.fontPrimary,
-                            ),
-                          ],
+                              SizedBox(width: 15),
+                              Text(
+                                "Erstellte Playlists",
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       //Die ganzen Events
                       Container(
+                        color: Colors.grey.withOpacity(0.05),
                         width: MediaQuery.of(context).size.width,
                         height: 160,
                         child: ListView.builder(
@@ -106,32 +119,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 : Container()),
             //beigetretene Playlists
+            SizedBox(height: 30),
             (this._joinedPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Beigetretene Playlists",
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w500,
-                                color: Controller().theming.fontPrimary,
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                ),
+                                width: 20,
+                                height: 15,
                               ),
-                            ),
-                            Divider(
-                              thickness: 1.5,
-                              color: Controller().theming.fontPrimary,
-                            ),
-                          ],
+                              SizedBox(width: 15),
+                              Text(
+                                "Beigetrettene Playlists",
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       //Die ganzen Events
                       Container(
                         width: MediaQuery.of(context).size.width,
+                        color: Colors.grey.withOpacity(0.05),
                         height: 160,
                         child: ListView.builder(
                           physics: ScrollPhysics(),
@@ -165,7 +191,7 @@ class PlaylistItem extends StatelessWidget {
         Navigator.of(context).pushNamed('/playlist', arguments: this._playlist);
       },
       child: Container(
-        margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Column(
           children: <Widget>[
             PlaylistAvatar(
@@ -173,14 +199,21 @@ class PlaylistItem extends StatelessWidget {
               width: 110,
             ),
             SizedBox(height: 7),
-            Text(
-              this._playlist.name,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15.0,
-                color: Controller().theming.fontPrimary,
+            Expanded(
+              child: Container(
+                width: 160,
+                child: Text(
+                  this._playlist.name,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.0,
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

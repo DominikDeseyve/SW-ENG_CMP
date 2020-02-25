@@ -18,7 +18,9 @@ class PlaylistAvatar extends StatelessWidget {
               width: this.width,
               height: this.width,
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/default-playlist-avatar.jpg'),
+              image: AssetImage(
+                'assets/images/default-playlist-avatar.jpg',
+              ),
             )
           : CachedNetworkImage(
               width: this.width,
@@ -27,11 +29,13 @@ class PlaylistAvatar extends StatelessWidget {
               placeholder: (context, url) => Image(
                 width: this.width,
                 height: this.width,
+                fit: BoxFit.cover,
                 image: AssetImage('assets/images/default-playlist-avatar.jpg'),
               ),
               errorWidget: (context, url, error) => Image(
                 width: this.width,
                 height: this.width,
+                fit: BoxFit.cover,
                 image: AssetImage('assets/images/default-playlist-avatar.jpg'),
               ),
               imageBuilder: (context, imageProvider) => Container(

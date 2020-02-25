@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:intl/intl.dart';
 
 import 'package:cmp/logic/Controller.dart';
@@ -10,7 +13,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var _selectedImage;
+  File _selectedImage;
 
   TextEditingController _usernameController;
   TextEditingController _birthdayController;
@@ -19,10 +22,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-
-    if (Controller().authentificator.user.imageURL != null) {
-      this._selectedImage = Controller().authentificator.user.imageURL;
-    }
 
     this._usernameController = new TextEditingController();
     this._usernameController.text = Controller().authentificator.user.username;
@@ -46,11 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
 
     if (this._selectedImage != null) {
-      if (this._selectedImage.runtimeType == String) {
-        Controller().authentificator.user.imageURL = this._selectedImage;
-      } else {
-        Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
-      }
+      Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
     }
 
     await Controller().firebase.updateUserData(Controller().authentificator.user);
@@ -118,20 +113,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               alignment: Alignment.center,
               child: GestureDetector(
                 onTap: this._chooseFile,
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: (this._selectedImage == null
-                          ? AssetImage("assets/images/person.png")
-                          : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
-                    ),
-                  ),
-                ),
+                child: (this._selectedImage == null
+                    ? UserAvatar(
+                        Controller().authentificator.user,
+                        width: 150,
+                      )
+                    : Image.file(
+                        this._selectedImage,
+                        fit: BoxFit.cover,
+                        width: 150,
+                        height: 150,
+                      )),
               ),
             ),
             Container(

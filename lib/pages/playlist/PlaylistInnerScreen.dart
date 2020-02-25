@@ -6,7 +6,9 @@ import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
+import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -125,23 +127,65 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     ),
                   )
                 : SizedBox.shrink()),
-            (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
-                ? IconButton(
-                    onPressed: () {
-                      _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
-                    },
-                    icon: Icon(
-                      Icons.block,
+            PopupMenuButton(
+              color: Colors.white,
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+              itemBuilder: (context) => [
+                (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+                    ? PopupMenuItem(
+                        value: 1,
+                        child: Container(
+                          width: double.infinity,
+                          child: GestureDetector(
+                            child: Text(
+                              "Playlist löschen",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            onTap: () {
+                              _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
+                            },
+                          ),
+                        ),
+                      )
+                    : PopupMenuItem(
+                        value: 1,
+                        child: GestureDetector(
+                          child: Container(
+                            width: double.infinity,
+                            child: Text(
+                              "Playlist verlassen",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
+                          },
+                        ),
+                      )),
+                PopupMenuItem(
+                  value: 1,
+                  child: GestureDetector(
+                    child: Container(
+                      width: double.infinity,
+                      child: Text(
+                        "Code ansehen",
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  )
-                : IconButton(
-                    onPressed: () {
-                      _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
-                    },
-                    icon: Icon(
-                      Icons.block,
-                    ),
-                  )),
+                    onTap: () {},
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -171,22 +215,15 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   });
                 },
                 child: Container(
-                  height: (MediaQuery.of(context).size.height * 0.21) - 30,
+                  height: (MediaQuery.of(context).size.height * 0.25) - 30,
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.only(
                     top: 8,
                   ),
-                  child: Container(
-                    width: MediaQuery.of(context).size.height * 0.15,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
-                      ),
-                    ),
+                  child: PlaylistAvatar(
+                    this.widget._playlist,
+                    width: 100,
                   ),
                 ),
               ),
@@ -254,22 +291,36 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 )
               : SizedBox.shrink()),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30, 35, 30, 0),
-                  child: Text(
-                    "Warteschlange",
-                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+          InkWell(
+            onTap: () {},
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                    ),
+                    width: 20,
+                    height: 15,
                   ),
-                ),
-                Divider(
-                  thickness: 1.5,
-                  color: Color(0xFF253A4B),
-                ),
-              ],
+                  SizedBox(width: 15),
+                  Text(
+                    "Warteschlange",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.normal,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           (this._queue.length > 0
@@ -281,8 +332,15 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     return SongItem(this._queue.songs[index], this.widget._playlist);
                   },
                 )
-              : Center(
-                  child: Text('Keine Songs vorhanden'),
+              : Padding(
+                  padding: const EdgeInsets.only(left: 35, top: 15),
+                  child: Text(
+                    'Keine Songs vorhanden',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
                 )),
         ],
       ),
@@ -379,6 +437,7 @@ class _SongItemState extends State<SongItem> {
         }
       },
       child: Container(
+        color: Colors.grey.withOpacity(0.05),
         padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

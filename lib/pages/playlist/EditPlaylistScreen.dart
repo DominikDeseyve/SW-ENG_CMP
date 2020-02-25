@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
+import 'package:cmp/widgets/PlaylistAvatar.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +21,7 @@ class EditPlaylistScreen extends StatefulWidget {
 class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   int _radioGroup = 0;
 
-  var _selectedImage;
+  File _selectedImage;
   TextEditingController _nameController;
   TextEditingController _maxAttendeesController;
   TextEditingController _descriptionController;
@@ -28,8 +32,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
   void initState() {
     super.initState();
-
-    this._selectedImage = this.widget._playlist.imageURL;
 
     this._nameController = new TextEditingController();
     this._nameController.text = this.widget._playlist.name;
@@ -50,12 +52,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   void _chooseFile() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      if (image == null) {
-        var image = this.widget._playlist.imageURL;
-        this._selectedImage = image;
-      } else {
-        this._selectedImage = image;
-      }
+      this._selectedImage = image;
     });
   }
 
@@ -69,11 +66,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     this.widget._playlist.playlistID = this.widget._playlist.playlistID;
 
     if (this._selectedImage != null) {
-      if (this._selectedImage.runtimeType == String) {
-        this.widget._playlist.imageURL = this._selectedImage;
-      } else {
-        this.widget._playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + this.widget._playlist.playlistID);
-      }
+      this.widget._playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + this.widget._playlist.playlistID);
     }
     await Controller().firebase.updatePlaylist(this.widget._playlist);
 
@@ -153,19 +146,21 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: this._chooseFile,
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: (this._selectedImage == null
-                              ? AssetImage('assets/images/playlist.jpg')
-                              : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
-                        ),
-                      ),
-                    ),
+                    child: (this._selectedImage == null
+                        ? PlaylistAvatar(
+                            this.widget._playlist,
+                            width: 150,
+                          )
+                        : Material(
+                            shape: CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.file(
+                              this._selectedImage,
+                              fit: BoxFit.cover,
+                              width: 150,
+                              height: 150,
+                            ),
+                          )),
                   ),
                 ),
                 Container(

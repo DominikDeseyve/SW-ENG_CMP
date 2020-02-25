@@ -1,6 +1,7 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -74,24 +75,13 @@ class RequestItem extends StatelessWidget {
       onTap: () {},
       child: ListTile(
         contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        leading: Container(
-          height: 50,
-          width: 50,
-          //margin: EdgeInsets.only(bottom: 10),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: (AssetImage('assets/images/playlist.jpg')),
-            ),
-          ),
-        ),
+        leading: UserAvatar(this._request.user),
         title: Text(
           this._request.user.username,
           style: TextStyle(fontSize: 18),
         ),
         subtitle: Text(
-          "Keine Ahnugn was hier stehen soll",
+          this._request.createdAtString,
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,

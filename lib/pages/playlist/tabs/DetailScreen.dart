@@ -1,4 +1,6 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -84,6 +86,22 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
         ),
+        SizedBox(height: 100),
+        Container(
+          color: Controller().theming.fontTertiary.withOpacity(0.1),
+          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+          child: ListTile(
+            leading: UserAvatar(this.widget._playlist.creator),
+            title: Text(
+              'Erstellt von ' + this.widget._playlist.creator.username,
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            subtitle: Text(this.widget._playlist.createdAtString),
+          ),
+        ),
+
         /*
         Container(
           margin: EdgeInsets.fromLTRB(25, 30, 25, 0),

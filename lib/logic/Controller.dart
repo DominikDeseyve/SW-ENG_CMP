@@ -4,6 +4,7 @@ import 'package:cmp/logic/SoundPlayer.dart';
 import 'package:cmp/logic/Storage.dart';
 import 'package:cmp/logic/Theming.dart';
 import 'package:cmp/logic/YouTube.dart';
+import 'package:intl/intl.dart';
 
 class Controller {
   Authentificator _authentificator;
@@ -20,6 +21,8 @@ class Controller {
 
   Controller._internal() {
     print("CONSTRUCTOR OF CONTROLLER");
+    Intl.defaultLocale = 'de_DE';
+
     this._theming = new Theming();
     this._authentificator = new Authentificator(this);
     this._firebase = new Firebase(this);
