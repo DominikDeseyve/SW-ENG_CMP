@@ -3,7 +3,7 @@ import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/user.dart';
-import 'package:cmp/widgets/avatar.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -192,7 +192,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Avatar(
+                              UserAvatar(
                                 this._previewUser[index],
                                 width: MediaQuery.of(context).size.width * 0.22,
                               ),

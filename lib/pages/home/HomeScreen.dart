@@ -1,7 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
-import 'package:cmp/widgets/avatar.dart';
+import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -48,24 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            // Add box decoration
-            decoration: BoxDecoration(
-              // Box decoration takes a gradient
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                // Add one stop for each color. Stops should increase from 0 to 1
-                stops: [0.0, 1.0],
-                colors: [
-                  // Colors are easy thanks to Flutter's Colors class.
-                  Colors.grey[400],
-                  Colors.white,
-                ],
-              ),
-            ),
-          ),
           //kompletter Bildschirm
           Container(
             decoration: BoxDecoration(
@@ -91,7 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: <Widget>[
                                   Text(
                                     "Erstellte Playlists",
-                                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                   Divider(
                                     thickness: 1.5,
@@ -180,7 +164,7 @@ class PlaylistItem extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
         child: Column(
           children: <Widget>[
-            Avatar(
+            PlaylistAvatar(
               this._playlist,
               width: 110,
             ),

@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -56,18 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   });
                 },
                 child: ListTile(
-                  leading: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black26),
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (this._userImage == null ? AssetImage("assets/images/person.png") : NetworkImage(this._userImage)),
-                      ),
-                    ),
-                  ),
+                  leading: UserAvatar(Controller().authentificator.user),
                   title: Text(
                     _username,
                     style: TextStyle(fontSize: 18),

@@ -83,6 +83,10 @@ class User {
     this._darkmode = pDarkmode;
   }
 
+  set role(Role pRole) {
+    this._role = pRole;
+  }
+
   set settings(Settings pSettings) {
     this._settings = pSettings;
   }

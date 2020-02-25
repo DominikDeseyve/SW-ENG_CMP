@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class Avatar extends StatelessWidget {
+class PlaylistAvatar extends StatelessWidget {
   final dynamic _item;
   final double width;
   final Key key;
 
-  Avatar(this._item, {this.width = 60.0, this.key});
+  PlaylistAvatar(this._item, {this.width = 60.0, this.key});
 
   Widget build(BuildContext context) {
     return Material(
@@ -17,7 +17,8 @@ class Avatar extends StatelessWidget {
           ? Image(
               width: this.width,
               height: this.width,
-              image: AssetImage('assets/images/playlist.jpg'),
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/default-playlist-avatar.jpg'),
             )
           : CachedNetworkImage(
               width: this.width,
@@ -26,12 +27,12 @@ class Avatar extends StatelessWidget {
               placeholder: (context, url) => Image(
                 width: this.width,
                 height: this.width,
-                image: AssetImage('assets/images/playlist.jpg'),
+                image: AssetImage('assets/images/default-playlist-avatar.jpg'),
               ),
               errorWidget: (context, url, error) => Image(
                 width: this.width,
                 height: this.width,
-                image: AssetImage('assets/images/playlist.jpg'),
+                image: AssetImage('assets/images/default-playlist-avatar.jpg'),
               ),
               imageBuilder: (context, imageProvider) => Container(
                 width: this.width,
