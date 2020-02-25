@@ -37,120 +37,117 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Controller().theming.primary,
-          centerTitle: true,
-          elevation: 0,
-          title: Text(
-            "Connected Music Playlist",
-            style: TextStyle(
-              color: Controller().theming.fontSecondary,
+        preferredSize: Size.fromHeight(70.0),
+        child: Column(
+          children: [
+            AppBar(
+              backgroundColor: Controller().theming.primary,
+              centerTitle: true,
+              elevation: 0,
+              title: Text(
+                "Connected Music Playlist",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
-          ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 10,
+              color: Colors.redAccent,
+            ),
+          ],
         ),
       ),
-      body:
-          //kompletter Bildschirm
-          Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              width: MediaQuery.of(context).size.height * 0.01,
-              color: Controller().theming.accent,
-            ),
-          ),
-        ),
-        child: RefreshIndicator(
-          onRefresh: this.getPlaylists,
-          child: ListView(
-            children: <Widget>[
-              //erstellte Playlists
-              (this._createdPlaylist.length > 0
-                  ? Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Erstellte Playlists",
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.normal,
-                                  color: Controller().theming.fontPrimary,
-                                ),
-                              ),
-                              Divider(
-                                thickness: 1.5,
+      body: RefreshIndicator(
+        onRefresh: this.getPlaylists,
+        child: ListView(
+          children: <Widget>[
+            //erstellte Playlists
+            (this._createdPlaylist.length > 0
+                ? Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Erstellte Playlists",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.normal,
                                 color: Controller().theming.fontPrimary,
                               ),
-                            ],
-                          ),
+                            ),
+                            Divider(
+                              thickness: 1.5,
+                              color: Controller().theming.fontPrimary,
+                            ),
+                          ],
                         ),
-                        //Die ganzen Events
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 160,
-                          child: ListView.builder(
-                            physics: ScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.only(right: 20),
-                            shrinkWrap: true,
-                            itemCount: this._createdPlaylist.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return PlaylistItem(this._createdPlaylist.elementAt(index));
-                            },
-                          ),
+                      ),
+                      //Die ganzen Events
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 160,
+                        child: ListView.builder(
+                          physics: ScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.only(right: 20),
+                          shrinkWrap: true,
+                          itemCount: this._createdPlaylist.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PlaylistItem(this._createdPlaylist.elementAt(index));
+                          },
                         ),
-                      ],
-                    )
-                  : Container()),
-              //beigetretene Playlists
-              (this._joinedPlaylist.length > 0
-                  ? Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Beigetretene Playlists",
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.w500,
-                                  color: Controller().theming.fontPrimary,
-                                ),
-                              ),
-                              Divider(
-                                thickness: 1.5,
+                      ),
+                    ],
+                  )
+                : Container()),
+            //beigetretene Playlists
+            (this._joinedPlaylist.length > 0
+                ? Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Beigetretene Playlists",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w500,
                                 color: Controller().theming.fontPrimary,
                               ),
-                            ],
-                          ),
+                            ),
+                            Divider(
+                              thickness: 1.5,
+                              color: Controller().theming.fontPrimary,
+                            ),
+                          ],
                         ),
-                        //Die ganzen Events
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 160,
-                          child: ListView.builder(
-                            physics: ScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.only(right: 20),
-                            shrinkWrap: true,
-                            itemCount: this._joinedPlaylist.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return PlaylistItem(this._joinedPlaylist.elementAt(index));
-                            },
-                          ),
+                      ),
+                      //Die ganzen Events
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 160,
+                        child: ListView.builder(
+                          physics: ScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.only(right: 20),
+                          shrinkWrap: true,
+                          itemCount: this._joinedPlaylist.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PlaylistItem(this._joinedPlaylist.elementAt(index));
+                          },
                         ),
-                      ],
-                    )
-                  : Container()),
-            ],
-          ),
+                      ),
+                    ],
+                  )
+                : Container()),
+          ],
         ),
       ),
     );
