@@ -7,6 +7,34 @@ class Theming {
 
   Theming() {}
 
+  void initDark() {
+    _primary = Color(0xFF080d12);
+    _secondary = Colors.white;
+    _tertiary = Colors.grey;
+    _accent = Colors.redAccent;
+
+    _fontPrimary = Colors.white;
+    _fontSecondary = Colors.white;
+    _fontTertiary = Colors.grey;
+    _fontAccent = Colors.redAccent;
+
+    _background = Color(0xFF111b24);
+  }
+
+  void initLight() {
+    _primary = Color(0xFF253A4B);
+    _secondary = Colors.white;
+    _tertiary = Colors.grey;
+    _accent = Colors.redAccent;
+
+    _fontPrimary = Colors.black;
+    _fontSecondary = Colors.white;
+    _fontTertiary = Colors.grey;
+    _fontAccent = Colors.redAccent;
+
+    _background = Colors.white;
+  }
+
   // Getter
   Color get primary {
     return this._primary;
@@ -42,34 +70,6 @@ class Theming {
 
   Color get background {
     return this._background;
-  }
-
-  void initDark() {
-    _primary = Colors.black;
-    _secondary = Colors.white;
-    _tertiary = Colors.grey;
-    _accent = Colors.cyan;
-
-    _fontPrimary = Colors.black;
-    _fontSecondary = Colors.white;
-    _fontTertiary = Colors.grey;
-    _fontAccent = Colors.green;
-
-    _background = Color(0xFF253A4B);
-  }
-
-  void initLight() {
-    _primary = Color(0xFF253A4B);
-    _secondary = Colors.white;
-    _tertiary = Colors.grey;
-    _accent = Colors.redAccent;
-
-    _fontPrimary = Colors.black;
-    _fontSecondary = Colors.white;
-    _fontTertiary = Colors.grey;
-    _fontAccent = Colors.redAccent;
-
-    _background = Colors.white;
   }
 
   void showSnackbar(BuildContext pContext, String pText) {

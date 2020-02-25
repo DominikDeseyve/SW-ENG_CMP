@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: Column(
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 10,
+              height: 7,
               color: Colors.redAccent,
             ),
           ],
@@ -93,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.normal,
+                                  color: Controller().theming.fontPrimary,
                                 ),
                               ),
                             ],
@@ -144,10 +146,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: 15),
                               Text(
-                                "Beigetrettene Playlists",
+                                "Beigetretene Playlists",
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.normal,
+                                  color: Controller().theming.fontPrimary,
                                 ),
                               ),
                             ],

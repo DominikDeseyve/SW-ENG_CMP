@@ -5,7 +5,6 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
-import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -107,13 +106,23 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
-          centerTitle: true,
-          elevation: 0,
-          title: Text("Playlist bearbeiten"),
+        preferredSize: Size.fromHeight(70.0),
+        child: Column(
+          children: <Widget>[
+            AppBar(
+              backgroundColor: Color(0xFF253A4B),
+              centerTitle: true,
+              elevation: 0,
+              title: Text("Playlist bearbeiten"),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 7,
+              color: Colors.redAccent,
+            ),
+          ],
         ),
       ),
       body: Stack(
