@@ -79,10 +79,6 @@ class User {
     this._birthday = pBirthday;
   }
 
-  set darkmode(bool pDarkmode) {
-    this._darkmode = pDarkmode;
-  }
-
   set role(Role pRole) {
     this._role = pRole;
   }
@@ -124,9 +120,5 @@ class User {
 
   Settings get settings {
     return this._settings;
-  }
-
-  bool get darkmode {
-    return this._darkmode;
   }
 }

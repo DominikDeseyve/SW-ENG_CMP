@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Theming {
   Color _primary, _secondary, _accent, _tertiary, _quaternary, _quinary, _senary, _septenary, _octonary, _nonary, _denary;
   Color _fontPrimary, _fontSecondary, _fontAccent, _fontTertiary, _fontQuaternary;
+  Color _background;
 
   Theming() {}
 
@@ -39,6 +40,10 @@ class Theming {
     return this._fontAccent;
   }
 
+  Color get background {
+    return this._background;
+  }
+
   void initDark() {
     _primary = Colors.black;
     _secondary = Colors.white;
@@ -49,6 +54,8 @@ class Theming {
     _fontSecondary = Colors.white;
     _fontTertiary = Colors.grey;
     _fontAccent = Colors.green;
+
+    _background = Color(0xFF253A4B);
   }
 
   void initLight() {
@@ -61,6 +68,8 @@ class Theming {
     _fontSecondary = Colors.white;
     _fontTertiary = Colors.grey;
     _fontAccent = Colors.redAccent;
+
+    _background = Colors.white;
   }
 
   void showSnackbar(BuildContext pContext, String pText) {
