@@ -34,4 +34,8 @@ class Settings {
   bool get darkMode {
     return this._darkMode;
   }
+
+  set darkMode(bool pDarkMode) {
+    this._darkMode = pDarkMode;
+  }
 }

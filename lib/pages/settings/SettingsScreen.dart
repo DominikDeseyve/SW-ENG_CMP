@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -13,7 +14,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _username;
 
   void initState() {
-    _darkmode = Controller().authentificator.user.darkmode;
+    _darkmode = Controller().authentificator.user.settings.darkMode;
     _userImage = Controller().authentificator.user.imageURL;
     _username = Controller().authentificator.user.username;
 
@@ -137,10 +138,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   activeColor: Controller().theming.accent,
                                   inactiveTrackColor: Controller().theming.tertiary,
                                   value: _darkmode,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _darkmode = value;
+                                  onChanged: (value) async {
+                                    _darkmode = value;
+                                    Controller().authentificator.user.settings.darkMode = value;
+                                    await Controller().firebase.updateSettings();
 
+                                    DynamicTheme.of(context).setState(() {
                                       if (_darkmode == false) {
                                         Controller().theming.initLight();
                                       } else {

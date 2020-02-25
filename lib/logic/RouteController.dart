@@ -10,7 +10,7 @@ import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/EditPlaylistScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
-import 'package:cmp/pages/playlist/PlaylistSearchScreen.dart';
+import 'package:cmp/pages/search/PlaylistSearchScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
 import 'package:cmp/pages/settings/ProfileScreen.dart';
 import 'package:cmp/pages/welcome/Email_confirm.dart';
