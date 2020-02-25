@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
-import 'package:cmp/widgets/avatar.dart';
+import 'package:cmp/widgets/SongAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -17,11 +18,16 @@ class PlaylistInnerScreen extends StatefulWidget {
 }
 
 class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
+  Role _userRole;
   Queue _queue;
   ScrollController _scrollController;
 
   void initState() {
     super.initState();
+
+    this._userRole = new Role(ROLE.MEMBER);
+    this._fetchRole();
+
     Controller().soundPlayer.addListener(this._buildQueue);
 
     this._queue = new Queue(this.widget._playlist);
@@ -33,6 +39,14 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
         print("END OF SCREEN --> LOAD MORE");
         this._queue.loadMore();
       }
+    });
+  }
+
+  void _fetchRole() {
+    Controller().firebase.getPlaylistUserRole(this.widget._playlist, Controller().authentificator.user).then((Role pRole) {
+      setState(() {
+        this._userRole = pRole;
+      });
     });
   }
 
@@ -98,9 +112,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             ),
           ),
           backgroundColor: Color(0xFF253A4B),
-          actions: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
-              ? <Widget>[
-                  IconButton(
+          actions: <Widget>[
+            (this._userRole.role == ROLE.ADMIN
+                ? IconButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/playlist/edit', arguments: this.widget._playlist).then((value) {
                         setState(() {});
@@ -109,26 +123,26 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     icon: Icon(
                       Icons.edit,
                     ),
-                  ),
-                  IconButton(
+                  )
+                : SizedBox.shrink()),
+            (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+                ? IconButton(
                     onPressed: () {
                       _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
                     },
                     icon: Icon(
                       Icons.block,
                     ),
-                  ),
-                ]
-              : <Widget>[
-                  IconButton(
+                  )
+                : IconButton(
                     onPressed: () {
                       _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
                     },
                     icon: Icon(
                       Icons.block,
                     ),
-                  ),
-                ]),
+                  )),
+          ],
         ),
       ),
       body: ListView(
@@ -152,7 +166,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist);
+                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist).then((_) {
+                    setState(() {});
+                  });
                 },
                 child: Container(
                   height: (MediaQuery.of(context).size.height * 0.21) - 30,
@@ -174,26 +190,28 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 5,
-                left: 50,
-                child: Container(
-                  child: RawMaterialButton(
-                    onPressed: () {
-                      Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wird abgespielt...');
-                      Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
-                    },
-                    child: Icon(
-                      Icons.play_arrow,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    shape: new CircleBorder(),
-                    fillColor: Colors.redAccent,
-                    padding: const EdgeInsets.all(15.0),
-                  ),
-                ),
-              ),
+              (this._userRole.role == ROLE.MASTER
+                  ? Positioned(
+                      bottom: 5,
+                      left: 50,
+                      child: Container(
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wird abgespielt...');
+                            Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
+                          },
+                          child: Icon(
+                            Icons.play_arrow,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          shape: new CircleBorder(),
+                          fillColor: Colors.redAccent,
+                          padding: const EdgeInsets.all(15.0),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink()),
               Positioned(
                 bottom: 5,
                 right: 50,
@@ -367,7 +385,7 @@ class _SongItemState extends State<SongItem> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(width: 15),
-            Avatar(
+            SongAvatar(
               this.widget._song,
             ),
             SizedBox(width: 10),
@@ -457,7 +475,7 @@ class CurrentSongItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(width: 15),
-            Avatar(
+            SongAvatar(
               this._song,
             ),
             SizedBox(width: 10),

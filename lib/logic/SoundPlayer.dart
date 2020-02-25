@@ -13,8 +13,7 @@ class SoundPlayer extends ChangeNotifier {
   Song _currentSong;
 
   SoundPlayer() {
-    this._audioPlayer = AudioPlayer();
-    this._playingQueue = null;
+    this._audioPlayer = AudioPlayer();  
     AudioPlayer.logEnabled = false;
     this._audioPlayer.setVolume(1);
 
@@ -82,6 +81,8 @@ class SoundPlayer extends ChangeNotifier {
   void nextSong() async {
     print("skip Song");
     if (this._playingQueue.songs.length == 0) {
+      print("hier12");
+      await this._audioPlayer.stop();
       return;
     }
 

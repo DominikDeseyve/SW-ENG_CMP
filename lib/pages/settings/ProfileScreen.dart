@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
 
-    await Controller().firebase.updateUser();
+    await Controller().firebase.updateUserData(Controller().authentificator.user);
 
     if (this._passwordController.text != null && this._passwordController.text != "test") {
       await Controller().authentificator.updatePasswort(this._passwordController.text);
@@ -126,7 +126,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: (this._selectedImage == null ? AssetImage("assets/images/person.png") : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
+                      image: (this._selectedImage == null
+                          ? AssetImage("assets/images/person.png")
+                          : (this._selectedImage.runtimeType == String ? NetworkImage(this._selectedImage) : FileImage(this._selectedImage))),
                     ),
                   ),
                 ),

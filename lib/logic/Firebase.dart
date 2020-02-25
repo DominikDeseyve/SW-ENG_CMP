@@ -53,15 +53,27 @@ class Firebase {
 
   // Bearbeiten
   Future<void> updateUserData(User pUser) async {
-    await this._ref.collection('user_requested_playlist').document(pUser.userID).updateData({
-      'user': pUser.toFirebase(),
+    await this._ref.collection('playlist').where('creator.user_id').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((DocumentSnapshot pSnap) {
+        pSnap.reference.updateData({
+          'creator': pUser.toFirebase(),
+        });
+      });
+    });
+    await this._ref.collectionGroup('request').where('user.user_id').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((DocumentSnapshot pSnap) {
+        pSnap.reference.updateData({
+          'user': pUser.toFirebase(),
+        });
+      });
     });
     await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
   }
 
-  // Bearbeiten
-  Future<void> updateUser() async {
-    await this._ref.collection('user').document(Controller().authentificator.user.userID).updateData(Controller().authentificator.user.toFirebase());
+  Future<void> updateRole(Playlist pPlaylist, User pUser) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).updateData(
+          pUser.role.toFirebase(),
+        );
   }
 
   // Get
@@ -223,12 +235,25 @@ class Firebase {
   // Playlist-User
   Future<List<User>> getPlaylistUser(Playlist pPlaylist) async {
     List<User> user = [];
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').orderBy('role.priority', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    await this
+        ._ref
+        .collection('playlist')
+        .document(pPlaylist.playlistID)
+        .collection('joined_user')
+        .orderBy('role.priority', descending: true)
+        .getDocuments(source: this._source)
+        .then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         user.add(User.fromFirebase(pSnap));
       });
     });
     return user;
+  }
+
+  Future<Role> getPlaylistUserRole(Playlist pPlaylist, User pUser) async {
+    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).get(source: this._source).then((DocumentSnapshot pSnap) {
+      return Role.fromFirebase(pSnap['role']);
+    });
   }
 
   // Playlist-Requests

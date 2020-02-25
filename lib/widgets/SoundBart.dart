@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/widgets/avatar.dart';
+import 'package:cmp/widgets/SongAvatar.dart';
 import 'package:flutter/material.dart';
 
 class SoundBar extends StatefulWidget {
@@ -30,7 +29,8 @@ class _SoundBarState extends State<SoundBar> {
 
   void _initSoundbar() {
     print("CHANGE NOTIFIER IN INIT SOUNDBAR");
-    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
+    setState(() {});
+    /*if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
       this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
         Controller().soundPlayer.duration.then((int duration) {
           if (!mounted) return;
@@ -41,7 +41,7 @@ class _SoundBarState extends State<SoundBar> {
       });
     } else {
       setState(() {});
-    }
+    }*/
   }
 
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _SoundBarState extends State<SoundBar> {
             padding: const EdgeInsets.all(5),
             child: Row(
               children: <Widget>[
-                Avatar(
+                SongAvatar(
                   Controller().soundPlayer.currentSong,
                   width: 50,
                 ),

@@ -46,6 +46,7 @@ class CMP extends StatelessWidget {
       child: MaterialApp(
         title: 'CMP',
         home: this._authentificate(),
+        theme: new ThemeData(fontFamily: 'Ubuntu'),
         onGenerateRoute: RouteController.generateRoute,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

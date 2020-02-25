@@ -1,6 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
-import 'package:cmp/widgets/avatar.dart';
+import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -78,13 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 "Erstellte Playlists",
                                 style: TextStyle(
                                   fontSize: 24.0,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.normal,
                                   color: Controller().theming.fontPrimary,
                                 ),
                               ),
                               Divider(
                                 thickness: 1.5,
-                                color: Color(0xFF253A4B),
+                                color: Controller().theming.fontPrimary,
                               ),
                             ],
                           ),
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Divider(
                                 thickness: 1.5,
-                                color: Color(0xFF253A4B),
+                                color: Controller().theming.fontPrimary,
                               ),
                             ],
                           ),
@@ -171,7 +171,7 @@ class PlaylistItem extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
         child: Column(
           children: <Widget>[
-            Avatar(
+            PlaylistAvatar(
               this._playlist,
               width: 110,
             ),

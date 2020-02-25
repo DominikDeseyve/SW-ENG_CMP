@@ -57,20 +57,16 @@ class Queue {
         } else {
           switch (pSong.type) {
             case DocumentChangeType.added:
+              print('ADD');
               int index = this._songs.indexWhere((item) => item.songID == song.songID);
               if (index == -1) {
                 this._songs.add(song);
               }
               break;
             case DocumentChangeType.modified:
+              print("modiefied");
               int index = this._songs.indexWhere((item) => item.songID == song.songID);
-              if (index == -1 && song.songStatus.isPlaying == false) {
-                //Song went from current song in queue
-                this._currentSong = null;
-                this._songs.add(song);
-              } else {
-                this._songs[index] = song;
-              }
+              this._songs[index] = song;
 
               break;
             case DocumentChangeType.removed:

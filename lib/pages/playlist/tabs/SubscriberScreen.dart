@@ -2,7 +2,7 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/user.dart';
-import 'package:cmp/widgets/avatar.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +45,7 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
           if (index < this._joinedUser.length - 1) {
             return Column(
               children: <Widget>[
-                UserItem(this._joinedUser[index]),
+                UserItem(this.widget._playlist, this._joinedUser[index]),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Divider(
@@ -57,7 +57,7 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
               ],
             );
           }
-          return UserItem(this._joinedUser[index]);
+          return UserItem(this.widget._playlist, this._joinedUser[index]);
         },
       ),
     );
@@ -68,140 +68,30 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
 
 class UserItem extends StatefulWidget {
   final User _user;
-  UserItem(this._user);
+  final Playlist _playlist;
+  UserItem(this._playlist, this._user);
   _UserItemState createState() => _UserItemState();
 }
 
 class _UserItemState extends State<UserItem> {
-  void _showOptionDialog() {
-    HapticFeedback.vibrate();
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) => AlertDialog(
-        contentPadding: const EdgeInsets.all(0),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            FlatButton(
-              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-              onPressed: () async {
-                Navigator.of(dialogContext).pop(null);
-              },
-              child: Container(
-                width: MediaQuery.of(dialogContext).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 5, bottom: 5, right: 0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.trending_up,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                          child: Text(
-                            'Zum "Admin" machen',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            FlatButton(
-              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-              onPressed: () async {
-                Navigator.of(dialogContext).pop(null);
-              },
-              child: Container(
-                width: MediaQuery.of(dialogContext).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 5, bottom: 5, right: 0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.trending_up,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                          child: Text(
-                            'Zum "Master" machen',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            FlatButton(
-              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-              onPressed: () async {
-                Navigator.of(dialogContext).pop(null);
-              },
-              child: Container(
-                width: MediaQuery.of(dialogContext).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 5, bottom: 5, right: 0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.trending_up,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                          child: Text(
-                            'Zum "Member" machen',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  void _updateItem() {
+    setState(() {});
   }
 
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
-      onLongPress: this._showOptionDialog,
+      onLongPress: () {
+        HapticFeedback.vibrate();
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) => RoleDialog(this.widget._playlist, this.widget._user, this._updateItem),
+        );
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
         child: ListTile(
-          leading: Avatar(this.widget._user),
+          leading: UserAvatar(this.widget._user),
           title: Text(
             this.widget._user.username,
             style: TextStyle(
@@ -239,6 +129,133 @@ class _UserItemState extends State<UserItem> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class RoleDialog extends StatefulWidget {
+  final User _user;
+  final Playlist _playlist;
+  final Function _updateItemCallback;
+  RoleDialog(this._playlist, this._user, this._updateItemCallback);
+  _RoleDialogState createState() => _RoleDialogState();
+}
+
+class _RoleDialogState extends State<RoleDialog> {
+  double _roleLevel;
+  Role _role;
+
+  void initState() {
+    super.initState();
+    this._roleLevel = this.widget._user.role.priority.toDouble();
+  }
+
+  Widget build(BuildContext dialogContext) {
+    return AlertDialog(
+      contentPadding: const EdgeInsets.all(15),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: [
+              RotatedBox(
+                quarterTurns: 3,
+                child: Slider(
+                  activeColor: Colors.redAccent,
+                  inactiveColor: Colors.grey,
+                  value: this._roleLevel,
+                  min: 0,
+                  max: 2,
+                  divisions: 2,
+                  onChanged: (double d) {
+                    setState(() {
+                      this._roleLevel = d;
+                    });
+                  },
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Role(ROLE.ADMIN).icon),
+                      SizedBox(width: 5),
+                      Text(
+                        Role(ROLE.ADMIN).name,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 55),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Role(ROLE.MASTER).icon),
+                      SizedBox(width: 5),
+                      Text(
+                        Role(ROLE.MASTER).name,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 55),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Role(ROLE.MEMBER).icon),
+                      SizedBox(width: 5),
+                      Text(
+                        Role(ROLE.MEMBER).name,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: FlatButton(
+                  onPressed: () {
+                    print(this._roleLevel.toInt());
+                    switch (this._roleLevel.toInt()) {
+                      case 0:
+                        this._role = new Role(ROLE.MEMBER);
+                        break;
+                      case 1:
+                        this._role = new Role(ROLE.MASTER);
+                        break;
+                      case 2:
+                        this._role = new Role(ROLE.ADMIN);
+                        break;
+                    }
+                    this.widget._user.role = this._role;
+
+                    Controller().firebase.updateRole(this.widget._playlist, this.widget._user).then((_) {
+                      this.widget._updateItemCallback();
+                      Navigator.of(dialogContext).pop();
+                    });
+                  },
+                  color: Colors.redAccent,
+                  child: Text(
+                    'Speichern',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
