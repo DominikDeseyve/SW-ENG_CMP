@@ -86,10 +86,18 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
+              iconTheme: IconThemeData(
+                color: Controller().theming.fontSecondary,
+              ),
               backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
-              title: Text(this.widget._playlist.name),
+              title: Text(
+                this.widget._playlist.name,
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -112,12 +120,16 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                 SizedBox(height: 15),
                 Text(
                   this.widget._playlist.name,
-                  style: TextStyle(fontSize: 22),
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Controller().theming.fontPrimary,
+                  ),
                 ),
                 Text(
                   "erstellt von " + this.widget._playlist.creator.username.toString(),
                   style: TextStyle(
                     fontSize: 14.0,
+                    color: Controller().theming.fontPrimary,
                   ),
                 ),
                 Container(
@@ -125,7 +137,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                   child: FlatButton(
                     onPressed: this._joinPlaylist,
                     padding: const EdgeInsets.all(10),
-                    color: Colors.redAccent,
+                    color: Controller().theming.accent,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -135,14 +147,14 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           child: Icon(
                             this._getIcon(),
                             size: 20.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                         ),
                         Text(
                           this._getLabel(),
                           style: TextStyle(
                             fontSize: 18.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                         )
                       ],
@@ -159,7 +171,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.redAccent,
+                            color: Controller().theming.accent,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -174,6 +186,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
                       ],
@@ -194,9 +207,16 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           this._previewUser[index],
                           width: MediaQuery.of(context).size.width * 0.22,
                         ),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Text(
                           this._previewUser[index].username,
-                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0,
+                            color: Controller().theming.fontPrimary,
+                          ),
                         ),
                       ],
                     );

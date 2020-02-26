@@ -39,14 +39,14 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                       text: "Details",
                       icon: Icon(
                         Icons.info,
-                        color: Controller().theming.fontSecondary,
+                        //color: Controller().theming.fontSecondary,
                       ),
                     ),
                     Tab(
                       text: "Teilnehmer",
                       icon: Icon(
                         Icons.people,
-                        color: Controller().theming.fontSecondary,
+                        //color: Controller().theming.fontSecondary,
                       ),
                     ),
                     Tab(
