@@ -281,6 +281,7 @@ class Firebase {
   // Playlist-Details
   Future<Playlist> getPlaylistDetails(String pPlaylistID) async {
     return await this._ref.collection('playlist').document(pPlaylistID).get(source: this._source).then((pSnap) {
+      if (!pSnap.exists) return null;
       return Playlist.fromFirebase(pSnap);
     });
   }

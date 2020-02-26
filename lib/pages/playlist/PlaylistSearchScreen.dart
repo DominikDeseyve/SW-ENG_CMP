@@ -22,8 +22,9 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
     this._cachedPlaylists = [];
     Future.forEach(Controller().localStorage.searchedPlaylists, (String pPlaylistID) async {
       Playlist playlist = await Controller().firebase.getPlaylistDetails(pPlaylistID);
-
-      this._cachedPlaylists.add(playlist);
+      if (playlist != null) {
+        this._cachedPlaylists.add(playlist);
+      }
     }).then((_) {
       setState(() {});
     });
@@ -63,6 +64,10 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
     Controller().firebase.getPlaylistDetails(barcode).then((Playlist pPlaylist) {
       Navigator.of(context).pushNamed('/playlist', arguments: pPlaylist);
     });
+  }
+
+  void pushCachedPlaylist(Playlist pPlaylist) {
+    this._cachedPlaylists.add(pPlaylist);
   }
 
   Widget build(BuildContext context) {
@@ -148,7 +153,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                         reverse: true,
                         itemCount: this._cachedPlaylists.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return PlaylistItem(this._cachedPlaylists[index]);
+                          return PlaylistItem(this._cachedPlaylists[index], this.pushCachedPlaylist);
                         },
                       ),
                     ],
@@ -158,7 +163,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                     shrinkWrap: true,
                     itemCount: this.selectedPlaylists.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PlaylistItem(this.selectedPlaylists[index]);
+                      return PlaylistItem(this.selectedPlaylists[index], this.pushCachedPlaylist);
                     },
                   )),
           ],
@@ -170,13 +175,15 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
 
 class PlaylistItem extends StatelessWidget {
   final Playlist _playlist;
-  PlaylistItem(this._playlist);
+  final Function(Playlist) _pushCachedPlaylistCallback;
+  PlaylistItem(this._playlist, this._pushCachedPlaylistCallback);
 
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: InkWell(
         onTap: () {
+          this._pushCachedPlaylistCallback(this._playlist);
           Controller().localStorage.pushPlaylistSearch(this._playlist);
           Navigator.pushNamed(context, '/playlist', arguments: _playlist);
         },

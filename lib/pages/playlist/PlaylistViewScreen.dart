@@ -3,6 +3,7 @@ import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/user.dart';
+import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -84,140 +85,103 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
           title: Text(this.widget._playlist.name),
         ),
       ),
-      body: Stack(
+      body: ListView(
         children: <Widget>[
           Container(
-            // Add box decoration
-            decoration: BoxDecoration(
-              // Box decoration takes a gradient
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                // Add one stop for each color. Stops should increase from 0 to 1
-                stops: [0.0, 1.0],
-                colors: [
-                  // Colors are easy thanks to Flutter's Colors class.
-                  Colors.grey[400],
-                  Colors.white,
-                ],
-              ),
-            ),
-          ),
-
-          //kompletter Bildschirm
-          Container(
-            child: ListView(
+            margin: EdgeInsets.only(top: 30),
+            child: Column(
               children: <Widget>[
+                PlaylistAvatar(
+                  this.widget._playlist,
+                  width: 180,
+                ),
+                SizedBox(height: 15),
+                Text(
+                  this.widget._playlist.name,
+                  style: TextStyle(fontSize: 22),
+                ),
+                Text(
+                  "erstellt von " + this.widget._playlist.creator.username.toString(),
+                  style: TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
                 Container(
+                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+                  child: FlatButton(
+                    onPressed: this._joinPlaylist,
+                    padding: const EdgeInsets.all(10),
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: Icon(
+                            this._getIcon(),
+                            size: 20.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          this._getLabel(),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        width: 180.0,
-                        height: 180.0,
-                        margin: EdgeInsets.fromLTRB(0, 35, 0, 22),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: (this.widget._playlist.imageURL != null ? NetworkImage(this.widget._playlist.imageURL) : AssetImage('assets/images/playlist.jpg')),
-                          ),
-                        ),
-                      ),
                       Text(
-                        this.widget._playlist.name,
-                        style: TextStyle(fontSize: 22),
-                      ),
-                      Text(
-                        "erstellt von " + this.widget._playlist.creator.username.toString(),
+                        "Teilnehmer",
                         style: TextStyle(
-                          fontSize: 14.0,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                        child: FlatButton(
-                          onPressed: this._joinPlaylist,
-                          padding: const EdgeInsets.all(10),
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  this._getIcon(),
-                                  size: 20.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                this._getLabel(),
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Teilnehmer",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Divider(
-                              thickness: 1.5,
-                              color: Color(0xFF253A4B),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GridView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: this._previewUser.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              UserAvatar(
-                                this._previewUser[index],
-                                width: MediaQuery.of(context).size.width * 0.22,
-                              ),
-                              Text(
-                                this._previewUser[index].username,
-                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
-                              ),
-                            ],
-                          );
-                        },
+                      Divider(
+                        thickness: 1.5,
+                        color: Color(0xFF253A4B),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                )
+                GridView.builder(
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: this._previewUser.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        UserAvatar(
+                          this._previewUser[index],
+                          width: MediaQuery.of(context).size.width * 0.22,
+                        ),
+                        Text(
+                          this._previewUser[index].username,
+                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.015,
-            color: Colors.redAccent,
-          ),
+          SizedBox(
+            height: 10,
+          )
         ],
       ),
     );

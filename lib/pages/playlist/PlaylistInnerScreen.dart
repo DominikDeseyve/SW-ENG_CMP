@@ -107,16 +107,16 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               String userID = Controller().authentificator.user.userID;
 
               if (this.widget._playlist.creator.userID == userID) {
-                print("playlist löschen");
                 await Controller().firebase.deletePlaylist(this.widget._playlist).then((_) {
-                  Navigator.of(dialogContext).pop();
-                  Navigator.of(context).pop();
+                  Navigator.of(dialogContext).pop(null);
+                  Navigator.of(context).pop(null);
+                  Navigator.of(context).pop(null);
                 });
               } else {
                 Controller().firebase.leavePlaylist(this.widget._playlist, user).then((_) {
-                  print("playlist verlassen");
-                  Navigator.of(dialogContext).pop();
-                  Navigator.of(context).pop();
+                  Navigator.of(dialogContext).pop(null);
+                  Navigator.of(context).pop(null);
+                  Navigator.of(context).pop(null);
                 });
               }
             },
@@ -384,10 +384,6 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 )),
         ],
       ),
-
-      /*bottomNavigationBar: BottomAppBar(
-        child: SoundBar(),
-      ),*/
     );
   }
 
