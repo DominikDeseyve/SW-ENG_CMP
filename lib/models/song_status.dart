@@ -47,4 +47,8 @@ class SongStatus {
   bool get isPlaying {
     return this._isPlaying;
   }
+
+  bool get isPast {
+    return this._isPast;
+  }
 }

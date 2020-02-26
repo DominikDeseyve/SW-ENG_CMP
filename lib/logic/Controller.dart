@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Authentificator.dart';
 import 'package:cmp/logic/Firebase.dart';
+import 'package:cmp/logic/LocalStorage.dart';
 import 'package:cmp/logic/SoundPlayer.dart';
 import 'package:cmp/logic/Storage.dart';
 import 'package:cmp/logic/Theming.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 
 class Controller {
   Authentificator _authentificator;
+  LocalStorage _localStorage;
   Firebase _firebase;
   Storage _storage;
   Theming _theming;
@@ -29,6 +31,7 @@ class Controller {
     this._storage = new Storage();
     this._soundPlayer = new SoundPlayer();
     this._youTube = new YouTube();
+    this._localStorage = new LocalStorage();
   }
 
   //***************************************************//
@@ -56,5 +59,9 @@ class Controller {
 
   YouTube get youTube {
     return this._youTube;
+  }
+
+  LocalStorage get localStorage {
+    return this._localStorage;
   }
 }

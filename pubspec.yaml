@@ -37,6 +37,18 @@ dependencies:
   #image_cropper: ^1.2.1
   image_picker_saver: ^0.3.0
   dynamic_theme: ^1.0.1
+  path_provider: ^1.4.4
+  sembast: ^2.2.0
+  shared_preferences: ^0.5.4+8
+  barcode_scan: ^2.0.1
+  open_file:
+
+  #qr-code
+  wc_flutter_share: ^0.1.1
+  qr_flutter:
+    git:
+      url: git://github.com/lukef/qr.flutter.git
+      ref: 2.0.0-dev.1
 
 dev_dependencies:
   flutter_test:

@@ -16,12 +16,20 @@ class _SoundBarState extends State<SoundBar> {
     super.initState();
     Controller().soundPlayer.addListener(this._initSoundbar);
     this._percentage = 0;
+
+    this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
+      Controller().soundPlayer.duration.then((int duration) {
+        if (!mounted) return;
+        setState(() {
+          this._percentage = (p.inMilliseconds / duration);
+        });
+      });
+    });
   }
 
   void _togglePlay() async {
     if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
       Controller().soundPlayer.pause();
-      this._durationStream.pause();
     } else {
       Controller().soundPlayer.play();
     }
@@ -30,18 +38,6 @@ class _SoundBarState extends State<SoundBar> {
   void _initSoundbar() {
     print("CHANGE NOTIFIER IN INIT SOUNDBAR");
     setState(() {});
-    /*if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
-      this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
-        Controller().soundPlayer.duration.then((int duration) {
-          if (!mounted) return;
-          setState(() {
-            this._percentage = (p.inMilliseconds / duration);
-          });
-        });
-      });
-    } else {
-      setState(() {});
-    }*/
   }
 
   Widget build(BuildContext context) {

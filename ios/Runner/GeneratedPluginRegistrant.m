@@ -10,6 +10,12 @@
 @import audioplayers;
 #endif
 
+#if __has_include(<barcode_scan/BarcodeScanPlugin.h>)
+#import <barcode_scan/BarcodeScanPlugin.h>
+#else
+@import barcode_scan;
+#endif
+
 #if __has_include(<cloud_firestore/CloudFirestorePlugin.h>)
 #import <cloud_firestore/CloudFirestorePlugin.h>
 #else
@@ -52,6 +58,12 @@
 @import nested_navigators;
 #endif
 
+#if __has_include(<open_file/OpenFilePlugin.h>)
+#import <open_file/OpenFilePlugin.h>
+#else
+@import open_file;
+#endif
+
 #if __has_include(<path_provider/FLTPathProviderPlugin.h>)
 #import <path_provider/FLTPathProviderPlugin.h>
 #else
@@ -70,6 +82,12 @@
 @import sqflite;
 #endif
 
+#if __has_include(<wc_flutter_share/WcFlutterSharePlugin.h>)
+#import <wc_flutter_share/WcFlutterSharePlugin.h>
+#else
+@import wc_flutter_share;
+#endif
+
 #if __has_include(<webview_media/FLTWebViewFlutterPlugin.h>)
 #import <webview_media/FLTWebViewFlutterPlugin.h>
 #else
@@ -86,6 +104,7 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AudioplayersPlugin registerWithRegistrar:[registry registrarForPlugin:@"AudioplayersPlugin"]];
+  [BarcodeScanPlugin registerWithRegistrar:[registry registrarForPlugin:@"BarcodeScanPlugin"]];
   [FLTCloudFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTCloudFirestorePlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
@@ -93,9 +112,11 @@
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [FLTImagePickerSaverPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerSaverPlugin"]];
   [NestedNavigatorsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NestedNavigatorsPlugin"]];
+  [OpenFilePlugin registerWithRegistrar:[registry registrarForPlugin:@"OpenFilePlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
+  [WcFlutterSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"WcFlutterSharePlugin"]];
   [FLTWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTWebViewFlutterPlugin"]];
   [YoutubeApiPlugin registerWithRegistrar:[registry registrarForPlugin:@"YoutubeApiPlugin"]];
 }
