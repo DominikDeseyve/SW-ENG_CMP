@@ -2,16 +2,17 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/user.dart';
+import 'package:cmp/provider/RoleProvider.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class SubscriberScreen extends StatefulWidget {
   final Playlist _playlist;
-  final Role _userRole;
 
-  SubscriberScreen(this._playlist, this._userRole);
+  SubscriberScreen(this._playlist);
 
   _SubscriberScreenState createState() => _SubscriberScreenState();
 }
@@ -22,6 +23,7 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
   void initState() {
     super.initState();
 
+    this._fetchRole();
     this._fetchSubscriber();
   }
 
@@ -38,6 +40,20 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
       int index = this._joinedUser.indexWhere((item) => item.userID == pUser.userID);
       this._joinedUser[index] = pUser;
       this._sort();
+    });
+  }
+
+  void _removeUser(pUser) {
+    setState(() {
+      this._joinedUser.removeWhere((item) => item.userID == pUser.userID);
+    });
+  }
+
+  void _fetchRole() {
+    Controller().firebase.getPlaylistUserRole(this.widget._playlist, Controller().authentificator.user).then((Role pRole) {
+      setState(() {
+        Provider.of<RoleProvider>(context).setRole(pRole);
+      });
     });
   }
 
@@ -60,7 +76,10 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
     super.build(context);
     return RefreshIndicator(
       color: Colors.redAccent,
-      onRefresh: this._fetchSubscriber,
+      onRefresh: () async {
+        this._fetchSubscriber();
+        this._fetchRole();
+      },
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: this._joinedUser.length,
@@ -71,8 +90,8 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
                 UserItem(
                   this.widget._playlist,
                   this._joinedUser[index],
-                  this.widget._userRole,
                   this._updateUser,
+                  this._removeUser,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
@@ -88,8 +107,8 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
           return UserItem(
             this.widget._playlist,
             this._joinedUser[index],
-            this.widget._userRole,
             this._updateUser,
+            this._removeUser,
           );
         },
       ),
@@ -103,19 +122,47 @@ class UserItem extends StatefulWidget {
   final User _user;
   final Playlist _playlist;
   final Function(User) _updateUserCallback;
-  final Role _userRole;
+  final Function(User) _removeUserCallback;
 
-  UserItem(this._playlist, this._user, this._userRole, this._updateUserCallback);
+  UserItem(this._playlist, this._user, this._updateUserCallback, this._removeUserCallback);
   _UserItemState createState() => _UserItemState();
 }
 
 class _UserItemState extends State<UserItem> {
+  void _showRemoveUserDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        title: Text('Benutzer entfernen'),
+        content: Text('Bist Du dir sicher, dass du ' + this.widget._user.username + ' wirklich entfernen willst?'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ja'),
+            onPressed: () async {
+              Controller().firebase.leavePlaylist(this.widget._playlist, this.widget._user).then((_) {
+                this.widget._removeUserCallback(this.widget._user);
+                Navigator.of(dialogContext).pop();
+                Controller().theming.showSnackbar(context, 'Benutzer erfolgreich entfernt');
+              });
+            },
+          ),
+          FlatButton(
+            child: Text('Nein'),
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
       onLongPress: () {
         //if member want to give other roles
-        if (this.widget._userRole.role != ROLE.MEMBER) {
+        if (Provider.of<RoleProvider>(context).role.role != ROLE.MEMBER) {
           HapticFeedback.vibrate();
           showDialog(
             context: context,
@@ -155,11 +202,24 @@ class _UserItemState extends State<UserItem> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              (this.widget._playlist.creator.userID == this.widget._user.userID
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Icon(
+                        Icons.verified_user,
+                        size: 25,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : SizedBox.shrink()),
               (this.widget._user.role.isMaster
-                  ? Icon(
-                      Icons.music_note,
-                      size: 25,
-                      color: Colors.redAccent,
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Icon(
+                        Icons.music_note,
+                        size: 25,
+                        color: Colors.redAccent,
+                      ),
                     )
                   : SizedBox.shrink()),
               (this.widget._user.userID != Controller().authentificator.user.userID
@@ -169,7 +229,12 @@ class _UserItemState extends State<UserItem> {
                         color: Controller().theming.fontPrimary,
                       ),
                       onPressed: () {
-                        //Controller().firebase.removeUserFromPlaylist(this.widget._user);
+                        //cant remove creator
+                        if (this.widget._playlist.creator.userID != this.widget._user.userID) {
+                          this._showRemoveUserDialog();
+                        } else {
+                          Controller().theming.showSnackbar(context, 'Benutzer kann nicht gelöscht werden, da dieser die Playlist erstellt hat');
+                        }
                       },
                     )
                   : SizedBox.shrink()),
@@ -210,6 +275,8 @@ class _RoleDialogState extends State<RoleDialog> {
         break;
     }
     this.widget._user.role = this._role;
+
+    Provider.of<RoleProvider>(context).setRole(this._role);
 
     Controller().firebase.updateRole(this.widget._playlist, this.widget._user).then((_) {
       this.widget._updateUserCallback(this.widget._user);
@@ -311,7 +378,8 @@ class _RoleDialogState extends State<RoleDialog> {
             ],
           ),
           Text(
-            'Es kann nur einen Masterdevice pro Playlist geben.',
+            'Es kann nur einen Masterdevice pro Playlist \n geben.',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
             ),
@@ -322,6 +390,7 @@ class _RoleDialogState extends State<RoleDialog> {
             children: [
               Expanded(
                 child: FlatButton(
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   onPressed: this._save,
                   color: Colors.redAccent,
                   child: Text(

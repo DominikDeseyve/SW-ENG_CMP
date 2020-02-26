@@ -8,6 +8,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
+import 'package:cmp/provider/RoleProvider.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
@@ -27,19 +29,14 @@ class PlaylistInnerScreen extends StatefulWidget {
 }
 
 class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
-  Role _userRole;
   Queue _queue;
   bool _isPlaying;
   ScrollController _scrollController;
 
   void initState() {
     super.initState();
-
     //initialize default values
-    this._userRole = new Role(ROLE.MEMBER, false);
     this._isPlaying = false;
-
-    this._fetchRole();
 
     Controller().soundPlayer.addListener(this._buildQueue);
 
@@ -56,10 +53,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   void _fetchRole() {
+    RoleProvider r = Provider.of<RoleProvider>(context);
     Controller().firebase.getPlaylistUserRole(this.widget._playlist, Controller().authentificator.user).then((Role pRole) {
-      setState(() {
-        this._userRole = pRole;
-      });
+      r.setRole(pRole);
     });
   }
 
@@ -133,6 +129,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   Widget build(BuildContext context) {
+    this._fetchRole();
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -149,7 +146,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           ),
           backgroundColor: Controller().theming.primary,
           actions: <Widget>[
-            (this._userRole.role == ROLE.ADMIN
+            (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
                 ? IconButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/playlist/edit', arguments: this.widget._playlist).then((value) {
@@ -249,10 +246,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: {
-                    'playlist': this.widget._playlist,
-                    'user_role': this._userRole,
-                  }).then((_) {
+                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist).then((_) {
                     setState(() {});
                   });
                 },
@@ -269,9 +263,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 ),
               ),
-              (this._userRole.isMaster
+              (Provider.of<RoleProvider>(context).role.isMaster
                   ? Positioned(
-                      bottom: 5,
+                      bottom: 10,
                       left: 50,
                       child: Container(
                         child: RawMaterialButton(
@@ -289,7 +283,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     )
                   : SizedBox.shrink()),
               Positioned(
-                bottom: 5,
+                bottom: 10,
                 right: 50,
                 child: Container(
                   child: RawMaterialButton(

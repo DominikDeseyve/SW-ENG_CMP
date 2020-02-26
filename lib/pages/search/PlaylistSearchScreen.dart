@@ -96,8 +96,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
         ),
       ),
       body: ListView(
-        shrinkWrap: false,
-        primary: true,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -136,58 +135,63 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
               ),
             ),
           ),
-          (this._searchController.text.isEmpty
-              ? Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Letzte Suchanfragen',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Controller().theming.fontPrimary,
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                this._cachedPlaylists.clear();
-                                Controller().localStorage.resetSearchPlaylist();
-                              });
-                            },
-                            child: Text(
-                              'Suchverlauf löschen',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Controller().theming.fontPrimary,
+          ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              (this._searchController.text.isEmpty
+                  ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Letzte Suchanfragen',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Controller().theming.fontPrimary,
+                                ),
                               ),
-                            ),
+                              FlatButton(
+                                onPressed: () {
+                                  setState(() {
+                                    this._cachedPlaylists.clear();
+                                    Controller().localStorage.resetSearchPlaylist();
+                                  });
+                                },
+                                child: Text(
+                                  'Suchverlauf löschen',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Controller().theming.fontPrimary,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    ListView.builder(
+                        ),
+                        ListView.builder(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          reverse: true,
+                          itemCount: this._cachedPlaylists.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PlaylistItem(this._cachedPlaylists[index], this.pushCachedPlaylist);
+                          },
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
                       physics: ScrollPhysics(),
                       shrinkWrap: true,
-                      reverse: true,
-                      itemCount: this._cachedPlaylists.length,
+                      itemCount: this.selectedPlaylists.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return PlaylistItem(this._cachedPlaylists[index], this.pushCachedPlaylist);
+                        return PlaylistItem(this.selectedPlaylists[index], this.pushCachedPlaylist);
                       },
-                    ),
-                  ],
-                )
-              : ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: this.selectedPlaylists.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return PlaylistItem(this.selectedPlaylists[index], this.pushCachedPlaylist);
-                  },
-                )),
+                    )),
+            ],
+          ),
         ],
       ),
     );
@@ -200,35 +204,32 @@ class PlaylistItem extends StatelessWidget {
   PlaylistItem(this._playlist, this._pushCachedPlaylistCallback);
 
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: InkWell(
-        onTap: () {
-          this._pushCachedPlaylistCallback(this._playlist);
-          Controller().localStorage.pushPlaylistSearch(this._playlist);
-          Navigator.pushNamed(context, '/playlist', arguments: _playlist);
-        },
-        child: ListTile(
-          leading: PlaylistAvatar(this._playlist),
-          title: Container(
-            child: Text(
-              _playlist.name,
-              style: TextStyle(
-                color: Controller().theming.fontPrimary,
-                fontSize: 20.0,
-              ),
-            ),
-          ),
-          subtitle: Text(
-            "erstellt von " + this._playlist.creator.username,
+    return InkWell(
+      onTap: () {
+        this._pushCachedPlaylistCallback(this._playlist);
+        Controller().localStorage.pushPlaylistSearch(this._playlist);
+        Navigator.pushNamed(context, '/playlist', arguments: _playlist);
+      },
+      child: ListTile(
+        leading: PlaylistAvatar(this._playlist),
+        title: Container(
+          child: Text(
+            _playlist.name,
             style: TextStyle(
               color: Controller().theming.fontPrimary,
+              fontSize: 20.0,
             ),
           ),
-          trailing: Icon(
-            Icons.more_vert,
+        ),
+        subtitle: Text(
+          "erstellt von " + this._playlist.creator.username,
+          style: TextStyle(
             color: Controller().theming.fontPrimary,
           ),
+        ),
+        trailing: Icon(
+          Icons.more_vert,
+          color: Controller().theming.fontPrimary,
         ),
       ),
     );

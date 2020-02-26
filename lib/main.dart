@@ -3,11 +3,13 @@ import 'package:cmp/logic/RouteController.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/navigation.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
+import 'package:cmp/provider/RoleProvider.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nested_navigators/nested_nav_bloc.dart';
 import 'package:nested_navigators/nested_nav_bloc_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(CMP());
@@ -35,6 +37,11 @@ class CMP extends StatelessWidget {
         }
         return Container(
           color: Colors.white,
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
+            ),
+          ),
         );
       },
     );
@@ -50,18 +57,21 @@ class CMP extends StatelessWidget {
       themedWidgetBuilder: (context, theme) {
         return NestedNavigatorsBlocProvider(
           bloc: NestedNavigatorsBloc<Navigation>(),
-          child: MaterialApp(
-            title: 'CMP',
-            home: this._authentificate(),
-            theme: new ThemeData(fontFamily: 'Ubuntu'),
-            onGenerateRoute: RouteController.generateRoute,
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: [
-              const Locale('de', 'DE'),
-            ],
+          child: ChangeNotifierProvider<RoleProvider>(
+            builder: (_) => RoleProvider(),
+            child: MaterialApp(
+              title: 'CMP',
+              home: this._authentificate(),
+              theme: new ThemeData(fontFamily: 'Ubuntu'),
+              onGenerateRoute: RouteController.generateRoute,
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: [
+                const Locale('de', 'DE'),
+              ],
+            ),
           ),
         );
       },
