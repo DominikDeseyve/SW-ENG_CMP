@@ -51,21 +51,21 @@ class Firebase {
 
   // Bearbeiten
   Future<void> updateUserData(User pUser) async {
-    await this._ref.collection('playlist').where('creator.user_id').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    await this._ref.collection('playlist').where('creator.user_id', isEqualTo: pUser.userID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         pSnap.reference.updateData({
           'creator': pUser.toFirebase(),
         });
       });
     });
-    await this._ref.collectionGroup('request').where('user.user_id').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    await this._ref.collectionGroup('request').where('user.user_id', isEqualTo: pUser.userID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         pSnap.reference.updateData({
           'user': pUser.toFirebase(),
         });
       });
     });
-    await this._ref.collectionGroup('joined_user').where('user_id').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    await this._ref.collectionGroup('joined_user').where('user_id', isEqualTo: pUser.userID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         pSnap.reference.updateData(pUser.toFirebase());
       });

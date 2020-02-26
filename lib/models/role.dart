@@ -5,7 +5,7 @@ enum ROLE {
   ADMIN,
 }
 
-class Role {
+class Role extends ChangeNotifier {
   ROLE _role;
   bool _isMaster;
 
@@ -13,6 +13,7 @@ class Role {
     this._role = pRole;
     this._isMaster = isMaster;
   }
+  Role.t();
   Role.fromFirebase(Map pMap) {
     this._isMaster = pMap['is_master'];
     switch (pMap['key']) {

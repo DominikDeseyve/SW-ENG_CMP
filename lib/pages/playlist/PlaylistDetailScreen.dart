@@ -4,17 +4,15 @@ import 'package:cmp/models/role.dart';
 import 'package:cmp/pages/playlist/tabs/DetailScreen.dart';
 import 'package:cmp/pages/playlist/tabs/RequestsScreen.dart';
 import 'package:cmp/pages/playlist/tabs/SubscriberScreen.dart';
+import 'package:cmp/provider/RoleProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class PlaylistDetailScreen extends StatefulWidget {
-  Playlist _playlist;
-  Role _userRole;
+  final Playlist _playlist;
 
-  PlaylistDetailScreen(Map pMap) {
-    this._playlist = pMap['playlist'];
-    this._userRole = pMap['user_role'];
-  }
+  PlaylistDetailScreen(this._playlist);
 
   _PlaylistDetailScreenState createState() => _PlaylistDetailScreenState();
 }
@@ -22,7 +20,7 @@ class PlaylistDetailScreen extends StatefulWidget {
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID ? 3 : 2),
+      length: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN ? 3 : 2),
       child: Scaffold(
         backgroundColor: Controller().theming.background,
         appBar: AppBar(
@@ -33,7 +31,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           bottom: TabBar(
             labelColor: Controller().theming.fontSecondary,
             indicator: BoxDecoration(),
-            tabs: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+            tabs: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
                 ? [
                     Tab(
                       text: "Details",
@@ -90,18 +88,18 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
               ),
             ),
           ),
-          child: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+          child: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
               ? TabBarView(
                   children: <Widget>[
                     DetailScreen(this.widget._playlist),
-                    SubscriberScreen(this.widget._playlist, this.widget._userRole),
+                    SubscriberScreen(this.widget._playlist),
                     RequestScreen(this.widget._playlist),
                   ],
                 )
               : TabBarView(
                   children: <Widget>[
                     DetailScreen(this.widget._playlist),
-                    SubscriberScreen(this.widget._playlist, this.widget._userRole),
+                    SubscriberScreen(this.widget._playlist),
                   ],
                 )),
         ),
