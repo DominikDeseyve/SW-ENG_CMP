@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
@@ -8,10 +12,13 @@ import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
-import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 class PlaylistInnerScreen extends StatefulWidget {
   final Playlist _playlist;
@@ -22,12 +29,16 @@ class PlaylistInnerScreen extends StatefulWidget {
 class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   Role _userRole;
   Queue _queue;
+  bool _isPlaying;
   ScrollController _scrollController;
 
   void initState() {
     super.initState();
 
+    //initialize default values
     this._userRole = new Role(ROLE.MEMBER);
+    this._isPlaying = false;
+
     this._fetchRole();
 
     Controller().soundPlayer.addListener(this._buildQueue);
@@ -52,10 +63,29 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     });
   }
 
+  void _togglePlay() {
+    if (this._isPlaying) {
+      Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wurde angehalten!');
+      Controller().soundPlayer.deleteQueue().then((_) {
+        setState(() {
+          this._isPlaying = false;
+        });
+      });
+    } else {
+      Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wird abgespielt...');
+      Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
+      setState(() {
+        this._isPlaying = true;
+      });
+    }
+  }
+
   void _loadMoreSongs(QuerySnapshot pQuery) {
     print("SONGS LOADED: " + pQuery.documentChanges.length.toString());
     if (!mounted) return;
-    setState(() {});
+    setState(() {
+      this._isPlaying = (this._queue.currentSong != null && Controller().soundPlayer.currentSong != null);
+    });
   }
 
   void _buildQueue() {
@@ -181,7 +211,12 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                         ),
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) => CodeDialog(this.widget._playlist),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -233,12 +268,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                       left: 50,
                       child: Container(
                         child: RawMaterialButton(
-                          onPressed: () {
-                            Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wird abgespielt...');
-                            Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
-                          },
+                          onPressed: this._togglePlay,
                           child: Icon(
-                            Icons.play_arrow,
+                            (this._isPlaying ? Icons.stop : Icons.play_arrow),
                             size: 30,
                             color: Colors.white,
                           ),
@@ -272,19 +304,27 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           ),
           (this._queue.currentSong != null
               ? Container(
+                  color: Colors.grey.withOpacity(0.1),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 35, 30, 0),
-                        child: Text(
-                          "Gerade läuft",
-                          style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(width: 20),
+                            Text(
+                              "Aktuell läuft",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                                color: Controller().theming.fontPrimary,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Color(0xFF253A4B),
                       ),
                       CurrentSongItem(this._queue.currentSong),
                     ],
@@ -294,7 +334,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           InkWell(
             onTap: () {},
             child: Container(
-              padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+              padding: const EdgeInsets.fromLTRB(0, 35, 0, 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -314,7 +354,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   Text(
                     "Warteschlange",
                     style: TextStyle(
-                      fontSize: 26,
+                      fontSize: 22,
                       fontWeight: FontWeight.normal,
                       color: Controller().theming.fontPrimary,
                     ),
@@ -561,6 +601,120 @@ class CurrentSongItem extends StatelessWidget {
               ),
             ),
             SizedBox(width: 25),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CodeDialog extends StatefulWidget {
+  final Playlist _playlist;
+  CodeDialog(this._playlist);
+
+  _CodeDialogState createState() => _CodeDialogState();
+}
+
+class _CodeDialogState extends State<CodeDialog> {
+  GlobalKey globalKey = new GlobalKey();
+  Future<void> _captureAndShare() async {
+    try {
+      RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      File file = await new File('${tempDir.path}/image.png').create();
+      await file.writeAsBytes(pngBytes);
+
+      await WcFlutterShare.share(
+        sharePopupTitle: 'Playlist teilen',
+        subject: this.widget._playlist.name,
+        text: 'Playlist: ' + this.widget._playlist.name + '\n' + 'Teilnehmer' + this.widget._playlist.maxAttendees.toString(),
+        fileName: 'image.png',
+        mimeType: 'image/png',
+        bytesOfFile: byteData.buffer.asUint8List(),
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _captureAndOpen() async {
+    try {
+      RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      File file = await new File('${tempDir.path}/image.png').create();
+      await file.writeAsBytes(pngBytes);
+
+      OpenFile.open(file.path);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              this.widget._playlist.name,
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 15),
+            Row(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: RepaintBoundary(
+                      key: globalKey,
+                      child: QrImage(
+                        data: this.widget._playlist.playlistID,
+                        backgroundColor: Colors.white,
+                        size: MediaQuery.of(context).size.width * 0.70,
+                        gapless: true,
+                        foregroundColor: Colors.black87,
+                        onError: (ex) {
+                          print("[QR] ERROR - $ex");
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  color: Colors.grey,
+                  iconSize: 26,
+                  onPressed: () {
+                    _captureAndShare();
+                  },
+                  icon: Icon(Icons.share),
+                ),
+                IconButton(
+                  color: Colors.grey,
+                  iconSize: 26,
+                  onPressed: () {
+                    _captureAndOpen();
+                  },
+                  icon: Icon(Icons.open_in_new),
+                ),
+              ],
+            ),
           ],
         ),
       ),

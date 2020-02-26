@@ -44,8 +44,6 @@ class Firebase {
       'birthday': pUser.birthday,
       'downvotes': [],
       'upvotes': [],
-      'dark_mode': false,
-      'language': 'GERMAN',
     });
     Settings settings = new Settings();
     await this._ref.collection('settings').document(pUser.userID).setData(settings.toFirebase());
@@ -140,6 +138,7 @@ class Firebase {
 
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
     List<Playlist> playlists = [];
+    pKeyword = pKeyword.toLowerCase();
     return this._ref.collection('playlist').where('keywords', arrayContains: pKeyword).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         playlists.add(Playlist.fromFirebase(pSnap));
@@ -155,7 +154,7 @@ class Firebase {
       'image_url': pPlaylist.imageURL,
       'max_attendees': pPlaylist.maxAttendees,
       'description': pPlaylist.description,
-
+      'keywords': this._generateKeywords([pPlaylist.name]),
       'visibleness': pPlaylist.visibleness.key,
       //'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
       'creator': pPlaylist.creator.toFirebase(),
@@ -280,8 +279,8 @@ class Firebase {
   }
 
   // Playlist-Details
-  Future<Playlist> getPlaylistDetails(Playlist pPlaylist) async {
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source).then((pSnap) {
+  Future<Playlist> getPlaylistDetails(String pPlaylistID) async {
+    return await this._ref.collection('playlist').document(pPlaylistID).get(source: this._source).then((pSnap) {
       return Playlist.fromFirebase(pSnap);
     });
   }

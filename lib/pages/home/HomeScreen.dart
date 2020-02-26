@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             //erstellte Playlists
-            SizedBox(height: 15),
+            SizedBox(height: 5),
             (this._createdPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Erstellte Playlists",
                                 style: TextStyle(
-                                  fontSize: 26,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 : Container()),
             //beigetretene Playlists
-            SizedBox(height: 30),
+            SizedBox(height: 10),
             (this._joinedPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Beigetrettene Playlists",
                                 style: TextStyle(
-                                  fontSize: 26,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -191,17 +191,17 @@ class PlaylistItem extends StatelessWidget {
         Navigator.of(context).pushNamed('/playlist', arguments: this._playlist);
       },
       child: Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        margin: EdgeInsets.fromLTRB(5, 10, 5, 0),
         child: Column(
           children: <Widget>[
             PlaylistAvatar(
               this._playlist,
-              width: 110,
+              width: 100,
             ),
             SizedBox(height: 7),
             Expanded(
               child: Container(
-                width: 160,
+                width: 120,
                 child: Text(
                   this._playlist.name,
                   overflow: TextOverflow.ellipsis,

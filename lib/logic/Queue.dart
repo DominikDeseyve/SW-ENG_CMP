@@ -52,34 +52,45 @@ class Queue {
       pQuery.documentChanges.forEach((DocumentChange pSong) {
         Song song = Song.fromFirebase(pSong.document);
 
-        if (song.songStatus.isPlaying) {
-          this._currentSong = song;
-        } else {
-          switch (pSong.type) {
-            case DocumentChangeType.added:
-              print('ADD');
-              int index = this._songs.indexWhere((item) => item.songID == song.songID);
-              if (index == -1) {
-                this._songs.add(song);
-              }
-              break;
-            case DocumentChangeType.modified:
-              print("modiefied");
+        switch (pSong.type) {
+          case DocumentChangeType.added:
+            print('ADD: ' + song.titel);
+            int index = this._songs.indexWhere((item) => item.songID == song.songID);
+            if (index == -1) {
+              this._songs.add(song);
+            }
+            break;
+          case DocumentChangeType.modified:
+            print("modiefied");
+            if (song.songStatus.isPlaying) {
+              this._currentSong = song;
+              this._removeSong(song);
+            } else {
               int index = this._songs.indexWhere((item) => item.songID == song.songID);
               this._songs[index] = song;
-
-              break;
-            case DocumentChangeType.removed:
-              print("removed");
-              int index = this._songs.indexWhere((item) => item.songID == song.songID);
-              this._songs.removeAt(index);
-              break;
-          }
+            }
+            break;
+          case DocumentChangeType.removed:
+            print("removed");
+            this._removeSong(song);
+            break;
         }
       });
       this._sort();
       this._callback(pQuery);
+      if (Controller().soundPlayer.playlist != null) {
+        if (Controller().soundPlayer.playlist.playlistID == this._playlist.playlistID) {
+          Controller().soundPlayer.prepareNextSongs(1);
+        }
+      }
     });
+  }
+
+  void _removeSong(Song pSong) {
+    int index = this._songs.indexWhere((item) => item.songID == pSong.songID);
+    if (index > -1) {
+      this._songs.removeAt(index);
+    }
   }
 
   void _sort() {
@@ -88,14 +99,6 @@ class Queue {
       if (r != 0) return r;
       return a.createdAt.compareTo(b.createdAt);
     });
-  }
-
-  Song getCurrentSong() {
-    if (this._currentSong == null) {
-      this._currentSong = this._songs[0];
-      this._songs.removeAt(0);
-    }
-    return this._currentSong;
   }
 
   Song skip() {
@@ -133,6 +136,17 @@ class Queue {
   }
 
   Song get currentSong {
+    if (this._currentSong == null) {
+      if (this._songs.length == 0) {
+        return null;
+      }
+      if (this._songs[0].songStatus.isPlaying) {
+        this._currentSong = this._songs[0];
+        this._songs.removeAt(0);
+      } else {
+        return null;
+      }
+    }
     return this._currentSong;
   }
 }

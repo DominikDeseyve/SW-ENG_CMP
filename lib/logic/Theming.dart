@@ -1,3 +1,4 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
 
 class Theming {
@@ -68,6 +69,11 @@ class Theming {
       content: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Text(pText),
+      ),
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Controller().theming.fontAccent,
+        onPressed: () {},
       ),
     );
 
