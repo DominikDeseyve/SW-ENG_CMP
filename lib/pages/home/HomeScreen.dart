@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Connected Music Playlist",
+                Controller().translater.language.appName,
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: 15),
                               Text(
-                                "Beigetrettene Playlists",
+                                Controller().translater.language.joinedPlaylists,
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.normal,
