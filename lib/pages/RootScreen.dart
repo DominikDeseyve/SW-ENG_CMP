@@ -1,3 +1,4 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/RouteController.dart';
 import 'package:cmp/pages/navigation.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +38,12 @@ class _RootScreenState extends State<RootScreen> {
       clearStackAfterTapOnCurrentTab: true,
       buildCustomBottomNavigationItem: (key, item, selected) {
         return Container(
+          color: Controller().theming.navigation,
           height: 50,
           child: Icon(
             item.icon,
             size: selected ? 28 : 26,
-            color: selected ? Colors.redAccent : Colors.grey,
+            color: selected ? Controller().theming.accent : Controller().theming.tertiary,
           ),
         );
       },

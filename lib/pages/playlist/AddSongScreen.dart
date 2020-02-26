@@ -38,10 +38,18 @@ class _AddSongScreenState extends State<AddSongScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
+              iconTheme: IconThemeData(
+                color: Controller().theming.fontSecondary,
+              ),
               backgroundColor: Color(0xFF253A4B),
               centerTitle: true,
               elevation: 0,
-              title: Text("Songs suchen"),
+              title: Text(
+                "Songs suchen",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -60,15 +68,28 @@ class _AddSongScreenState extends State<AddSongScreen> {
             margin: EdgeInsets.fromLTRB(20, 30, 20, 20),
             padding: EdgeInsets.only(right: 5),
             width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
+            decoration: BoxDecoration(
+              color: Controller().theming.accent,
+              borderRadius: BorderRadius.all(
+                Radius.circular(30.0),
+              ),
+            ),
             child: TextField(
               onSubmitted: this.initiateSearch,
-              style: TextStyle(color: Colors.white, decorationColor: Colors.white),
+              style: TextStyle(
+                color: Controller().theming.fontSecondary,
+                decorationColor: Controller().theming.fontSecondary,
+              ),
               autocorrect: false,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search, color: Colors.white),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Controller().theming.fontSecondary,
+                ),
                 hintText: "Song eingeben",
-                hintStyle: TextStyle(color: Colors.white),
+                hintStyle: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
                 border: InputBorder.none,
               ),
             ),
@@ -86,7 +107,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                       padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
                       child: Divider(
                         thickness: 0.4,
-                        color: Colors.grey,
+                        color: Controller().theming.tertiary,
                         height: 4,
                       ),
                     ),
@@ -129,16 +150,18 @@ class SongtItem extends StatelessWidget {
           title: Container(
             child: Text(
               _song.titel,
-              style: TextStyle(color: Color(0xFF253A4B), fontSize: 20.0),
+              style: TextStyle(color: Controller().theming.fontPrimary, fontSize: 20.0),
             ),
           ),
           subtitle: Text(
             this._song.artist,
-            style: TextStyle(color: Color(0xFF253A4B)),
+            style: TextStyle(
+              color: Controller().theming.fontPrimary,
+            ),
           ),
           trailing: Icon(
             Icons.more_vert,
-            color: Color(0xFF253A4B),
+            color: Controller().theming.fontPrimary,
           ),
         ),
       ),

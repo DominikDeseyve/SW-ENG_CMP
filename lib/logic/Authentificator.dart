@@ -56,8 +56,6 @@ class Authentificator {
     print("### USER LOGGED IN WITH ID: " + userID);
     this._user = await this._controller.firebase.getUser(userID);
     this._user.settings = await this._controller.firebase.getSettings(userID);
-    print('fetch settings');
-    print(this._user.settings);
     if (this._user == null) {
       print("USER NOT FOUND; TODO");
     }

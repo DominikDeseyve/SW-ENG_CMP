@@ -33,7 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.redAccent,
+                            color: Controller().theming.accent,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -48,6 +48,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
                       ],
@@ -60,6 +61,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     this.widget._playlist.description,
                     style: TextStyle(
                       fontSize: 15.0,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
                 ),
@@ -79,7 +81,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.redAccent,
+                            color: Controller().theming.accent,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -94,6 +96,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
                       ],
@@ -106,6 +109,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     this.widget._playlist.maxAttendees.toString() + ' Teilnehmer',
                     style: TextStyle(
                       fontSize: 15.0,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
                 ),
@@ -125,7 +129,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.redAccent,
+                            color: Controller().theming.accent,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -140,6 +144,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
                       ],
@@ -152,6 +157,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     this.widget._playlist.visibleness.longValue,
                     style: TextStyle(
                       fontSize: 15.0,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
                 ),
@@ -160,16 +166,22 @@ class _DetailScreenState extends State<DetailScreen> {
           ],
         ),
         Container(
-          color: Controller().theming.fontTertiary.withOpacity(0.1),
+          color: Controller().theming.tertiary.withOpacity(0.1),
           child: ListTile(
             leading: UserAvatar(this.widget._playlist.creator),
             title: Text(
               'Erstellt von ' + this.widget._playlist.creator.username,
               style: TextStyle(
                 fontSize: 18,
+                color: Controller().theming.fontPrimary,
               ),
             ),
-            subtitle: Text(this.widget._playlist.createdAtString),
+            subtitle: Text(
+              this.widget._playlist.createdAtString,
+              style: TextStyle(
+                color: Controller().theming.fontTertiary,
+              ),
+            ),
           ),
         ),
       ],

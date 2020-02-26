@@ -80,7 +80,12 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
               backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
-              title: Text("Playlist suchen"),
+              title: Text(
+                "Playlist suchen",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -110,16 +115,21 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
               onChanged: this.initiateSearch,
               style: TextStyle(
                 color: Colors.white,
-                decorationColor: Colors.white,
+                decorationColor: Controller().theming.fontSecondary,
               ),
               autocorrect: false,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search, color: Colors.white),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Controller().theming.fontSecondary,
+                ),
                 hintText: "Playlist eingeben",
-                hintStyle: TextStyle(color: Colors.white),
+                hintStyle: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.camera_alt),
-                  color: Colors.white,
+                  color: Controller().theming.fontSecondary,
                   onPressed: this.scan,
                 ),
                 border: InputBorder.none,
@@ -136,7 +146,10 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                         children: [
                           Text(
                             'Letzte Suchanfragen',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Controller().theming.fontPrimary,
+                            ),
                           ),
                           FlatButton(
                             onPressed: () {
@@ -149,6 +162,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                               'Suchverlauf löschen',
                               style: TextStyle(
                                 fontSize: 12,
+                                color: Controller().theming.fontPrimary,
                               ),
                             ),
                           ),
@@ -199,16 +213,21 @@ class PlaylistItem extends StatelessWidget {
           title: Container(
             child: Text(
               _playlist.name,
-              style: TextStyle(color: Color(0xFF253A4B), fontSize: 20.0),
+              style: TextStyle(
+                color: Controller().theming.fontPrimary,
+                fontSize: 20.0,
+              ),
             ),
           ),
           subtitle: Text(
             "erstellt von " + this._playlist.creator.username,
-            style: TextStyle(color: Color(0xFF253A4B)),
+            style: TextStyle(
+              color: Controller().theming.fontPrimary,
+            ),
           ),
           trailing: Icon(
             Icons.more_vert,
-            color: Color(0xFF253A4B),
+            color: Controller().theming.fontPrimary,
           ),
         ),
       ),

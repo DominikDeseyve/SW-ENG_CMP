@@ -125,7 +125,12 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
-              title: Text("Playlist erstellen"),
+              title: Text(
+                "Playlist erstellen",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -139,7 +144,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
         children: <Widget>[
           Container(
             height: 150,
-            margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
+            margin: const EdgeInsets.fromLTRB(20, 30, 20, 10),
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: this._chooseFile,
@@ -147,7 +152,10 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 width: 150,
                 height: 150,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Colors.black26),
+                  border: Border.all(
+                    width: 1,
+                    color: Controller().theming.fontPrimary.withOpacity(0.3),
+                  ),
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -161,19 +169,30 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
               controller: _nameController,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "Name der Playlist",
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
                 labelStyle: TextStyle(
-                  color: Colors.redAccent,
+                  color: Controller().theming.fontPrimary,
                   fontSize: 18,
                 ),
-                focusColor: Colors.redAccent,
+                focusColor: Controller().theming.fontPrimary,
               ),
             ),
           ),
@@ -181,7 +200,10 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
               controller: _maxAttendeesController,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
               keyboardType: TextInputType.number,
               maxLength: 3,
@@ -190,13 +212,21 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 labelText: "max. Anzahl an Teilnehmer",
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
                 labelStyle: TextStyle(
-                  color: Colors.redAccent,
+                  color: Controller().theming.fontPrimary,
                   fontSize: 18,
                 ),
-                focusColor: Colors.redAccent,
+                focusColor: Controller().theming.fontPrimary,
               ),
             ),
           ),
@@ -205,7 +235,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               border: Border(
                 bottom: BorderSide(
                   width: 1,
-                  color: Colors.black,
+                  color: Controller().theming.fontPrimary,
                 ),
               ),
             ),
@@ -215,7 +245,9 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               children: <Widget>[
                 Text(
                   "Art des Events",
-                  style: TextStyle(color: Colors.redAccent),
+                  style: TextStyle(
+                    color: Controller().theming.fontPrimary,
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,7 +256,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                       child: Row(
                         children: <Widget>[
                           Radio(
-                            activeColor: Colors.redAccent,
+                            activeColor: Controller().theming.fontAccent,
                             value: 0,
                             groupValue: _radioGroup,
                             onChanged: (t) {
@@ -241,7 +273,12 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                 _radioGroup = 0;
                               });
                             },
-                            child: Text("öffentliche Playlist"),
+                            child: Text(
+                              "öffentliche Playlist",
+                              style: TextStyle(
+                                color: Controller().theming.fontPrimary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -253,7 +290,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                       child: Row(
                         children: <Widget>[
                           Radio(
-                            activeColor: Colors.redAccent,
+                            activeColor: Controller().theming.fontAccent,
                             value: 1,
                             groupValue: _radioGroup,
                             onChanged: (t) {
@@ -270,7 +307,12 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                                 _radioGroup = 1;
                               });
                             },
-                            child: Text("private Playlist"),
+                            child: Text(
+                              "private Playlist",
+                              style: TextStyle(
+                                color: Controller().theming.fontPrimary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -286,19 +328,30 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               minLines: 3,
               maxLines: null,
               controller: _descriptionController,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 labelText: "Beschreibung",
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
                 labelStyle: TextStyle(
-                  color: Colors.redAccent,
+                  color: Controller().theming.fontPrimary,
                   fontSize: 18,
                 ),
-                focusColor: Colors.redAccent,
+                focusColor: Controller().theming.fontPrimary,
               ),
             ),
           ),
@@ -310,7 +363,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 clearTextfields();
               },
               padding: const EdgeInsets.all(10),
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
               shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -320,14 +373,14 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                     child: Icon(
                       Icons.done,
                       size: 20.0,
-                      color: Colors.white,
+                      color: Controller().theming.fontSecondary,
                     ),
                   ),
                   Text(
                     "Playlist erstellen",
                     style: TextStyle(
                       fontSize: 18.0,
-                      color: Colors.white,
+                      color: Controller().theming.fontSecondary,
                     ),
                   )
                 ],
