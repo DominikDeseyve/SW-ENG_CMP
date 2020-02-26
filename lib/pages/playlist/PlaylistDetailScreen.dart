@@ -20,7 +20,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
       length: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID ? 3 : 2),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF253A4B),
+          backgroundColor: Controller().theming.primary,
           bottom: TabBar(
             indicator: BoxDecoration(),
             tabs: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID

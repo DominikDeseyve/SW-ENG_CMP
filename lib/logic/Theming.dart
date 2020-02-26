@@ -12,12 +12,12 @@ class Theming {
     _primary = Color(0xFF080d12);
     _secondary = Colors.white;
     _tertiary = Colors.grey;
-    _accent = Colors.redAccent;
+    _accent = Colors.cyan;
 
     _fontPrimary = Colors.white;
     _fontSecondary = Colors.white;
     _fontTertiary = Colors.grey;
-    _fontAccent = Colors.redAccent;
+    _fontAccent = Colors.cyan;
 
     _background = Color(0xFF111b24);
   }
@@ -26,12 +26,12 @@ class Theming {
     _primary = Color(0xFF253A4B);
     _secondary = Colors.white;
     _tertiary = Colors.grey;
-    _accent = Colors.redAccent;
+    _accent = Colors.cyan;
 
     _fontPrimary = Colors.black;
     _fontSecondary = Colors.white;
     _fontTertiary = Colors.grey;
-    _fontAccent = Colors.redAccent;
+    _fontAccent = Colors.cyan;
 
     _background = Colors.white;
   }

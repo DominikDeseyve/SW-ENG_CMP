@@ -33,12 +33,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
-              title: Text("Einstellungen"),
+              title: Text(
+                "Einstellungen",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
               height: 7,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ],
         ),

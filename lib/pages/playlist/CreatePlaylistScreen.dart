@@ -122,7 +122,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
-              backgroundColor: Color(0xFF253A4B),
+              backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
               title: Text("Playlist erstellen"),
@@ -130,7 +130,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 7,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ],
         ),

@@ -46,67 +46,57 @@ class _AddSongScreenState extends State<AddSongScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 7,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ],
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              width: MediaQuery.of(context).size.height * 0.01,
-              color: Colors.redAccent,
-            ),
-          ),
-        ),
-        child: ListView(
-          shrinkWrap: false,
-          primary: true,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(20, 30, 20, 20),
-              padding: EdgeInsets.only(right: 5),
-              width: MediaQuery.of(context).size.width * 0.8,
-              decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
-              child: TextField(
-                onSubmitted: this.initiateSearch,
-                style: TextStyle(color: Colors.white, decorationColor: Colors.white),
-                autocorrect: false,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search, color: Colors.white),
-                  hintText: "Song eingeben",
-                  hintStyle: TextStyle(color: Colors.white),
-                  border: InputBorder.none,
-                ),
+      body: ListView(
+        shrinkWrap: false,
+        primary: true,
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.fromLTRB(20, 30, 20, 20),
+            padding: EdgeInsets.only(right: 5),
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
+            child: TextField(
+              onSubmitted: this.initiateSearch,
+              style: TextStyle(color: Colors.white, decorationColor: Colors.white),
+              autocorrect: false,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search, color: Colors.white),
+                hintText: "Song eingeben",
+                hintStyle: TextStyle(color: Colors.white),
+                border: InputBorder.none,
               ),
             ),
-            ListView.builder(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: this.selectedSong.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (index < this.selectedSong.length - 1) {
-                  return Column(
-                    children: <Widget>[
-                      SongtItem(this.selectedSong[index], this._saveSong),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                        child: Divider(
-                          thickness: 0.4,
-                          color: Colors.grey,
-                          height: 4,
-                        ),
+          ),
+          ListView.builder(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: this.selectedSong.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (index < this.selectedSong.length - 1) {
+                return Column(
+                  children: <Widget>[
+                    SongtItem(this.selectedSong[index], this._saveSong),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                      child: Divider(
+                        thickness: 0.4,
+                        color: Colors.grey,
+                        height: 4,
                       ),
-                    ],
-                  );
-                }
-                return SongtItem(this.selectedSong[index], this._saveSong);
-              },
-            ),
-          ],
-        ),
+                    ),
+                  ],
+                );
+              }
+              return SongtItem(this.selectedSong[index], this._saveSong);
+            },
+          ),
+        ],
       ),
     );
   }

@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 7,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ],
         ),
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.redAccent,
+                                  color: Controller().theming.accent,
                                   borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20),
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.redAccent,
+                                  color: Controller().theming.accent,
                                   borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20),

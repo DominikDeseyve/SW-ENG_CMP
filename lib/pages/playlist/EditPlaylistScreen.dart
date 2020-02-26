@@ -112,7 +112,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
-              backgroundColor: Color(0xFF253A4B),
+              backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
               title: Text("Playlist bearbeiten"),
@@ -120,245 +120,213 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 7,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ],
         ),
       ),
-      body: Stack(
+      body: ListView(
         children: <Widget>[
           Container(
-            // Add box decoration
-            decoration: BoxDecoration(
-              // Box decoration takes a gradient
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                // Add one stop for each color. Stops should increase from 0 to 1
-                stops: [0.0, 1.0],
-                colors: [
-                  // Colors are easy thanks to Flutter's Colors class.
-                  Colors.grey[400],
-                  Colors.white,
-                ],
+            height: 150,
+            margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
+            alignment: Alignment.center,
+            child: GestureDetector(
+              onTap: this._chooseFile,
+              child: (this._selectedImage == null
+                  ? PlaylistAvatar(
+                      this.widget._playlist,
+                      width: 150,
+                    )
+                  : Material(
+                      shape: CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: Image.file(
+                        this._selectedImage,
+                        fit: BoxFit.cover,
+                        width: 150,
+                        height: 150,
+                      ),
+                    )),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextField(
+              controller: _nameController,
+              style: TextStyle(fontSize: 18),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: "Name der Playlist",
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                labelStyle: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 18,
+                ),
+                focusColor: Colors.redAccent,
               ),
             ),
           ),
-          //kompletter Bildschirm
           Container(
-            child: ListView(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextField(
+              controller: _maxAttendeesController,
+              style: TextStyle(fontSize: 18),
+              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+              maxLength: 3,
+              decoration: InputDecoration(
+                counter: Offstage(),
+                labelText: "max. Anzahl an Teilnehmer",
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                labelStyle: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 18,
+                ),
+                focusColor: Colors.redAccent,
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  width: 1,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            margin: const EdgeInsets.fromLTRB(30, 15, 30, 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  height: 150,
-                  margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: this._chooseFile,
-                    child: (this._selectedImage == null
-                        ? PlaylistAvatar(
-                            this.widget._playlist,
-                            width: 150,
-                          )
-                        : Material(
-                            shape: CircleBorder(),
-                            clipBehavior: Clip.hardEdge,
-                            child: Image.file(
-                              this._selectedImage,
-                              fit: BoxFit.cover,
-                              width: 150,
-                              height: 150,
-                            ),
-                          )),
-                  ),
+                Text(
+                  "Art des Events",
+                  style: TextStyle(color: Colors.redAccent),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: TextField(
-                    controller: _nameController,
-                    style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Name der Playlist",
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                      labelStyle: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 18,
-                      ),
-                      focusColor: Colors.redAccent,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: TextField(
-                    controller: _maxAttendeesController,
-                    style: TextStyle(fontSize: 18),
-                    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    keyboardType: TextInputType.number,
-                    maxLength: 3,
-                    decoration: InputDecoration(
-                      counter: Offstage(),
-                      labelText: "max. Anzahl an Teilnehmer",
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                      labelStyle: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 18,
-                      ),
-                      focusColor: Colors.redAccent,
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  margin: const EdgeInsets.fromLTRB(30, 15, 30, 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Art des Events",
-                        style: TextStyle(color: Colors.redAccent),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                      child: Row(
                         children: <Widget>[
-                          InkWell(
-                            child: Row(
-                              children: <Widget>[
-                                Radio(
-                                  activeColor: Colors.redAccent,
-                                  value: 0,
-                                  groupValue: _radioGroup,
-                                  onChanged: (t) {
-                                    setState(() {
-                                      this._visibleness = this._visiblenessList[t];
-                                      _radioGroup = t;
-                                    });
-                                  },
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      this._visibleness = this._visiblenessList[0];
-                                      _radioGroup = 0;
-                                    });
-                                  },
-                                  child: Text("öffentliche Playlist"),
-                                ),
-                              ],
-                            ),
+                          Radio(
+                            activeColor: Colors.redAccent,
+                            value: 0,
+                            groupValue: _radioGroup,
+                            onChanged: (t) {
+                              setState(() {
+                                this._visibleness = this._visiblenessList[t];
+                                _radioGroup = t;
+                              });
+                            },
                           ),
-                          SizedBox(
-                            width: 20,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                this._visibleness = this._visiblenessList[0];
+                                _radioGroup = 0;
+                              });
+                            },
+                            child: Text("öffentliche Playlist"),
                           ),
-                          InkWell(
-                            child: Row(
-                              children: <Widget>[
-                                Radio(
-                                  activeColor: Colors.redAccent,
-                                  value: 1,
-                                  groupValue: _radioGroup,
-                                  onChanged: (t) {
-                                    setState(
-                                      () {
-                                        this._visibleness = this._visiblenessList[t];
-                                        _radioGroup = t;
-                                      },
-                                    );
-                                  },
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      this._visibleness = this._visiblenessList[1];
-                                      _radioGroup = 1;
-                                    });
-                                  },
-                                  child: Text("private Playlist"),
-                                ),
-                              ],
-                            ),
-                          )
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: TextField(
-                    minLines: 3,
-                    maxLines: null,
-                    controller: _descriptionController,
-                    style: TextStyle(fontSize: 18),
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                      labelText: "Beschreibung",
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-                      labelStyle: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 18,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    InkWell(
+                      child: Row(
+                        children: <Widget>[
+                          Radio(
+                            activeColor: Colors.redAccent,
+                            value: 1,
+                            groupValue: _radioGroup,
+                            onChanged: (t) {
+                              setState(
+                                () {
+                                  this._visibleness = this._visiblenessList[t];
+                                  _radioGroup = t;
+                                },
+                              );
+                            },
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                this._visibleness = this._visiblenessList[1];
+                                _radioGroup = 1;
+                              });
+                            },
+                            child: Text("private Playlist"),
+                          ),
+                        ],
                       ),
-                      focusColor: Colors.redAccent,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-                  child: FlatButton(
-                    onPressed: () async {
-                      this._editPlaylist();
-                      //Navigator.of(context).pop();
-                    },
-                    padding: const EdgeInsets.all(10),
-                    color: Colors.redAccent,
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5.0),
-                          child: Icon(
-                            Icons.done,
-                            size: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "Speichern",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                    )
+                  ],
                 ),
               ],
             ),
           ),
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.015,
-            child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 1, 1, 1),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextField(
+              minLines: 3,
+              maxLines: null,
+              controller: _descriptionController,
+              style: TextStyle(fontSize: 18),
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(
+                labelText: "Beschreibung",
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                labelStyle: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 18,
+                ),
+                focusColor: Colors.redAccent,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+            child: FlatButton(
+              onPressed: () async {
+                this._editPlaylist();
+                //Navigator.of(context).pop();
+              },
+              padding: const EdgeInsets.all(10),
+              color: Colors.redAccent,
+              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      Icons.done,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "Speichern",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],

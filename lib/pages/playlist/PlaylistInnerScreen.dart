@@ -134,16 +134,17 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
           title: Text(
             this.widget._playlist.name,
             style: TextStyle(
-              color: Colors.white,
+              color: Controller().theming.fontSecondary,
             ),
           ),
-          backgroundColor: Color(0xFF253A4B),
+          backgroundColor: Controller().theming.primary,
           actions: <Widget>[
             (this._userRole.role == ROLE.ADMIN
                 ? IconButton(
@@ -158,10 +159,10 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   )
                 : SizedBox.shrink()),
             PopupMenuButton(
-              color: Colors.white,
+              color: Controller().theming.background,
               icon: Icon(
                 Icons.more_vert,
-                color: Colors.white,
+                color: Controller().theming.fontSecondary,
               ),
               itemBuilder: (context) => [
                 (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
@@ -173,7 +174,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                             child: Text(
                               "Playlist löschen",
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Controller().theming.fontPrimary,
                               ),
                             ),
                             onTap: () {
@@ -190,7 +191,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                             child: Text(
                               "Playlist verlassen",
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Controller().theming.fontPrimary,
                               ),
                             ),
                           ),
@@ -207,7 +208,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                       child: Text(
                         "Code ansehen",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Controller().theming.fontPrimary,
                         ),
                       ),
                     ),
@@ -233,14 +234,14 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.225,
                 child: CustomPaint(
-                  painter: CurvePainter(Colors.redAccent, (0.155 / 0.225), 1, (0.155 / 0.225)),
+                  painter: CurvePainter(Controller().theming.accent, (0.155 / 0.225), 1, (0.155 / 0.225)),
                 ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.21,
                 child: CustomPaint(
-                  painter: CurvePainter(Color(0xFF253A4B), (0.145 / 0.21), 1, (0.145 / 0.21)),
+                  painter: CurvePainter(Controller().theming.primary, (0.145 / 0.21), 1, (0.145 / 0.21)),
                 ),
               ),
               InkWell(
@@ -272,10 +273,10 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                           child: Icon(
                             (this._isPlaying ? Icons.stop : Icons.play_arrow),
                             size: 30,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                           shape: new CircleBorder(),
-                          fillColor: Colors.redAccent,
+                          fillColor: Controller().theming.accent,
                           padding: const EdgeInsets.all(15.0),
                         ),
                       ),
@@ -292,10 +293,10 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     child: Icon(
                       Icons.playlist_add,
                       size: 30,
-                      color: Colors.white,
+                      color: Controller().theming.fontSecondary,
                     ),
                     shape: new CircleBorder(),
-                    fillColor: Colors.redAccent,
+                    fillColor: Controller().theming.accent,
                     padding: const EdgeInsets.all(15.0),
                   ),
                 ),
@@ -341,7 +342,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: Controller().theming.accent,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20),
@@ -411,6 +412,7 @@ class _SongItemState extends State<SongItem> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
+        backgroundColor: Controller().theming.background,
         contentPadding: const EdgeInsets.all(0),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -436,7 +438,7 @@ class _SongItemState extends State<SongItem> {
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: Icon(
                           Icons.close,
-                          color: Colors.grey,
+                          color: Controller().theming.tertiary,
                         ),
                       ),
                       Expanded(
@@ -447,7 +449,7 @@ class _SongItemState extends State<SongItem> {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
-                              color: Colors.black,
+                              color: Controller().theming.fontPrimary,
                             ),
                             textAlign: TextAlign.left,
                           ),
@@ -473,7 +475,7 @@ class _SongItemState extends State<SongItem> {
         }
       },
       child: Container(
-        color: Colors.grey.withOpacity(0.05),
+        color: Controller().theming.tertiary.withOpacity(0.05),
         padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -492,7 +494,7 @@ class _SongItemState extends State<SongItem> {
                     this.widget._song.artist,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: Controller().theming.fontTertiary,
                     ),
                   ),
                   Text(
@@ -500,7 +502,7 @@ class _SongItemState extends State<SongItem> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.black,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
                 ],
@@ -515,7 +517,7 @@ class _SongItemState extends State<SongItem> {
                     InkWell(
                       child: Icon(
                         Icons.thumb_up,
-                        color: (this.widget._song.isUpvoting ? Colors.redAccent : Colors.grey),
+                        color: (this.widget._song.isUpvoting ? Controller().theming.accent : Controller().theming.tertiary),
                       ),
                       onTap: () {
                         setState(() {
@@ -524,7 +526,12 @@ class _SongItemState extends State<SongItem> {
                         });
                       },
                     ),
-                    Text(this.widget._song.upvoteCount.toString()),
+                    Text(
+                      this.widget._song.upvoteCount.toString(),
+                      style: TextStyle(
+                        color: Controller().theming.fontPrimary,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(width: 15),
@@ -534,7 +541,7 @@ class _SongItemState extends State<SongItem> {
                     InkWell(
                       child: Icon(
                         Icons.thumb_down,
-                        color: (this.widget._song.isDownvoting ? Colors.redAccent : Colors.grey),
+                        color: (this.widget._song.isDownvoting ? Controller().theming.accent : Controller().theming.tertiary),
                       ),
                       onTap: () {
                         setState(() {
@@ -543,7 +550,12 @@ class _SongItemState extends State<SongItem> {
                         });
                       },
                     ),
-                    Text(this.widget._song.downvoteCount.toString()),
+                    Text(
+                      this.widget._song.downvoteCount.toString(),
+                      style: TextStyle(
+                        color: Controller().theming.fontPrimary,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -582,16 +594,13 @@ class CurrentSongItem extends StatelessWidget {
                     this._song.artist,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: Controller().theming.fontTertiary,
                     ),
                   ),
                   Text(
                     this._song.titel,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(fontSize: 18, color: Controller().theming.fontPrimary),
                   ),
                 ],
               ),

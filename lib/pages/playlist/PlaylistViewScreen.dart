@@ -76,13 +76,23 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
-          centerTitle: true,
-          elevation: 0,
-          title: Text(this.widget._playlist.name),
+        preferredSize: Size.fromHeight(70.0),
+        child: Column(
+          children: <Widget>[
+            AppBar(
+              backgroundColor: Controller().theming.primary,
+              centerTitle: true,
+              elevation: 0,
+              title: Text(this.widget._playlist.name),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 7,
+              color: Controller().theming.accent,
+            ),
+          ],
         ),
       ),
       body: ListView(

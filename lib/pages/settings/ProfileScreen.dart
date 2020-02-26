@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 7,
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
             ),
           ],
         ),
