@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       //Die ganzen Events
                       Container(
-                        color: Colors.grey.withOpacity(0.05),
+                        color: Controller().theming.tertiary.withOpacity(0.1),
                         width: MediaQuery.of(context).size.width,
                         height: 160,
                         child: ListView.builder(
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //Die ganzen Events
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.grey.withOpacity(0.05),
+                        color: Controller().theming.tertiary.withOpacity(0.1),
                         height: 160,
                         child: ListView.builder(
                           physics: ScrollPhysics(),

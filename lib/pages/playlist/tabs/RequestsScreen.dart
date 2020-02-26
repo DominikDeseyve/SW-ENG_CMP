@@ -45,7 +45,10 @@ class _RequestScreenState extends State<RequestScreen> with AutomaticKeepAliveCl
           ? Center(
               child: Text(
                 "Keine Anfragen vorhanden",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Controller().theming.fontPrimary,
+                ),
               ),
             )
           : ListView.builder(
@@ -76,16 +79,25 @@ class RequestItem extends StatelessWidget {
         leading: UserAvatar(this._request.user),
         title: Text(
           this._request.user.username,
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(
+            fontSize: 18,
+            color: Controller().theming.fontPrimary,
+          ),
         ),
         subtitle: Text(
           this._request.createdAtString,
+          style: TextStyle(
+            color: Controller().theming.fontTertiary,
+          ),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.check),
+              icon: Icon(
+                Icons.check,
+                color: Controller().theming.fontPrimary,
+              ),
               onPressed: () {
                 this._request.accept();
                 Controller().firebase.updateRequest(this._playlist, this._request).then((_) {});
@@ -93,7 +105,10 @@ class RequestItem extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.clear),
+              icon: Icon(
+                Icons.clear,
+                color: Controller().theming.fontPrimary,
+              ),
               onPressed: () {
                 this._request.decline();
                 Controller().firebase.updateRequest(this._playlist, this._request).then((_) {

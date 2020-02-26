@@ -50,7 +50,7 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Divider(
                     thickness: 0.2,
-                    color: Colors.grey,
+                    color: Controller().theming.fontTertiary,
                     height: 4,
                   ),
                 ),
@@ -96,13 +96,14 @@ class _UserItemState extends State<UserItem> {
             this.widget._user.username,
             style: TextStyle(
               fontSize: 20,
+              color: Controller().theming.fontPrimary,
             ),
           ),
           subtitle: Row(
             children: [
               Icon(
                 this.widget._user.role.icon,
-                color: Colors.grey,
+                color: Controller().theming.fontTertiary,
                 size: 16,
               ),
               SizedBox(width: 5),
@@ -110,7 +111,7 @@ class _UserItemState extends State<UserItem> {
                 this.widget._user.role.name.toUpperCase(),
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey,
+                  color: Controller().theming.fontTertiary,
                 ),
               ),
             ],
@@ -120,7 +121,10 @@ class _UserItemState extends State<UserItem> {
             children: <Widget>[
               (this.widget._user.role.role != ROLE.ADMIN
                   ? IconButton(
-                      icon: Icon(Icons.clear),
+                      icon: Icon(
+                        Icons.clear,
+                        color: Controller().theming.fontPrimary,
+                      ),
                       onPressed: () {
                         //Controller().firebase.removeUserFromPlaylist(this.widget._user);
                       },

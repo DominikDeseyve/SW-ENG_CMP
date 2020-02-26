@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class PlaylistDetailScreen extends StatefulWidget {
-  Playlist _playlist;
+  final Playlist _playlist;
 
   PlaylistDetailScreen(this._playlist);
 
@@ -19,44 +19,69 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
     return DefaultTabController(
       length: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID ? 3 : 2),
       child: Scaffold(
+        backgroundColor: Controller().theming.background,
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Controller().theming.fontSecondary,
+          ),
           backgroundColor: Controller().theming.primary,
           bottom: TabBar(
+            labelColor: Controller().theming.fontSecondary,
             indicator: BoxDecoration(),
             tabs: (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
                 ? [
                     Tab(
                       text: "Details",
-                      icon: Icon(Icons.info),
+                      icon: Icon(
+                        Icons.info,
+                        color: Controller().theming.fontSecondary,
+                      ),
                     ),
                     Tab(
                       text: "Teilnehmer",
-                      icon: Icon(Icons.people),
+                      icon: Icon(
+                        Icons.people,
+                        color: Controller().theming.fontSecondary,
+                      ),
                     ),
                     Tab(
                       text: "Anfragen",
-                      icon: Icon(Icons.person_add),
+                      icon: Icon(
+                        Icons.person_add,
+                        color: Controller().theming.fontSecondary,
+                      ),
                     ),
                   ]
                 : [
                     Tab(
                       text: "Details",
-                      icon: Icon(Icons.info),
+                      icon: Icon(
+                        Icons.info,
+                        color: Controller().theming.fontSecondary,
+                      ),
                     ),
                     Tab(
                       text: "Teilnehmer",
-                      icon: Icon(Icons.people),
+                      icon: Icon(
+                        Icons.people,
+                        color: Controller().theming.fontSecondary,
+                      ),
                     ),
                   ]),
           ),
-          title: Text("Informationen zu " + this.widget._playlist.name),
+          title: Text(
+            "Informationen zu " + this.widget._playlist.name,
+            style: TextStyle(
+              color: Controller().theming.fontSecondary,
+            ),
+          ),
         ),
         body: Container(
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(
-                width: MediaQuery.of(context).size.height * 0.01,
-                color: Colors.redAccent,
+                width: 10,
+                color: Controller().theming.accent,
               ),
             ),
           ),

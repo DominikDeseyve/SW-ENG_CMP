@@ -86,6 +86,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: <Widget>[
             AppBar(
+              iconTheme: IconThemeData(
+                color: Controller().theming.fontSecondary,
+              ),
               backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
@@ -212,7 +215,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Flexible(
                   child: TextField(
                     controller: _birthdayController,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Controller().theming.fontPrimary,
+                    ),
                     keyboardType: TextInputType.datetime,
                     readOnly: true,
                     onTap: () {

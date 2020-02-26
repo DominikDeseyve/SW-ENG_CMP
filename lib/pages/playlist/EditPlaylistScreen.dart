@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +17,7 @@ class EditPlaylistScreen extends StatefulWidget {
 }
 
 class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
-  int _radioGroup = 0;
+  int _radioGroup;
 
   File _selectedImage;
   TextEditingController _nameController;
@@ -27,7 +26,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
   Visibleness _visibleness;
   List<Visibleness> _visiblenessList;
-  //List<Genre> _blackedGenre = [];
 
   void initState() {
     super.initState();
@@ -40,6 +38,12 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
     this._descriptionController = new TextEditingController();
     this._descriptionController.text = this.widget._playlist.description;
+
+    if (this.widget._playlist.visibleness.key == 'PUBLIC') {
+      this._radioGroup = 0;
+    } else {
+      this._radioGroup = 1;
+    }
 
     _visiblenessList = <Visibleness>[
       Visibleness('PUBLIC'),
@@ -60,7 +64,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     this.widget._playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
     this.widget._playlist.visibleness = this._visibleness;
     this.widget._playlist.description = this._descriptionController.text;
-    //playlist.blackedGenre = this.widget._playlist.blackedGenre;
     this.widget._playlist.creator = Controller().authentificator.user;
     this.widget._playlist.playlistID = this.widget._playlist.playlistID;
 
@@ -72,27 +75,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     Controller().theming.showSnackbar(context, "Die Playlist wurde erfolgreich bearbeitet!");
     Navigator.of(context).pop();
   }
-
-/*
-  String _generateBlackedGenreLabel() {
-    String label = '';
-    if (this._blackedGenre.length == 0) {
-      label = "Blacked Genre";
-    } else {
-      int length = 3;
-      if (this._blackedGenre.length < 3) {
-        length = this._blackedGenre.length;
-      }
-      for (int i = 0; i < length; i++) {
-        label += this._blackedGenre[i].name;
-        if (i < this._blackedGenre.length - 1) {
-          label += ', ';
-        }
-      }
-    }
-    return label;
-  }
-*/
 
   @override
   void dispose() {
@@ -115,7 +97,12 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               backgroundColor: Controller().theming.primary,
               centerTitle: true,
               elevation: 0,
-              title: Text("Playlist bearbeiten"),
+              title: Text(
+                "Playlist bearbeiten",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -129,7 +116,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
         children: <Widget>[
           Container(
             height: 150,
-            margin: const EdgeInsets.fromLTRB(20, 40, 20, 15),
+            margin: const EdgeInsets.fromLTRB(20, 30, 20, 10),
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: this._chooseFile,
@@ -154,19 +141,30 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
               controller: _nameController,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "Name der Playlist",
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
                 labelStyle: TextStyle(
-                  color: Colors.redAccent,
+                  color: Controller().theming.fontPrimary,
                   fontSize: 18,
                 ),
-                focusColor: Colors.redAccent,
+                focusColor: Controller().theming.fontPrimary,
               ),
             ),
           ),
@@ -174,7 +172,10 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
               controller: _maxAttendeesController,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
               keyboardType: TextInputType.number,
               maxLength: 3,
@@ -183,13 +184,21 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                 labelText: "max. Anzahl an Teilnehmer",
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
                 labelStyle: TextStyle(
-                  color: Colors.redAccent,
+                  color: Controller().theming.fontPrimary,
                   fontSize: 18,
                 ),
-                focusColor: Colors.redAccent,
+                focusColor: Controller().theming.fontPrimary,
               ),
             ),
           ),
@@ -198,7 +207,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               border: Border(
                 bottom: BorderSide(
                   width: 1,
-                  color: Colors.black,
+                  color: Controller().theming.fontPrimary,
                 ),
               ),
             ),
@@ -208,7 +217,9 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               children: <Widget>[
                 Text(
                   "Art des Events",
-                  style: TextStyle(color: Colors.redAccent),
+                  style: TextStyle(
+                    color: Controller().theming.fontPrimary,
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -217,7 +228,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                       child: Row(
                         children: <Widget>[
                           Radio(
-                            activeColor: Colors.redAccent,
+                            activeColor: Controller().theming.accent,
                             value: 0,
                             groupValue: _radioGroup,
                             onChanged: (t) {
@@ -234,7 +245,12 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                 _radioGroup = 0;
                               });
                             },
-                            child: Text("öffentliche Playlist"),
+                            child: Text(
+                              "öffentliche Playlist",
+                              style: TextStyle(
+                                color: Controller().theming.fontPrimary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -246,7 +262,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                       child: Row(
                         children: <Widget>[
                           Radio(
-                            activeColor: Colors.redAccent,
+                            activeColor: Controller().theming.accent,
                             value: 1,
                             groupValue: _radioGroup,
                             onChanged: (t) {
@@ -265,7 +281,12 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                                 _radioGroup = 1;
                               });
                             },
-                            child: Text("private Playlist"),
+                            child: Text(
+                              "private Playlist",
+                              style: TextStyle(
+                                color: Controller().theming.fontPrimary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -281,19 +302,30 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               minLines: 3,
               maxLines: null,
               controller: _descriptionController,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 labelText: "Beschreibung",
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
                 labelStyle: TextStyle(
-                  color: Colors.redAccent,
+                  color: Controller().theming.fontPrimary,
                   fontSize: 18,
                 ),
-                focusColor: Colors.redAccent,
+                focusColor: Controller().theming.fontPrimary,
               ),
             ),
           ),
@@ -302,10 +334,9 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             child: FlatButton(
               onPressed: () async {
                 this._editPlaylist();
-                //Navigator.of(context).pop();
               },
               padding: const EdgeInsets.all(10),
-              color: Colors.redAccent,
+              color: Controller().theming.accent,
               shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -315,14 +346,14 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                     child: Icon(
                       Icons.done,
                       size: 20.0,
-                      color: Colors.white,
+                      color: Controller().theming.fontSecondary,
                     ),
                   ),
                   Text(
                     "Speichern",
                     style: TextStyle(
                       fontSize: 18.0,
-                      color: Colors.white,
+                      color: Controller().theming.fontSecondary,
                     ),
                   )
                 ],

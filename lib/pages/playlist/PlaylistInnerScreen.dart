@@ -138,6 +138,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
+          iconTheme: IconThemeData(
+            color: Controller().theming.fontSecondary,
+          ),
           title: Text(
             this.widget._playlist.name,
             style: TextStyle(
