@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
-import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

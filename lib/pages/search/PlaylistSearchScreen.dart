@@ -13,7 +13,6 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
   List<Playlist> selectedPlaylists = [];
   List<Playlist> _cachedPlaylists = [];
   TextEditingController _searchController;
-  String _barcode;
 
   void initState() {
     super.initState();

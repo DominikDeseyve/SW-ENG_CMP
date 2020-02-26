@@ -62,7 +62,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
 
   void _joinPlaylist() async {
     if (this.widget._playlist.visibleness.key == 'PUBLIC') {
-      bool success = await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER));
+      bool success = await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER, false));
       if (success) {
         Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
       } else {

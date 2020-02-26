@@ -1,5 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/role.dart';
 import 'package:cmp/pages/playlist/tabs/DetailScreen.dart';
 import 'package:cmp/pages/playlist/tabs/RequestsScreen.dart';
 import 'package:cmp/pages/playlist/tabs/SubscriberScreen.dart';
@@ -8,8 +9,12 @@ import 'package:flutter/rendering.dart';
 
 class PlaylistDetailScreen extends StatefulWidget {
   Playlist _playlist;
+  Role _userRole;
 
-  PlaylistDetailScreen(this._playlist);
+  PlaylistDetailScreen(Map pMap) {
+    this._playlist = pMap['playlist'];
+    this._userRole = pMap['user_role'];
+  }
 
   _PlaylistDetailScreenState createState() => _PlaylistDetailScreenState();
 }
@@ -64,14 +69,14 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
               ? TabBarView(
                   children: <Widget>[
                     DetailScreen(this.widget._playlist),
-                    SubscriberScreen(this.widget._playlist),
+                    SubscriberScreen(this.widget._playlist, this.widget._userRole),
                     RequestScreen(this.widget._playlist),
                   ],
                 )
               : TabBarView(
                   children: <Widget>[
                     DetailScreen(this.widget._playlist),
-                    SubscriberScreen(this.widget._playlist),
+                    SubscriberScreen(this.widget._playlist, this.widget._userRole),
                   ],
                 )),
         ),

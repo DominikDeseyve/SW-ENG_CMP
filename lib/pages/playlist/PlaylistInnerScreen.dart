@@ -36,7 +36,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     super.initState();
 
     //initialize default values
-    this._userRole = new Role(ROLE.MEMBER);
+    this._userRole = new Role(ROLE.MEMBER, false);
     this._isPlaying = false;
 
     this._fetchRole();
@@ -246,7 +246,10 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist).then((_) {
+                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: {
+                    'playlist': this.widget._playlist,
+                    'user_role': this._userRole,
+                  }).then((_) {
                     setState(() {});
                   });
                 },
@@ -263,7 +266,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 ),
               ),
-              (this._userRole.role == ROLE.MASTER
+              (this._userRole.isMaster
                   ? Positioned(
                       bottom: 5,
                       left: 50,

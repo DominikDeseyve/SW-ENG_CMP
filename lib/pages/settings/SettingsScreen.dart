@@ -10,12 +10,12 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _darkmode;
-  var _userImage;
+
   String _username;
 
   void initState() {
     _darkmode = Controller().authentificator.user.settings.darkMode;
-    _userImage = Controller().authentificator.user.imageURL;
+
     _username = Controller().authentificator.user.username;
 
     super.initState();
@@ -191,7 +191,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  DynamicTheme.of(context).setState(() {
+                                    Controller().translater.switchLanguage('ENGLISH');
+                                  });
+                                },
                                 child: Container(
                                   margin: EdgeInsets.only(top: 5),
                                   width: 30,
@@ -208,7 +212,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 width: 5,
                               ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  DynamicTheme.of(context).setState(() {
+                                    Controller().translater.switchLanguage('GERMAN');
+                                  });
+                                },
                                 child: Container(
                                   width: 30,
                                   height: 30,

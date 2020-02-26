@@ -74,6 +74,15 @@ class Firebase {
   }
 
   Future<void> updateRole(Playlist pPlaylist, User pUser) async {
+    if (pUser.role.isMaster) {
+      QuerySnapshot query = await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').where('role.is_master', isEqualTo: true).getDocuments(source: this._source);
+      await Future.forEach(query.documents, (DocumentSnapshot pSnap) {
+        Role role = new Role.fromFirebase(pSnap['role']);
+        role.isMaster = false;
+        pSnap.reference.updateData(role.toFirebase());
+      });
+    }
+
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).updateData(
           pUser.role.toFirebase(),
         );
@@ -247,7 +256,14 @@ class Firebase {
   // Playlist-User
   Future<List<User>> getPlaylistUser(Playlist pPlaylist) async {
     List<User> user = [];
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').orderBy('role.priority', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    await this
+        ._ref
+        .collection('playlist')
+        .document(pPlaylist.playlistID)
+        .collection('joined_user')
+        .orderBy('role.priority', descending: true)
+        .getDocuments(source: this._source)
+        .then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
         user.add(User.fromFirebase(pSnap));
       });
@@ -317,7 +333,7 @@ class Firebase {
   // Bearbeite Request
   Future<void> updateRequest(Playlist pPlaylist, Request pRequest) async {
     if (pRequest.status == 'ACCEPT') {
-      await this.joinPlaylist(pPlaylist, pRequest.user, Role(ROLE.MEMBER));
+      await this.joinPlaylist(pPlaylist, pRequest.user, Role(ROLE.MEMBER, false));
     }
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').document(pRequest.requestID).updateData(pRequest.toFirebase());
   }

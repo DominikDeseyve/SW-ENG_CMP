@@ -42,11 +42,15 @@ class _RequestScreenState extends State<RequestScreen> with AutomaticKeepAliveCl
       onRefresh: this._fetchRequests,
       color: Colors.redAccent,
       child: (this._requests.length == 0
-          ? Center(
-              child: Text(
-                "Keine Anfragen vorhanden",
-                style: TextStyle(fontSize: 18),
-              ),
+          ? ListView(
+              padding: const EdgeInsets.only(top: 50),
+              children: [
+                Text(
+                  "Keine Anfragen vorhanden",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
             )
           : ListView.builder(
               shrinkWrap: true,

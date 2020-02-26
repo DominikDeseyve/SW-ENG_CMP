@@ -60,7 +60,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     playlist.creator = Controller().authentificator.user;
     playlist.playlistID = await Controller().firebase.createPlaylist(playlist);
 
-    Role role = new Role(ROLE.ADMIN);
+    Role role = new Role(ROLE.ADMIN, true);
     await Controller().firebase.joinPlaylist(playlist, Controller().authentificator.user, role);
 
     if (this._selectedImage != null) {
