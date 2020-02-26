@@ -53,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 Navigator.of(context).pushNamed('/settings/profile').then((value) {
                   setState(() {
-                    this._userImage = Controller().authentificator.user.imageURL;
+                    //this._userImage = Controller().authentificator.user.imageURL;
                     this._username = Controller().authentificator.user.username;
                   });
                 });

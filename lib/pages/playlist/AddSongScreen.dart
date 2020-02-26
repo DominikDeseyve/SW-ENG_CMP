@@ -1,7 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
-import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

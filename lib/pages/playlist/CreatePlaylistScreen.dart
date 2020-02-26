@@ -12,11 +12,8 @@ class CreatePlaylistScreen extends StatefulWidget {
 }
 
 class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
-  static GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
   List<Visibleness> _visiblenessList;
 
-  State _imageState;
   int _radioGroup = 0;
 
   File _selectedImage;

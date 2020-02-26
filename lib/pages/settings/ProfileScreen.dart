@@ -156,6 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       if (value.trim().isEmpty) {
                         return 'Das Feld darf nicht leer sein';
                       }
+                      return value;
                     },
                     style: TextStyle(
                       fontSize: 18,
@@ -272,6 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       if (value.trim().isEmpty) {
                         return 'Feld darf nicht leer sein!';
                       }
+                      return value;
                     },
                     style: TextStyle(
                       fontSize: 18,

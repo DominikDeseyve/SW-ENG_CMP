@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Theming {
-  Color _primary, _secondary, _accent, _tertiary, _quaternary, _quinary, _senary, _septenary, _octonary, _nonary, _denary;
-  Color _fontPrimary, _fontSecondary, _fontAccent, _fontTertiary, _fontQuaternary;
+  Color _primary, _secondary, _accent, _tertiary;
+  Color _fontPrimary, _fontSecondary, _fontAccent, _fontTertiary;
   Color _background;
 
-  Theming() {}
+  Theming();
 
   void initDark() {
     _primary = Color(0xFF080d12);

@@ -8,7 +8,6 @@ import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
-import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
