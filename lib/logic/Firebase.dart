@@ -172,9 +172,16 @@ class Firebase {
   }
 
   // Beitreten
-  Future<void> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) {
+  Future<bool> joinPlaylist(Playlist pPlaylist, User pUser, Role pRole) async {
     Map userWithRole = pUser.toFirebase()..addAll(pRole.toFirebase());
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
+
+    DocumentSnapshot playlistSnap = await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source);
+    if (playlistSnap['joined_user_count'] < playlistSnap['max_attendees']) {
+      await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Verlassen

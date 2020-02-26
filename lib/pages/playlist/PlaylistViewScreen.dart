@@ -62,8 +62,12 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
 
   void _joinPlaylist() async {
     if (this.widget._playlist.visibleness.key == 'PUBLIC') {
-      await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER));
-      Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
+      bool success = await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER));
+      if (success) {
+        Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
+      } else {
+        Controller().theming.showSnackbar(context, "Die maximale Anzahl an Teilnehmer wurde erreicht.");
+      }
     } else {
       if (this._request == null) {
         setState(() {
@@ -145,23 +149,35 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Teilnehmer",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500,
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                          width: 20,
+                          height: 15,
                         ),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Color(0xFF253A4B),
-                      ),
-                    ],
+                        SizedBox(width: 15),
+                        Text(
+                          "Teilnehmer",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 GridView.builder(
