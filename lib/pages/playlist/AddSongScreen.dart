@@ -1,7 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
-import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,13 +32,23 @@ class _AddSongScreenState extends State<AddSongScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
-          centerTitle: true,
-          elevation: 0,
-          title: Text("Songs suchen"),
+        preferredSize: Size.fromHeight(70.0),
+        child: Column(
+          children: <Widget>[
+            AppBar(
+              backgroundColor: Color(0xFF253A4B),
+              centerTitle: true,
+              elevation: 0,
+              title: Text("Songs suchen"),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 7,
+              color: Colors.redAccent,
+            ),
+          ],
         ),
       ),
       body: Container(

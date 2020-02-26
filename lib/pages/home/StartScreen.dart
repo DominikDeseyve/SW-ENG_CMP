@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
-import 'package:cmp/models/colors.dart';
 
 class StartScreen extends StatefulWidget {
   _StartScreenState createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen> {
-  var color = ColorsClass();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
