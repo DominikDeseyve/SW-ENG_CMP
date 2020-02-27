@@ -74,6 +74,12 @@ class Firebase {
     await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
   }
 
+  Future<bool> isUsernameExisting(String pUsername) async {
+    return await this._ref.collection('user').where('username', isEqualTo: pUsername).getDocuments(source: this._source).then((QuerySnapshot pQuery) async {
+      return (pQuery.documents.length == 1);
+    });
+  }
+
   Future<void> updateRole(Playlist pPlaylist, User pUser) async {
     if (pUser.role.isMaster) {
       QuerySnapshot query = await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').where('role.is_master', isEqualTo: true).getDocuments(source: this._source);
@@ -161,7 +167,7 @@ class Firebase {
   Future<void> updatePlaylist(Playlist pPlaylist) async {
     await this._ref.collectionGroup('joined_playlist').where('playlist_id', isEqualTo: pPlaylist.playlistID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
-        pSnap.reference.updateData(pPlaylist.toFirebaseShort());
+        pSnap.reference.updateData(pPlaylist.toFirebase(short: true));
       });
     });
     await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
@@ -212,7 +218,7 @@ class Firebase {
     DocumentSnapshot playlistSnap = await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source);
     if (playlistSnap['joined_user_count'] < playlistSnap['max_attendees']) {
       await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
-      await this._ref.collection('user').document(pUser.userID).collection('joined_playlist').document(pPlaylist.playlistID).setData(pPlaylist.toFirebaseShort());
+      await this._ref.collection('user').document(pUser.userID).collection('joined_playlist').document(pPlaylist.playlistID).setData(pPlaylist.toFirebase(short: true));
       return true;
     } else {
       return false;
@@ -233,7 +239,7 @@ class Firebase {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist));
       });
-      return playlists;
+      return playlists; 
     });
   }
 
@@ -243,7 +249,7 @@ class Firebase {
     User user = Controller().authentificator.user;
     return await this._ref.collection('user').document(user.userID).collection('joined_playlist').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((pPlaylist) {
-        playlists.add(Playlist.fromFirebaseShort(pPlaylist));
+        playlists.add(Playlist.fromFirebase(pPlaylist, short: true));
       });
       return playlists;
     });
@@ -320,9 +326,9 @@ class Firebase {
     List<Request> requests = [];
     Query query;
     if (pUser == null) {
-      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN');
+      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request');
     } else {
-      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN').where('user.user_id', isEqualTo: pUser.userID);
+      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('user.user_id', isEqualTo: pUser.userID);
     }
     await query.getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {

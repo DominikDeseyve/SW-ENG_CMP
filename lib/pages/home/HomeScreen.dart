@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
+        preferredSize: Size.fromHeight(63.0),
         child: Column(
           children: [
             AppBar(
@@ -58,6 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Controller().theming.fontSecondary,
                 ),
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.storage),
+                  onPressed: () {},
+                ),
+              ],
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -71,6 +77,29 @@ class _HomeScreenState extends State<HomeScreen> {
         onRefresh: this.getPlaylists,
         child: ListView(
           children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(20),
+              color: Controller().theming.tertiary.withOpacity(0.25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.mood,
+                    size: 30,
+                    color: Controller().theming.fontPrimary,
+                  ),
+                  SizedBox(width: 20),
+                  Text(
+                    'Griaß de ' + Controller().authentificator.user.username,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             //erstellte Playlists
             (this._joinedPlaylist.length > 0
                 ? Column(

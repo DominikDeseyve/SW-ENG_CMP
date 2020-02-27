@@ -63,6 +63,11 @@ exports.recursiveDelete = functions
       batch.delete(doc.ref);
     });
 
+    query = await collectionRef.collection("request").get();
+    query.forEach(function(doc) {
+      batch.delete(doc.ref);
+    });
+
     query = await collectionRef.collection("queued_song").get();
     query.forEach(function(doc) {
       batch.delete(doc.ref);

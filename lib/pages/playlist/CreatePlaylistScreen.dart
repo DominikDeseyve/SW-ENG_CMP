@@ -3,10 +3,12 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';
+import 'package:cmp/pages/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nested_navigators/nested_nav_bloc_provider.dart';
 
 class CreatePlaylistScreen extends StatefulWidget {
   _CreatePlaylistScreenState createState() => _CreatePlaylistScreenState();
@@ -23,17 +25,25 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   TextEditingController _descriptionController;
   Visibleness _visibleness;
 
+  bool _activeValidation;
+  bool _nameError;
+  bool _amountError;
+  bool _descriptionError;
   //List<Genre> _blackedGenre = [];
 
   void initState() {
     super.initState();
 
+    this._activeValidation = false;
+    this._nameError = false;
     this._nameController = new TextEditingController();
     this._nameController.text = "";
 
+    this._amountError = false;
     this._maxAttendeesController = new TextEditingController();
     this._maxAttendeesController.text = "";
 
+    this._descriptionError = false;
     this._descriptionController = new TextEditingController();
     this._descriptionController.text = " ";
 
@@ -51,9 +61,47 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     });
   }
 
-  Future _createPlaylist() async {
-    Playlist playlist = new Playlist();
+  void _validateInput(String pField, String pText) async {
+    switch (pField) {
+      case 'NAME':
+        setState(() {
+          if (pText.length <= 4 || pText.isEmpty) {
+            this._nameError = true;
+          } else {
+            this._nameError = false;
+          }
+        });
+        break;
+      case 'AMOUNT':
+        setState(() {
+          if (pText.isEmpty || int.parse(pText) == 0 || int.parse(pText) > 1000) {
+            this._amountError = true;
+          } else {
+            this._amountError = false;
+          }
+        });
+        break;
+      case 'DESCRIPTION':
+        setState(() {
+          if (pText.length <= 10 || pText.isEmpty) {
+            this._descriptionError = true;
+          } else {
+            this._descriptionError = false;
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  }
 
+  Future _createPlaylist() async {
+    if (this._nameError || this._amountError || this._descriptionError || !this._activeValidation || this._maxAttendeesController.text.isEmpty) {
+      Controller().theming.showSnackbar(context, "Bitte überprüfen Sie ihre Angaben!");
+      this._activeValidation = true;
+      return;
+    }
+    Playlist playlist = new Playlist();
     playlist.name = this._nameController.text;
     playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
     playlist.description = this._descriptionController.text;
@@ -70,7 +118,14 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     }
     await Controller().firebase.updatePlaylist(playlist);
     Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
-    Navigator.of(context).pushNamed('/playlist', arguments: playlist);
+    this.clearTextfields();
+    await NestedNavigatorsBlocProvider.of(context).selectAndNavigate(
+      Navigation.home,
+      (navigator) => navigator.pushNamed(
+        '/playlist',
+        arguments: playlist.playlistID,
+      ),
+    );
   }
 
   void clearTextfields() {
@@ -152,6 +207,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
+              onChanged: (String pText) => this._validateInput('NAME', pText),
               controller: _nameController,
               style: TextStyle(
                 fontSize: 18,
@@ -159,7 +215,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: "Name der Playlist",
+                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : "Name der Playlist"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -173,7 +229,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: Controller().theming.fontPrimary,
+                  color: (!this._nameError ? Controller().theming.fontPrimary : Colors.redAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -183,6 +239,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
+              onChanged: (String pText) => this._validateInput('AMOUNT', pText),
               controller: _maxAttendeesController,
               style: TextStyle(
                 fontSize: 18,
@@ -193,7 +250,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               maxLength: 3,
               decoration: InputDecoration(
                 counter: Offstage(),
-                labelText: "max. Anzahl an Teilnehmer",
+                labelText: (this._amountError ? "Geben Sie einen Teilnehmerzahl ein" : "maximale Teilnehmerzahl"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -207,7 +264,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: Controller().theming.fontPrimary,
+                  color: (!this._amountError ? Controller().theming.fontPrimary : Colors.redAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -235,11 +292,13 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     InkWell(
                       child: Row(
                         children: <Widget>[
                           Radio(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             activeColor: Controller().theming.fontAccent,
                             value: 0,
                             groupValue: _radioGroup,
@@ -267,13 +326,11 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
                     InkWell(
                       child: Row(
                         children: <Widget>[
                           Radio(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             activeColor: Controller().theming.fontAccent,
                             value: 1,
                             groupValue: _radioGroup,
@@ -309,8 +366,10 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
+              onChanged: (String pText) => this._validateInput('DESCRIPTION', pText),
               minLines: 3,
               maxLines: null,
+              maxLength: 300,
               controller: _descriptionController,
               style: TextStyle(
                 fontSize: 18,
@@ -318,7 +377,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                labelText: "Beschreibung",
+                labelText: (this._descriptionError ? "Geben Sie einen korrekte Beschreibung ein" : "Beschreibung"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -332,7 +391,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: Controller().theming.fontPrimary,
+                  color: (!this._descriptionError ? Controller().theming.fontPrimary : Colors.redAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -344,7 +403,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             child: FlatButton(
               onPressed: () async {
                 await this._createPlaylist();
-                clearTextfields();
               },
               padding: const EdgeInsets.all(10),
               color: Controller().theming.accent,

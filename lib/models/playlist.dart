@@ -17,28 +17,32 @@ class Playlist {
 
   Playlist();
 
-  Playlist.fromFirebase(DocumentSnapshot pSnap) {
-    this._playlistID = pSnap.documentID;
-    this._name = pSnap['name'];
-    this._maxAttendees = pSnap['max_attendees'];
-    this._description = pSnap['description'];
-    this._visibleness = Visibleness(pSnap['visibleness']);
-    this._imageURL = pSnap['image_url'];
-    //this.blackedGenre = pSnap[''];
-    this._creator = User.fromFirebase(pSnap['creator']);
-    this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
-  }
-  Playlist.fromFirebaseShort(DocumentSnapshot pSnap) {
+  Playlist.fromFirebase(DocumentSnapshot pSnap, {bool short = false}) {
     this._playlistID = pSnap.documentID;
     this._name = pSnap['name'];
     this._imageURL = pSnap['image_url'];
+
+    if (!short) {
+      this._maxAttendees = pSnap['max_attendees'];
+      this._description = pSnap['description'];
+      this._visibleness = Visibleness(pSnap['visibleness']);
+
+      //this.blackedGenre = pSnap[''];
+      this._creator = User.fromFirebase(pSnap['creator']);
+      this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
+    }
   }
-  Map<String, dynamic> toFirebaseShort() {
-    return {
-      'playlist_id': this._playlistID,
-      'name': this._name,
-      'image_url': this._imageURL,
-    };
+
+  Map<String, dynamic> toFirebase({bool short = false}) {
+    if (short) {
+      return {
+        'playlist_id': this._playlistID,
+        'name': this._name,
+        'image_url': this._imageURL,
+        'creator': this.creator.toFirebase(short: true),
+      };
+    }
+    return null;
   }
 
   //***************************************************//

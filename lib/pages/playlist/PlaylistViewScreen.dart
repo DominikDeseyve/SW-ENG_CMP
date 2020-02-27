@@ -45,10 +45,12 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
   }
 
   Future<void> _fetchPlaylist() async {
+    print('hier');
     if (this._playlist.visibleness.key == 'PRIVATE') {
       Controller().firebase.getPlaylistRequests(this._playlist, pUser: Controller().authentificator.user).then((pList) {
         if (pList.length == 1) {
           setState(() {
+            print(pList[0]);
             this._request = pList[0];
           });
         }
@@ -62,6 +64,8 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
     } else {
       if (this._request == null) {
         return "Anfrage senden";
+      } else if (this._request.status == 'ACCEPT') {
+        return "Zur Playlist";
       } else {
         return "Anfrage gesendet";
       }
@@ -80,7 +84,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
     if (this._playlist.visibleness.key == 'PUBLIC') {
       bool success = await Controller().firebase.joinPlaylist(this._playlist, Controller().authentificator.user, Role(ROLE.MEMBER, false));
       if (success) {
-        Navigator.of(context).pushReplacementNamed('/playlist', arguments: this._playlist);
+        Navigator.of(context).pushReplacementNamed('/playlist', arguments: this._playlist.playlistID);
       } else {
         Controller().theming.showSnackbar(context, "Die maximale Anzahl an Teilnehmer wurde erreicht.");
       }
@@ -90,6 +94,8 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
           this._request = new Request('OPEN', Controller().authentificator.user);
           Controller().firebase.requestPlaylist(this._playlist, this._request);
         });
+      } else if (this._request.status == 'ACCEPT') {
+        Navigator.of(context).pushReplacementNamed('/playlist', arguments: this._playlist.playlistID);
       }
     }
   }
@@ -130,6 +136,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: this._fetchPlaylist,
+        color: Controller().theming.fontAccent,
         child: ListView(
           children: <Widget>[
             Container(

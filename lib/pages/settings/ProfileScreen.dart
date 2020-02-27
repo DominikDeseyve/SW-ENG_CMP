@@ -19,16 +19,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController _birthdayController;
   TextEditingController _passwordController;
 
-  @override
+  bool _usernameError;
+  bool _passwordError;
+
   void initState() {
     super.initState();
 
+    this._usernameError = false;
     this._usernameController = new TextEditingController();
     this._usernameController.text = Controller().authentificator.user.username;
 
     this._birthdayController = new TextEditingController();
     this._birthdayController.text = DateFormat("dd.MM.yyyy").format(Controller().authentificator.user.birthday);
 
+    this._passwordError = false;
     this._passwordController = new TextEditingController();
     this._passwordController.text = "test";
   }
@@ -38,6 +42,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       this._selectedImage = image;
     });
+  }
+
+  void _validateInput(String pField, String pText) async {
+    switch (pField) {
+      case 'USERNAME':
+        setState(() {
+          if (pText.length <= 4 || pText.isEmpty) {
+            this._usernameError = true;
+          } else {
+            this._usernameError = false;
+          }
+        });
+        break;
+      case 'PASSWORD':
+        setState(() {
+          if (pText.isEmpty) {
+            this._passwordError = true;
+          } else {
+            this._passwordError = false;
+          }
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   void _editUser() async {
@@ -144,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Container(
                     width: (MediaQuery.of(context).size.width / 2) - 40,
                     child: Text(
-                      "Benutzername",
+                      (this._usernameError ? "Geben Sie einen Benutzernamen ein" : "Benutzername"),
                       style: TextStyle(
                         color: Controller().theming.fontPrimary,
                         fontSize: 18,
@@ -157,6 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Flexible(
                   child: TextFormField(
+                    onChanged: (String pText) => this._validateInput('USERNAME', pText),
                     controller: _usernameController,
                     validator: (String value) {
                       if (value.trim().isEmpty) {
@@ -183,7 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       labelStyle: TextStyle(
-                        color: Controller().theming.fontTertiary,
+                        color: (!this._usernameError ? Controller().theming.fontPrimary : Colors.redAccent),
                         fontSize: 18,
                       ),
                       focusColor: Controller().theming.tertiary,
@@ -264,7 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Container(
                     width: (MediaQuery.of(context).size.width / 2) - 40,
                     child: Text(
-                      "Passwort",
+                      (this._usernameError ? "Geben Sie ein Passowrt ein" : "Passwort"),
                       style: TextStyle(
                         color: Controller().theming.fontPrimary,
                         fontSize: 18,
@@ -277,6 +308,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Flexible(
                   child: TextFormField(
+                    onChanged: (String pText) => this._validateInput('PASSWORD', pText),
                     controller: _passwordController,
                     style: TextStyle(
                       fontSize: 18,
@@ -311,6 +343,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       labelStyle: TextStyle(
                         fontSize: 18,
+                        color: (!this._passwordError ? Controller().theming.fontPrimary : Colors.redAccent),
                       ),
                       focusColor: Controller().theming.tertiary,
                     ),
