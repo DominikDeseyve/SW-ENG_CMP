@@ -62,7 +62,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
     if (this._playlist.visibleness.key == 'PUBLIC') {
       return "Teilnehmen";
     } else {
-      if (this._request == null) {
+      if (this._request == null || this._request.status == 'DECLINE') {
         return "Anfrage senden";
       } else if (this._request.status == 'ACCEPT') {
         return "Zur Playlist";
@@ -89,7 +89,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
         Controller().theming.showSnackbar(context, "Die maximale Anzahl an Teilnehmer wurde erreicht.");
       }
     } else {
-      if (this._request == null) {
+      if (this._request == null || this._request.status == 'DECLINE') {
         setState(() {
           this._request = new Request('OPEN', Controller().authentificator.user);
           Controller().firebase.requestPlaylist(this._playlist, this._request);

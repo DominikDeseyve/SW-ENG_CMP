@@ -188,7 +188,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 child: Icon(
                   Icons.add,
                   color: Controller().theming.fontSecondary,
-                  size: 35,
+                  size: 60,
                 ),
                 width: 150,
                 height: 150,

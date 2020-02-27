@@ -18,5 +18,5 @@ Language german = new Language({
 });
 
 Language english = new Language({
-  'joined_playlists': 'Joined Playlists',
+  'joined_playlists': 'My Playlists',
 });
