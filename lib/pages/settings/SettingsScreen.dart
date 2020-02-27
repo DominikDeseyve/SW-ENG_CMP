@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:package_info/package_info.dart';
 
 class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -16,7 +15,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   int _crossfade;
   int _userCrossfade;
 
+  PackageInfo _packageInfo;
+
   void initState() {
+    super.initState();
     _username = Controller().authentificator.user.username;
     _darkmode = Controller().authentificator.user.settings.darkMode;
     _crossfade = Controller().authentificator.user.settings.crossfade;
@@ -26,7 +28,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
     _userCrossfade = _crossfade;
 
-    super.initState();
+    this._packageInfo = new PackageInfo();
+    PackageInfo.fromPlatform().then((value) {
+      setState(() {
+        this._packageInfo = value;
+      });
+    });
   }
 
   @override
@@ -338,12 +345,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Container(
                 margin: EdgeInsets.only(bottom: 20),
                 alignment: Alignment.bottomCenter,
-                child: Text(
-                  "Loading ...",
-                  style: TextStyle(
-                    color: Controller().theming.fontPrimary,
-                    fontSize: 15,
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Version " + _packageInfo.version.toString(),
+                      style: TextStyle(
+                        color: Controller().theming.fontPrimary,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      "Buildnummer: " + _packageInfo.buildNumber.toString(),
+                      style: TextStyle(
+                        color: Controller().theming.fontPrimary,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
