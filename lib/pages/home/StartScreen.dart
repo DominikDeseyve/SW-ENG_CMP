@@ -1,4 +1,5 @@
 import 'package:cmp/pages/navigation.dart';
+import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 
@@ -9,52 +10,38 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: AppBar(
-          backgroundColor: Color(0xFF253A4B),
+          backgroundColor: Controller().theming.primary,
           centerTitle: true,
           elevation: 0,
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/root', arguments: Navigation.home);
             },
-            child: Icon(Icons.close),
+            child: Icon(
+              Icons.close,
+              color: Controller().theming.fontSecondary,
+            ),
           ),
         ),
       ),
       body: Stack(
         children: <Widget>[
           Container(
-            // Add box decoration
-            decoration: BoxDecoration(
-              // Box decoration takes a gradient
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                // Add one stop for each color. Stops should increase from 0 to 1
-                stops: [0.0, 1.0],
-                colors: [
-                  // Colors are easy thanks to Flutter's Colors class.
-                  Colors.grey[400],
-                  Colors.white,
-                ],
-              ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: CustomPaint(
+              painter: CurvePainter(Controller().theming.accent, 0.235, 0.305, 0.235),
             ),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.235, 0.305, 0.235),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: CustomPaint(
-              painter: CurvePainter(Color(0xFF253A4B), 0.22, 0.29, 0.22),
+              painter: CurvePainter(Controller().theming.primary, 0.22, 0.29, 0.22),
             ),
           ),
           Container(
@@ -71,7 +58,7 @@ class _StartScreenState extends State<StartScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 34.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                         ),
                         Text(
@@ -79,14 +66,14 @@ class _StartScreenState extends State<StartScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 26.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                         ),
                         Text(
                           "CMP",
                           style: TextStyle(
                             fontSize: 46.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -98,7 +85,10 @@ class _StartScreenState extends State<StartScreen> {
                   margin: EdgeInsets.only(top: 90.0),
                   child: Text(
                     "PLAYLIST",
-                    style: TextStyle(fontSize: 28.0),
+                    style: TextStyle(
+                      fontSize: 28.0,
+                      color: Controller().theming.fontPrimary,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -109,7 +99,7 @@ class _StartScreenState extends State<StartScreen> {
                       Navigator.of(context).pushReplacementNamed('/root', arguments: Navigation.search);
                     },
                     padding: const EdgeInsets.all(10),
-                    color: Colors.redAccent,
+                    color: Controller().theming.accent,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -119,12 +109,15 @@ class _StartScreenState extends State<StartScreen> {
                           child: Icon(
                             Icons.search,
                             size: 20.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                         ),
                         Text(
                           "Suchen",
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Controller().theming.fontSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -137,7 +130,7 @@ class _StartScreenState extends State<StartScreen> {
                         thickness: 2.5,
                         indent: 30.0,
                         endIndent: 10.0,
-                        color: Colors.black87,
+                        color: Controller().theming.fontPrimary,
                       ),
                     ),
                     Text(
@@ -145,7 +138,7 @@ class _StartScreenState extends State<StartScreen> {
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black87,
+                        color: Controller().theming.fontPrimary,
                       ),
                     ),
                     Expanded(
@@ -153,7 +146,7 @@ class _StartScreenState extends State<StartScreen> {
                         thickness: 2.5,
                         indent: 10.0,
                         endIndent: 30.0,
-                        color: Colors.black87,
+                        color: Controller().theming.fontPrimary,
                       ),
                     ),
                   ],
@@ -165,7 +158,7 @@ class _StartScreenState extends State<StartScreen> {
                       Navigator.of(context).pushReplacementNamed('/root', arguments: Navigation.create);
                     },
                     padding: const EdgeInsets.all(10),
-                    color: Colors.redAccent,
+                    color: Controller().theming.accent,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -175,12 +168,15 @@ class _StartScreenState extends State<StartScreen> {
                           child: Icon(
                             Icons.add,
                             size: 20.0,
-                            color: Colors.white,
+                            color: Controller().theming.fontSecondary,
                           ),
                         ),
                         Text(
                           "Erstellen",
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Controller().theming.fontSecondary,
+                          ),
                         )
                       ],
                     ),

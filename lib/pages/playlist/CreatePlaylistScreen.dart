@@ -4,6 +4,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,6 +22,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   TextEditingController _maxAttendeesController;
   TextEditingController _descriptionController;
   Visibleness _visibleness;
+
   //List<Genre> _blackedGenre = [];
 
   void initState() {
@@ -82,27 +84,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     });
   }
 
-/*
-  String _generateBlackedGenreLabel() {
-    String label = '';
-    if (this._blackedGenre.length == 0) {
-      label = "Blacked Genre";
-    } else {
-      int length = 3;
-      if (this._blackedGenre.length < 3) {
-        length = this._blackedGenre.length;
-      }
-      for (int i = 0; i < length; i++) {
-        label += this._blackedGenre[i].name;
-        if (i < this._blackedGenre.length - 1) {
-          label += ', ';
-        }
-      }
-    }
-    return label;
-  }
-*/
-
   @override
   void dispose() {
     // Clean up the controller when the widget is closed
@@ -149,17 +130,20 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             child: GestureDetector(
               onTap: this._chooseFile,
               child: Container(
+                child: Icon(
+                  Icons.add,
+                  color: Controller().theming.fontSecondary,
+                  size: 35,
+                ),
                 width: 150,
                 height: 150,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
-                    color: Controller().theming.fontPrimary.withOpacity(0.3),
-                  ),
                   shape: BoxShape.circle,
+                  color: Controller().theming.tertiary.withOpacity(0.2),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: (this._selectedImage == null ? AssetImage('assets/images/plus.png') : FileImage(this._selectedImage)),
+                    colorFilter: ColorFilter.mode(Controller().theming.tertiary.withOpacity(0.4), BlendMode.darken),
+                    image: (this._selectedImage == null ? AssetImage('assets/images/default-playlist-avatar.jpg') : FileImage(this._selectedImage)),
                   ),
                 ),
               ),

@@ -51,7 +51,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await Controller().firebase.updateUserData(Controller().authentificator.user);
 
     if (this._passwordController.text != null && this._passwordController.text != "test") {
-      await Controller().authentificator.updatePasswort(this._passwordController.text);
+      try {
+        await Controller().authentificator.updatePasswort(this._passwordController.text);
+        Controller().theming.showSnackbar(context, "Das Passwort wurde geändert!");
+      } catch (e) {}
     }
 
     Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
@@ -275,12 +278,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Flexible(
                   child: TextFormField(
                     controller: _passwordController,
-                    validator: (String value) {
-                      if (value.trim().isEmpty) {
-                        return 'Feld darf nicht leer sein!';
-                      }
-                      return value;
-                    },
                     style: TextStyle(
                       fontSize: 18,
                       color: Controller().theming.fontPrimary,
