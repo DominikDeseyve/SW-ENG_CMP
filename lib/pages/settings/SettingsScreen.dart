@@ -105,22 +105,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Controller().theming.accent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                          width: 20,
+                          height: 15,
+                        ),
+                        SizedBox(width: 15),
+                        Text(
+                          "Anzeigeeinstellungen",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20, 25, 20, 0),
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        "Allgemeines",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Controller().theming.fontPrimary,
-                        ),
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                        color: Controller().theming.fontPrimary,
-                      ),
                       InkWell(
                         onTap: () {
                           setState(() {

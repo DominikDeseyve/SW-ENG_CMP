@@ -11,44 +11,50 @@ class User {
   Role _role;
   List<String> _upvotedSongs;
   List<String> _downvotedSongs;
-  bool _darkmode;
 
   Settings _settings;
 
   User();
 
-  User.fromFirebase(var pSnapOrMap) {
+  User.fromFirebase(var pSnapOrMap, {bool short = false}) {
     if (pSnapOrMap['user_id'] != null) {
       this._userID = pSnapOrMap['user_id'];
     } else {
       this._userID = pSnapOrMap.documentID;
     }
-    this._username = pSnapOrMap['username'];
-    this._imageURL = pSnapOrMap['image_url'];
-    if (pSnapOrMap['birthday'] != null) {
-      this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
-    }
+    if (!short) {
+      this._username = pSnapOrMap['username'];
+      this._imageURL = pSnapOrMap['image_url'];
+      if (pSnapOrMap['birthday'] != null) {
+        this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
+      }
 
-    this._darkmode = pSnapOrMap['dark_mode'];
-
-    if (pSnapOrMap['role'] != null) {
-      this._role = Role.fromFirebase(pSnapOrMap['role']);
-    }
-    if (pSnapOrMap['upvotes'] != null) {
-      this._upvotedSongs = List.from(pSnapOrMap['upvotes']);
-      this._downvotedSongs = List.from(pSnapOrMap['downvotes']);
+      if (pSnapOrMap['role'] != null) {
+        this._role = Role.fromFirebase(pSnapOrMap['role']);
+      }
+      if (pSnapOrMap['upvotes'] != null) {
+        this._upvotedSongs = List.from(pSnapOrMap['upvotes']);
+        this._downvotedSongs = List.from(pSnapOrMap['downvotes']);
+      }
     }
   }
 
-  Map<String, dynamic> toFirebase() => {
+  Map<String, dynamic> toFirebase({bool short = false}) {
+    if (!short) {
+      return {
         'user_id': this._userID,
         'username': this._username,
         'birthday': this._birthday,
         'image_url': this._imageURL,
         'downvotes': this._downvotedSongs,
         'upvotes': this._upvotedSongs,
-        'dark_mode': this._darkmode,
       };
+    } else {
+      return {
+        'user_id': this._userID,
+      };
+    }
+  }
 
   void thumbUpSong(Song pSong) {
     this._downvotedSongs.remove(pSong.songID);

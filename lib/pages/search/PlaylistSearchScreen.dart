@@ -51,7 +51,8 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
       error = true;
     } on FormatException {
       error = true;
-      barcode = 'null (User returned using the "back"-button before scanning anything. Result)';
+      //error = true;
+      //barcode = 'null (User returned using the "back"-button before scanning anything. Result)';
     } catch (e) {
       error = true;
       barcode = 'Unknown error: $e';
@@ -66,7 +67,16 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
   }
 
   void pushCachedPlaylist(Playlist pPlaylist) {
-    this._cachedPlaylists.add(pPlaylist);
+    int index = this._cachedPlaylists.indexWhere((item) => item.playlistID == pPlaylist.playlistID);
+    if (index == -1) {
+      this._cachedPlaylists.add(pPlaylist);
+    }
+  }
+
+  void _clearTextfield() {
+    setState(() {
+      this._searchController.text = '';
+    });
   }
 
   Widget build(BuildContext context) {
@@ -177,7 +187,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                           reverse: true,
                           itemCount: this._cachedPlaylists.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return PlaylistItem(this._cachedPlaylists[index], this.pushCachedPlaylist);
+                            return PlaylistItem(this._cachedPlaylists[index], this.pushCachedPlaylist, this._clearTextfield);
                           },
                         ),
                       ],
@@ -187,7 +197,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                       shrinkWrap: true,
                       itemCount: this.selectedPlaylists.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return PlaylistItem(this.selectedPlaylists[index], this.pushCachedPlaylist);
+                        return PlaylistItem(this.selectedPlaylists[index], this.pushCachedPlaylist, this._clearTextfield);
                       },
                     )),
             ],
@@ -201,12 +211,14 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
 class PlaylistItem extends StatelessWidget {
   final Playlist _playlist;
   final Function(Playlist) _pushCachedPlaylistCallback;
-  PlaylistItem(this._playlist, this._pushCachedPlaylistCallback);
+  final Function() _clearTextfieldCallback;
+  PlaylistItem(this._playlist, this._pushCachedPlaylistCallback, this._clearTextfieldCallback);
 
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         this._pushCachedPlaylistCallback(this._playlist);
+        this._clearTextfieldCallback();
         Controller().localStorage.pushPlaylistSearch(this._playlist);
         Navigator.pushNamed(context, '/playlist', arguments: this._playlist.playlistID);
       },

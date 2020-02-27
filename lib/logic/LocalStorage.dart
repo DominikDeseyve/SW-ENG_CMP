@@ -28,9 +28,13 @@ class LocalStorage {
     if (this._searchedPlaylists.length >= 5) {
       this._searchedPlaylists.removeAt(0);
     }
-    if (this._searchedPlaylists.contains((item) => item == pPlaylist.playlistID)) {
+
+    int index = this._searchedPlaylists.indexWhere((item) => item == pPlaylist.playlistID);
+    if (index > -1) {
+      print("in");
       return;
     }
+    print("hier");
     _searchedPlaylists.add(pPlaylist.playlistID);
     await _storeRef.record('searched_playlist').put(_database, _searchedPlaylists);
   }
