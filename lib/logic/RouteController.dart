@@ -1,5 +1,4 @@
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/models/playlist.dart';
 import 'package:cmp/pages/CurrentSongScreen.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
@@ -32,7 +31,7 @@ class RouteController {
     final args = pRouteSettings.arguments;
     switch (pRouteSettings.name) {
       case '/root':
-        return RootScreen();
+        return RootScreen(args);
         break;
       case '/start':
         return StartScreen();
@@ -47,10 +46,10 @@ class RouteController {
         return CreatePlaylistScreen();
         break;
       case '/playlist':
-        Playlist playlist = args;
+        String playlistID = args;
 
         return FutureBuilder<bool>(
-          future: Controller().firebase.isUserJoiningPlaylist(playlist, Controller().authentificator.user),
+          future: Controller().firebase.isUserJoiningPlaylist(playlistID, Controller().authentificator.user),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == true) {

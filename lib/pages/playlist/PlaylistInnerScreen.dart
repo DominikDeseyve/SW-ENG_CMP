@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
@@ -23,12 +22,13 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 class PlaylistInnerScreen extends StatefulWidget {
-  final Playlist _playlist;
-  PlaylistInnerScreen(this._playlist);
+  final String _playlistID;
+  PlaylistInnerScreen(this._playlistID);
   _PlaylistInnerScreenState createState() => _PlaylistInnerScreenState();
 }
 
 class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
+  Playlist _playlist;
   Queue _queue;
   bool _isPlaying;
   ScrollController _scrollController;
@@ -38,10 +38,15 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     //initialize default values
     this._isPlaying = false;
 
-    Controller().soundPlayer.addListener(this._buildQueue);
+    Controller().firebase.getPlaylistDetails(this.widget._playlistID).then((Playlist pPlaylist) {
+      setState(() {
+        this._playlist = pPlaylist;
+      });
+      this._queue = new Queue(this._playlist);
+      this._queue.setCallback(this._loadMoreSongs);
+    });
 
-    this._queue = new Queue(this.widget._playlist);
-    this._queue.setCallback(this._loadMoreSongs);
+    Controller().soundPlayer.addListener(this._buildQueue);
 
     this._scrollController = new ScrollController();
     this._scrollController.addListener(() {
@@ -54,25 +59,28 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void _fetchRole() {
     RoleProvider r = Provider.of<RoleProvider>(context);
-    Controller().firebase.getPlaylistUserRole(this.widget._playlist, Controller().authentificator.user).then((Role pRole) {
+    Controller().firebase.getPlaylistUserRole(this._playlist, Controller().authentificator.user).then((Role pRole) {
       r.setRole(pRole);
     });
   }
 
   void _togglePlay() {
     if (this._isPlaying) {
-      Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wurde angehalten!');
+      Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" wurde angehalten!');
       Controller().soundPlayer.deleteQueue().then((_) {
         setState(() {
           this._isPlaying = false;
         });
       });
     } else {
-      Controller().theming.showSnackbar(context, 'Die Playlist "' + this.widget._playlist.name + '" wird abgespielt...');
-      Controller().soundPlayer.setQueue(this._queue, this.widget._playlist);
-      setState(() {
-        this._isPlaying = true;
-      });
+      if (Controller().soundPlayer.setQueue(this._queue, this._playlist)) {
+        Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" wird abgespielt...');
+        setState(() {
+          this._isPlaying = true;
+        });
+      } else {
+        Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" ist leer.');
+      }
     }
   }
 
@@ -102,17 +110,15 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               User user = Controller().authentificator.user;
               String userID = Controller().authentificator.user.userID;
 
-              if (this.widget._playlist.creator.userID == userID) {
-                await Controller().firebase.deletePlaylist(this.widget._playlist).then((_) {
+              if (this._playlist.creator.userID == userID) {
+                await Controller().firebase.deletePlaylist(this._playlist).then((_) {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.of(dialogContext).pop(null);
-                  Navigator.of(context).pop(null);
-                  Navigator.of(context).pop(null);
                 });
               } else {
-                Controller().firebase.leavePlaylist(this.widget._playlist, user).then((_) {
+                Controller().firebase.leavePlaylist(this._playlist, user).then((_) {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.of(dialogContext).pop(null);
-                  Navigator.of(context).pop(null);
-                  Navigator.of(context).pop(null);
                 });
               }
             },
@@ -129,6 +135,11 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   Widget build(BuildContext context) {
+    if (this._playlist == null) {
+      return Container(
+        color: Colors.white,
+      );
+    }
     this._fetchRole();
     return Scaffold(
       backgroundColor: Controller().theming.background,
@@ -139,7 +150,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             color: Controller().theming.fontSecondary,
           ),
           title: Text(
-            this.widget._playlist.name,
+            this._playlist.name,
             style: TextStyle(
               color: Controller().theming.fontSecondary,
             ),
@@ -149,7 +160,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
                 ? IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/playlist/edit', arguments: this.widget._playlist).then((value) {
+                      Navigator.of(context).pushNamed('/playlist/edit', arguments: this._playlist).then((value) {
                         setState(() {});
                       });
                     },
@@ -165,7 +176,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 color: Controller().theming.fontSecondary,
               ),
               itemBuilder: (context) => [
-                (this.widget._playlist.creator.userID == Controller().authentificator.user.userID
+                (this._playlist.creator.userID == Controller().authentificator.user.userID
                     ? PopupMenuItem(
                         value: 1,
                         child: Container(
@@ -215,7 +226,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext dialogContext) => CodeDialog(this.widget._playlist),
+                        builder: (BuildContext dialogContext) => CodeDialog(this._playlist),
                       );
                     },
                   ),
@@ -246,7 +257,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this.widget._playlist).then((_) {
+                  Navigator.of(context).pushNamed('/playlist/detailview', arguments: this._playlist).then((_) {
                     setState(() {});
                   });
                 },
@@ -258,7 +269,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     top: 8,
                   ),
                   child: PlaylistAvatar(
-                    this.widget._playlist,
+                    this._playlist,
                     width: 100,
                   ),
                 ),
@@ -288,7 +299,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 child: Container(
                   child: RawMaterialButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/playlist/add', arguments: this.widget._playlist);
+                      Navigator.pushNamed(context, '/playlist/add', arguments: this._playlist);
                     },
                     child: Icon(
                       Icons.playlist_add,
@@ -370,7 +381,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   shrinkWrap: true,
                   itemCount: this._queue.songs.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return SongItem(this._queue.songs[index], this.widget._playlist);
+                    return SongItem(this._queue.songs[index], this._playlist);
                   },
                 )
               : Padding(

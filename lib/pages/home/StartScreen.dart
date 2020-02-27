@@ -1,3 +1,4 @@
+import 'package:cmp/pages/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 
@@ -16,7 +17,7 @@ class _StartScreenState extends State<StartScreen> {
           elevation: 0,
           leading: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/root');
+              Navigator.of(context).pushReplacementNamed('/root', arguments: Navigation.home);
             },
             child: Icon(Icons.close),
           ),
@@ -104,7 +105,9 @@ class _StartScreenState extends State<StartScreen> {
                 Container(
                   margin: EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 20.0),
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      Navigator.of(context).pushReplacementNamed('/root', arguments: Navigation.search);
+                    },
                     padding: const EdgeInsets.all(10),
                     color: Colors.redAccent,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
@@ -158,7 +161,9 @@ class _StartScreenState extends State<StartScreen> {
                 Container(
                   margin: EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 0.0),
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/root', arguments: Navigation.create);
+                    },
                     padding: const EdgeInsets.all(10),
                     color: Colors.redAccent,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),

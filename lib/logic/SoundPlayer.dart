@@ -104,8 +104,9 @@ class SoundPlayer extends ChangeNotifier {
     return true;
   }
 
-  void setQueue(Queue pQueue, Playlist pPlaylist) {
+  bool setQueue(Queue pQueue, Playlist pPlaylist) {
     this._playingQueue = pQueue;
+    if (this._playingQueue.songs.length == 0) return false;
     this._playlingPlaylist = pPlaylist;
     if (this._playingQueue.currentSong != null) {
       this._currentSong = this._playingQueue.currentSong;
@@ -121,6 +122,7 @@ class SoundPlayer extends ChangeNotifier {
       });
     });
     this.prepareNextSongs(2);
+    return true;
   }
 
   Future<void> deleteQueue() async {

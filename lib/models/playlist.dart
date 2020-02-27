@@ -28,6 +28,18 @@ class Playlist {
     this._creator = User.fromFirebase(pSnap['creator']);
     this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
   }
+  Playlist.fromFirebaseShort(DocumentSnapshot pSnap) {
+    this._playlistID = pSnap.documentID;
+    this._name = pSnap['name'];
+    this._imageURL = pSnap['image_url'];
+  }
+  Map<String, dynamic> toFirebaseShort() {
+    return {
+      'playlist_id': this._playlistID,
+      'name': this._name,
+      'image_url': this._imageURL,
+    };
+  }
 
   //***************************************************//
   //*********   GETTER

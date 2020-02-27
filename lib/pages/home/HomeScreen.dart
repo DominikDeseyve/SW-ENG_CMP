@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Playlist> _createdPlaylist = [];
   List<Playlist> _joinedPlaylist = [];
+  List<Playlist> _popularPlaylist = [];
 
   void initState() {
     super.initState();
@@ -30,6 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!mounted) return;
       setState(() {
         this._joinedPlaylist = pJoinedPlaylist;
+      });
+    });
+    Controller().firebase.getPopularPlaylist().then((pPopularPlaylist) {
+      if (!mounted) return;
+      setState(() {
+        this._popularPlaylist = pPopularPlaylist;
       });
     });
   }
@@ -65,6 +72,60 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             //erstellte Playlists
+            (this._joinedPlaylist.length > 0
+                ? Column(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Controller().theming.accent,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                ),
+                                width: 20,
+                                height: 15,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                Controller().translater.language.joinedPlaylists,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.normal,
+                                  color: Controller().theming.fontPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //Die ganzen Events
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Controller().theming.tertiary.withOpacity(0.1),
+                        height: 145,
+                        child: ListView.builder(
+                          physics: ScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.only(right: 20),
+                          shrinkWrap: true,
+                          itemCount: this._joinedPlaylist.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PlaylistItem(this._joinedPlaylist.elementAt(index));
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Container()),
             SizedBox(height: 5),
             (this._createdPlaylist.length > 0
                 ? Column(
@@ -105,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Container(
                         color: Controller().theming.tertiary.withOpacity(0.1),
                         width: MediaQuery.of(context).size.width,
-                        height: 160,
+                        height: 145,
                         child: ListView.builder(
                           physics: ScrollPhysics(),
                           scrollDirection: Axis.horizontal,
@@ -120,62 +181,62 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   )
                 : Container()),
+
             //beigetretene Playlists
             SizedBox(height: 10),
-            (this._joinedPlaylist.length > 0
-                ? Column(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Controller().theming.accent,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                ),
-                                width: 20,
-                                height: 15,
-                              ),
-                              SizedBox(width: 15),
-                              Text(
-                                Controller().translater.language.joinedPlaylists,
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.normal,
-                                  color: Controller().theming.fontPrimary,
-                                ),
-                              ),
-                            ],
+
+            Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Controller().theming.accent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                          width: 20,
+                          height: 15,
+                        ),
+                        SizedBox(width: 15),
+                        Text(
+                          "Aktuell beliebt",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
-                      ),
-                      //Die ganzen Events
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        color: Controller().theming.tertiary.withOpacity(0.1),
-                        height: 160,
-                        child: ListView.builder(
-                          physics: ScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.only(right: 20),
-                          shrinkWrap: true,
-                          itemCount: this._joinedPlaylist.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return PlaylistItem(this._joinedPlaylist.elementAt(index));
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                : Container()),
+                      ],
+                    ),
+                  ),
+                ),
+                //Die ganzen Events
+                Container(
+                  color: Controller().theming.tertiary.withOpacity(0.1),
+                  width: MediaQuery.of(context).size.width,
+                  height: 145,
+                  child: ListView.builder(
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.only(right: 20),
+                    shrinkWrap: true,
+                    itemCount: this._popularPlaylist.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return PlaylistItem(this._popularPlaylist.elementAt(index));
+                    },
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -191,7 +252,7 @@ class PlaylistItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/playlist', arguments: this._playlist);
+        Navigator.of(context).pushNamed('/playlist', arguments: this._playlist.playlistID);
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(5, 10, 5, 0),

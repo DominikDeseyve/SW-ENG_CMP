@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/genre.dart';
@@ -99,8 +100,8 @@ class Firebase {
   // Löschen
 
   // User-Joins
-  Future<bool> isUserJoiningPlaylist(Playlist pPlaylist, User pUser) async {
-    DocumentSnapshot ref = await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).get(source: this._source);
+  Future<bool> isUserJoiningPlaylist(String pPlaylistID, User pUser) async {
+    DocumentSnapshot ref = await this._ref.collection('playlist').document(pPlaylistID).collection('joined_user').document(pUser.userID).get(source: this._source);
     return ref.exists;
   }
 
@@ -158,6 +159,11 @@ class Firebase {
 
   // Bearbeiten
   Future<void> updatePlaylist(Playlist pPlaylist) async {
+    await this._ref.collectionGroup('joined_playlist').where('playlist_id', isEqualTo: pPlaylist.playlistID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((DocumentSnapshot pSnap) {
+        pSnap.reference.updateData(pPlaylist.toFirebaseShort());
+      });
+    });
     await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
       'name': pPlaylist.name,
       'image_url': pPlaylist.imageURL,
@@ -171,8 +177,27 @@ class Firebase {
   }
 
   // Löschen
-  Future<void> deletePlaylist(Playlist pPlaylist) {
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).delete();
+  Future<void> deletePlaylist(Playlist pPlaylist) async {
+    CloudFunctions cf = CloudFunctions(region: 'us-central1');
+    try {
+      final HttpsCallable callable = cf.getHttpsCallable(
+        functionName: 'recursiveDelete',
+      );
+      HttpsCallableResult resp = await callable.call(<String, dynamic>{
+        'playlist_id': pPlaylist.playlistID,
+      });
+      print("RESULT:" + resp.data);
+    } on CloudFunctionsException catch (e) {
+      print('caught firebase functions exception');
+      print(e.code);
+      print(e.message);
+      print(e.details);
+    } catch (e) {
+      print('caught generic exception');
+      print(e);
+    }
+
+    //return this._ref.collection('playlist').document(pPlaylist.playlistID).delete();
   }
 
   // Request
@@ -187,6 +212,7 @@ class Firebase {
     DocumentSnapshot playlistSnap = await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source);
     if (playlistSnap['joined_user_count'] < playlistSnap['max_attendees']) {
       await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
+      await this._ref.collection('user').document(pUser.userID).collection('joined_playlist').document(pPlaylist.playlistID).setData(pPlaylist.toFirebaseShort());
       return true;
     } else {
       return false;
@@ -214,8 +240,19 @@ class Firebase {
   // Get (Beigetretene Playlists)
   Future<List<Playlist>> getJoinedPlaylist() async {
     List<Playlist> playlists = [];
+    User user = Controller().authentificator.user;
+    return await this._ref.collection('user').document(user.userID).collection('joined_playlist').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+      pQuery.documents.forEach((pPlaylist) {
+        playlists.add(Playlist.fromFirebaseShort(pPlaylist));
+      });
+      return playlists;
+    });
+  }
 
-    return await this._ref.collection('playlist').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+  Future<List<Playlist>> getPopularPlaylist() async {
+    List<Playlist> playlists = [];
+
+    return await this._ref.collection('playlist').orderBy('joined_user_count', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist));
       });
@@ -273,6 +310,7 @@ class Firebase {
 
   Future<Role> getPlaylistUserRole(Playlist pPlaylist, User pUser) async {
     return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).get(source: this._source).then((DocumentSnapshot pSnap) {
+      if (!pSnap.exists) return Role(ROLE.MEMBER, false);
       return Role.fromFirebase(pSnap['role']);
     });
   }

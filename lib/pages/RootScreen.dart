@@ -6,6 +6,8 @@ import 'package:nested_navigators/nested_nav_item.dart';
 import 'package:nested_navigators/nested_navigators.dart';
 
 class RootScreen extends StatefulWidget {
+  final Navigation _initialNav;
+  RootScreen(this._initialNav);
   _RootScreenState createState() => _RootScreenState();
 }
 
@@ -16,17 +18,17 @@ class _RootScreenState extends State<RootScreen> {
 
   Widget build(BuildContext context) {
     return NestedNavigators(
-      initialNavigatorKey: Navigation.home,
+      initialNavigatorKey: this.widget._initialNav,
       items: {
         Navigation.home: NestedNavigatorItem(
           initialRoute: '/home',
           icon: Icons.home,
         ),
-        Navigation.explore: NestedNavigatorItem(
+        Navigation.search: NestedNavigatorItem(
           initialRoute: '/playlist/search',
           icon: Icons.search,
         ),
-        Navigation.profile: NestedNavigatorItem(
+        Navigation.create: NestedNavigatorItem(
           initialRoute: '/playlist/create',
           icon: Icons.add_circle,
         ),

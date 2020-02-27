@@ -14,7 +14,7 @@ class Language {
 }
 
 Language german = new Language({
-  'joined_playlists': 'Beigetretene Playlists',
+  'joined_playlists': 'Meine Playlists',
 });
 
 Language english = new Language({

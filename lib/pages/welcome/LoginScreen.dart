@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
-    this._passwordController = new TextEditingController(text: 'test123');
+    this._passwordController = new TextEditingController(text: '123456');
   }
 
   Widget build(BuildContext context) {
@@ -87,34 +87,117 @@ class _LoginPageState extends State<LoginPage> {
         'Passwort vergessen?',
         style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () {},
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => PasswordDialog(),
+        );
+      },
     );
 
     return Scaffold(
-        body: Container(
-      // Add box decoration
-      decoration: BoxDecoration(
-        // Box decoration takes a gradient
-        gradient: LinearGradient(
-          // Where the linear gradient begins and ends
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          // Add one stop for each color. Stops should increase from 0 to 1
-          stops: [0.0, 1.0],
-          colors: [
-            // Colors are easy thanks to Flutter's Colors class.
-            Colors.grey[400],
-            Colors.white,
-          ],
+      body: Container(
+        // Add box decoration
+        decoration: BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            // Add one stop for each color. Stops should increase from 0 to 1
+            stops: [0.0, 1.0],
+            colors: [
+              // Colors are easy thanks to Flutter's Colors class.
+              Colors.grey[400],
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+            children: <Widget>[logo, SizedBox(height: 48.0), email, SizedBox(height: 8.0), password, SizedBox(height: 24.0), loginButton, forgotLabel],
+          ),
         ),
       ),
-      child: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[logo, SizedBox(height: 48.0), email, SizedBox(height: 8.0), password, SizedBox(height: 24.0), loginButton, forgotLabel],
-        ),
+    );
+  }
+}
+
+class PasswordDialog extends StatefulWidget {
+  PasswordDialog();
+  _PasswordDialogState createState() => _PasswordDialogState();
+}
+
+class _PasswordDialogState extends State<PasswordDialog> {
+  TextEditingController _mailController = new TextEditingController();
+  void initState() {
+    super.initState();
+  }
+
+  void _send() {
+    String mail = this._mailController.text;
+    if (mail.isEmpty) {
+      return;
+    }
+    Controller().authentificator.resetPasswort(mail).then((String pError) {
+      print(pError);
+      if (pError != 'ERROR_INVALID_EMAIL' && pError != 'ERROR_USER_NOT_FOUND') {
+        //Controller().theming.showSnackbar(context, 'Bitte überprüfen Sie ihr Postfach bei ' + mail);
+        setState(() {
+          this._mailController.text = '';
+        });
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  Widget build(BuildContext dialogContext) {
+    return AlertDialog(
+      contentPadding: const EdgeInsets.all(15),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            controller: this._mailController,
+            keyboardType: TextInputType.emailAddress,
+            autofocus: false,
+            decoration: InputDecoration(
+              icon: Icon(Icons.email),
+              hintText: 'Email',
+              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            ),
+          ),
+          Divider(
+            thickness: 0.5,
+            color: Colors.black87,
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                  onPressed: this._send,
+                  color: Colors.redAccent,
+                  child: Text(
+                    'Senden',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-    ));
+    );
   }
 }

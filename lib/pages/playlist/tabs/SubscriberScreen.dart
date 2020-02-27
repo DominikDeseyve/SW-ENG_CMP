@@ -51,6 +51,7 @@ class _SubscriberScreenState extends State<SubscriberScreen> with AutomaticKeepA
 
   void _fetchRole() {
     Controller().firebase.getPlaylistUserRole(this.widget._playlist, Controller().authentificator.user).then((Role pRole) {
+      if (!mounted) return;
       setState(() {
         Provider.of<RoleProvider>(context).setRole(pRole);
       });

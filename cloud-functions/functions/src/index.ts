@@ -35,3 +35,40 @@ exports.countDownvotes = functions
   )
   .onWrite(countDownvotes);
 */
+
+exports.recursiveDelete = functions
+  .runWith({
+    timeoutSeconds: 540,
+    memory: "2GB"
+  })
+  .https.onCall(async (data, context) => {
+    // Only allow admin users to execute this function.
+    /*if (!(context.auth && context.auth.token && context.auth.token.admin)) {
+      throw new functions.https.HttpsError(
+        "permission-denied",
+        "Must be an administrative user to initiate delete."
+      );
+      console.log(
+      `User ${context.auth.uid} has requested to delete path ${path}`
+    );
+    }*/
+
+    const path = data.playlist_id;
+    const db = admin.firestore();
+    const collectionRef = db.collection("playlist").doc(path);
+    const batch = db.batch();
+
+    let query = await collectionRef.collection("joined_user").get();
+    query.forEach(function(doc) {
+      batch.delete(doc.ref);
+    });
+
+    query = await collectionRef.collection("queued_song").get();
+    query.forEach(function(doc) {
+      batch.delete(doc.ref);
+    });
+
+    batch.delete(collectionRef);
+
+    await batch.commit();
+  });

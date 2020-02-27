@@ -26,7 +26,7 @@ class CMP extends StatelessWidget {
           case ConnectionState.done:
             try {
               if (isAuth.data) {
-                return RootScreen();
+                return RootScreen(Navigation.home);
               } else {
                 return Welcome();
               }

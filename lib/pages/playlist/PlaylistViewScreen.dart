@@ -9,28 +9,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class PlaylistViewScreen extends StatefulWidget {
-  final Playlist _playlist;
+  final String _playlistID;
 
-  PlaylistViewScreen(this._playlist);
+  PlaylistViewScreen(this._playlistID);
 
   _PlaylistViewScreenState createState() => _PlaylistViewScreenState();
 }
 
 class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
+  Playlist _playlist;
   Request _request;
   List<User> _previewUser = [];
 
   void initState() {
     super.initState();
-
-    Controller().firebase.getPlaylistUser(this.widget._playlist).then((List<User> pUsers) {
+    Controller().firebase.getPlaylistDetails(this.widget._playlistID).then((Playlist pPlaylist) {
       setState(() {
-        this._previewUser = pUsers;
+        this._playlist = pPlaylist;
       });
+      Controller().firebase.getPlaylistUser(this._playlist).then((List<User> pUsers) {
+        setState(() {
+          this._previewUser = pUsers;
+        });
+      });
+      if (this._playlist.visibleness.key == 'PRIVATE') {
+        Controller().firebase.getPlaylistRequests(this._playlist, pUser: Controller().authentificator.user).then((pList) {
+          if (pList.length == 1) {
+            setState(() {
+              this._request = pList[0];
+            });
+          }
+        });
+      }
     });
+  }
 
-    if (this.widget._playlist.visibleness.key == 'PRIVATE') {
-      Controller().firebase.getPlaylistRequests(this.widget._playlist, pUser: Controller().authentificator.user).then((pList) {
+  Future<void> _fetchPlaylist() async {
+    if (this._playlist.visibleness.key == 'PRIVATE') {
+      Controller().firebase.getPlaylistRequests(this._playlist, pUser: Controller().authentificator.user).then((pList) {
         if (pList.length == 1) {
           setState(() {
             this._request = pList[0];
@@ -41,7 +57,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
   }
 
   String _getLabel() {
-    if (this.widget._playlist.visibleness.key == 'PUBLIC') {
+    if (this._playlist.visibleness.key == 'PUBLIC') {
       return "Teilnehmen";
     } else {
       if (this._request == null) {
@@ -61,10 +77,10 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
   }
 
   void _joinPlaylist() async {
-    if (this.widget._playlist.visibleness.key == 'PUBLIC') {
-      bool success = await Controller().firebase.joinPlaylist(this.widget._playlist, Controller().authentificator.user, Role(ROLE.MEMBER, false));
+    if (this._playlist.visibleness.key == 'PUBLIC') {
+      bool success = await Controller().firebase.joinPlaylist(this._playlist, Controller().authentificator.user, Role(ROLE.MEMBER, false));
       if (success) {
-        Navigator.of(context).pushReplacementNamed('/playlist', arguments: this.widget._playlist);
+        Navigator.of(context).pushReplacementNamed('/playlist', arguments: this._playlist);
       } else {
         Controller().theming.showSnackbar(context, "Die maximale Anzahl an Teilnehmer wurde erreicht.");
       }
@@ -72,13 +88,18 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
       if (this._request == null) {
         setState(() {
           this._request = new Request('OPEN', Controller().authentificator.user);
-          Controller().firebase.requestPlaylist(this.widget._playlist, this._request);
+          Controller().firebase.requestPlaylist(this._playlist, this._request);
         });
       }
     }
   }
 
   Widget build(BuildContext context) {
+    if (this._playlist == null) {
+      return Container(
+        color: Colors.white,
+      );
+    }
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -93,7 +114,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                this.widget._playlist.name,
+                this._playlist.name,
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -107,128 +128,131 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
           ],
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Column(
-              children: <Widget>[
-                PlaylistAvatar(
-                  this.widget._playlist,
-                  width: 180,
-                ),
-                SizedBox(height: 15),
-                Text(
-                  this.widget._playlist.name,
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Controller().theming.fontPrimary,
+      body: RefreshIndicator(
+        onRefresh: this._fetchPlaylist,
+        child: ListView(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Column(
+                children: <Widget>[
+                  PlaylistAvatar(
+                    this._playlist,
+                    width: 180,
                   ),
-                ),
-                Text(
-                  "erstellt von " + this.widget._playlist.creator.username.toString(),
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Controller().theming.fontPrimary,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                  child: FlatButton(
-                    onPressed: this._joinPlaylist,
-                    padding: const EdgeInsets.all(10),
-                    color: Controller().theming.accent,
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5.0),
-                          child: Icon(
-                            this._getIcon(),
-                            size: 20.0,
-                            color: Controller().theming.fontSecondary,
-                          ),
-                        ),
-                        Text(
-                          this._getLabel(),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Controller().theming.fontSecondary,
-                          ),
-                        )
-                      ],
+                  SizedBox(height: 15),
+                  Text(
+                    this._playlist.name,
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Controller().theming.accent,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
+                  Text(
+                    "erstellt von " + this._playlist.creator.username.toString(),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+                    child: FlatButton(
+                      onPressed: this._joinPlaylist,
+                      padding: const EdgeInsets.all(10),
+                      color: Controller().theming.accent,
+                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: Icon(
+                              this._getIcon(),
+                              size: 20.0,
+                              color: Controller().theming.fontSecondary,
                             ),
                           ),
-                          width: 20,
-                          height: 15,
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          "Teilnehmer",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.normal,
-                            color: Controller().theming.fontPrimary,
-                          ),
-                        ),
-                      ],
+                          Text(
+                            this._getLabel(),
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Controller().theming.fontSecondary,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                GridView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: this._previewUser.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        UserAvatar(
-                          this._previewUser[index],
-                          width: MediaQuery.of(context).size.width * 0.22,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          this._previewUser[index].username,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: Controller().theming.fontPrimary,
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Controller().theming.accent,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                            width: 20,
+                            height: 15,
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
+                          SizedBox(width: 15),
+                          Text(
+                            "Teilnehmer",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.normal,
+                              color: Controller().theming.fontPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  GridView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: this._previewUser.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          UserAvatar(
+                            this._previewUser[index],
+                            width: MediaQuery.of(context).size.width * 0.22,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            this._previewUser[index].username,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0,
+                              color: Controller().theming.fontPrimary,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          )
-        ],
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
       ),
     );
   }

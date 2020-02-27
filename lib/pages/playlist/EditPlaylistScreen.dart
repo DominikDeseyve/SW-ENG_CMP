@@ -27,15 +27,21 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   Visibleness _visibleness;
   List<Visibleness> _visiblenessList;
 
+  bool _nameError;
+  bool _amountError;
+  bool _descriptionError;
   void initState() {
     super.initState();
 
+    this._nameError = false;
     this._nameController = new TextEditingController();
     this._nameController.text = this.widget._playlist.name;
 
+    this._amountError = false;
     this._maxAttendeesController = new TextEditingController();
     this._maxAttendeesController.text = this.widget._playlist.maxAttendees.toString();
 
+    this._descriptionError = false;
     this._descriptionController = new TextEditingController();
     this._descriptionController.text = this.widget._playlist.description;
 
@@ -59,7 +65,45 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     });
   }
 
+  void _validateInput(String pField, String pText) async {
+    switch (pField) {
+      case 'NAME':
+        setState(() {
+          if (pText.length <= 4 || pText.isEmpty) {
+            this._nameError = true;
+          } else {
+            this._nameError = false;
+          }
+        });
+        break;
+      case 'AMOUNT':
+        setState(() {
+          if (pText.isEmpty || int.parse(pText) == 0 || int.parse(pText) > 1000) {
+            this._amountError = true;
+          } else {
+            this._amountError = false;
+          }
+        });
+        break;
+      case 'DESCRIPTION':
+        setState(() {
+          if (pText.length <= 10 || pText.isEmpty) {
+            this._descriptionError = true;
+          } else {
+            this._descriptionError = false;
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
   void _editPlaylist() async {
+    if (this._nameError || this._amountError || this._descriptionError) {
+      Controller().theming.showSnackbar(context, "Bitte überprüfen Sie ihre Angaben!");
+      return;
+    }
     this.widget._playlist.name = this._nameController.text;
     this.widget._playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
     this.widget._playlist.visibleness = this._visibleness;
@@ -140,6 +184,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
+              onChanged: (String pText) => this._validateInput('NAME', pText),
               controller: _nameController,
               style: TextStyle(
                 fontSize: 18,
@@ -147,7 +192,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: "Name der Playlist",
+                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : "Name der Playlist"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -161,7 +206,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: Controller().theming.fontPrimary,
+                  color: (!this._nameError ? Controller().theming.fontPrimary : Colors.redAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -171,6 +216,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
+              onChanged: (String pText) => this._validateInput('AMOUNT', pText),
               controller: _maxAttendeesController,
               style: TextStyle(
                 fontSize: 18,
@@ -181,7 +227,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               maxLength: 3,
               decoration: InputDecoration(
                 counter: Offstage(),
-                labelText: "max. Anzahl an Teilnehmer",
+                labelText: (this._amountError ? "Geben Sie eine Anzahl an" : "maximale Teilnehmerzahl"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -195,7 +241,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: Controller().theming.fontPrimary,
+                  color: (!this._amountError ? Controller().theming.fontPrimary : Colors.redAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -299,8 +345,10 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
+              onChanged: (String pText) => this._validateInput('DESCRIPTION', pText),
               minLines: 3,
               maxLines: null,
+              maxLength: 300,
               controller: _descriptionController,
               style: TextStyle(
                 fontSize: 18,
@@ -308,7 +356,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                labelText: "Beschreibung",
+                labelText: (this._nameError ? "Geben Sie eine korrekten Beschreibung ein" : "Beschreibung"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -322,7 +370,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: Controller().theming.fontPrimary,
+                  color: (!this._descriptionError ? Controller().theming.fontPrimary : Colors.redAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,

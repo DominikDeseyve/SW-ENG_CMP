@@ -208,7 +208,7 @@ class PlaylistItem extends StatelessWidget {
       onTap: () {
         this._pushCachedPlaylistCallback(this._playlist);
         Controller().localStorage.pushPlaylistSearch(this._playlist);
-        Navigator.pushNamed(context, '/playlist', arguments: _playlist);
+        Navigator.pushNamed(context, '/playlist', arguments: this._playlist.playlistID);
       },
       child: ListTile(
         leading: PlaylistAvatar(this._playlist),
