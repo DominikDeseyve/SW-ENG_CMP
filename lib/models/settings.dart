@@ -18,6 +18,9 @@ class Settings {
     } else {
       Controller().theming.initLight();
     }
+
+    this._crossfade = pSnap['crossfade'];
+    //this._language = pSnap['language'];
   }
 
   Map<String, dynamic> toFirebase() {
@@ -37,5 +40,13 @@ class Settings {
 
   set darkMode(bool pDarkMode) {
     this._darkMode = pDarkMode;
+  }
+
+  int get crossfade {
+    return this._crossfade;
+  }
+
+  set crossfade(int pCrossfade) {
+    this._crossfade = pCrossfade;
   }
 }

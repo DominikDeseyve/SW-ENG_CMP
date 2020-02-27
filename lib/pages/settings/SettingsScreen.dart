@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
@@ -9,14 +11,20 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _darkmode;
-
   String _username;
+  bool _darkmode;
+  int _crossfade;
+  int _userCrossfade;
 
   void initState() {
-    _darkmode = Controller().authentificator.user.settings.darkMode;
-
     _username = Controller().authentificator.user.username;
+    _darkmode = Controller().authentificator.user.settings.darkMode;
+    _crossfade = Controller().authentificator.user.settings.crossfade;
+
+    if (_crossfade == null) {
+      _crossfade = 0;
+    }
+    _userCrossfade = _crossfade;
 
     super.initState();
   }
@@ -48,230 +56,299 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
-      body: ListView(
-        shrinkWrap: false,
-        primary: true,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed('/settings/profile').then((value) {
-                  setState(() {
-                    //this._userImage = Controller().authentificator.user.imageURL;
-                    this._username = Controller().authentificator.user.username;
-                  });
-                });
-              },
-              child: ListTile(
-                leading: UserAvatar(Controller().authentificator.user),
-                title: Text(
-                  _username,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Controller().theming.fontPrimary,
-                  ),
-                ),
-                subtitle: Text(
-                  "Profil anzeigen",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Controller().theming.tertiary,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                  color: Controller().theming.tertiary,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 25, 20, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            ListView(
+              shrinkWrap: true,
+              primary: true,
               children: <Widget>[
-                Text(
-                  "Allgemeines",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Controller().theming.fontPrimary,
-                  ),
-                ),
-                Divider(
-                  thickness: 1.5,
-                  color: Controller().theming.fontPrimary,
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      if (_darkmode == true) {
-                        Controller().theming.initLight();
-
-                        // Darkmode in Firebase speichern
-
-                        _darkmode = false;
-                      } else {
-                        Controller().theming.initDark();
-                        _darkmode = true;
-                      }
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Container(
-                            width: 120,
-                            child: Text(
-                              "DarkMode",
-                              style: TextStyle(
-                                color: Controller().theming.fontPrimary,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/settings/profile').then((value) {
+                        setState(() {
+                          //this._userImage = Controller().authentificator.user.imageURL;
+                          this._username = Controller().authentificator.user.username;
+                        });
+                      });
+                    },
+                    child: ListTile(
+                      leading: UserAvatar(Controller().authentificator.user),
+                      title: Text(
+                        _username,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Controller().theming.fontPrimary,
                         ),
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 2),
-                            child: Switch(
-                                activeColor: Controller().theming.accent,
-                                inactiveTrackColor: Controller().theming.tertiary,
-                                value: _darkmode,
-                                onChanged: (value) async {
-                                  _darkmode = value;
-                                  Controller().authentificator.user.settings.darkMode = value;
-                                  await Controller().firebase.updateSettings();
-
-                                  DynamicTheme.of(context).setState(() {
-                                    if (_darkmode == false) {
-                                      Controller().theming.initLight();
-                                    } else {
-                                      Controller().theming.initDark();
-                                    }
-                                  });
-                                }),
-                          ),
+                      ),
+                      subtitle: Text(
+                        "Profil anzeigen",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Controller().theming.tertiary,
                         ),
-                      ],
+                      ),
+                      trailing: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Controller().theming.tertiary,
+                      ),
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 40,
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Container(
-                            width: 120,
-                            child: Text(
-                              "Sprache",
-                              style: TextStyle(
-                                color: Controller().theming.fontPrimary,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 25, 20, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Allgemeines",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Controller().theming.fontPrimary,
                         ),
-                        Flexible(
+                      ),
+                      Divider(
+                        thickness: 1.5,
+                        color: Controller().theming.fontPrimary,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (_darkmode == true) {
+                              Controller().theming.initLight();
+
+                              // Darkmode in Firebase speichern
+
+                              _darkmode = false;
+                            } else {
+                              Controller().theming.initDark();
+                              _darkmode = true;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: 40,
+                          margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              InkWell(
-                                onTap: () {
-                                  DynamicTheme.of(context).setState(() {
-                                    Controller().translater.switchLanguage('ENGLISH');
-                                  });
-                                },
+                              Padding(
+                                padding: EdgeInsets.only(top: 5),
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/images/flags/united-kingdom.png'),
+                                  width: 120,
+                                  child: Text(
+                                    "DarkMode",
+                                    style: TextStyle(
+                                      color: Controller().theming.fontPrimary,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  DynamicTheme.of(context).setState(() {
-                                    Controller().translater.switchLanguage('GERMAN');
-                                  });
-                                },
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  margin: EdgeInsets.only(top: 5),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/images/flags/germany.png'),
-                                    ),
-                                  ),
+                              Flexible(
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 2),
+                                  child: Switch(
+                                      activeColor: Controller().theming.accent,
+                                      inactiveTrackColor: Controller().theming.tertiary,
+                                      value: _darkmode,
+                                      onChanged: (value) async {
+                                        _darkmode = value;
+                                        Controller().authentificator.user.settings.darkMode = value;
+                                        await Controller().firebase.updateSettings();
+
+                                        DynamicTheme.of(context).setState(() {
+                                          if (_darkmode == false) {
+                                            Controller().theming.initLight();
+                                          } else {
+                                            Controller().theming.initDark();
+                                          }
+                                        });
+                                      }),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 40,
+                          margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(top: 5),
+                                child: Container(
+                                  width: 120,
+                                  child: Text(
+                                    "Sprache",
+                                    style: TextStyle(
+                                      color: Controller().theming.fontPrimary,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    InkWell(
+                                      onTap: () {
+                                        DynamicTheme.of(context).setState(() {
+                                          Controller().translater.switchLanguage('ENGLISH');
+                                        });
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 5),
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage('assets/images/flags/united-kingdom.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        DynamicTheme.of(context).setState(() {
+                                          Controller().translater.switchLanguage('GERMAN');
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 30,
+                                        height: 30,
+                                        margin: EdgeInsets.only(top: 5),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage('assets/images/flags/germany.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Container(
+                                width: (MediaQuery.of(context).size.width / 2) - 40,
+                                child: Text(
+                                  "Crossfade",
+                                  style: TextStyle(
+                                    color: Controller().theming.fontPrimary,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 2),
+                                child: Slider(
+                                  value: _crossfade.toDouble(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _crossfade = value.toInt();
+                                    });
+                                  },
+                                  onChangeEnd: (value) {
+                                    if (value.toInt() != _userCrossfade) {
+                                      print("test " + value.toString());
+                                      Controller().authentificator.user.settings.crossfade = value.toInt();
+                                      Controller().firebase.updateSettings();
+                                    }
+                                  },
+                                  divisions: 10,
+                                  activeColor: Controller().theming.accent,
+                                  inactiveColor: Controller().theming.tertiary,
+                                  label: _crossfade.toString(),
+                                  min: 0,
+                                  max: 10,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                  child: FlatButton(
+                    onPressed: () async {
+                      await Controller().authentificator.signOut();
+                      Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
+                    },
+                    padding: const EdgeInsets.all(10),
+                    color: Controller().theming.accent,
+                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: Icon(
+                            Icons.directions_run,
+                            size: 20.0,
+                            color: Controller().theming.fontSecondary,
+                          ),
+                        ),
+                        Text(
+                          "Abmelden",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Controller().theming.fontSecondary,
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-            child: FlatButton(
-              onPressed: () async {
-                await Controller().authentificator.signOut();
-                Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
-              },
-              padding: const EdgeInsets.all(10),
-              color: Controller().theming.accent,
-              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: Icon(
-                      Icons.directions_run,
-                      size: 20.0,
-                      color: Controller().theming.fontSecondary,
-                    ),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 20),
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Loading ...",
+                  style: TextStyle(
+                    color: Controller().theming.fontPrimary,
+                    fontSize: 15,
                   ),
-                  Text(
-                    "Abmelden",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Controller().theming.fontSecondary,
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
