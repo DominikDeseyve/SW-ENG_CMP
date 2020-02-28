@@ -15,7 +15,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
+    this._mailController =
+        new TextEditingController(text: 'dominik.deseyve@gmx.de');
     this._passwordController = new TextEditingController(text: '123456');
   }
 
@@ -67,10 +68,11 @@ class _LoginPageState extends State<LoginPage> {
             String email = this._mailController.text;
             String password = this._passwordController.text;
 
-            bool success = await Controller().authentificator.signIn(email, password);
+            bool success =
+                await Controller().authentificator.signIn(email, password);
             if (success) {
               Navigator.of(context).pushReplacementNamed('/start');
-            }
+            } else {}
           } catch (e) {
             print(e.code);
           }
@@ -87,11 +89,19 @@ class _LoginPageState extends State<LoginPage> {
         'Passwort vergessen?',
         style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () {
-        showDialog(
+      onPressed: () async {
+        /*showDialog(
           context: context,
-          builder: (BuildContext context) => PasswordDialog(),
-        );
+          builder: (BuildContext context) => PasswordDialog(),*/
+
+        try {
+          String email = this._mailController.text;
+
+          await Controller().authentificator.resetPasswort(email);
+        } catch (e) {
+          print(e.code);
+        }
+        //Navigator.of(context).pushNamed(HomePage.tag);
       },
     );
 
@@ -117,7 +127,16 @@ class _LoginPageState extends State<LoginPage> {
           child: ListView(
             shrinkWrap: true,
             padding: EdgeInsets.only(left: 24.0, right: 24.0),
-            children: <Widget>[logo, SizedBox(height: 48.0), email, SizedBox(height: 8.0), password, SizedBox(height: 24.0), loginButton, forgotLabel],
+            children: <Widget>[
+              logo,
+              SizedBox(height: 48.0),
+              email,
+              SizedBox(height: 8.0),
+              password,
+              SizedBox(height: 24.0),
+              loginButton,
+              forgotLabel
+            ],
           ),
         ),
       ),
@@ -169,7 +188,8 @@ class _PasswordDialogState extends State<PasswordDialog> {
               icon: Icon(Icons.email),
               hintText: 'Email',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
             ),
           ),
           Divider(
@@ -182,7 +202,8 @@ class _PasswordDialogState extends State<PasswordDialog> {
             children: [
               Expanded(
                 child: FlatButton(
-                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
                   onPressed: this._send,
                   color: Colors.redAccent,
                   child: Text(
