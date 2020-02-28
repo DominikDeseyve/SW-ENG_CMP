@@ -16,7 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController;
   TextEditingController _passwordConfirmController;
 
-  String confirmed = "";
+  final _formKey = GlobalKey<FormState>();
 
   Future<DateTime> selectedDate;
   String geburtsdatum = "";
@@ -58,6 +58,12 @@ class _RegisterPageState extends State<RegisterPage> {
     final username = TextFormField(
       controller: this._userController,
       autofocus: false,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Geben Sie einen Benutzernamen an';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         icon: Icon(Icons.account_circle),
         hintText: 'Benutzername',
@@ -70,6 +76,15 @@ class _RegisterPageState extends State<RegisterPage> {
       controller: this._mailController,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
+      validator: (value) {
+        Pattern pattern =
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+        RegExp regex = new RegExp(pattern);
+        if (!regex.hasMatch(value))
+          return 'Enter Valid Email';
+        else
+          return null;
+      },
       decoration: InputDecoration(
         icon: Icon(Icons.email),
         hintText: 'Email',
@@ -78,9 +93,8 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    final birthDate = InkWell(
-        child: Container(
-            child: TextField(
+    final birthDate = TextFormField(
+      controller: this._passwordController,
       onTap: () async {
         await _showDateTimePicker();
         FocusScope.of(context).requestFocus(new FocusNode());
@@ -91,15 +105,20 @@ class _RegisterPageState extends State<RegisterPage> {
         print(formatted);
         _birthController.text = formatted;
       },
-      controller: this._birthController,
       autofocus: false,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Geben Sie einen Geburtsdatum an';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         icon: Icon(Icons.date_range),
-        hintText: 'Geburtdatum',
+        hintText: 'Geburtsdatum',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
-    )));
+    );
 
     final password = TextFormField(
       controller: this._passwordController,
@@ -119,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
       obscureText: true,
       decoration: InputDecoration(
         icon: Icon(Icons.lock),
-        labelText: confirmed,
+        hintText: "Passwort wiederholen",
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -132,29 +151,29 @@ class _RegisterPageState extends State<RegisterPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () async {
-          String email = this._mailController.text;
-          String password = this._passwordController.text;
-          String passwordConfirm = this._passwordConfirmController.text;
-          try {
-            if (password == passwordConfirm) {
-              confirmed = "";
-              User user = new User();
-              user.username = this._userController.text;
-              user.birthday = DateTime.now();
-              bool success = await Controller().authentificator.signUp(email, password, user);
-              if (success) {
-                Navigator.of(context).pushReplacementNamed('/register/email', arguments: email);
+          if (_formKey.currentState.validate()) {
+            String email = this._mailController.text;
+            String password = this._passwordController.text;
+            String passwordConfirm = this._passwordConfirmController.text;
+            try {
+              if (password == passwordConfirm) {
+                User user = new User();
+                user.username = this._userController.text;
+                user.birthday = DateTime.now();
+                bool success = await Controller()
+                    .authentificator
+                    .signUp(email, password, user);
+                if (success) {
+                  Navigator.of(context).pushReplacementNamed('/register/email',
+                      arguments: email);
+                }
               }
-            } else {
-              setState(() {
-                confirmed = "Falsches Passwort";
-              });
+            } catch (e) {
+              print(e.code);
+              //Navigator.of(context)
+              //    .pushReplacementNamed('/register', arguments: email);
             }
-          } catch (e) {
-            print(e.code);
-            //Navigator.of(context)
-            //    .pushReplacementNamed('/register', arguments: email);
-          }
+          } else {}
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF253A4B),
@@ -191,6 +210,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
       child: Center(
+        key: _formKey,
         child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
