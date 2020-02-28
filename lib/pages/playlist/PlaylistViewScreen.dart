@@ -62,7 +62,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
     if (this._playlist.visibleness.key == 'PUBLIC') {
       return "Teilnehmen";
     } else {
-      if (this._request == null) {
+      if (this._request == null || this._request.status == 'DECLINE') {
         return "Anfrage senden";
       } else if (this._request.status == 'ACCEPT') {
         return "Zur Playlist";
@@ -89,7 +89,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
         Controller().theming.showSnackbar(context, "Die maximale Anzahl an Teilnehmer wurde erreicht.");
       }
     } else {
-      if (this._request == null) {
+      if (this._request == null || this._request.status == 'DECLINE') {
         setState(() {
           this._request = new Request('OPEN', Controller().authentificator.user);
           Controller().firebase.requestPlaylist(this._playlist, this._request);
@@ -140,7 +140,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
         child: ListView(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(top: 20),
               child: Column(
                 children: <Widget>[
                   PlaylistAvatar(
@@ -162,35 +162,56 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                       color: Controller().theming.fontPrimary,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                    child: FlatButton(
-                      onPressed: this._joinPlaylist,
-                      padding: const EdgeInsets.all(10),
-                      color: Controller().theming.accent,
-                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
-                            child: Icon(
-                              this._getIcon(),
-                              size: 20.0,
-                              color: Controller().theming.fontSecondary,
+                  (this._playlist.maxAttendees == this._playlist.joinedUserCount
+                      ? Container(
+                          margin: EdgeInsets.symmetric(horizontal: 0, vertical: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.mood_bad,
+                                size: 40,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                "Leider ist die Playlist bereits voll. \n Es tut uns sehr leid.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+                          child: FlatButton(
+                            onPressed: this._joinPlaylist,
+                            padding: const EdgeInsets.all(10),
+                            color: Controller().theming.accent,
+                            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 5.0),
+                                  child: Icon(
+                                    this._getIcon(),
+                                    size: 20.0,
+                                    color: Controller().theming.fontSecondary,
+                                  ),
+                                ),
+                                Text(
+                                  this._getLabel(),
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Controller().theming.fontSecondary,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          Text(
-                            this._getLabel(),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Controller().theming.fontSecondary,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                        )),
                   InkWell(
                     onTap: () {},
                     child: Container(

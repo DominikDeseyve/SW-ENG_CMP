@@ -8,6 +8,7 @@ class Playlist {
   String _playlistID;
   String _name;
   int _maxAttendees;
+  int _joinedUserCount;
   Visibleness _visibleness;
   String _description;
   String _imageURL;
@@ -26,7 +27,7 @@ class Playlist {
       this._maxAttendees = pSnap['max_attendees'];
       this._description = pSnap['description'];
       this._visibleness = Visibleness(pSnap['visibleness']);
-
+      this._joinedUserCount = pSnap['joined_user_count'];
       //this.blackedGenre = pSnap[''];
       this._creator = User.fromFirebase(pSnap['creator']);
       this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
@@ -58,6 +59,10 @@ class Playlist {
 
   int get maxAttendees {
     return this._maxAttendees;
+  }
+
+  int get joinedUserCount {
+    return this._joinedUserCount;
   }
 
   String get description {

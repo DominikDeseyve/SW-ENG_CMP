@@ -146,10 +146,10 @@ class Firebase {
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
   }
 
-  Future<void> updateSong(Playlist pPlaylist, Song pCurrentSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData(
-          pCurrentSong.toFirebase(),
-        );
+  Future<void> updateSongStatus(Playlist pPlaylist, Song pCurrentSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData({
+      'song_status': pCurrentSong.songStatus.toFirebase(),
+    });
   }
 
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
@@ -218,7 +218,15 @@ class Firebase {
     DocumentSnapshot playlistSnap = await this._ref.collection('playlist').document(pPlaylist.playlistID).get(source: this._source);
     if (playlistSnap['joined_user_count'] < playlistSnap['max_attendees']) {
       await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).setData(userWithRole);
-      await this._ref.collection('user').document(pUser.userID).collection('joined_playlist').document(pPlaylist.playlistID).setData(pPlaylist.toFirebase(short: true));
+      Map<String, dynamic> playlistMap = pPlaylist.toFirebase(short: true);
+      Map<String, dynamic> creatorMap;
+      if (pPlaylist.creator.userID == pUser.userID) {
+        creatorMap = {'is_creator': true};
+      } else {
+        creatorMap = {'is_creator': false};
+      }
+      playlistMap..addAll(creatorMap);
+      await this._ref.collection('user').document(pUser.userID).collection('joined_playlist').document(pPlaylist.playlistID).setData(playlistMap);
       return true;
     } else {
       return false;
@@ -239,7 +247,7 @@ class Firebase {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist));
       });
-      return playlists; 
+      return playlists;
     });
   }
 
@@ -247,7 +255,7 @@ class Firebase {
   Future<List<Playlist>> getJoinedPlaylist() async {
     List<Playlist> playlists = [];
     User user = Controller().authentificator.user;
-    return await this._ref.collection('user').document(user.userID).collection('joined_playlist').getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    return await this._ref.collection('user').document(user.userID).collection('joined_playlist').where('is_creator', isEqualTo: false).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist, short: true));
       });
@@ -326,7 +334,7 @@ class Firebase {
     List<Request> requests = [];
     Query query;
     if (pUser == null) {
-      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request');
+      query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('status', isEqualTo: 'OPEN');
     } else {
       query = this._ref.collection('playlist').document(pPlaylist.playlistID).collection('request').where('user.user_id', isEqualTo: pUser.userID);
     }
@@ -354,7 +362,7 @@ class Firebase {
           .collection('playlist')
           .document(pPlaylist.playlistID)
           .collection('queued_song')
-          .where('song_status.is_past', isEqualTo: false)
+          .where('song_status.status', isEqualTo: 'OPEN')
           .orderBy('ranking', descending: true)
           .orderBy('created_at')
           .limit(pQueue.stepSize)
@@ -365,7 +373,7 @@ class Firebase {
           .collection('playlist')
           .document(pPlaylist.playlistID)
           .collection('queued_song')
-          .where('song_status.is_past', isEqualTo: false)
+          .where('song_status.status', isEqualTo: 'OPEN')
           .orderBy('ranking', descending: true)
           .orderBy('created_at')
           .startAfterDocument(pQueue.lastDocument)

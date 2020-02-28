@@ -50,7 +50,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
       }
       error = true;
     } on FormatException {
-      error = true;
+      error = false;
       //error = true;
       //barcode = 'null (User returned using the "back"-button before scanning anything. Result)';
     } catch (e) {
@@ -61,9 +61,8 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
       Controller().theming.showSnackbar(context, barcode);
       return;
     }
-    Controller().firebase.getPlaylistDetails(barcode).then((Playlist pPlaylist) {
-      Navigator.of(context).pushNamed('/playlist', arguments: pPlaylist);
-    });
+
+    Navigator.of(context).pushNamed('/playlist', arguments: barcode);
   }
 
   void pushCachedPlaylist(Playlist pPlaylist) {
