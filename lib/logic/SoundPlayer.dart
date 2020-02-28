@@ -1,5 +1,4 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/logic/Queue.dart';
@@ -22,6 +21,8 @@ class SoundPlayer extends ChangeNotifier {
       this.nextSong().then((bool hasNext) {
         if (hasNext) {
           this.play();
+        } else {
+          this.notifyListeners();
         }
       });
     });
@@ -86,17 +87,16 @@ class SoundPlayer extends ChangeNotifier {
     if (this._playingQueue.songs.length == 0) {
       print("--- PLAYLIST STOPPED BECAUSE NO MORE SONGS FOUND");
       await this.pause();
+      this._currentSong = null;
       return false;
     }
     await this._audioPlayer.pause();
     await this.prepareNextSongs(1);
 
     //change song
-    this._currentSong.songStatus.end();
-    Controller().firebase.updateSong(this._playlingPlaylist, this._currentSong);
+    this._currentSong.end();
     this._currentSong = this._playingQueue.skip();
-    this._currentSong.songStatus.play();
-    Controller().firebase.updateSong(this._playlingPlaylist, this._currentSong);
+    this._currentSong.play();
     await this._loadSong();
     await this._audioPlayer.resume();
     this.notifyListeners();
@@ -114,8 +114,8 @@ class SoundPlayer extends ChangeNotifier {
       this._currentSong = this._playingQueue.songs[0];
     }
 
-    this._currentSong.songStatus.play();
-    Controller().firebase.updateSong(pPlaylist, this._currentSong);
+    this._currentSong.play();
+
     this._currentSong.loadURL().then((_) {
       this._loadSong().then((_) {
         this.play();
@@ -127,8 +127,7 @@ class SoundPlayer extends ChangeNotifier {
 
   Future<void> deleteQueue() async {
     await this.pause();
-    this._currentSong.songStatus.end();
-    Controller().firebase.updateSong(this._playlingPlaylist, this._currentSong);
+    this._currentSong.open();
 
     this._playingQueue = null;
     this._playlingPlaylist = null;

@@ -1,7 +1,7 @@
 name: cmp
 description: Connected Music Player
 
-version: 1.2.5+1
+version: 0.3.8+11
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -38,11 +38,11 @@ dependencies:
   #image_cropper: ^1.2.1
   image_picker_saver: ^0.3.0
   dynamic_theme: ^1.0.1
-  path_provider: ^1.4.4
+  path_provider: ^1.6.1
   sembast: ^2.2.0
   provider: ^2.0.1
 
-  package_info: ^0.4.0+12
+  package_info: ^0.4.0+14
 
   #qr-code
   open_file:

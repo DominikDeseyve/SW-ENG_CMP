@@ -45,8 +45,10 @@ class LocalStorage {
   }
 
   void _fetchValues() async {
-    var r = await this._storeRef.record('searched_playlist').get(this._database);
-    this._searchedPlaylists = List.from(r);
+    try {
+      var r = await this._storeRef.record('searched_playlist').get(this._database);
+      this._searchedPlaylists = List.from(r);
+    } catch (e) {}
   }
 
   List<String> get searchedPlaylists {

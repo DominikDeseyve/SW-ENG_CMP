@@ -79,8 +79,10 @@ class Theming {
     return this._navigation;
   }
 
+  //Flushbar alternative
   void showSnackbar(BuildContext pContext, String pText) {
     final snackBar = SnackBar(
+      duration: Duration(milliseconds: 2000),
       content: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Text(pText),

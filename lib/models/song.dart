@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/HTTP.dart';
+import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song_status.dart';
 import 'package:cmp/models/user.dart';
 import 'package:html_unescape/html_unescape_small.dart';
@@ -20,6 +21,8 @@ class Song {
   int _downvoteCount;
   SongStatus _songStatus;
 
+  Playlist _playlist;
+
   Song.fromYoutube(YT_API pItem) {
     this._artist = pItem.channelTitle;
     this._titel = new HtmlUnescape().convert(pItem.title);
@@ -31,7 +34,9 @@ class Song {
     this._creator = creator;
     this._songStatus = new SongStatus();
   }
-  Song.fromFirebase(DocumentSnapshot pSnap) {
+  Song.fromFirebase(DocumentSnapshot pSnap, Playlist pPlaylist) {
+    this._playlist = pPlaylist;
+
     this._songID = pSnap.documentID;
     this._titel = pSnap['titel'];
     this._artist = pSnap['artist'];
@@ -64,6 +69,25 @@ class Song {
       print("URL LOADED: " + pURL);
       this._soundURL = pURL;
     });
+  }
+
+  void _updateStatus() async {
+    await Controller().firebase.updateSongStatus(this._playlist, this);
+  }
+
+  void play() {
+    this._songStatus.status = 'PLAYING';
+    this._updateStatus();
+  }
+
+  void open() {
+    this._songStatus.status = 'OPEN';
+    this._updateStatus();
+  }
+
+  void end() {
+    this._songStatus.status = 'END';
+    this._updateStatus();
   }
 
   set upvoteCount(int pNr) {
