@@ -11,7 +11,8 @@ import 'package:nested_navigators/nested_nav_bloc.dart';
 import 'package:nested_navigators/nested_nav_bloc_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(CMP());
 }
 
