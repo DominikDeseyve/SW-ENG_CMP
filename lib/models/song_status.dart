@@ -1,16 +1,13 @@
 class SongStatus {
-  bool _isPast;
-  bool _isPlaying;
   int _time;
+  String _status;
 
   SongStatus() {
-    this._isPast = false;
-    this._isPlaying = false;
+    this._status = 'OPEN';
   }
   SongStatus.fromFirebase(Map pMap) {
-    this._isPast = pMap['is_past'];
-    this._isPlaying = pMap['is_playing'];
-    if (this._isPlaying) {
+    this._status = pMap['status'];
+    if (this._status == 'PLAYING') {
       this._time = pMap['time'];
     } else {
       this._time = null;
@@ -18,37 +15,30 @@ class SongStatus {
   }
 
   Map<String, dynamic> toFirebase() {
-    if (this._isPlaying) {
+    if (this._status == 'PLAYING') {
       return {
-        'is_past': this._isPast,
-        'is_playing': true,
+        'status': 'PLAYING',
         'time': this._time,
       };
     } else {
       return {
-        'is_past': this._isPast,
-        'is_playing': false,
+        'status': this._status,
       };
     }
   }
 
-  void end() {
-    this._isPlaying = false;
-    this._isPast = true;
-  }
-
-  void play() {
-    this._isPlaying = true;
+  set status(String pStatus) {
+    this._status = pStatus;
   }
 
   //***************************************************//
   //*********   GETTER
   //***************************************************//
   bool get isPlaying {
-    return this._isPlaying;
+    return (this._status == 'PLAYING');
   }
 
   bool get isPast {
-    return this._isPast;
+    return (this._status == 'END');
   }
 }

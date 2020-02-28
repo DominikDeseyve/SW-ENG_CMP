@@ -50,13 +50,17 @@ class Queue {
       this._lastDocument = pQuery.documentChanges.last.document;
 
       pQuery.documentChanges.forEach((DocumentChange pSong) {
-        Song song = Song.fromFirebase(pSong.document);
-
+        Song song = Song.fromFirebase(pSong.document, this._playlist);
+        print(song.titel);
         switch (pSong.type) {
           case DocumentChangeType.added:
             print('ADD: ' + song.titel);
             int index = this._songs.indexWhere((item) => item.songID == song.songID);
             if (index == -1) {
+              //if song is was current song
+              if (this._currentSong != null && this._currentSong.songID == song.songID) {
+                this._currentSong = null;
+              }
               this._songs.add(song);
             }
             break;

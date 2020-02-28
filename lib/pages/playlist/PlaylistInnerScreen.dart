@@ -175,60 +175,49 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 Icons.more_vert,
                 color: Controller().theming.fontSecondary,
               ),
+              onSelected: (int pValue) {
+                switch (pValue) {
+                  case 1:
+                    _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
+                    break;
+                  case 2:
+                    _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
+                    break;
+                  case 3:
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) => CodeDialog(this._playlist),
+                    );
+                    break;
+                }
+              },
               itemBuilder: (context) => [
                 (this._playlist.creator.userID == Controller().authentificator.user.userID
                     ? PopupMenuItem(
                         value: 1,
-                        child: Container(
-                          width: double.infinity,
-                          child: GestureDetector(
-                            child: Text(
-                              "Playlist löschen",
-                              style: TextStyle(
-                                color: Controller().theming.fontPrimary,
-                              ),
-                            ),
-                            onTap: () {
-                              _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
-                            },
+                        child: Text(
+                          "Playlist löschen",
+                          style: TextStyle(
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
                       )
                     : PopupMenuItem(
-                        value: 1,
-                        child: GestureDetector(
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              "Playlist verlassen",
-                              style: TextStyle(
-                                color: Controller().theming.fontPrimary,
-                              ),
-                            ),
+                        value: 2,
+                        child: Text(
+                          "Playlist verlassen",
+                          style: TextStyle(
+                            color: Controller().theming.fontPrimary,
                           ),
-                          onTap: () {
-                            _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
-                          },
                         ),
                       )),
                 PopupMenuItem(
-                  value: 1,
-                  child: GestureDetector(
-                    child: Container(
-                      width: double.infinity,
-                      child: Text(
-                        "Code ansehen",
-                        style: TextStyle(
-                          color: Controller().theming.fontPrimary,
-                        ),
-                      ),
+                  value: 3,
+                  child: Text(
+                    "Code ansehen",
+                    style: TextStyle(
+                      color: Controller().theming.fontPrimary,
                     ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) => CodeDialog(this._playlist),
-                      );
-                    },
                   ),
                 ),
               ],

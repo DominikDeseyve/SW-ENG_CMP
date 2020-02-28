@@ -146,10 +146,10 @@ class Firebase {
     await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).delete();
   }
 
-  Future<void> updateSong(Playlist pPlaylist, Song pCurrentSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData(
-          pCurrentSong.toFirebase(),
-        );
+  Future<void> updateSongStatus(Playlist pPlaylist, Song pCurrentSong) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData({
+      'song_status': pCurrentSong.songStatus.toFirebase(),
+    });
   }
 
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
@@ -362,7 +362,7 @@ class Firebase {
           .collection('playlist')
           .document(pPlaylist.playlistID)
           .collection('queued_song')
-          .where('song_status.is_past', isEqualTo: false)
+          .where('song_status.status', isEqualTo: 'OPEN')
           .orderBy('ranking', descending: true)
           .orderBy('created_at')
           .limit(pQueue.stepSize)
@@ -373,7 +373,7 @@ class Firebase {
           .collection('playlist')
           .document(pPlaylist.playlistID)
           .collection('queued_song')
-          .where('song_status.is_past', isEqualTo: false)
+          .where('song_status.status', isEqualTo: 'OPEN')
           .orderBy('ranking', descending: true)
           .orderBy('created_at')
           .startAfterDocument(pQueue.lastDocument)

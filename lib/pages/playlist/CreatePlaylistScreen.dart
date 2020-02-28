@@ -25,7 +25,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   TextEditingController _descriptionController;
   Visibleness _visibleness;
 
-  bool _activeValidation;
   bool _nameError;
   bool _amountError;
   bool _descriptionError;
@@ -34,7 +33,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   void initState() {
     super.initState();
 
-    this._activeValidation = false;
     this._nameError = false;
     this._nameController = new TextEditingController();
     this._nameController.text = "";
@@ -96,9 +94,9 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   }
 
   Future _createPlaylist() async {
-    if (this._nameError || this._amountError || this._descriptionError || !this._activeValidation || this._maxAttendeesController.text.isEmpty) {
+    if (this._nameError || this._amountError || this._descriptionError || this._maxAttendeesController.text.isEmpty) {
       Controller().theming.showSnackbar(context, "Bitte überprüfen Sie ihre Angaben!");
-      this._activeValidation = true;
+
       return;
     }
     Playlist playlist = new Playlist();
