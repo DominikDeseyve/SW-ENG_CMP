@@ -227,7 +227,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: (!this._nameError ? Controller().theming.fontPrimary : Colors.redAccent),
+                  color: (!this._nameError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -262,7 +262,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: (!this._amountError ? Controller().theming.fontPrimary : Colors.redAccent),
+                  color: (!this._amountError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
@@ -389,7 +389,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   ),
                 ),
                 labelStyle: TextStyle(
-                  color: (!this._descriptionError ? Controller().theming.fontPrimary : Colors.redAccent),
+                  color: (!this._descriptionError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
                   fontSize: 18,
                 ),
                 focusColor: Controller().theming.fontPrimary,
