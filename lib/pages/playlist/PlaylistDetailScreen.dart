@@ -83,7 +83,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(
-                width: 10,
+                width: 7,
                 color: Controller().theming.accent,
               ),
             ),

@@ -232,9 +232,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.225,
+                height: MediaQuery.of(context).size.height * 0.22,
                 child: CustomPaint(
-                  painter: CurvePainter(Controller().theming.accent, (0.155 / 0.225), 1, (0.155 / 0.225)),
+                  painter: CurvePainter(Controller().theming.accent, (0.155 / 0.22), 1, (0.155 / 0.22)),
                 ),
               ),
               Container(
@@ -636,12 +636,7 @@ class _CodeDialogState extends State<CodeDialog> {
       await WcFlutterShare.share(
         sharePopupTitle: 'Playlist teilen',
         subject: this.widget._playlist.name,
-        text: 'Hallo, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' +
-            this.widget._playlist.name +
-            '\n' +
-            'Teilnehmeranzahl: ' +
-            this.widget._playlist.maxAttendees.toString() +
-            '\n Ich freue mich auf Dich!',
+        text: 'Hallo, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' + this.widget._playlist.name + '\n' + 'Teilnehmeranzahl: ' + this.widget._playlist.maxAttendees.toString() + '\n Ich freue mich auf Dich!',
         fileName: 'image.png',
         mimeType: 'image/png',
         bytesOfFile: byteData.buffer.asUint8List(),
