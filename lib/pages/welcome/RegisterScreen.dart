@@ -142,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: true,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Geben Sie einen Passwort an';
+                  return 'Geben Sie ein Passwort an';
                 } else if (value.length < 6) {
                   return 'Passwort muss aus mind. 6 Zeichen bestehen';
                 }
