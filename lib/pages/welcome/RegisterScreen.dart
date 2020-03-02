@@ -47,22 +47,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      // Add box decoration
-      decoration: BoxDecoration(
-        // Box decoration takes a gradient
-        gradient: LinearGradient(
-          // Where the linear gradient begins and ends
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          // Add one stop for each color. Stops should increase from 0 to 1
-          stops: [0.0, 1.0],
-          colors: [
-            // Colors are easy thanks to Flutter's Colors class.
-            Colors.grey[400],
-            Colors.white,
-          ],
-        ),
-      ),
       child: Form(
         key: _formKey,
         autovalidate: _validate,
@@ -76,8 +60,8 @@ class _RegisterPageState extends State<RegisterPage> {
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 48.0,
-                child: FlutterLogo(
-                  size: 200,
+                child: Image(
+                  image: AssetImage('assets/images/symbol_rot.jpeg'),
                 ),
               ),
             ),
@@ -88,6 +72,8 @@ class _RegisterPageState extends State<RegisterPage> {
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Geben Sie einen Benutzernamen an';
+                } else if (value.length <= 4) {
+                  return 'Benutzername muss aus mind. 5 Buchstaben bestehen';
                 }
                 return null;
               },
@@ -156,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: true,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Geben Sie einen Passwort an';
+                  return 'Geben Sie ein Passwort an';
                 } else if (value.length < 6) {
                   return 'Passwort muss aus mind. 6 Zeichen bestehen';
                 }
@@ -225,7 +211,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   }
                 },
                 padding: EdgeInsets.all(12),
-                color: Color(0xFF253A4B),
+                color: Colors.redAccent,
                 child:
                     Text('REGISTRIEREN', style: TextStyle(color: Colors.white)),
               ),
@@ -233,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
             FlatButton(
               child: Text(
                 'Sie haben bereits einen Account? Login',
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(color: Colors.grey),
               ),
               onPressed: () {
                 Navigator.of(context).pushNamed('/login');

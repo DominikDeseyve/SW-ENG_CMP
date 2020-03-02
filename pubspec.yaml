@@ -88,6 +88,7 @@ flutter:
     - assets/images/default-playlist-avatar.jpg
     - assets/images/flags/germany.png
     - assets/images/flags/united-kingdom.png
+    - assets/images/symbol_rot.jpeg
   fonts:
     - family: Roboto
       fonts:
