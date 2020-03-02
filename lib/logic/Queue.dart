@@ -18,7 +18,7 @@ class Queue {
 
   Queue(Playlist pPlaylist) {
     this._playlist = pPlaylist;
-    this._stepSize = 3;
+    this._stepSize = 6;
     this._isFinished = false;
     this._lastDocument = null;
   }

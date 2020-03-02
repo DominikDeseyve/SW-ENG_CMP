@@ -148,9 +148,13 @@ class Firebase {
   }
 
   Future<void> updateSongStatus(Playlist pPlaylist, Song pCurrentSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData({
-      'song_status': pCurrentSong.songStatus.toFirebase(),
-    });
+    if (pCurrentSong.songStatus.isPast) {
+      await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).delete();
+    } else {
+      await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData({
+        'song_status': pCurrentSong.songStatus.toFirebase(),
+      });
+    }
   }
 
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {

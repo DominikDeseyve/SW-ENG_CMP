@@ -293,8 +293,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 right: 50,
                 child: Container(
                   child: RawMaterialButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/playlist/add', arguments: this._playlist);
+                    onPressed: () async {
+                      await Navigator.pushNamed(context, '/playlist/add', arguments: this._playlist);
+                      this._queue.loadMore();
                     },
                     child: Icon(
                       Icons.playlist_add,
@@ -505,7 +506,9 @@ class _SongItemState extends State<SongItem> {
     return InkWell(
       onTap: () {},
       onLongPress: () {
-        if (this.widget._song.creator.userID == Controller().authentificator.user.userID) {
+        if (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN ||
+            Provider.of<RoleProvider>(context).role.isMaster ||
+            this.widget._song.creator.userID == Controller().authentificator.user.userID) {
           this._showOptionDialog();
         }
       },

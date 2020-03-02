@@ -73,7 +73,7 @@ class Song {
     });
   }
 
-  void _updateStatus() async {
+  Future<void> _updateStatus() async {
     await Controller().firebase.updateSongStatus(this._playlist, this);
   }
 
@@ -87,9 +87,9 @@ class Song {
     this._updateStatus();
   }
 
-  void end() {
-    this._songStatus.status = 'END';
-    this._updateStatus();
+  Future<void> end() async {
+    this._songStatus.status = 'END';  
+    await this._updateStatus();
   }
 
   void voteUp() {

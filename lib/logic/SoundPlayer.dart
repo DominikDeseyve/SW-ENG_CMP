@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
@@ -10,6 +12,7 @@ class SoundPlayer extends ChangeNotifier {
 
   Queue _playingQueue;
   Playlist _playlingPlaylist;
+  StreamSubscription _onSongEnd;
 
   Song _currentSong;
 
@@ -17,7 +20,7 @@ class SoundPlayer extends ChangeNotifier {
     this._audioPlayer = AudioPlayer();
     AudioPlayer.logEnabled = false;
     this._audioPlayer.setVolume(1);
-    this._audioPlayer.onAudioPositionChanged.listen((Duration pPosition) {
+    /* this._audioPlayer.onAudioPositionChanged.listen((Duration pPosition) {
       this._audioPlayer.getDuration().then((int pLength) {
         //convert units to milliseconds
         int relativPos = pLength - pPosition.inMilliseconds;
@@ -25,9 +28,10 @@ class SoundPlayer extends ChangeNotifier {
           //load More
         }
       });
-    });
-    this._audioPlayer.onPlayerCompletion.listen((_) {
+    });*/
+    this._onSongEnd = this._audioPlayer.onPlayerCompletion.listen((_) async {
       print("SOUND ENDED");
+      await this._currentSong.end();
       this.prepareNextSongs(2).then((_) {
         this.nextSong().then((bool hasNext) {
           if (hasNext) {
@@ -147,6 +151,7 @@ class SoundPlayer extends ChangeNotifier {
 
   void dispose() {
     this._audioPlayer.release();
+    this._onSongEnd.cancel();
     super.dispose();
   }
 
