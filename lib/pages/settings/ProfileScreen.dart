@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     this._passwordError = false;
     this._passwordController = new TextEditingController();
-    this._passwordController.text = "test";
+    this._passwordController.text = "test12";
   }
 
   void _chooseFile() async {
@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         break;
       case 'PASSWORD':
         setState(() {
-          if (pText.isEmpty) {
+          if (pText.isEmpty || pText.length <= 6) {
             this._passwordError = true;
           } else {
             this._passwordError = false;
@@ -71,24 +71,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _editUser() async {
-    Controller().authentificator.user.username = this._usernameController.text;
-    Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
+    if (this._usernameError && this._passwordError) {
+      Controller().theming.showSnackbar(context, "Bitte passende Werte eingeben!");
+    } else {
+      Controller().authentificator.user.username = this._usernameController.text;
+      Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
 
-    if (this._selectedImage != null) {
-      Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
+      if (this._selectedImage != null) {
+        Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
+      }
+
+      await Controller().firebase.updateUserData(Controller().authentificator.user);
+
+      if (this._passwordController.text != null && this._passwordController.text != "test12") {
+        try {
+          await Controller().authentificator.updatePasswort(this._passwordController.text);
+          Controller().theming.showSnackbar(context, "Das Passwort wurde geändert!");
+        } catch (e) {}
+      }
+
+      Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
+      Navigator.of(context).pop();
     }
-
-    await Controller().firebase.updateUserData(Controller().authentificator.user);
-
-    if (this._passwordController.text != null && this._passwordController.text != "test") {
-      try {
-        await Controller().authentificator.updatePasswort(this._passwordController.text);
-        Controller().theming.showSnackbar(context, "Das Passwort wurde geändert!");
-      } catch (e) {}
-    }
-
-    Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
-    Navigator.of(context).pop();
   }
 
   Future<String> _chooseDate() async {
@@ -164,192 +168,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Container(
-            height: 40,
-            margin: EdgeInsets.fromLTRB(30, 20, 30, 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width / 2) - 40,
-                    child: Text(
-                      (this._usernameError ? "Geben Sie einen Benutzernamen ein" : "Benutzername"),
-                      style: TextStyle(
-                        color: Controller().theming.fontPrimary,
-                        fontSize: 18,
-                      ),
-                    ),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextField(
+              onChanged: (String pText) => this._validateInput('USERNAME', pText),
+              controller: _usernameController,
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: (this._usernameError ? "Geben Sie einen Benutzernamen ein!" : "Benutzername"),
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    onChanged: (String pText) => this._validateInput('USERNAME', pText),
-                    controller: _usernameController,
-                    validator: (String value) {
-                      if (value.trim().isEmpty) {
-                        return 'Das Feld darf nicht leer sein';
-                      }
-                      return value;
-                    },
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Controller().theming.fontPrimary,
-                    ),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Controller().theming.fontPrimary,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Controller().theming.fontTertiary,
-                        ),
-                      ),
-                      labelStyle: TextStyle(
-                        color: (!this._usernameError ? Controller().theming.fontPrimary : Colors.redAccent),
-                        fontSize: 18,
-                      ),
-                      focusColor: Controller().theming.tertiary,
-                    ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
                   ),
                 ),
-              ],
+                labelStyle: TextStyle(
+                  color: (!this._usernameError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
+                  fontSize: 18,
+                ),
+                focusColor: Controller().theming.fontPrimary,
+              ),
             ),
           ),
           Container(
-            height: 40,
-            margin: EdgeInsets.fromLTRB(30, 0, 30, 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width / 2) - 40,
-                    child: Text(
-                      "Geburtsdatum",
-                      style: TextStyle(
-                        color: Controller().theming.fontPrimary,
-                        fontSize: 18,
-                      ),
-                    ),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextField(
+              controller: _birthdayController,
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
+              keyboardType: TextInputType.datetime,
+              readOnly: true,
+              onTap: () {
+                setState(() {
+                  try {
+                    _chooseDate().then((value) => _birthdayController.text = value);
+                  } catch (e) {}
+                });
+              },
+              decoration: InputDecoration(
+                labelText: "Geburtsdatum",
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Flexible(
-                  child: TextField(
-                    controller: _birthdayController,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Controller().theming.fontPrimary,
-                    ),
-                    keyboardType: TextInputType.datetime,
-                    readOnly: true,
-                    onTap: () {
-                      setState(() {
-                        _chooseDate().then((value) => _birthdayController.text = value);
-                      });
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Controller().theming.fontPrimary,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Controller().theming.fontTertiary,
-                        ),
-                      ),
-                      labelStyle: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 18,
-                      ),
-                      focusColor: Colors.redAccent,
-                    ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
                   ),
                 ),
-              ],
+                labelStyle: TextStyle(
+                  color: Controller().theming.fontPrimary,
+                  fontSize: 18,
+                ),
+                focusColor: Colors.redAccent,
+              ),
             ),
           ),
           Container(
-            height: 40,
-            margin: EdgeInsets.fromLTRB(30, 0, 30, 30),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width / 2) - 40,
-                    child: Text(
-                      (this._usernameError ? "Geben Sie ein Passowrt ein" : "Passwort"),
-                      style: TextStyle(
-                        color: Controller().theming.fontPrimary,
-                        fontSize: 18,
-                      ),
-                    ),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              onChanged: (String pText) => this._validateInput('PASSWORD', pText),
+              controller: _passwordController,
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
+              keyboardType: TextInputType.text,
+              obscureText: true,
+              onTap: () {
+                if (this._passwordController.text == "test12") {
+                  setState(() {
+                    this._passwordController.text = "";
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                labelText: (this._passwordError ? "Geben Sie ein Passwort ein!" : "Passwort"),
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontPrimary,
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    onChanged: (String pText) => this._validateInput('PASSWORD', pText),
-                    controller: _passwordController,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Controller().theming.fontPrimary,
-                    ),
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    onTap: () {
-                      if (this._passwordController.text == "test") {
-                        setState(() {
-                          this._passwordController.text = "";
-                        });
-                      }
-                    },
-                    onEditingComplete: () {
-                      if (this._passwordController.text == "") {
-                        this._passwordController.text = "test";
-                      }
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      helperStyle: TextStyle(fontSize: 18),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Controller().theming.fontPrimary,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Controller().theming.fontTertiary,
-                        ),
-                      ),
-                      labelStyle: TextStyle(
-                        fontSize: 18,
-                        color: (!this._passwordError ? Controller().theming.fontPrimary : Colors.redAccent),
-                      ),
-                      focusColor: Controller().theming.tertiary,
-                    ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
                   ),
                 ),
-              ],
+                labelStyle: TextStyle(
+                  fontSize: 18,
+                  color: (!this._passwordError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
+                ),
+                focusColor: Controller().theming.tertiary,
+              ),
             ),
           ),
           Container(
