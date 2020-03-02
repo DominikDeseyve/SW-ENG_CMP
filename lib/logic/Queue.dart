@@ -51,6 +51,11 @@ class Queue {
 
       pQuery.documentChanges.forEach((DocumentChange pSong) {
         Song song = Song.fromFirebase(pSong.document, this._playlist);
+        if (song.songStatus.isPlaying) {
+          this._currentSong = song;
+          this._removeSong(song);
+          return;
+        }
         print(song.titel);
         switch (pSong.type) {
           case DocumentChangeType.added:
@@ -66,13 +71,15 @@ class Queue {
             break;
           case DocumentChangeType.modified:
             print("modiefied");
-            if (song.songStatus.isPlaying) {
-              this._currentSong = song;
-              this._removeSong(song);
-            } else {
-              int index = this._songs.indexWhere((item) => item.songID == song.songID);
+
+            int index = this._songs.indexWhere((item) => item.songID == song.songID);
+            if (index > -1) {
               this._songs[index] = song;
+            } else {
+              this._songs.add(song);
+              this._currentSong = null;
             }
+
             break;
           case DocumentChangeType.removed:
             print("removed");

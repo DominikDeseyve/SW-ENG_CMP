@@ -10,6 +10,7 @@ import io.flutter.plugins.firebase.core.FirebaseCorePlugin;
 import io.flutter.plugins.firebase.storage.FirebaseStoragePlugin;
 import io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin;
 import io.flutter.plugins.imagepicker.ImagePickerPlugin;
+import com.example.medianotification.MediaNotificationPlugin;
 import com.vb.nested_navigators.NestedNavigatorsPlugin;
 import com.crazecoder.openfile.OpenFilePlugin;
 import io.flutter.plugins.packageinfo.PackageInfoPlugin;
@@ -36,6 +37,7 @@ public final class GeneratedPluginRegistrant {
     FirebaseStoragePlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebase.storage.FirebaseStoragePlugin"));
     FlutterAndroidLifecyclePlugin.registerWith(registry.registrarFor("io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin"));
     ImagePickerPlugin.registerWith(registry.registrarFor("io.flutter.plugins.imagepicker.ImagePickerPlugin"));
+    MediaNotificationPlugin.registerWith(registry.registrarFor("com.example.medianotification.MediaNotificationPlugin"));
     NestedNavigatorsPlugin.registerWith(registry.registrarFor("com.vb.nested_navigators.NestedNavigatorsPlugin"));
     OpenFilePlugin.registerWith(registry.registrarFor("com.crazecoder.openfile.OpenFilePlugin"));
     PackageInfoPlugin.registerWith(registry.registrarFor("io.flutter.plugins.packageinfo.PackageInfoPlugin"));
