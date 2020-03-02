@@ -70,8 +70,11 @@ class _LoginPageState extends State<LoginPage> {
             bool success = await Controller().authentificator.signIn(email, password);
             if (success) {
               Navigator.of(context).pushNamedAndRemoveUntil('/start', (route) => false);
+            } else {
+              Controller().theming.showSnackbar(context, "Fehler beim Anmelden");
             }
           } catch (e) {
+            Controller().theming.showSnackbar(context, e.code);
             print(e.code);
           }
           //Navigator.of(context).pushNamed(HomePage.tag);

@@ -244,7 +244,7 @@ class Firebase {
     List<Playlist> playlists = [];
     String userID = this._controller.authentificator.user.userID;
 
-    return await this._ref.collection('playlist').where('creator.user_id', isEqualTo: userID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    return await this._ref.collection('playlist').where('creator.user_id', isEqualTo: userID).limit(10).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist));
       });
@@ -264,7 +264,15 @@ class Firebase {
   Future<List<Playlist>> getJoinedPlaylist() async {
     List<Playlist> playlists = [];
     User user = Controller().authentificator.user;
-    return await this._ref.collection('user').document(user.userID).collection('joined_playlist').where('is_creator', isEqualTo: false).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
+    return await this
+        ._ref
+        .collection('user')
+        .document(user.userID)
+        .collection('joined_playlist')
+        .where('is_creator', isEqualTo: false)
+        .limit(10)
+        .getDocuments(source: this._source)
+        .then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((pPlaylist) {
         playlists.add(Playlist.fromFirebase(pPlaylist, short: true));
       });
@@ -339,8 +347,8 @@ class Firebase {
     return user;
   }
 
-  Future<Role> getPlaylistUserRole(Playlist pPlaylist, User pUser) async {
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).get(source: this._source).then((DocumentSnapshot pSnap) {
+  Future<Role> getPlaylistUserRole(String pPlaylistID, User pUser) async {
+    return await this._ref.collection('playlist').document(pPlaylistID).collection('joined_user').document(pUser.userID).get(source: this._source).then((DocumentSnapshot pSnap) {
       if (!pSnap.exists) return Role(ROLE.MEMBER, false);
       return Role.fromFirebase(pSnap['role']);
     });
@@ -379,7 +387,7 @@ class Firebase {
           .collection('playlist')
           .document(pPlaylist.playlistID)
           .collection('queued_song')
-          .where('song_status.status', isEqualTo: 'OPEN')
+          .where('song_status.status', whereIn: ['OPEN', 'PLAYING'])
           .orderBy('ranking', descending: true)
           .orderBy('created_at')
           .limit(pQueue.stepSize)

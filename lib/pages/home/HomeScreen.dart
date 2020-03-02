@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Controller().firebase.getPopularPlaylist().then((QuerySnapshot pQuery) {
       if (!mounted) return;
       setState(() {
+        this._popularPlaylist.clear();
         pQuery.documents.forEach((DocumentSnapshot pSnap) {
           this._popularPlaylist.add(Playlist.fromFirebase(pSnap));
         });
@@ -256,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Icon(
                             Icons.keyboard_arrow_right,
                             size: 30,
+                            color: Controller().theming.fontPrimary,
                           ),
                         ),
                       ],

@@ -171,6 +171,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                               Icon(
                                 Icons.mood_bad,
                                 size: 40,
+                                color: Controller().theming.fontPrimary,
                               ),
                               SizedBox(width: 15),
                               Text(
@@ -178,6 +179,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 18,
+                                  color: Controller().theming.fontPrimary,
                                 ),
                               ),
                             ],

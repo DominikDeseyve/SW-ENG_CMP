@@ -32,7 +32,6 @@ class YouTube {
       Uri uri = Uri(path: this._url, queryParameters: queryParameters);
       String url = Uri.decodeFull(uri.toString());
       var response = await http.get(url, headers: {
-        // HttpHeaders.authorizationHeader: 'Token $token',
         HttpHeaders.contentTypeHeader: 'application/json',
       });
 
@@ -40,7 +39,6 @@ class YouTube {
         var json = JSON.jsonDecode(response.body);
         for (var item in json['items']) {
           Song song = new Song.fromYoutube(item);
-
           songs.add(song);
         }
       }

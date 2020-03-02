@@ -37,7 +37,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     super.initState();
     //initialize default values
     this._isPlaying = false;
-
+    this._fetchRole();
     Controller().firebase.getPlaylistDetails(this.widget._playlistID).then((Playlist pPlaylist) {
       setState(() {
         this._playlist = pPlaylist;
@@ -58,7 +58,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   void _fetchRole() {
-    Controller().firebase.getPlaylistUserRole(this._playlist, Controller().authentificator.user).then((Role pRole) {
+    Controller().firebase.getPlaylistUserRole(this.widget._playlistID, Controller().authentificator.user).then((Role pRole) {
       if (!mounted) return;
       Provider.of<RoleProvider>(context).setRole(pRole);
     });
@@ -140,7 +140,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
         color: Colors.white,
       );
     }
-    this._fetchRole();
+
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -636,7 +636,12 @@ class _CodeDialogState extends State<CodeDialog> {
       await WcFlutterShare.share(
         sharePopupTitle: 'Playlist teilen',
         subject: this.widget._playlist.name,
-        text: 'Playlist: ' + this.widget._playlist.name + '\n' + 'Teilnehmer' + this.widget._playlist.maxAttendees.toString(),
+        text: 'Hallo, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' +
+            this.widget._playlist.name +
+            '\n' +
+            'Teilnehmeranzahl: ' +
+            this.widget._playlist.maxAttendees.toString() +
+            '\n Ich freue mich auf Dich!',
         fileName: 'image.png',
         mimeType: 'image/png',
         bytesOfFile: byteData.buffer.asUint8List(),
