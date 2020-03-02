@@ -148,9 +148,13 @@ class Firebase {
   }
 
   Future<void> updateSongStatus(Playlist pPlaylist, Song pCurrentSong) async {
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData({
-      'song_status': pCurrentSong.songStatus.toFirebase(),
-    });
+    if (pCurrentSong.songStatus.isPast) {
+      await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).delete();
+    } else {
+      await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pCurrentSong.songID).updateData({
+        'song_status': pCurrentSong.songStatus.toFirebase(),
+      });
+    }
   }
 
   Future<List<Playlist>> searchPlaylist(String pKeyword) async {
@@ -304,26 +308,41 @@ class Firebase {
   //***************************************************//
   // Erstellen
 
-  // Like
-  Future<void> thumbUpSong(Playlist pPlaylist, Song pSong) async {
-    String userID = Controller().authentificator.user.userID;
-    await this._ref.collection('user').document(userID).updateData({
-      'upvotes': FieldValue.arrayUnion([pSong.songID]),
-      'downvotes': FieldValue.arrayRemove([pSong.songID]),
-    });
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).delete();
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).setData({});
-  }
+  Future<void> thumbSong(Playlist pPlaylist, Song pSong, String pDirection) async {
+    CloudFunctions cf = CloudFunctions(region: 'europe-west2');
+    try {
+      final HttpsCallable callable = cf.getHttpsCallable(
+        functionName: 'voteSong',
+      );
+      HttpsCallableResult resp = await callable.call(<String, dynamic>{
+        'playlist_id': pPlaylist.playlistID,
+        'song_id': pSong.songID,
+        'direction': pDirection,
+      });
+      print("RESULT:" + resp.data);
+    } on CloudFunctionsException catch (e) {
+      print('caught firebase functions exception');
+      print(e.code);
+      print(e.message);
+      print(e.details);
+    } catch (e) {
+      print('caught generic exception');
+      print(e);
+      print(e.message);
+    }
 
-  // Dislike
-  Future<void> thumbDownSong(Playlist pPlaylist, Song pSong) async {
     String userID = Controller().authentificator.user.userID;
-    await this._ref.collection('user').document(userID).updateData({
-      'downvotes': FieldValue.arrayUnion([pSong.songID]),
-      'upvotes': FieldValue.arrayRemove([pSong.songID]),
-    });
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('UP_' + userID).delete();
-    return await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').document(pSong.songID).collection('votes').document('DOWN_' + userID).setData({});
+    if (pDirection == 'UP' || pDirection == 'DOWN_UP') {
+      await this._ref.collection('user').document(userID).updateData({
+        'upvotes': FieldValue.arrayUnion([pSong.songID]),
+        'downvotes': FieldValue.arrayRemove([pSong.songID]),
+      });
+    } else {
+      await this._ref.collection('user').document(userID).updateData({
+        'upvotes': FieldValue.arrayRemove([pSong.songID]),
+        'downvotes': FieldValue.arrayUnion([pSong.songID]),
+      });
+    }
   }
 
   //***************************************************//

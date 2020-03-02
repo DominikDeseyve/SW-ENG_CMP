@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
@@ -10,6 +12,7 @@ class SoundPlayer extends ChangeNotifier {
 
   Queue _playingQueue;
   Playlist _playlingPlaylist;
+  StreamSubscription _onSongEnd;
 
   Song _currentSong;
 
@@ -17,7 +20,7 @@ class SoundPlayer extends ChangeNotifier {
     this._audioPlayer = AudioPlayer();
     AudioPlayer.logEnabled = false;
     this._audioPlayer.setVolume(1);
-    this._audioPlayer.onAudioPositionChanged.listen((Duration pPosition) {
+    /* this._audioPlayer.onAudioPositionChanged.listen((Duration pPosition) {
       this._audioPlayer.getDuration().then((int pLength) {
         //convert units to milliseconds
         int relativPos = pLength - pPosition.inMilliseconds;
@@ -25,9 +28,10 @@ class SoundPlayer extends ChangeNotifier {
           //load More
         }
       });
-    });
-    this._audioPlayer.onPlayerCompletion.listen((_) {
+    });*/
+    this._onSongEnd = this._audioPlayer.onPlayerCompletion.listen((_) async {
       print("SOUND ENDED");
+      await this._currentSong.end();
       this.prepareNextSongs(2).then((_) {
         this.nextSong().then((bool hasNext) {
           if (hasNext) {
@@ -49,12 +53,6 @@ class SoundPlayer extends ChangeNotifier {
     await this._audioPlayer.resume();
     this._currentSong.play();
 
-    /* await this._audioPlayer.setNotification(
-          title: 'Title',
-          artist: 'Apache 207',
-          albumTitle: 'Test',
-        );*/
-
     MediaNotification.setListener('pause', () {
       this.pause();
     });
@@ -62,7 +60,12 @@ class SoundPlayer extends ChangeNotifier {
       this.play();
     });
 
+    MediaNotification.setListener('next', () {
+      this.nextSong();
+    });
+
     await MediaNotification.show(
+      play: true,
       title: this.currentSong.titel,
       author: this.currentSong.artist,
     );
@@ -100,7 +103,6 @@ class SoundPlayer extends ChangeNotifier {
     if (this._playingQueue.songs.length == 0) {
       print("--- PLAYLIST STOPPED BECAUSE NO MORE SONGS FOUND");
       await this.pause();
-      this._currentSong = null;
       return false;
     }
     await this._audioPlayer.pause();
@@ -119,10 +121,12 @@ class SoundPlayer extends ChangeNotifier {
 
   bool setQueue(Queue pQueue, Playlist pPlaylist) {
     this._playingQueue = pQueue;
-    if (this._playingQueue.songs.length == 0) return false;
+
     this._playlingPlaylist = pPlaylist;
-    if (this._playingQueue.currentSong != null) {
+    if (this._playingQueue.currentSong is Song) {
       this._currentSong = this._playingQueue.currentSong;
+    } else if (this._playingQueue.songs.length == 0) {
+      return false;
     } else {
       this._currentSong = this._playingQueue.songs[0];
     }
@@ -147,6 +151,7 @@ class SoundPlayer extends ChangeNotifier {
 
   void dispose() {
     this._audioPlayer.release();
+    this._onSongEnd.cancel();
     super.dispose();
   }
 

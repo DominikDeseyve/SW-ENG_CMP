@@ -18,7 +18,7 @@ class Queue {
 
   Queue(Playlist pPlaylist) {
     this._playlist = pPlaylist;
-    this._stepSize = 3;
+    this._stepSize = 6;
     this._isFinished = false;
     this._lastDocument = null;
   }
@@ -87,7 +87,7 @@ class Queue {
             break;
         }
       });
-      this._sort();
+      this.sort();
       this._callback(pQuery);
       if (Controller().soundPlayer.playlist != null) {
         if (Controller().soundPlayer.playlist.playlistID == this._playlist.playlistID) {
@@ -104,7 +104,7 @@ class Queue {
     }
   }
 
-  void _sort() {
+  void sort() {
     this._songs.sort((a, b) {
       var r = b.ranking.compareTo(a.ranking);
       if (r != 0) return r;
