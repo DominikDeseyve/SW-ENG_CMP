@@ -164,21 +164,38 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: this._chooseFile,
-              child: (this._selectedImage == null
-                  ? PlaylistAvatar(
-                      this.widget._playlist,
-                      width: 150,
-                    )
-                  : Material(
-                      shape: CircleBorder(),
-                      clipBehavior: Clip.hardEdge,
-                      child: Image.file(
-                        this._selectedImage,
-                        fit: BoxFit.cover,
-                        width: 150,
-                        height: 150,
-                      ),
-                    )),
+              child: Stack(
+                children: [
+                  (this._selectedImage == null
+                      ? PlaylistAvatar(
+                          this.widget._playlist,
+                          width: 150,
+                        )
+                      : Material(
+                          shape: CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: Image.file(
+                            this._selectedImage,
+                            fit: BoxFit.cover,
+                            width: 150,
+                            height: 150,
+                          ),
+                        )),
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: new BoxDecoration(
+                      color: Controller().theming.tertiary.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.edit,
+                      color: Controller().theming.fontSecondary,
+                      size: 50,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Container(

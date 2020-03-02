@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
@@ -33,10 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
         this._joinedPlaylist = pJoinedPlaylist;
       });
     });
-    Controller().firebase.getPopularPlaylist().then((pPopularPlaylist) {
+    Controller().firebase.getPopularPlaylist().then((QuerySnapshot pQuery) {
       if (!mounted) return;
       setState(() {
-        this._popularPlaylist = pPopularPlaylist;
+        pQuery.documents.forEach((DocumentSnapshot pSnap) {
+          this._popularPlaylist.add(Playlist.fromFirebase(pSnap));
+        });
       });
     });
   }
@@ -61,7 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.storage),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/playlist/category', arguments: 'ALL');
+                  },
                 ),
               ],
             ),
@@ -78,24 +83,24 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(20),
-              color: Controller().theming.tertiary.withOpacity(0.25),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              color: Controller().theming.tertiary.withOpacity(0.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.mood,
-                    size: 30,
-                    color: Controller().theming.fontPrimary,
-                  ),
-                  SizedBox(width: 20),
                   Text(
-                    'Griaß de ' + Controller().authentificator.user.username,
+                    'Herzlich Willkommen ' + Controller().authentificator.user.username,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
                       color: Controller().theming.fontPrimary,
                     ),
+                  ),
+                  SizedBox(width: 10),
+                  Icon(
+                    Icons.mood,
+                    size: 25,
+                    color: Controller().theming.fontPrimary,
                   ),
                 ],
               ),
@@ -217,7 +222,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: <Widget>[
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/playlist/category', arguments: 'POPULAR');
+                  },
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
                     child: Row(
@@ -242,6 +249,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
                             color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Icon(
+                            Icons.keyboard_arrow_right,
+                            size: 30,
                           ),
                         ),
                       ],

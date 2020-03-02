@@ -9,6 +9,7 @@ import 'package:cmp/models/settings.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/logic/Queue.dart';
+import 'package:cmp/modules/PaginationModule.dart';
 
 class Firebase {
   Controller _controller;
@@ -251,6 +252,14 @@ class Firebase {
     });
   }
 
+  Future<QuerySnapshot> getAllPlaylists({PaginationModule paginationModule}) async {
+    if (paginationModule.lastDocument == null) {
+      return this._ref.collection('playlist').orderBy('name').limit(paginationModule.stepSize + 1).getDocuments(source: this._source);
+    } else {
+      return this._ref.collection('playlist').orderBy('name').startAtDocument(paginationModule.lastDocument).limit(paginationModule.stepSize + 1).getDocuments(source: this._source);
+    }
+  }
+
   // Get (Beigetretene Playlists)
   Future<List<Playlist>> getJoinedPlaylist() async {
     List<Playlist> playlists = [];
@@ -263,15 +272,23 @@ class Firebase {
     });
   }
 
-  Future<List<Playlist>> getPopularPlaylist() async {
-    List<Playlist> playlists = [];
-
-    return await this._ref.collection('playlist').orderBy('joined_user_count', descending: true).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
-      pQuery.documents.forEach((pPlaylist) {
-        playlists.add(Playlist.fromFirebase(pPlaylist));
-      });
-      return playlists;
-    });
+  Future<QuerySnapshot> getPopularPlaylist({PaginationModule paginationModule}) async {
+    if (paginationModule == null) {
+      return this._ref.collection('playlist').orderBy('joined_user_count', descending: true).orderBy('name').limit(10).getDocuments(source: this._source);
+    }
+    //if pagination
+    if (paginationModule.lastDocument == null) {
+      return this._ref.collection('playlist').orderBy('joined_user_count', descending: true).orderBy('name').limit(paginationModule.stepSize + 1).getDocuments(source: this._source);
+    } else {
+      return this
+          ._ref
+          .collection('playlist')
+          .orderBy('joined_user_count', descending: true)
+          .orderBy('name')
+          .startAtDocument(paginationModule.lastDocument)
+          .limit(paginationModule.stepSize + 1)
+          .getDocuments(source: this._source);
+    }
   }
 
   //***************************************************//

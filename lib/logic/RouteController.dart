@@ -5,6 +5,7 @@ import 'package:cmp/pages/home/HomeScreen.dart';
 import 'package:cmp/pages/home/StartScreen.dart';
 import 'package:cmp/pages/playlist/AddSongScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
+import 'package:cmp/pages/playlist/CategoryScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/EditPlaylistScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
@@ -41,6 +42,9 @@ class RouteController {
         break;
       case '/playlist/search':
         return PlaylistSearchScreen();
+        break;
+      case '/playlist/category':
+        return CategoryScreen(args);
         break;
       case '/playlist/create':
         return CreatePlaylistScreen();

@@ -58,9 +58,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   void _fetchRole() {
-    RoleProvider r = Provider.of<RoleProvider>(context);
     Controller().firebase.getPlaylistUserRole(this._playlist, Controller().authentificator.user).then((Role pRole) {
-      r.setRole(pRole);
+      if (!mounted) return;
+      Provider.of<RoleProvider>(context).setRole(pRole);
     });
   }
 

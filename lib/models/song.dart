@@ -5,7 +5,6 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song_status.dart';
 import 'package:cmp/models/user.dart';
 import 'package:html_unescape/html_unescape_small.dart';
-import 'package:youtube_api/youtube_api.dart';
 
 class Song {
   String _songID;
@@ -23,11 +22,11 @@ class Song {
 
   Playlist _playlist;
 
-  Song.fromYoutube(YT_API pItem) {
-    this._artist = pItem.channelTitle;
-    this._titel = new HtmlUnescape().convert(pItem.title);
-    this._imageURL = pItem.thumbnail['high']['url'];
-    this._youTubeID = pItem.id;
+  Song.fromYoutube(dynamic pItem) {
+    this._youTubeID = pItem['id']['videoId'];
+    this._titel = new HtmlUnescape().convert(pItem['snippet']['title']);
+    this._artist = pItem['snippet']['channelTitle'];
+    this._imageURL = pItem['snippet']['thumbnails']['high']['url'];
     User creator = new User();
     creator.userID = Controller().authentificator.user.userID;
     creator.username = Controller().authentificator.user.userID;
