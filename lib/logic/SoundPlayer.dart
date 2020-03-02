@@ -49,12 +49,6 @@ class SoundPlayer extends ChangeNotifier {
     await this._audioPlayer.resume();
     this._currentSong.play();
 
-    /* await this._audioPlayer.setNotification(
-          title: 'Title',
-          artist: 'Apache 207',
-          albumTitle: 'Test',
-        );*/
-
     MediaNotification.setListener('pause', () {
       this.pause();
     });
@@ -62,7 +56,12 @@ class SoundPlayer extends ChangeNotifier {
       this.play();
     });
 
+    MediaNotification.setListener('next', () {
+      this.nextSong();
+    });
+
     await MediaNotification.show(
+      play: true,
       title: this.currentSong.titel,
       author: this.currentSong.artist,
     );
@@ -100,7 +99,6 @@ class SoundPlayer extends ChangeNotifier {
     if (this._playingQueue.songs.length == 0) {
       print("--- PLAYLIST STOPPED BECAUSE NO MORE SONGS FOUND");
       await this.pause();
-      this._currentSong = null;
       return false;
     }
     await this._audioPlayer.pause();
@@ -119,10 +117,12 @@ class SoundPlayer extends ChangeNotifier {
 
   bool setQueue(Queue pQueue, Playlist pPlaylist) {
     this._playingQueue = pQueue;
-    if (this._playingQueue.songs.length == 0) return false;
+
     this._playlingPlaylist = pPlaylist;
-    if (this._playingQueue.currentSong != null) {
+    if (this._playingQueue.currentSong is Song) {
       this._currentSong = this._playingQueue.currentSong;
+    } else if (this._playingQueue.songs.length == 0) {
+      return false;
     } else {
       this._currentSong = this._playingQueue.songs[0];
     }

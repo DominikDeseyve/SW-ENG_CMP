@@ -22,6 +22,9 @@ class Song {
 
   Playlist _playlist;
 
+  bool _isUpvoting;
+  bool _isDownvoting;
+
   Song.fromYoutube(dynamic pItem) {
     this._youTubeID = pItem['id']['videoId'];
     this._titel = new HtmlUnescape().convert(pItem['snippet']['title']);
@@ -88,6 +91,24 @@ class Song {
     this._songStatus.status = 'END';
     this._updateStatus();
   }
+
+  void voteUp() {
+    if (this.isDownvoting) {
+      this.downvoteCount -= 1;
+    }
+    this.upvoteCount += 1;
+  }
+
+  void voteDown() {
+    if (this.isUpvoting) {
+      this.upvoteCount -= 1;
+    }
+    this.downvoteCount += 1;
+  }
+
+  //***************************************************//
+  //*********   SETTER
+  //***************************************************//
 
   set upvoteCount(int pNr) {
     this._upvoteCount = pNr;

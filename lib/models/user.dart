@@ -57,11 +57,21 @@ class User {
   }
 
   void thumbUpSong(Song pSong) {
+    if (this.downvotedSongs.contains(pSong.songID)) {
+      pSong.downvoteCount -= 1;
+    }
+    pSong.upvoteCount += 1;
+
     this._downvotedSongs.remove(pSong.songID);
     this._upvotedSongs.add(pSong.songID);
   }
 
   void thumbDownSong(Song pSong) {
+    if (this.upvotedSongs.contains(pSong.songID)) {
+      pSong.upvoteCount -= 1;
+    }
+    pSong.downvoteCount += 1;
+
     this._upvotedSongs.remove(pSong.songID);
     this._downvotedSongs.add(pSong.songID);
   }

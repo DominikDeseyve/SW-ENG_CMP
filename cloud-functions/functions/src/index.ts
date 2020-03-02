@@ -4,10 +4,10 @@ import * as admin from "firebase-admin";
 import { countUser } from "./counter/countUser.js";
 import { countSong } from "./counter/countSong.js";
 import { countUpvotes } from "./counter/countUpvotes.js";
-//import { countDownvotes } from "./counter/countDownvotes.js";
+
+import { voteSong } from "./functions/voteSong.js";
 
 admin.initializeApp(functions.config().firebase);
-
 //***************************************************//
 //***********  COUNTER
 //***************************************************//
@@ -27,14 +27,14 @@ exports.countUpvotes = functions
     "playlist/{playlistID}/queued_song/{songID}/votes/{typeUserID}"
   )
   .onWrite(countUpvotes);
-/*
-exports.countDownvotes = functions
+
+exports.voteSong = functions
   .region("europe-west2")
-  .firestore.document(
-    "playlist/{playlistID}/queued_song/{songID}/downvotes/{userID}"
-  )
-  .onWrite(countDownvotes);
-*/
+  .runWith({
+    timeoutSeconds: 540,
+    memory: "2GB"
+  })
+  .https.onCall(voteSong);
 
 exports.recursiveDelete = functions
   .runWith({

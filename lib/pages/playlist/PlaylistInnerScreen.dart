@@ -97,6 +97,12 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     setState(() {});
   }
 
+  void _sort() {
+    setState(() {
+      this._queue.sort();
+    });
+  }
+
   void _showOptionAlert(String pTitle, String pSubtitle) {
     showDialog(
       context: context,
@@ -370,7 +376,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   shrinkWrap: true,
                   itemCount: this._queue.songs.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return SongItem(this._queue.songs[index], this._playlist);
+                    return SongItem(this._queue.songs[index], this._playlist, this._sort);
                   },
                 )
               : Padding(
@@ -398,13 +404,42 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 class SongItem extends StatefulWidget {
   final Song _song;
   final Playlist _playlist;
-  SongItem(this._song, this._playlist);
+  final Function() _sortCallback;
+  SongItem(this._song, this._playlist, this._sortCallback);
   _SongItemState createState() => _SongItemState();
 }
 
 class _SongItemState extends State<SongItem> {
   void initState() {
     super.initState();
+  }
+
+  void _voteUpSong() {
+    String direction;
+    if (this.widget._song.isDownvoting) {
+      direction = 'DOWN_UP';
+    } else {
+      direction = 'UP';
+    }
+    Controller().firebase.thumbSong(this.widget._playlist, this.widget._song, direction);
+    setState(() {
+      Controller().authentificator.user.thumbUpSong(this.widget._song);
+      this.widget._sortCallback();
+    });
+  }
+
+  void _voteDownSong() {
+    String direction;
+    if (this.widget._song.isUpvoting) {
+      direction = 'UP_DOWN';
+    } else {
+      direction = 'DOWN';
+    }
+    Controller().firebase.thumbSong(this.widget._playlist, this.widget._song, direction);
+    setState(() {
+      Controller().authentificator.user.thumbDownSong(this.widget._song);
+      this.widget._sortCallback();
+    });
   }
 
   void _showOptionDialog() {
@@ -519,12 +554,7 @@ class _SongItemState extends State<SongItem> {
                         Icons.thumb_up,
                         color: (this.widget._song.isUpvoting ? Controller().theming.accent : Controller().theming.tertiary),
                       ),
-                      onTap: () {
-                        setState(() {
-                          Controller().authentificator.user.thumbUpSong(this.widget._song);
-                          Controller().firebase.thumbUpSong(this.widget._playlist, this.widget._song);
-                        });
-                      },
+                      onTap: (this.widget._song.isUpvoting ? null : this._voteUpSong),
                     ),
                     Text(
                       this.widget._song.upvoteCount.toString(),
@@ -543,12 +573,7 @@ class _SongItemState extends State<SongItem> {
                         Icons.thumb_down,
                         color: (this.widget._song.isDownvoting ? Controller().theming.accent : Controller().theming.tertiary),
                       ),
-                      onTap: () {
-                        setState(() {
-                          Controller().authentificator.user.thumbDownSong(this.widget._song);
-                          Controller().firebase.thumbDownSong(this.widget._playlist, this.widget._song);
-                        });
-                      },
+                      onTap: (this.widget._song.isUpvoting ? this._voteDownSong : null),
                     ),
                     Text(
                       this.widget._song.downvoteCount.toString(),

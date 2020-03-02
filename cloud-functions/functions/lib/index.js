@@ -5,7 +5,7 @@ const admin = require("firebase-admin");
 const countUser_js_1 = require("./counter/countUser.js");
 const countSong_js_1 = require("./counter/countSong.js");
 const countUpvotes_js_1 = require("./counter/countUpvotes.js");
-//import { countDownvotes } from "./counter/countDownvotes.js";
+const voteSong_js_1 = require("./functions/voteSong.js");
 admin.initializeApp(functions.config().firebase);
 //***************************************************//
 //***********  COUNTER
@@ -22,14 +22,13 @@ exports.countUpvotes = functions
     .region("europe-west2")
     .firestore.document("playlist/{playlistID}/queued_song/{songID}/votes/{typeUserID}")
     .onWrite(countUpvotes_js_1.countUpvotes);
-/*
-exports.countDownvotes = functions
-  .region("europe-west2")
-  .firestore.document(
-    "playlist/{playlistID}/queued_song/{songID}/downvotes/{userID}"
-  )
-  .onWrite(countDownvotes);
-*/
+exports.voteSong = functions
+    .region("europe-west2")
+    .runWith({
+    timeoutSeconds: 540,
+    memory: "2GB"
+})
+    .https.onCall(voteSong_js_1.voteSong);
 exports.recursiveDelete = functions
     .runWith({
     timeoutSeconds: 540,
