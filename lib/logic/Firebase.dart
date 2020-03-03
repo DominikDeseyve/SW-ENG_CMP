@@ -39,9 +39,10 @@ class Firebase {
   //*********       USER FUNKTIONEN         ***********//
   //***************************************************//
   // Erstellen
-  Future<void> createUser(User pUser) async {
+  Future<void> createUser(User pUser, String pEmail) async {
     await this._ref.collection('user').document(pUser.userID).setData({
       'username': pUser.username,
+      'email': pEmail,
       'image_url': null,
       'birthday': pUser.birthday,
       'downvotes': [],
@@ -82,7 +83,7 @@ class Firebase {
     });
   }
 
-  Future<bool> isMailExisting(String pEmail) async {
+  Future<bool> isEmailExisting(String pEmail) async {
     return await this._ref.collection('user').where('email', isEqualTo: pEmail).getDocuments(source: this._source).then((QuerySnapshot pQuery) async {
       return (pQuery.documents.length >= 1);
     });

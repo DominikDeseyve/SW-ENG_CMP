@@ -17,7 +17,7 @@ class Authentificator {
     try {
       AuthResult authResult = await this._firebaseAuth.createUserWithEmailAndPassword(email: pEmail, password: pPassword);
       pUser.userID = authResult.user.uid;
-      this._controller.firebase.createUser(pUser);
+      this._controller.firebase.createUser(pUser, pEmail);
       await authResult.user.sendEmailVerification();
       return true;
     } catch (e) {
