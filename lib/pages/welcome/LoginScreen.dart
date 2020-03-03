@@ -1,4 +1,3 @@
-import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:cmp/logic/Controller.dart';
 
@@ -14,124 +13,161 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _mailController;
   TextEditingController _passwordController;
 
+  final _formKey = GlobalKey<FormState>();
+  bool _validate = false;
+
+  String error = "";
+
   void initState() {
     super.initState();
-    this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
+    this._mailController =
+        new TextEditingController(text: 'dominik.deseyve@gmx.de');
     this._passwordController = new TextEditingController(text: '123456');
   }
 
   Widget build(BuildContext context) {
-    final logo = Hero(
-        tag: 'cmp',
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image(
-            image: AssetImage('assets/images/symbol_rot.jpeg'),
-          ),
-        ));
-
-    Widget email = TextFormField(
-      controller: this._mailController,
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      decoration: InputDecoration(
-        icon: Icon(Icons.email),
-        hintText: 'Email',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    Widget password = TextFormField(
-      controller: this._passwordController,
-      autofocus: false,
-      obscureText: true,
-      validator: (input) => input.isEmpty ? "*Required" : null,
-      decoration: InputDecoration(
-        icon: Icon(Icons.lock),
-        hintText: 'Passwort',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    Widget loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        onPressed: () async {
-          try {
-            TinyLoader.show(context, 'Sie werden eingeloggt...');
-            String email = this._mailController.text;
-            String password = this._passwordController.text;
-
-            bool success = await Controller().authentificator.signIn(email, password);
-            TinyLoader.hide();
-            if (success) {
-              Navigator.of(context).pushNamedAndRemoveUntil('/start', (route) => false);
-            } else {
-              Controller().theming.showSnackbar(context, "Fehler beim Anmelden");
-            }
-          } catch (e) {
-            TinyLoader.hide();
-            //Controller().theming.showSnackbar(context, e.code);
-            print(e.code);
-          }
-          //Navigator.of(context).pushNamed(HomePage.tag);
-        },
-        padding: EdgeInsets.all(12),
-        color: Colors.redAccent,
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-
-    final forgotLabel = FlatButton(
-      child: Text(
-        'Passwort vergessen?',
-        style: TextStyle(color: Colors.grey),
-      ),
-      onPressed: () async {
-        /*showDialog(
-          context: context,
-          builder: (BuildContext context) => PasswordDialog(),*/
-
-        try {
-          String email = this._mailController.text;
-
-          await Controller().authentificator.resetPasswort(email);
-        } catch (e) {
-          print(e.code);
-        }
-        //Navigator.of(context).pushNamed(HomePage.tag);
-      },
-    );
-
     return Scaffold(
-      body: Center(
+        body: Container(
+      child: Form(
+        key: _formKey,
+        autovalidate: _validate,
         child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
-            logo,
+            SizedBox(height: 100.0),
+            Hero(
+                tag: 'cmp',
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 48.0,
+                  child: Image(
+                    image: AssetImage('assets/images/symbol_rot.jpeg'),
+                  ),
+                )),
             SizedBox(height: 48.0),
-            email,
+            Text(error,
+                style: TextStyle(color: Colors.red),
+                textAlign: TextAlign.center),
+            SizedBox(height: 5.0),
+            TextFormField(
+              controller: this._mailController,
+              keyboardType: TextInputType.emailAddress,
+              autofocus: false,
+              validator: (value) {
+                Pattern pattern =
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                RegExp regex = new RegExp(pattern);
+                if (!regex.hasMatch(value)) {
+                  return 'Geben Sie eine gültige Email an';
+                } //else if (await Controller().firebase.isEmailExisting(value)) {
+                // return 'Kein Account mit dieser Email. Registrieren';
+                // }
+                else
+                  return null;
+              },
+              decoration: InputDecoration(
+                icon: Icon(Icons.email),
+                hintText: 'Email',
+                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(32.0)),
+              ),
+            ),
             SizedBox(height: 8.0),
-            password,
+            TextFormField(
+              controller: this._passwordController,
+              autofocus: false,
+              obscureText: true,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Geben Sie ein Passwort an';
+                } else if (value.length < 6) {
+                  return 'Passwort muss aus mind. 6 Zeichen bestehen';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                icon: Icon(Icons.lock),
+                hintText: 'Passwort',
+                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(32.0)),
+              ),
+            ),
             SizedBox(height: 24.0),
-            loginButton,
-            forgotLabel,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                onPressed: () async {
+                  setState(() {
+                    error = "";
+                  });
+
+                  try {
+                    String email = this._mailController.text;
+                    String password = this._passwordController.text;
+
+                    if (_formKey.currentState.validate()) {
+                      bool success = await Controller()
+                          .authentificator
+                          .signIn(email, password);
+                      if (success) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            '/start', (route) => false);
+                      } else {
+                        Controller()
+                            .theming
+                            .showSnackbar(context, "Fehler beim Anmelden");
+                      }
+                    }
+                  } catch (e) {
+                    setState(() {
+                      error = "Email oder Passwort ist falsch";
+                    });
+                    Controller().theming.showSnackbar(context, e.code);
+                    print(e.code);
+                  }
+
+                  //Navigator.of(context).pushNamed(HomePage.tag);
+                },
+                padding: EdgeInsets.all(12),
+                color: Colors.redAccent,
+                child: Text(
+                  'LOGIN',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            FlatButton(
+              child: Text(
+                'Passwort vergessen?',
+                style: TextStyle(color: Colors.grey),
+              ),
+              onPressed: () async {
+                /*showDialog(
+          context: context,
+          builder: (BuildContext context) => PasswordDialog(),*/
+
+                try {
+                  String email = this._mailController.text;
+
+                  await Controller().authentificator.resetPasswort(email);
+                } catch (e) {
+                  print(e.code);
+                }
+                //Navigator.of(context).pushNamed(HomePage.tag);
+              },
+            ),
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
@@ -179,7 +215,8 @@ class _PasswordDialogState extends State<PasswordDialog> {
               icon: Icon(Icons.email),
               hintText: 'Email',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
             ),
           ),
           Divider(
@@ -192,7 +229,8 @@ class _PasswordDialogState extends State<PasswordDialog> {
             children: [
               Expanded(
                 child: FlatButton(
-                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
                   onPressed: this._send,
                   color: Colors.redAccent,
                   child: Text(
