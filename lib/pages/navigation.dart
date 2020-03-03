@@ -1,6 +1,6 @@
 enum Navigation {
   home,
-  explore,
-  profile,
+  search,
+  create,
   settings,
 }

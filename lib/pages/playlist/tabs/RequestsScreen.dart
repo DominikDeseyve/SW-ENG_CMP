@@ -1,6 +1,7 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -11,12 +12,16 @@ class RequestScreen extends StatefulWidget {
   _RequestScreenState createState() => _RequestScreenState();
 }
 
-class _RequestScreenState extends State<RequestScreen> {
+class _RequestScreenState extends State<RequestScreen> with AutomaticKeepAliveClientMixin {
   List<Request> _requests = [];
 
   void initState() {
     super.initState();
 
+    this._fetchRequests();
+  }
+
+  Future<void> _fetchRequests() async {
     Controller().firebase.getPlaylistRequests(this.widget._playlist).then((pRequests) {
       setState(() {
         this._requests = pRequests;
@@ -31,20 +36,36 @@ class _RequestScreenState extends State<RequestScreen> {
   }
 
   Widget build(BuildContext context) {
-    if (this._requests.length == 0) {
-      return Center(
-        child: Text("Keine Anfragen vorhanden"),
-      );
-    }
-    return ListView.builder(
-      physics: ClampingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: this._requests.length,
-      itemBuilder: (BuildContext context, int index) {
-        return RequestItem(this.widget._playlist, this._requests[index], this._deleteRequest);
-      },
+    super.build(context);
+
+    return RefreshIndicator(
+      onRefresh: this._fetchRequests,
+      color: Colors.redAccent,
+      child: (this._requests.length == 0
+          ? ListView(
+              padding: const EdgeInsets.only(top: 50),
+              children: [
+                Text(
+                  "Keine Anfragen vorhanden",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Controller().theming.fontPrimary,
+                  ),
+                ),
+              ],
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              itemCount: this._requests.length,
+              itemBuilder: (BuildContext context, int index) {
+                return RequestItem(this.widget._playlist, this._requests[index], this._deleteRequest);
+              },
+            )),
     );
   }
+
+  bool get wantKeepAlive => true;
 }
 
 class RequestItem extends StatelessWidget {
@@ -59,30 +80,28 @@ class RequestItem extends StatelessWidget {
       onTap: () {},
       child: ListTile(
         contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        leading: Container(
-          height: 50,
-          width: 50,
-          //margin: EdgeInsets.only(bottom: 10),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: (AssetImage('assets/images/playlist.jpg')),
-            ),
-          ),
-        ),
+        leading: UserAvatar(this._request.user),
         title: Text(
           this._request.user.username,
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(
+            fontSize: 18,
+            color: Controller().theming.fontPrimary,
+          ),
         ),
         subtitle: Text(
-          "Keine Ahnugn was hier stehen soll",
+          this._request.createdAtString,
+          style: TextStyle(
+            color: Controller().theming.fontTertiary,
+          ),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.check),
+              icon: Icon(
+                Icons.check,
+                color: Controller().theming.fontPrimary,
+              ),
               onPressed: () {
                 this._request.accept();
                 Controller().firebase.updateRequest(this._playlist, this._request).then((_) {});
@@ -90,7 +109,10 @@ class RequestItem extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.clear),
+              icon: Icon(
+                Icons.clear,
+                color: Controller().theming.fontPrimary,
+              ),
               onPressed: () {
                 this._request.decline();
                 Controller().firebase.updateRequest(this._playlist, this._request).then((_) {

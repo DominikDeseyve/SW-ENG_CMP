@@ -32,29 +32,64 @@ class _AddSongScreenState extends State<AddSongScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Controller().theming.background,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0),
+        child: Column(
+          children: <Widget>[
+            AppBar(
+              iconTheme: IconThemeData(
+                color: Controller().theming.fontSecondary,
+              ),
+              backgroundColor: Color(0xFF253A4B),
+              centerTitle: true,
+              elevation: 0,
+              title: Text(
+                "Songs suchen",
+                style: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 7,
+              color: Controller().theming.accent,
+            ),
+          ],
+        ),
+      ),
       body: ListView(
+        shrinkWrap: false,
+        primary: true,
         children: <Widget>[
           Container(
-            child: Text(
-              "Song suchen",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 50.0, color: Color(0xFF253A4B)),
-            ),
-          ),
-          Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 50.0, bottom: 20.0),
+            margin: EdgeInsets.fromLTRB(20, 30, 20, 20),
+            padding: EdgeInsets.only(right: 5),
             width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.all(Radius.circular(30.0))),
+            decoration: BoxDecoration(
+              color: Controller().theming.accent,
+              borderRadius: BorderRadius.all(
+                Radius.circular(30.0),
+              ),
+            ),
             child: TextField(
               onSubmitted: this.initiateSearch,
-              style: TextStyle(color: Colors.white, decorationColor: Colors.white),
+              style: TextStyle(
+                color: Controller().theming.fontSecondary,
+                decorationColor: Controller().theming.fontSecondary,
+              ),
               autocorrect: false,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search, color: Colors.white),
-                hintText: "Playlist eingeben",
-                hintStyle: TextStyle(color: Colors.white),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Controller().theming.fontSecondary,
+                ),
+                hintText: "Song eingeben",
+                hintStyle: TextStyle(
+                  color: Controller().theming.fontSecondary,
+                ),
                 border: InputBorder.none,
               ),
             ),
@@ -64,6 +99,21 @@ class _AddSongScreenState extends State<AddSongScreen> {
             shrinkWrap: true,
             itemCount: this.selectedSong.length,
             itemBuilder: (BuildContext context, int index) {
+              if (index < this.selectedSong.length - 1) {
+                return Column(
+                  children: <Widget>[
+                    SongtItem(this.selectedSong[index], this._saveSong),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                      child: Divider(
+                        thickness: 0.4,
+                        color: Controller().theming.tertiary,
+                        height: 4,
+                      ),
+                    ),
+                  ],
+                );
+              }
               return SongtItem(this.selectedSong[index], this._saveSong);
             },
           ),
@@ -79,35 +129,40 @@ class SongtItem extends StatelessWidget {
   SongtItem(this._song, this._saveSongCallback);
 
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        this._saveSongCallback(this._song);
-      },
-      child: ListTile(
-        leading: Container(
-          width: 60.0,
-          height: 60.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(_song.imageURL),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: InkWell(
+        onTap: () {
+          this._saveSongCallback(this._song);
+        },
+        child: ListTile(
+          leading: Container(
+            width: 60.0,
+            height: 60.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(_song.imageURL),
+              ),
             ),
           ),
-        ),
-        title: Container(
-          child: Text(
-            _song.titel,
-            style: TextStyle(color: Color(0xFF253A4B), fontSize: 20.0),
+          title: Container(
+            child: Text(
+              _song.titel,
+              style: TextStyle(color: Controller().theming.fontPrimary, fontSize: 20.0),
+            ),
           ),
-        ),
-        subtitle: Text(
-          this._song.artist,
-          style: TextStyle(color: Color(0xFF253A4B)),
-        ),
-        trailing: Icon(
-          Icons.more_vert,
-          color: Color(0xFF253A4B),
+          subtitle: Text(
+            this._song.artist,
+            style: TextStyle(
+              color: Controller().theming.fontPrimary,
+            ),
+          ),
+          /*trailing: Icon(
+            Icons.more_vert,
+            color: Controller().theming.fontPrimary,
+          ),*/
         ),
       ),
     );

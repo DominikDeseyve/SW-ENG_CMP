@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/HTTP.dart';
+import 'package:cmp/models/playlist.dart';
+import 'package:cmp/models/song_status.dart';
 import 'package:cmp/models/user.dart';
 import 'package:html_unescape/html_unescape_small.dart';
-import 'package:youtube_api/youtube_api.dart';
 
 class Song {
   String _songID;
@@ -17,18 +18,27 @@ class Song {
   DateTime _createdAt;
   int _upvoteCount;
   int _downvoteCount;
+  SongStatus _songStatus;
 
-  Song.fromYoutube(YT_API pItem) {
-    this._artist = pItem.channelTitle;
-    this._titel = new HtmlUnescape().convert(pItem.title);
-    this._imageURL = pItem.thumbnail['high']['url'];
-    this._youTubeID = pItem.id;
+  Playlist _playlist;
+
+  bool _isUpvoting;
+  bool _isDownvoting;
+
+  Song.fromYoutube(dynamic pItem) {
+    this._youTubeID = pItem['id']['videoId'];
+    this._titel = new HtmlUnescape().convert(pItem['snippet']['title']);
+    this._artist = pItem['snippet']['channelTitle'];
+    this._imageURL = pItem['snippet']['thumbnails']['high']['url'];
     User creator = new User();
     creator.userID = Controller().authentificator.user.userID;
-    creator.username = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.username;
     this._creator = creator;
+    this._songStatus = new SongStatus();
   }
-  Song.fromFirebase(DocumentSnapshot pSnap) {
+  Song.fromFirebase(DocumentSnapshot pSnap, Playlist pPlaylist) {
+    this._playlist = pPlaylist;
+
     this._songID = pSnap.documentID;
     this._titel = pSnap['titel'];
     this._artist = pSnap['artist'];
@@ -39,7 +49,7 @@ class Song {
     this._creator = new User.fromFirebase(pSnap['creator']);
     this._downvoteCount = pSnap['downvote_count'];
     this._upvoteCount = pSnap['upvote_count'];
-    //this.loadURL();
+    this._songStatus = SongStatus.fromFirebase(pSnap['song_status']);
   }
   Map<String, dynamic> toFirebase() {
     return {
@@ -51,8 +61,8 @@ class Song {
       'created_at': DateTime.now(),
       'upvote_count': 0,
       'downvote_count': 0,
-      'time': -1,
       'creator': this._creator.toFirebase(),
+      'song_status': this._songStatus.toFirebase(),
     };
   }
 
@@ -62,6 +72,43 @@ class Song {
       this._soundURL = pURL;
     });
   }
+
+  Future<void> _updateStatus() async {
+    await Controller().firebase.updateSongStatus(this._playlist, this);
+  }
+
+  void play() {
+    this._songStatus.status = 'PLAYING';
+    this._updateStatus();
+  }
+
+  void open() {
+    this._songStatus.status = 'OPEN';
+    this._updateStatus();
+  }
+
+  Future<void> end() async {
+    this._songStatus.status = 'END';
+    await this._updateStatus();
+  }
+
+  void voteUp() {
+    if (this.isDownvoting) {
+      this.downvoteCount -= 1;
+    }
+    this.upvoteCount += 1;
+  }
+
+  void voteDown() {
+    if (this.isUpvoting) {
+      this.upvoteCount -= 1;
+    }
+    this.downvoteCount += 1;
+  }
+
+  //***************************************************//
+  //*********   SETTER
+  //***************************************************//
 
   set upvoteCount(int pNr) {
     this._upvoteCount = pNr;
@@ -88,6 +135,10 @@ class Song {
 
   String get soundURL {
     return this._soundURL;
+  }
+
+  String get youTubeID {
+    return this._youTubeID;
   }
 
   String get imageURL {
@@ -120,5 +171,9 @@ class Song {
 
   User get creator {
     return this._creator;
+  }
+
+  SongStatus get songStatus {
+    return this._songStatus;
   }
 }

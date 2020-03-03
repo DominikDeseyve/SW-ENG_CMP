@@ -1,4 +1,6 @@
+import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -10,176 +12,176 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(25, 20, 25, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                "Beschreibung",
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-              Divider(
-                thickness: 1.5,
-                color: Color(0xFF253A4B),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  this.widget._playlist.description,
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Maximale Anzahl an Teilnehmer: ",
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-              Divider(
-                thickness: 1.5,
-                color: Color(0xFF253A4B),
-              ),
-              Text(
-                this.widget._playlist.maxAttendees.toString(),
-                style: TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Sichtbarkeit der Playlist",
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-              Divider(
-                thickness: 1.5,
-                color: Color(0xFF253A4B),
-              ),
-              Text(
-                this.widget._playlist.visibleness.longValue,
-                style: TextStyle(fontSize: 15),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.fromLTRB(25, 30, 25, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Blacked Genres",
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-              Divider(
-                thickness: 1.5,
-                color: Color(0xFF253A4B),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          child: ListView(
-            shrinkWrap: true,
-            primary: false,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (AssetImage('assets/images/playlist.jpg')),
-                      ),
+        ListView(
+          shrinkWrap: true,
+          children: [
+            SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Controller().theming.accent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                          width: 20,
+                          height: 15,
+                        ),
+                        SizedBox(width: 15),
+                        Text(
+                          "Beschreibung",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  title: Text(
-                    "Pop",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  subtitle: Text(
-                    "Helene Fischer, ...",
-                    style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (AssetImage('assets/images/playlist.jpg')),
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(left: 35, top: 10),
+                  child: Text(
+                    this.widget._playlist.description,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Controller().theming.fontPrimary,
                     ),
                   ),
-                  title: Text(
-                    "Schlager",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  subtitle: Text(
-                    "Helene Fischer, ...",
-                    style: TextStyle(fontSize: 14, color: Colors.redAccent),
-                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: (AssetImage('assets/images/playlist.jpg')),
-                      ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Controller().theming.accent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                          width: 20,
+                          height: 15,
+                        ),
+                        SizedBox(width: 15),
+                        Text(
+                          "Maximale Teilnehmerzahl",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  title: Text(
-                    "Techno",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  subtitle: Text(
-                    "Helene Fischer, ...",
-                    style: TextStyle(fontSize: 14, color: Colors.redAccent),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 35, top: 10),
+                  child: Text(
+                    this.widget._playlist.maxAttendees.toString() + ' Teilnehmer',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Controller().theming.fontPrimary,
+                    ),
                   ),
                 ),
+              ],
+            ),
+            SizedBox(height: 30),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Controller().theming.accent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                          width: 20,
+                          height: 15,
+                        ),
+                        SizedBox(width: 15),
+                        Text(
+                          "Sichtbarkeit",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                            color: Controller().theming.fontPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 35, top: 10),
+                  child: Text(
+                    this.widget._playlist.visibleness.longValue,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        Container(
+          color: Controller().theming.tertiary.withOpacity(0.1),
+          child: ListTile(
+            leading: UserAvatar(this.widget._playlist.creator),
+            title: Text(
+              'Erstellt von ' + this.widget._playlist.creator.username,
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
               ),
-            ],
+            ),
+            subtitle: Text(
+              this.widget._playlist.createdAtString,
+              style: TextStyle(
+                color: Controller().theming.fontTertiary,
+              ),
+            ),
           ),
         ),
       ],

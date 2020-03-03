@@ -17,7 +17,7 @@ class Authentificator {
     try {
       AuthResult authResult = await this._firebaseAuth.createUserWithEmailAndPassword(email: pEmail, password: pPassword);
       pUser.userID = authResult.user.uid;
-      this._controller.firebase.createUser(pUser);
+      this._controller.firebase.createUser(pUser, pEmail);
       await authResult.user.sendEmailVerification();
       return true;
     } catch (e) {
@@ -58,6 +58,28 @@ class Authentificator {
     this._user.settings = await this._controller.firebase.getSettings(userID);
     if (this._user == null) {
       print("USER NOT FOUND; TODO");
+    }
+  }
+
+  Future<void> updatePasswort(String pPassword) async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    //Pass in the password to updatePassword.
+    user.updatePassword(pPassword).then((_) {
+      print("Succesfull changed password");
+    }).catchError((error) {
+      print("Password can't be changed " + error.toString());
+      //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
+    });
+    //await this._firebaseUser.updatePassword(pPassword);
+  }
+
+  Future<String> resetPasswort(String pEmail) async {
+    try {
+      await this._firebaseAuth.sendPasswordResetEmail(email: pEmail);
+      return "";
+    } catch (e) {
+      return e.code;
     }
   }
 

@@ -1,17 +1,17 @@
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/models/playlist.dart';
 import 'package:cmp/pages/CurrentSongScreen.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
+import 'package:cmp/pages/home/StartScreen.dart';
 import 'package:cmp/pages/playlist/AddSongScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
+import 'package:cmp/pages/playlist/CategoryScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/EditPlaylistScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
-import 'package:cmp/pages/playlist/PlaylistSearchScreen.dart';
+import 'package:cmp/pages/search/PlaylistSearchScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
-//import 'package:cmp/pages/playlist/SearchScreen.dart';
 import 'package:cmp/pages/settings/ProfileScreen.dart';
 import 'package:cmp/pages/welcome/Email_confirm.dart';
 import 'package:cmp/pages/welcome/LoginScreen.dart';
@@ -32,7 +32,10 @@ class RouteController {
     final args = pRouteSettings.arguments;
     switch (pRouteSettings.name) {
       case '/root':
-        return RootScreen();
+        return RootScreen(args);
+        break;
+      case '/start':
+        return StartScreen();
         break;
       case '/welcome':
         return Welcome();
@@ -40,14 +43,17 @@ class RouteController {
       case '/playlist/search':
         return PlaylistSearchScreen();
         break;
+      case '/playlist/category':
+        return CategoryScreen(args);
+        break;
       case '/playlist/create':
         return CreatePlaylistScreen();
         break;
       case '/playlist':
-        Playlist playlist = args;
+        String playlistID = args;
 
         return FutureBuilder<bool>(
-          future: Controller().firebase.isUserJoiningPlaylist(playlist, Controller().authentificator.user),
+          future: Controller().firebase.isUserJoiningPlaylist(playlistID, Controller().authentificator.user),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
@@ -85,7 +91,7 @@ class RouteController {
         return RegisterPage();
         break;
       case '/register/email':
-        return Email_confirm(args);
+        return MailConfirmScreen(args);
         break;
       case '/home':
         return HomeScreen();

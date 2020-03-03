@@ -1,14 +1,14 @@
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:flutter/material.dart';
 
-class Email_confirm extends StatefulWidget {
+class MailConfirmScreen extends StatefulWidget {
   final String _email;
-  Email_confirm(this._email);
+  MailConfirmScreen(this._email);
 
-  _Email_confirm createState() => _Email_confirm();
+  _MailConfirmScreenState createState() => _MailConfirmScreenState();
 }
 
-class _Email_confirm extends State<Email_confirm> {
+class _MailConfirmScreenState extends State<MailConfirmScreen> {
   void initState() {
     super.initState();
   }
@@ -72,9 +72,7 @@ class _Email_confirm extends State<Email_confirm> {
                 Container(
                   margin: EdgeInsets.only(top: 90.0),
                   child: Text(
-                    "Wir haben dir eine E-Mail an " +
-                        this.widget._email +
-                        " geschickt. ",
+                    "Wir haben dir eine E-Mail an " + this.widget._email + " geschickt. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20.0),
                   ),
@@ -83,8 +81,7 @@ class _Email_confirm extends State<Email_confirm> {
                   margin: EdgeInsets.only(top: 90.0),
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     height: 50.0,
                     onPressed: () {},
                     textColor: Colors.white,
@@ -101,8 +98,7 @@ class _Email_confirm extends State<Email_confirm> {
                   margin: EdgeInsets.only(top: 30.0),
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     height: 50.0,
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed('/login');

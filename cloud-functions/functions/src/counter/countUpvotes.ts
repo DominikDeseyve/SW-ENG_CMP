@@ -70,10 +70,16 @@ export function countUpvotes(change: any, event: any) {
       const upvoteCount = data["upvote_count"];
       const downvoteCount = data["downvote_count"];
 
-      let ranking = upvoteCount / downvoteCount;
-      if (downvoteCount === 0) {
-        //division by zero
+      let ranking: number;
+
+      if (downvoteCount === upvoteCount) {
+        ranking = 0;
+      } else if (downvoteCount === 0) {
         ranking = upvoteCount;
+      } else if (upvoteCount === 0) {
+        ranking = downvoteCount * -1;
+      } else {
+        ranking = upvoteCount / downvoteCount;
       }
 
       // Update restaurant info
