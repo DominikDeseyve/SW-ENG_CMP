@@ -7,14 +7,16 @@ import 'package:cmp/models/visibleness.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cmp/logic/Firebase.dart';
 
-void main(){
+void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('HTTP', (){
+  group('HTTP', () {
     //HTTP http = HTTP();
 
     test('Test if uri is returned', () async {
-      String text = await HTTP.getSoundURL("kDAp2ifE_jE");
-
+      String text = "";
+      HTTP.getSoundURL("Fo3DAhiNKQo").then((value) {
+        print(value);
+      });
       expect(text, '');
     });
   });
