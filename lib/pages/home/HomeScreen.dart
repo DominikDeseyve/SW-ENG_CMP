@@ -111,6 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
             (this._joinedPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
                       InkWell(
                         onTap: () {},
                         child: Container(
@@ -166,6 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
             (this._createdPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
                       InkWell(
                         onTap: () {},
                         child: Container(
@@ -218,10 +224,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 : Container()),
 
-            //beigetretene Playlists
-
+            //Aktuell beliebt
             Column(
               children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pushNamed('/playlist/category', arguments: 'POPULAR');
