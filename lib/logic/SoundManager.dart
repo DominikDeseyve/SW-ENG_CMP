@@ -9,11 +9,9 @@ import 'package:media_notification_control/media_notification.dart';
 
 class SoundManager extends ChangeNotifier {
   AudioPlayer _audioPlayer;
-
   Queue _playingQueue;
   Playlist _playlingPlaylist;
   StreamSubscription _onSongEnd;
-
   Song _currentSong;
 
   SoundManager() {
