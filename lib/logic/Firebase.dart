@@ -82,6 +82,12 @@ class Firebase {
     });
   }
 
+  Future<bool> isMailExisting(String pEmail) async {
+    return await this._ref.collection('user').where('email', isEqualTo: pEmail).getDocuments(source: this._source).then((QuerySnapshot pQuery) async {
+      return (pQuery.documents.length >= 1);
+    });
+  }
+
   Future<String> convertUsernameToMail(String pUsername) async {
     QuerySnapshot query = await this._ref.collection('user').where('username', isEqualTo: pUsername).limit(1).getDocuments(source: this._source);
     if (query.documents.length == 0) {
