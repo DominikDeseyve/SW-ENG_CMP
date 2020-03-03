@@ -4,6 +4,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/pages/navigation.dart';
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -99,6 +100,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
 
       return;
     }
+    TinyLoader.show(context, 'Playlist wird erstellt...');
     Playlist playlist = new Playlist();
     playlist.name = this._nameController.text;
     playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
@@ -117,6 +119,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
     await Controller().firebase.updatePlaylist(playlist);
     Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
     this.clearTextfields();
+    TinyLoader.hide();
     await NestedNavigatorsBlocProvider.of(context).selectAndNavigate(
       Navigation.home,
       (navigator) => navigator.pushNamed(

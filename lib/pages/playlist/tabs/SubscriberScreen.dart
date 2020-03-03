@@ -173,7 +173,7 @@ class _UserItemState extends State<UserItem> {
       },
       child: Container(
         color: (Controller().authentificator.user.userID == this.widget._user.userID ? Colors.grey.withOpacity(0.2) : Colors.transparent),
-        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+        padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
         child: ListTile(
           leading: UserAvatar(this.widget._user),
           title: Text(

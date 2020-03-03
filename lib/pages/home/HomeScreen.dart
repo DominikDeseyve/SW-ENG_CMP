@@ -80,11 +80,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: RefreshIndicator(
+        color: Controller().theming.fontAccent,
         onRefresh: this.getPlaylists,
         child: ListView(
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
               color: Controller().theming.tertiary.withOpacity(0.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -161,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   )
                 : Container()),
-            SizedBox(height: 5),
+
             (this._createdPlaylist.length > 0
                 ? Column(
                     children: <Widget>[
@@ -218,7 +219,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Container()),
 
             //beigetretene Playlists
-            SizedBox(height: 10),
 
             Column(
               children: <Widget>[

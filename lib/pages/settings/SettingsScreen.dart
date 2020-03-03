@@ -317,7 +317,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   divisions: 10,
                                   activeColor: Controller().theming.accent,
                                   inactiveColor: Controller().theming.tertiary,
-                                  label: _crossfade.toString(),
+                                  label: _crossfade.toString() + 's',
                                   min: 0,
                                   max: 10,
                                 ),

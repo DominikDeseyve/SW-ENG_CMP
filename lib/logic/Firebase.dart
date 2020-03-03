@@ -72,13 +72,23 @@ class Firebase {
         pSnap.reference.updateData(pUser.toFirebase());
       });
     });
+    //TODO: change song --> creator data
     await this._ref.collection('user').document(pUser.userID).updateData(pUser.toFirebase());
   }
 
   Future<bool> isUsernameExisting(String pUsername) async {
     return await this._ref.collection('user').where('username', isEqualTo: pUsername).getDocuments(source: this._source).then((QuerySnapshot pQuery) async {
-      return (pQuery.documents.length == 1);
+      return (pQuery.documents.length >= 1);
     });
+  }
+
+  Future<String> convertUsernameToMail(String pUsername) async {
+    QuerySnapshot query = await this._ref.collection('user').where('username', isEqualTo: pUsername).limit(1).getDocuments(source: this._source);
+    if (query.documents.length == 0) {
+      return null;
+    } else {
+      return query.documents[0]['email'];
+    }
   }
 
   Future<void> updateRole(Playlist pPlaylist, User pUser) async {
@@ -319,15 +329,12 @@ class Firebase {
         'song_id': pSong.songID,
         'direction': pDirection,
       });
-      print("RESULT:" + resp.data);
+      //print(resp.data);
     } on CloudFunctionsException catch (e) {
       print('caught firebase functions exception');
       print(e.code);
-      print(e.message);
-      print(e.details);
     } catch (e) {
       print('caught generic exception');
-      print(e);
       print(e.message);
     }
 

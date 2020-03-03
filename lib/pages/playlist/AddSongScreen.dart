@@ -159,10 +159,10 @@ class SongtItem extends StatelessWidget {
               color: Controller().theming.fontPrimary,
             ),
           ),
-          trailing: Icon(
+          /*trailing: Icon(
             Icons.more_vert,
             color: Controller().theming.fontPrimary,
-          ),
+          ),*/
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:cmp/logic/Controller.dart';
 
@@ -15,8 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController =
-        new TextEditingController(text: 'dominik.deseyve@gmx.de');
+    this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
     this._passwordController = new TextEditingController(text: '123456');
   }
 
@@ -64,21 +64,20 @@ class _LoginPageState extends State<LoginPage> {
         ),
         onPressed: () async {
           try {
+            TinyLoader.show(context, 'Sie werden eingeloggt...');
             String email = this._mailController.text;
             String password = this._passwordController.text;
 
-            bool success =
-                await Controller().authentificator.signIn(email, password);
+            bool success = await Controller().authentificator.signIn(email, password);
+            TinyLoader.hide();
             if (success) {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/start', (route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil('/start', (route) => false);
             } else {
-              Controller()
-                  .theming
-                  .showSnackbar(context, "Fehler beim Anmelden");
+              Controller().theming.showSnackbar(context, "Fehler beim Anmelden");
             }
           } catch (e) {
-            Controller().theming.showSnackbar(context, e.code);
+            TinyLoader.hide();
+            //Controller().theming.showSnackbar(context, e.code);
             print(e.code);
           }
           //Navigator.of(context).pushNamed(HomePage.tag);
@@ -180,8 +179,7 @@ class _PasswordDialogState extends State<PasswordDialog> {
               icon: Icon(Icons.email),
               hintText: 'Email',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
             ),
           ),
           Divider(
@@ -194,8 +192,7 @@ class _PasswordDialogState extends State<PasswordDialog> {
             children: [
               Expanded(
                 child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)),
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   onPressed: this._send,
                   color: Colors.redAccent,
                   child: Text(

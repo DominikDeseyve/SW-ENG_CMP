@@ -14,7 +14,8 @@ class HTTP {
       );
       if (response.statusCode == 200) {
         var json = JSON.jsonDecode(response.body);
-        return json['videos'][0]['url'].toString();
+        //return json['videos'][0]['url'].toString();
+        return json['videos'][0]['formats'][0]['url'];
       }
     } catch (e) {
       print("NETWORK ERROR");

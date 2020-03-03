@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:intl/intl.dart';
 
@@ -74,6 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (this._usernameError && this._passwordError) {
       Controller().theming.showSnackbar(context, "Bitte passende Werte eingeben!");
     } else {
+      TinyLoader.show(context, 'Benutzer wird gespeichert...');
       Controller().authentificator.user.username = this._usernameController.text;
       Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
 
@@ -89,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Controller().theming.showSnackbar(context, "Das Passwort wurde geändert!");
         } catch (e) {}
       }
-
+      TinyLoader.hide();
       Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
       Navigator.of(context).pop();
     }

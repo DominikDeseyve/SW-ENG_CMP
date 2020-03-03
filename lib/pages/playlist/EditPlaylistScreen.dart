@@ -4,6 +4,7 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/visibleness.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -104,6 +105,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
       Controller().theming.showSnackbar(context, "Bitte überprüfen Sie ihre Angaben!");
       return;
     }
+    TinyLoader.show(context, 'Playlist wird gespeichert...');
     this.widget._playlist.name = this._nameController.text;
     this.widget._playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
     this.widget._playlist.visibleness = this._visibleness;
@@ -115,7 +117,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
       this.widget._playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + this.widget._playlist.playlistID);
     }
     await Controller().firebase.updatePlaylist(this.widget._playlist);
-
+    TinyLoader.hide();
     Controller().theming.showSnackbar(context, "Die Playlist wurde erfolgreich bearbeitet!");
     Navigator.of(context).pop();
   }

@@ -20,7 +20,7 @@ class PlaylistDetailScreen extends StatefulWidget {
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN ? 3 : 2),
+      length: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN && this.widget._playlist.visibleness.key == 'PRIVATE' ? 3 : 2),
       child: Scaffold(
         backgroundColor: Controller().theming.background,
         appBar: AppBar(
@@ -31,7 +31,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           bottom: TabBar(
             labelColor: Controller().theming.fontSecondary,
             indicator: BoxDecoration(),
-            tabs: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
+            tabs: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN && this.widget._playlist.visibleness.key == 'PRIVATE'
                 ? [
                     Tab(
                       text: "Details",
@@ -88,7 +88,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
               ),
             ),
           ),
-          child: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
+          child: (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN && this.widget._playlist.visibleness.key == 'PRIVATE'
               ? TabBarView(
                   children: <Widget>[
                     DetailScreen(this.widget._playlist),

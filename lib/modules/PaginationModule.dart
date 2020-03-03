@@ -13,7 +13,7 @@ class PaginationModule {
 
   PaginationModule(Function(List<Playlist>) pCallback) {
     this._callback = pCallback;
-    this._stepSize = 3;
+    this._stepSize = 10;
     this._isFinished = false;
     this._lastDocument = null;
 

@@ -44,8 +44,12 @@ export function voteSong(data: any, context: any) {
         ranking = upvoteCount;
       } else if (upvoteCount === 0) {
         ranking = downvoteCount * -1;
-      } else {
+      } else if (upvoteCount > downvoteCount) {
         ranking = upvoteCount / downvoteCount;
+      } else if (upvoteCount < downvoteCount) {
+        ranking = (downvoteCount / upvoteCount) * -1;
+      } else {
+        ranking = -100000;
       }
 
       // Update restaurant info

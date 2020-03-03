@@ -14,11 +14,11 @@ class _SoundBarState extends State<SoundBar> {
 
   void initState() {
     super.initState();
-    Controller().soundPlayer.addListener(this._initSoundbar);
+    Controller().soundManager.addListener(this._initSoundbar);
     this._percentage = 0;
 
-    this._durationStream = Controller().soundPlayer.durationStream.listen((Duration p) {
-      Controller().soundPlayer.duration.then((int duration) {
+    this._durationStream = Controller().soundManager.durationStream.listen((Duration p) {
+      Controller().soundManager.duration.then((int duration) {
         if (!mounted) return;
         setState(() {
           this._percentage = (p.inMilliseconds / duration);
@@ -28,10 +28,10 @@ class _SoundBarState extends State<SoundBar> {
   }
 
   void _togglePlay() async {
-    if (Controller().soundPlayer.state == AudioPlayerState.PLAYING) {
-      Controller().soundPlayer.pause();
+    if (Controller().soundManager.state == AudioPlayerState.PLAYING) {
+      Controller().soundManager.pause();
     } else {
-      Controller().soundPlayer.play();
+      Controller().soundManager.play();
     }
   }
 
@@ -41,7 +41,7 @@ class _SoundBarState extends State<SoundBar> {
   }
 
   Widget build(BuildContext context) {
-    if (Controller().soundPlayer.currentSong == null) return SizedBox.shrink();
+    if (Controller().soundManager.currentSong == null) return SizedBox.shrink();
     return InkWell(
       splashColor: Colors.white,
       onTap: () {
@@ -63,7 +63,7 @@ class _SoundBarState extends State<SoundBar> {
             child: Row(
               children: <Widget>[
                 SongAvatar(
-                  Controller().soundPlayer.currentSong,
+                  Controller().soundManager.currentSong,
                   width: 50,
                 ),
                 Expanded(
@@ -74,14 +74,14 @@ class _SoundBarState extends State<SoundBar> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          Controller().soundPlayer.currentSong.artist + ' aus  ' + Controller().soundPlayer.playlist.name,
+                          Controller().soundManager.currentSong.artist + ' aus  ' + Controller().soundManager.playlist.name,
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white.withOpacity(0.6),
                           ),
                         ),
                         Text(
-                          Controller().soundPlayer.currentSong.titel,
+                          Controller().soundManager.currentSong.titel,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16,
@@ -95,14 +95,14 @@ class _SoundBarState extends State<SoundBar> {
                 IconButton(
                   onPressed: this._togglePlay,
                   icon: Icon(
-                    (Controller().soundPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
+                    (Controller().soundManager.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
                     color: Colors.white,
                     size: 26,
                   ),
                 ),
                 IconButton(
                   onPressed: () {
-                    Controller().soundPlayer.nextSong();
+                    Controller().soundManager.nextSong();
                   },
                   icon: Icon(
                     Icons.skip_next,
@@ -121,7 +121,7 @@ class _SoundBarState extends State<SoundBar> {
   void dispose() {
     this._durationStream.cancel();
 
-    Controller().soundPlayer.removeListener(this._initSoundbar);
+    Controller().soundManager.removeListener(this._initSoundbar);
     super.dispose();
   }
 }

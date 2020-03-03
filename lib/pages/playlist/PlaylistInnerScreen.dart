@@ -12,6 +12,7 @@ import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -46,7 +47,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
       this._queue.setCallback(this._loadMoreSongs);
     });
 
-    Controller().soundPlayer.addListener(this._buildQueue);
+    Controller().soundManager.addListener(this._buildQueue);
 
     this._scrollController = new ScrollController();
     this._scrollController.addListener(() {
@@ -64,21 +65,25 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     });
   }
 
-  void _togglePlay() {
+  void _togglePlay() async {
     if (this._isPlaying) {
       Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" wurde angehalten!');
-      Controller().soundPlayer.deleteQueue().then((_) {
+      Controller().soundManager.deleteQueue().then((_) {
         setState(() {
           this._isPlaying = false;
         });
       });
     } else {
-      if (Controller().soundPlayer.setQueue(this._queue, this._playlist)) {
-        Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" wird abgespielt...');
+      TinyLoader.show(context, "Playlist wird geladen...");
+
+      bool success = await Controller().soundManager.setQueue(this._queue, this._playlist);
+      if (success) {
+        TinyLoader.hide();
         setState(() {
           this._isPlaying = true;
         });
       } else {
+        TinyLoader.hide();
         Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" ist leer.');
       }
     }
@@ -88,7 +93,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
     print("SONGS LOADED: " + pQuery.documentChanges.length.toString());
     if (!mounted) return;
     setState(() {
-      this._isPlaying = (this._queue.currentSong != null && Controller().soundPlayer.currentSong != null);
+      this._isPlaying = (this._queue.currentSong != null && Controller().soundManager.currentSong != null);
     });
   }
 
@@ -360,7 +365,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                   SizedBox(width: 15),
                   Text(
-                    "Warteschlange",
+                    "Warteschlange (" + this._queue.songs.length.toString() + ")",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.normal,
@@ -397,7 +402,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void dispose() {
     this._queue.cancel();
-    Controller().soundPlayer.removeListener(this._buildQueue);
+    Controller().soundManager.removeListener(this._buildQueue);
     super.dispose();
   }
 }
@@ -529,7 +534,7 @@ class _SongItemState extends State<SongItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    this.widget._song.artist,
+                    this.widget._song.artist + ' von ' + this.widget._song.creator.username,
                     style: TextStyle(
                       fontSize: 14,
                       color: Controller().theming.fontTertiary,
@@ -553,6 +558,7 @@ class _SongItemState extends State<SongItem> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
+                      splashFactory: null,
                       child: Icon(
                         Icons.thumb_up,
                         color: (this.widget._song.isUpvoting ? Controller().theming.accent : Controller().theming.tertiary),
@@ -572,11 +578,12 @@ class _SongItemState extends State<SongItem> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
+                      splashFactory: null,
                       child: Icon(
                         Icons.thumb_down,
                         color: (this.widget._song.isDownvoting ? Controller().theming.accent : Controller().theming.tertiary),
                       ),
-                      onTap: (this.widget._song.isUpvoting ? this._voteDownSong : null),
+                      onTap: (this.widget._song.isDownvoting ? null : this._voteDownSong),
                     ),
                     Text(
                       this.widget._song.downvoteCount.toString(),
@@ -664,7 +671,12 @@ class _CodeDialogState extends State<CodeDialog> {
       await WcFlutterShare.share(
         sharePopupTitle: 'Playlist teilen',
         subject: this.widget._playlist.name,
-        text: 'Hallo, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' + this.widget._playlist.name + '\n' + 'Teilnehmeranzahl: ' + this.widget._playlist.maxAttendees.toString() + '\n Ich freue mich auf Dich!',
+        text: 'Hey du, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' +
+            this.widget._playlist.name +
+            '\n' +
+            'Teilnehmeranzahl: ' +
+            this.widget._playlist.maxAttendees.toString() +
+            '\n Ich freue mich auf Dich!',
         fileName: 'image.png',
         mimeType: 'image/png',
         bytesOfFile: byteData.buffer.asUint8List(),

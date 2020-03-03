@@ -32,7 +32,7 @@ class Song {
     this._imageURL = pItem['snippet']['thumbnails']['high']['url'];
     User creator = new User();
     creator.userID = Controller().authentificator.user.userID;
-    creator.username = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.username;
     this._creator = creator;
     this._songStatus = new SongStatus();
   }
@@ -88,7 +88,7 @@ class Song {
   }
 
   Future<void> end() async {
-    this._songStatus.status = 'END';  
+    this._songStatus.status = 'END';
     await this._updateStatus();
   }
 

@@ -89,9 +89,9 @@ class Queue {
       });
       this.sort();
       this._callback(pQuery);
-      if (Controller().soundPlayer.playlist != null) {
-        if (Controller().soundPlayer.playlist.playlistID == this._playlist.playlistID) {
-          Controller().soundPlayer.prepareNextSongs(1);
+      if (Controller().soundManager.playlist != null) {
+        if (Controller().soundManager.playlist.playlistID == this._playlist.playlistID) {
+          Controller().soundManager.prepareNextSongs(1);
         }
       }
     });

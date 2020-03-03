@@ -69,10 +69,10 @@ class Role extends ChangeNotifier {
   IconData get icon {
     switch (this._role) {
       case ROLE.MEMBER:
-        return Icons.group;
+        return Icons.person;
         break;
       case ROLE.ADMIN:
-        return Icons.adb;
+        return Icons.stars;
         break;
       default:
         return Icons.error;

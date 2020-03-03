@@ -7,7 +7,7 @@ import 'package:cmp/logic/Queue.dart';
 import 'package:flutter/foundation.dart';
 import 'package:media_notification_control/media_notification.dart';
 
-class SoundPlayer extends ChangeNotifier {
+class SoundManager extends ChangeNotifier {
   AudioPlayer _audioPlayer;
 
   Queue _playingQueue;
@@ -16,7 +16,7 @@ class SoundPlayer extends ChangeNotifier {
 
   Song _currentSong;
 
-  SoundPlayer() {
+  SoundManager() {
     this._audioPlayer = AudioPlayer();
     AudioPlayer.logEnabled = false;
     this._audioPlayer.setVolume(1);
@@ -49,7 +49,6 @@ class SoundPlayer extends ChangeNotifier {
   }
 
   void play() async {
-    //audioCache.load('://r2---sn-p5qlsndk.googlevideo.com/videoplayback?expire=1582675521&ei=4WFVXrOzH8vj8gSkyrnIAQ&ip=54.204.79.209&id=o-AM5HysUNUG7YP94gTsAko_BGF5gvnBwTSlQvjwS1bWMl&itag=18&source=youtube&requiressl=yes&mm=31%2C26&mn=sn-p5qlsndk%2Csn-vgqskn7l&ms=au%2Conr&mv=u&mvi=1&pl=24&vprv=1&mime=video%2Fmp4&gir=yes&clen=12980855&ratebypass=yes&dur=176.332&lmt=1574751525864896&mt=1582653414&fvip=2&fexp=23842630%2C23878762&c=WEB&txp=3531432&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&lsparams=mm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl&lsig=AHylml4wRgIhAKH7ma1GdrYhy3JnvMgof42cJd7O0W82dAyrztQ2x6suAiEA5VapWHZuNClcgv9IvZrtJX4nrswUnHMZc5wRff0b2GI%3D&sig=ALgxI2wwRQIge-2DL9WBuwSMYWKPRlQGdxcoOAUkz5739IGK-q90PEECIQCyMJ_0gLwVwKrT3UmfAYG9RAX3eqKZNQOrhL_jEccgqQ==');
     await this._audioPlayer.resume();
     this._currentSong.play();
 
@@ -119,7 +118,7 @@ class SoundPlayer extends ChangeNotifier {
     return true;
   }
 
-  bool setQueue(Queue pQueue, Playlist pPlaylist) {
+  Future<bool> setQueue(Queue pQueue, Playlist pPlaylist) async {
     this._playingQueue = pQueue;
 
     this._playlingPlaylist = pPlaylist;
@@ -131,11 +130,10 @@ class SoundPlayer extends ChangeNotifier {
       this._currentSong = this._playingQueue.songs[0];
     }
 
-    this._currentSong.loadURL().then((_) {
-      this._loadSong().then((_) {
-        this.play();
-      });
-    });
+    await this._currentSong.loadURL();
+    await this._loadSong();
+    this.play();
+
     this.prepareNextSongs(2);
     return true;
   }
@@ -150,6 +148,8 @@ class SoundPlayer extends ChangeNotifier {
   }
 
   void dispose() {
+    print("dispose soundManager");
+    this._currentSong.end();
     this._audioPlayer.release();
     this._onSongEnd.cancel();
     super.dispose();
