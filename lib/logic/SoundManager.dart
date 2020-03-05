@@ -150,7 +150,6 @@ class SoundManager extends ChangeNotifier {
     }
     //temp
     if (this._playingQueue.currentSong != null && this._playingQueue.currentSong.soundURL == null) {
-      print("hier2");
       await this._playingQueue.currentSong.loadURL();
     }
     //temp end
@@ -165,7 +164,6 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<bool> nextSong() async {
-    print(this._playingQueue.currentSong.soundURL);
     print("next Song");
     //this._crossfadeTimer.stop();
     if (!this._playingQueue.hasNextSong) {

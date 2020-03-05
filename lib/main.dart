@@ -4,6 +4,7 @@ import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/navigation.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
 import 'package:cmp/provider/RoleProvider.dart';
+import 'package:cmp/widgets/HugeLoader.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -44,26 +45,7 @@ class CMP extends StatelessWidget {
           default:
             break;
         }
-        if (Controller() is Controller && Controller().authentificator.user != null) {
-          if (Controller().authentificator.user.settings.darkMode) {
-            return Container(
-              color: Colors.black,
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
-                ),
-              ),
-            );
-          }
-        }
-        return Container(
-          color: Colors.white,
-          child: Center(
-            child: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
-            ),
-          ),
-        );
+        return HugeLoader.show();
       },
     );
     return page;

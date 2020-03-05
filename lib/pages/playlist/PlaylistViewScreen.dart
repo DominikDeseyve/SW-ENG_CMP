@@ -3,6 +3,7 @@ import 'package:cmp/models/Request.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/role.dart';
 import 'package:cmp/models/user.dart';
+import 'package:cmp/widgets/HugeLoader.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
@@ -102,9 +103,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
 
   Widget build(BuildContext context) {
     if (this._playlist == null) {
-      return Container(
-        color: Colors.white,
-      );
+      return HugeLoader.show();
     }
     return Scaffold(
       backgroundColor: Controller().theming.background,

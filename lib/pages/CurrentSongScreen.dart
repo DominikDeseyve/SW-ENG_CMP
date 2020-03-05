@@ -145,21 +145,30 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
       body: ListView(
         children: <Widget>[
           SizedBox(height: 30),
-          GestureDetector(
-            onDoubleTap: () {
-              this._youtubePlayerController.toggleFullScreenMode();
-            },
-            child: YoutubePlayer(
-              controller: _youtubePlayerController,
-              showVideoProgressIndicator: true,
-              topActions: <Widget>[],
-              onReady: () {
-                print('Player is ready.');
-                this._youtubePlayerController.seekTo(this._position);
-                this._youtubePlayerController.play();
-              },
-            ),
-          ),
+          (Controller().soundManager.currentSong.platform == 'YOUTUBE'
+              ? GestureDetector(
+                  onDoubleTap: () {
+                    this._youtubePlayerController.toggleFullScreenMode();
+                  },
+                  child: YoutubePlayer(
+                    controller: _youtubePlayerController,
+                    showVideoProgressIndicator: true,
+                    topActions: <Widget>[],
+                    onReady: () {
+                      print('Player is ready.');
+                      this._youtubePlayerController.seekTo(this._position);
+                      this._youtubePlayerController.play();
+                    },
+                  ),
+                )
+              : Container(
+                  padding: const EdgeInsets.all(25),
+                  child: Image.network(
+                    Controller().soundManager.currentSong.imageURL,
+                    height: 175,
+                    fit: BoxFit.contain,
+                  ),
+                )),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: Column(

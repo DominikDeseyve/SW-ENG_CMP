@@ -12,7 +12,7 @@ class TinyLoader {
       builder: (BuildContext context) {
         _dialogContext = context;
         return Scaffold(
-          backgroundColor: Colors.black.withOpacity(0.3),
+          backgroundColor: Colors.black.withOpacity(0.4),
           body: AlertDialog(
             backgroundColor: Colors.transparent,
             elevation: 0,
