@@ -42,6 +42,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
 
   void _saveSong(Song pSong) async {
     await Controller().firebase.createSong(this.widget._playlist, pSong);
+    Controller().theming.showSnackbar(context, "Dein Song wurde erfolgreich zu '" + this.widget._playlist.name + "' hinzugefügt!");
     Navigator.of(context).pop();
   }
 

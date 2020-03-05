@@ -9,8 +9,8 @@ class LocalStorage {
   StoreRef _storeRef;
   Database _database;
 
-  List<String> _searchedPlaylists = [];
-  List<Song> _searchedSongs = [];
+  List<String> _searchedPlaylists;
+  List<Song> _searchedSongs;
 
   LocalStorage() {
     _storeRef = StoreRef.main();
@@ -25,6 +25,8 @@ class LocalStorage {
   }
 
   void fetchValues() async {
+    this._searchedPlaylists = [];
+    this._searchedSongs = [];
     try {
       var searchedPlaylists = await this._storeRef.record('searched_playlist').get(this._database);
       this._searchedPlaylists = List.from(searchedPlaylists);
