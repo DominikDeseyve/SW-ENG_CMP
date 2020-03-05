@@ -10,6 +10,7 @@ import 'package:cmp/models/user.dart';
 import 'package:cmp/provider/RoleProvider.dart';
 import 'package:cmp/widgets/CurvePainter.dart';
 import 'package:cmp/logic/Queue.dart';
+import 'package:cmp/widgets/HugeLoader.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
 import 'package:cmp/widgets/TinyLoader.dart';
@@ -116,10 +117,9 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               String userID = Controller().authentificator.user.userID;
 
               if (this._playlist.creator.userID == userID) {
-                await Controller().firebase.deletePlaylist(this._playlist).then((_) {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                  Navigator.of(dialogContext).pop(null);
-                });
+                await Controller().firebase.deletePlaylist(this._playlist);
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.of(dialogContext).pop(null);
               } else {
                 Controller().firebase.leavePlaylist(this._playlist, user).then((_) {
                   Navigator.of(context).popUntil((route) => route.isFirst);
@@ -141,9 +141,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   Widget build(BuildContext context) {
     if (this._playlist == null) {
-      return Container(
-        color: Colors.white,
-      );
+      return HugeLoader.show();
     }
 
     return Scaffold(

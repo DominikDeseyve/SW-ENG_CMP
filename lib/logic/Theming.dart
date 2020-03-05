@@ -85,7 +85,10 @@ class Theming {
       duration: Duration(milliseconds: 2000),
       content: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Text(pText),
+        child: Text(
+          pText,
+          textAlign: TextAlign.center,
+        ),
       ),
       action: SnackBarAction(
         label: 'OK',

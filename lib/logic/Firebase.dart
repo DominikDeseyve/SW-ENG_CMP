@@ -52,6 +52,13 @@ class Firebase {
     await this._ref.collection('settings').document(pUser.userID).setData(settings.toFirebase());
   }
 
+  Future<void> deleteUser() async {
+    User user = Controller().authentificator.user;
+
+    //TODO
+    await this._ref.collection('user').document(user.userID).delete();
+  }
+
   // Bearbeiten
   Future<void> updateUserData(User pUser) async {
     await this._ref.collection('playlist').where('creator.user_id', isEqualTo: pUser.userID).getDocuments(source: this._source).then((QuerySnapshot pQuery) {
@@ -120,8 +127,6 @@ class Firebase {
       return User.fromFirebase(pSnapshot);
     });
   }
-
-  // Löschen
 
   // User-Joins
   Future<bool> isUserJoiningPlaylist(String pPlaylistID, User pUser) async {
