@@ -163,7 +163,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Playlist erstellen",
+                Controller().translater.language.getLanguagePack("create_playlist"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -216,7 +216,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : "Name der Playlist"),
+                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : Controller().translater.language.getLanguagePack("name_of_playlist")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -251,7 +251,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               maxLength: 3,
               decoration: InputDecoration(
                 counter: Offstage(),
-                labelText: (this._amountError ? "Geben Sie einen Teilnehmerzahl ein" : "maximale Teilnehmerzahl"),
+                labelText: (this._amountError ? "Geben Sie eine Teilnehmerzahl ein" : Controller().translater.language.getLanguagePack("max_members")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -286,7 +286,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Art des Events",
+                  Controller().translater.language.getLanguagePack("type_of_playlist"),
                   style: TextStyle(
                     color: Controller().theming.fontPrimary,
                   ),
@@ -318,7 +318,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                               });
                             },
                             child: Text(
-                              "öffentliche Playlist",
+                              Controller().translater.language.getLanguagePack("public"),
                               style: TextStyle(
                                 color: Controller().theming.fontPrimary,
                               ),
@@ -350,7 +350,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                               });
                             },
                             child: Text(
-                              "private Playlist",
+                              Controller().translater.language.getLanguagePack("private"),
                               style: TextStyle(
                                 color: Controller().theming.fontPrimary,
                               ),
@@ -378,7 +378,8 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                labelText: (this._descriptionError ? "Geben Sie einen korrekte Beschreibung ein" : "Beschreibung"),
+                labelText:
+                    (this._descriptionError ? "Geben Sie einen korrekte Beschreibung ein" : Controller().translater.language.getLanguagePack("description")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -420,7 +421,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                     ),
                   ),
                   Text(
-                    "Playlist erstellen",
+                    Controller().translater.language.getLanguagePack("create_playlist"),
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Controller().theming.fontSecondary,

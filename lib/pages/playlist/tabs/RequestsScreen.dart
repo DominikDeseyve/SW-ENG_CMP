@@ -46,7 +46,7 @@ class _RequestScreenState extends State<RequestScreen> with AutomaticKeepAliveCl
               padding: const EdgeInsets.only(top: 50),
               children: [
                 Text(
-                  "Keine Anfragen vorhanden",
+                  Controller().translater.language.getLanguagePack("no_requests"),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,

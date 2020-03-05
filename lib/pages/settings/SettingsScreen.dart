@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Einstellungen",
+                Controller().translater.language.getLanguagePack("settings"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -92,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       subtitle: Text(
-                        "Profil anzeigen",
+                        Controller().translater.language.getLanguagePack("show_profile"),
                         style: TextStyle(
                           fontSize: 14,
                           color: Controller().theming.tertiary,
@@ -127,7 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          "Anzeigeeinstellungen",
+                          Controller().translater.language.getLanguagePack("display_settings"),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
@@ -218,7 +218,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 child: Container(
                                   width: 120,
                                   child: Text(
-                                    "Sprache",
+                                    Controller().translater.language.getLanguagePack("language"),
                                     style: TextStyle(
                                       color: Controller().theming.fontPrimary,
                                       fontSize: 18,
@@ -309,7 +309,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   },
                                   onChangeEnd: (value) {
                                     if (value.toInt() != _userCrossfade) {
-                                      print("test " + value.toString());
                                       Controller().authentificator.user.settings.crossfade = value.toInt();
                                       Controller().firebase.updateSettings();
                                     }
@@ -351,7 +350,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                         Text(
-                          "Abmelden",
+                          Controller().translater.language.getLanguagePack("logout"),
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Controller().theming.fontSecondary,

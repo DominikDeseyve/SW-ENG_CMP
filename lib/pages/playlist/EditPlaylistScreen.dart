@@ -144,7 +144,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Playlist bearbeiten",
+                Controller().translater.language.getLanguagePack("edit_playlist"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -211,7 +211,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : "Name der Playlist"),
+                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : Controller().translater.language.getLanguagePack("name_of_playlist")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -246,7 +246,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               maxLength: 3,
               decoration: InputDecoration(
                 counter: Offstage(),
-                labelText: (this._amountError ? "Geben Sie eine Anzahl an" : "maximale Teilnehmerzahl"),
+                labelText: (this._amountError ? "Geben Sie eine Anzahl an" : Controller().translater.language.getLanguagePack("max_members")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -281,7 +281,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Art des Events",
+                  Controller().translater.language.getLanguagePack("type_of_playlist"),
                   style: TextStyle(
                     color: Controller().theming.fontPrimary,
                   ),
@@ -311,7 +311,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                               });
                             },
                             child: Text(
-                              "öffentliche Playlist",
+                              Controller().translater.language.getLanguagePack("public"),
                               style: TextStyle(
                                 color: Controller().theming.fontPrimary,
                               ),
@@ -347,7 +347,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                               });
                             },
                             child: Text(
-                              "private Playlist",
+                              Controller().translater.language.getLanguagePack("private"),
                               style: TextStyle(
                                 color: Controller().theming.fontPrimary,
                               ),
@@ -375,7 +375,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                labelText: (this._nameError ? "Geben Sie eine korrekten Beschreibung ein" : "Beschreibung"),
+                labelText: (this._nameError ? "Geben Sie eine korrekten Beschreibung ein" : Controller().translater.language.getLanguagePack("description")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -417,7 +417,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
                     ),
                   ),
                   Text(
-                    "Speichern",
+                    Controller().translater.language.getLanguagePack("save"),
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Controller().theming.fontSecondary,

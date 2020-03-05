@@ -41,14 +41,14 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                       ),
                     ),
                     Tab(
-                      text: "Teilnehmer",
+                      text: Controller().translater.language.getLanguagePack("members"),
                       icon: Icon(
                         Icons.people,
                         //color: Controller().theming.fontSecondary,
                       ),
                     ),
                     Tab(
-                      text: "Anfragen",
+                      text: Controller().translater.language.getLanguagePack("requests"),
                       icon: Icon(
                         Icons.person_add,
                         color: Controller().theming.fontSecondary,
@@ -64,7 +64,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                       ),
                     ),
                     Tab(
-                      text: "Teilnehmer",
+                      text: Controller().translater.language.getLanguagePack("members"),
                       icon: Icon(
                         Icons.people,
                         color: Controller().theming.fontSecondary,
@@ -73,7 +73,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                   ]),
           ),
           title: Text(
-            "Informationen zu " + this.widget._playlist.name,
+            Controller().translater.language.getLanguagePack("information_to") + this.widget._playlist.name,
             style: TextStyle(
               color: Controller().theming.fontSecondary,
             ),

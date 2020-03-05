@@ -134,21 +134,30 @@ class _UserItemState extends State<UserItem> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: Text('Benutzer entfernen'),
+        title: Text(
+          Controller().translater.language.getLanguagePack("delete_user"),
+        ),
         content: Text('Bist Du dir sicher, dass du ' + this.widget._user.username + ' wirklich entfernen willst?'),
         actions: <Widget>[
           FlatButton(
-            child: Text('Ja'),
+            child: Text(
+              Controller().translater.language.getLanguagePack("yes"),
+            ),
             onPressed: () async {
               Controller().firebase.leavePlaylist(this.widget._playlist, this.widget._user).then((_) {
                 this.widget._removeUserCallback(this.widget._user);
                 Navigator.of(dialogContext).pop();
-                Controller().theming.showSnackbar(context, 'Benutzer erfolgreich entfernt');
+                Controller().theming.showSnackbar(
+                      context,
+                      Controller().translater.language.getLanguagePack("user_deleted"),
+                    );
               });
             },
           ),
           FlatButton(
-            child: Text('Nein'),
+            child: Text(
+              Controller().translater.language.getLanguagePack("no"),
+            ),
             onPressed: () {
               Navigator.of(dialogContext).pop();
             },
@@ -234,7 +243,10 @@ class _UserItemState extends State<UserItem> {
                         if (this.widget._playlist.creator.userID != this.widget._user.userID) {
                           this._showRemoveUserDialog();
                         } else {
-                          Controller().theming.showSnackbar(context, 'Benutzer kann nicht gelöscht werden, da dieser die Playlist erstellt hat');
+                          Controller().theming.showSnackbar(
+                                context,
+                                Controller().translater.language.getLanguagePack("user_deleted_error"),
+                              );
                         }
                       },
                     )
@@ -379,7 +391,7 @@ class _RoleDialogState extends State<RoleDialog> {
             ],
           ),
           Text(
-            'Es kann nur einen Masterdevice pro Playlist \n geben.',
+            Controller().translater.language.getLanguagePack("masterdevice_text"),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
@@ -395,7 +407,7 @@ class _RoleDialogState extends State<RoleDialog> {
                   onPressed: this._save,
                   color: Colors.redAccent,
                   child: Text(
-                    'Speichern',
+                    Controller().translater.language.getLanguagePack("save"),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

@@ -1,7 +1,6 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
-import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +60,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Songs suchen",
+                Controller().translater.language.getLanguagePack("search_song"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -116,7 +115,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                     });
                   },
                 ),
-                hintText: "Song eingeben",
+                hintText: Controller().translater.language.getLanguagePack("enter_song"),
                 hintStyle: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -133,7 +132,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Letzte Suchanfragen',
+                            Controller().translater.language.getLanguagePack("last_search"),
                             style: TextStyle(
                               fontSize: 20,
                               color: Controller().theming.fontPrimary,
@@ -147,7 +146,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                               });
                             },
                             child: Text(
-                              'Suchverlauf löschen',
+                              Controller().translater.language.getLanguagePack("delete_search"),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Controller().theming.fontPrimary,

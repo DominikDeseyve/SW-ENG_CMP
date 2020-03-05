@@ -61,14 +61,14 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
 
   String _getLabel() {
     if (this._playlist.visibleness.key == 'PUBLIC') {
-      return "Teilnehmen";
+      return Controller().translater.language.getLanguagePack("join");
     } else {
       if (this._request == null || this._request.status == 'DECLINE') {
-        return "Anfrage senden";
+        return Controller().translater.language.getLanguagePack("send_request");
       } else if (this._request.status == 'ACCEPT') {
-        return "Zur Playlist";
+        return Controller().translater.language.getLanguagePack("to_playlist");
       } else {
-        return "Anfrage gesendet";
+        return Controller().translater.language.getLanguagePack("request_sent");
       }
     }
   }
@@ -87,7 +87,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
       if (success) {
         Navigator.of(context).pushReplacementNamed('/playlist', arguments: this._playlist.playlistID);
       } else {
-        Controller().theming.showSnackbar(context, "Die maximale Anzahl an Teilnehmer wurde erreicht.");
+        Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("max_members_reached"));
       }
     } else {
       if (this._request == null || this._request.status == 'DECLINE') {
@@ -155,7 +155,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                     ),
                   ),
                   Text(
-                    "erstellt von " + this._playlist.creator.username.toString(),
+                    Controller().translater.language.getLanguagePack("created_by") + this._playlist.creator.username.toString(),
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Controller().theming.fontPrimary,
@@ -174,7 +174,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                               ),
                               SizedBox(width: 15),
                               Text(
-                                "Leider ist die Playlist bereits voll. \n Es tut uns sehr leid.",
+                                Controller().translater.language.getLanguagePack("full_playlist"),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 18,
@@ -234,7 +234,7 @@ class _PlaylistViewScreenState extends State<PlaylistViewScreen> {
                           ),
                           SizedBox(width: 15),
                           Text(
-                            "Teilnehmer",
+                            Controller().translater.language.getLanguagePack("members"),
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.normal,

@@ -127,7 +127,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             },
           ),
           title: Text(
-            "Wiedergabe aus",
+            Controller().translater.language.getLanguagePack("played_from"),
             style: TextStyle(
               fontWeight: FontWeight.normal,
               fontSize: 18,

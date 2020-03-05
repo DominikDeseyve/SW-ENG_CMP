@@ -80,7 +80,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
 
       if (this._selectedImage != null) {
-        Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
+        Controller().authentificator.user.imageURL =
+            await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
       }
 
       await Controller().firebase.updateUserData(Controller().authentificator.user);
@@ -132,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Profil",
+                Controller().translater.language.getLanguagePack("profile"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -180,7 +181,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: (this._usernameError ? "Geben Sie einen Benutzernamen ein!" : "Benutzername"),
+                labelText: (this._usernameError
+                    ? Controller().translater.language.getLanguagePack("username_invalid")
+                    : Controller().translater.language.getLanguagePack("username")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -219,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 });
               },
               decoration: InputDecoration(
-                labelText: "Geburtsdatum",
+                labelText: Controller().translater.language.getLanguagePack("birthday"),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -259,7 +262,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }
               },
               decoration: InputDecoration(
-                labelText: (this._passwordError ? "Geben Sie ein Passwort ein!" : "Passwort"),
+                labelText: (this._passwordError
+                    ? Controller().translater.language.getLanguagePack("password_invalid")
+                    : Controller().translater.language.getLanguagePack("password")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -281,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+            margin: EdgeInsets.fromLTRB(50, 25, 50, 10),
             child: FlatButton(
               onPressed: () async {
                 this._editUser();
@@ -301,10 +306,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   Text(
-                    "Profil speichern",
+                    Controller().translater.language.getLanguagePack("save_profile"),
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Controller().theming.fontSecondary,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(50, 5, 50, 25),
+            child: FlatButton(
+              onPressed: () {
+                print("Profil sollte jetzt gelöscht werden.");
+              },
+              padding: const EdgeInsets.all(10),
+              color: Controller().theming.tertiary.withOpacity(0.3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: BorderSide(
+                  width: 1,
+                  color: Controller().theming.fontPrimary,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      Icons.clear,
+                      size: 20.0,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
+                  Text(
+                    Controller().translater.language.getLanguagePack("delete_profile"),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Controller().theming.fontPrimary,
                     ),
                   )
                 ],

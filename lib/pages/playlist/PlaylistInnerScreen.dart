@@ -111,7 +111,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
         content: Text(pSubtitle),
         actions: <Widget>[
           FlatButton(
-            child: Text('Ja'),
+            child: Text(Controller().translater.language.getLanguagePack("yes")),
             onPressed: () async {
               User user = Controller().authentificator.user;
               String userID = Controller().authentificator.user.userID;
@@ -129,7 +129,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
             },
           ),
           FlatButton(
-            child: Text('Nein'),
+            child: Text(Controller().translater.language.getLanguagePack("no")),
             onPressed: () {
               Navigator.of(dialogContext).pop();
             },
@@ -181,10 +181,12 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               onSelected: (int pValue) {
                 switch (pValue) {
                   case 1:
-                    _showOptionAlert("Playlist löschen!", "Wollen Sie die Playlist wirklich löschen?");
+                    _showOptionAlert(Controller().translater.language.getLanguagePack("delete_playlist"),
+                        Controller().translater.language.getLanguagePack("delete_playlist_text"));
                     break;
                   case 2:
-                    _showOptionAlert("Playlist verlassen!", "Wollen Sie die Playlist wirklich verlassen?");
+                    _showOptionAlert(Controller().translater.language.getLanguagePack("leave_playlist"),
+                        Controller().translater.language.getLanguagePack("leave_playlist_text"));
                     break;
                   case 3:
                     showDialog(
@@ -199,7 +201,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     ? PopupMenuItem(
                         value: 1,
                         child: Text(
-                          "Playlist löschen",
+                          Controller().translater.language.getLanguagePack("delete_playlist"),
                           style: TextStyle(
                             color: Controller().theming.fontPrimary,
                           ),
@@ -208,7 +210,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     : PopupMenuItem(
                         value: 2,
                         child: Text(
-                          "Playlist verlassen",
+                          Controller().translater.language.getLanguagePack("leave_playlist"),
                           style: TextStyle(
                             color: Controller().theming.fontPrimary,
                           ),
@@ -217,7 +219,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 PopupMenuItem(
                   value: 3,
                   child: Text(
-                    "Code ansehen",
+                    Controller().translater.language.getLanguagePack("show_code"),
                     style: TextStyle(
                       color: Controller().theming.fontPrimary,
                     ),
@@ -321,7 +323,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                           children: <Widget>[
                             SizedBox(width: 20),
                             Text(
-                              "Aktuell läuft",
+                              Controller().translater.language.getLanguagePack("actual_play"),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.normal,
@@ -357,7 +359,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                   SizedBox(width: 15),
                   Text(
-                    "Warteschlange (" + this._queue.songs.length.toString() + ")",
+                    Controller().translater.language.getLanguagePack("queue") + " (" + this._queue.songs.length.toString() + ")",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.normal,
@@ -380,7 +382,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               : Padding(
                   padding: const EdgeInsets.only(left: 35, top: 15),
                   child: Text(
-                    'Keine Songs vorhanden',
+                    Controller().translater.language.getLanguagePack("no_songs"),
                     style: TextStyle(
                       fontSize: 16,
                       color: Controller().theming.fontPrimary,
@@ -481,7 +483,7 @@ class _SongItemState extends State<SongItem> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Text(
-                            'Song entfernen',
+                            Controller().translater.language.getLanguagePack("delete_song"),
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
@@ -554,7 +556,7 @@ class _SongItemState extends State<SongItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    this.widget._song.artist + ' von ' + this.widget._song.creator.username,
+                    this.widget._song.artist + Controller().translater.language.getLanguagePack("by") + this.widget._song.creator.username,
                     style: TextStyle(
                       fontSize: 14,
                       color: Controller().theming.fontTertiary,

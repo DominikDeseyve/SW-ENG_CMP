@@ -44,7 +44,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          "Beschreibung",
+                          Controller().translater.language.getLanguagePack("description"),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
@@ -92,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          "Maximale Teilnehmerzahl",
+                          Controller().translater.language.getLanguagePack("max_members"),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
@@ -106,7 +106,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 35, top: 10),
                   child: Text(
-                    this.widget._playlist.maxAttendees.toString() + ' Teilnehmer',
+                    this.widget._playlist.maxAttendees.toString() + ' ' + Controller().translater.language.getLanguagePack("members"),
                     style: TextStyle(
                       fontSize: 15.0,
                       color: Controller().theming.fontPrimary,
@@ -140,7 +140,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          "Sichtbarkeit",
+                          Controller().translater.language.getLanguagePack("visibility"),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
@@ -170,7 +170,7 @@ class _DetailScreenState extends State<DetailScreen> {
           child: ListTile(
             leading: UserAvatar(this.widget._playlist.creator),
             title: Text(
-              'Erstellt von ' + this.widget._playlist.creator.username,
+              Controller().translater.language.getLanguagePack("created_by") + this.widget._playlist.creator.username,
               style: TextStyle(
                 fontSize: 18,
                 color: Controller().theming.fontPrimary,
