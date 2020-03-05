@@ -35,6 +35,16 @@ class Queue {
     }
   }
 
+  Song _copySoundURL(Song pSong) {
+    int index = this._songs.indexWhere((item) => item.songID == pSong.songID);
+    if (index > -1) {
+      pSong.soundURL = this._songs[index].soundURL;
+    } else if (this._currentSong != null && this._currentSong.soundURL != null && this._currentSong.songID == pSong.songID) {
+      pSong.soundURL = this._currentSong.soundURL;
+    }
+    return pSong;
+  }
+
   void listen() {
     this._stream = Controller().firebase.getPlaylistQueue(this._playlist, this);
 
@@ -51,12 +61,13 @@ class Queue {
 
       pQuery.documentChanges.forEach((DocumentChange pSong) {
         Song song = Song.fromFirebase(pSong.document, this._playlist);
+        song = this._copySoundURL(song);
+
         if (song.songStatus.isPlaying) {
           this._currentSong = song;
           this._removeSong(song);
           return;
         }
-        print(song.titel);
         switch (pSong.type) {
           case DocumentChangeType.added:
             print('ADD: ' + song.titel);
@@ -89,11 +100,6 @@ class Queue {
       });
       this.sort();
       this._callback(pQuery);
-      if (Controller().soundManager.playlist != null) {
-        if (Controller().soundManager.playlist.playlistID == this._playlist.playlistID) {
-          Controller().soundManager.prepareNextSongs(1);
-        }
-      }
     });
   }
 
@@ -112,10 +118,11 @@ class Queue {
     });
   }
 
-  Song skip() {
-    this._currentSong = this._songs[0];
-    this._songs.removeAt(0);
-    return this._currentSong;
+  void skip() {
+    if (this.hasNextSong) {
+      this._currentSong = this.nextSong;
+      this._songs.removeAt(0);
+    }
   }
 
   void cancel() {
@@ -143,21 +150,22 @@ class Queue {
   }
 
   int get length {
-    return this._songs.length;
+    if (this.currentSong is Song) {
+      return this._songs.length + 1;
+    } else {
+      return this._songs.length;
+    }
+  }
+
+  bool get hasNextSong {
+    return (this._songs.length > 0);
   }
 
   Song get currentSong {
-    if (this._currentSong == null) {
-      if (this._songs.length == 0) {
-        return null;
-      }
-      if (this._songs[0].songStatus.isPlaying) {
-        this._currentSong = this._songs[0];
-        this._songs.removeAt(0);
-      } else {
-        return null;
-      }
-    }
     return this._currentSong;
+  }
+
+  Song get nextSong {
+    return this._songs[0];
   }
 }

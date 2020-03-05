@@ -331,7 +331,7 @@ class Firebase {
       final HttpsCallable callable = cf.getHttpsCallable(
         functionName: 'voteSong',
       );
-      HttpsCallableResult resp = await callable.call(<String, dynamic>{
+      await callable.call(<String, dynamic>{
         'playlist_id': pPlaylist.playlistID,
         'song_id': pSong.songID,
         'direction': pDirection,

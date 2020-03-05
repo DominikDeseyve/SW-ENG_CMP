@@ -27,7 +27,15 @@ class CMP extends StatelessWidget {
           case ConnectionState.done:
             try {
               if (isAuth.data) {
-                return RootScreen(Navigation.home);
+                return DynamicTheme(
+                  defaultBrightness: Brightness.light,
+                  data: (brightness) => new ThemeData(
+                    brightness: brightness,
+                  ),
+                  themedWidgetBuilder: (context, theme) {
+                    return RootScreen(Navigation.home);
+                  },
+                );
               } else {
                 return Welcome();
               }
@@ -35,6 +43,18 @@ class CMP extends StatelessWidget {
             break;
           default:
             break;
+        }
+        if (Controller() is Controller && Controller().authentificator.user != null) {
+          if (Controller().authentificator.user.settings.darkMode) {
+            return Container(
+              color: Colors.black,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                ),
+              ),
+            );
+          }
         }
         return Container(
           color: Colors.white,
@@ -50,32 +70,24 @@ class CMP extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    return DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (brightness) => new ThemeData(
-        brightness: brightness,
+    return NestedNavigatorsBlocProvider(
+      bloc: NestedNavigatorsBloc<Navigation>(),
+      child: ChangeNotifierProvider<RoleProvider>(
+        builder: (_) => RoleProvider(),
+        child: MaterialApp(
+          title: 'CMP',
+          home: this._authentificate(),
+          theme: new ThemeData(fontFamily: 'Ubuntu'),
+          onGenerateRoute: RouteController.generateRoute,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('de', 'DE'),
+          ],
+        ),
       ),
-      themedWidgetBuilder: (context, theme) {
-        return NestedNavigatorsBlocProvider(
-          bloc: NestedNavigatorsBloc<Navigation>(),
-          child: ChangeNotifierProvider<RoleProvider>(
-            builder: (_) => RoleProvider(),
-            child: MaterialApp(
-              title: 'CMP',
-              home: this._authentificate(),
-              theme: new ThemeData(fontFamily: 'Ubuntu'),
-              onGenerateRoute: RouteController.generateRoute,
-              localizationsDelegates: [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              supportedLocales: [
-                const Locale('de', 'DE'),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

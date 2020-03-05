@@ -56,16 +56,15 @@ class Authentificator {
     print("### USER LOGGED IN WITH ID: " + userID);
     this._user = await this._controller.firebase.getUser(userID);
     this._user.settings = await this._controller.firebase.getSettings(userID);
+    Controller().localStorage.fetchValues();
     if (this._user == null) {
       print("USER NOT FOUND; TODO");
     }
   }
 
   Future<void> updatePasswort(String pPassword) async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
     //Pass in the password to updatePassword.
-    user.updatePassword(pPassword).then((_) {
+    this._firebaseUser.updatePassword(pPassword).then((_) {
       print("Succesfull changed password");
     }).catchError((error) {
       print("Password can't be changed " + error.toString());
