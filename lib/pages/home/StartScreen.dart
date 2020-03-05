@@ -56,7 +56,7 @@ class _StartScreenState extends State<StartScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Willkommen",
+                      Controller().translater.language.getLanguagePack("welcome"),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 34.0,
@@ -64,7 +64,7 @@ class _StartScreenState extends State<StartScreen> {
                       ),
                     ),
                     Text(
-                      "bei",
+                      Controller().translater.language.getLanguagePack("to"),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 26.0,
@@ -72,7 +72,7 @@ class _StartScreenState extends State<StartScreen> {
                       ),
                     ),
                     Text(
-                      "CMP",
+                      Controller().translater.language.getLanguagePack("cmp"),
                       style: TextStyle(
                         fontSize: 46.0,
                         color: Controller().theming.fontSecondary,
@@ -116,7 +116,7 @@ class _StartScreenState extends State<StartScreen> {
                     ),
                   ),
                   Text(
-                    "Suchen",
+                    Controller().translater.language.getLanguagePack("search"),
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Controller().theming.fontSecondary,
@@ -137,7 +137,7 @@ class _StartScreenState extends State<StartScreen> {
                 ),
               ),
               Text(
-                "ODER",
+                Controller().translater.language.getLanguagePack("or"),
                 style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w500,
@@ -175,7 +175,7 @@ class _StartScreenState extends State<StartScreen> {
                     ),
                   ),
                   Text(
-                    "Erstellen",
+                    Controller().translater.language.getLanguagePack("create"),
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Controller().theming.fontSecondary,
