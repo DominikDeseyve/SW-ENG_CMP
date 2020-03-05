@@ -31,7 +31,7 @@ void main(){
       playlistCheck.imageURL = '/assets/playlist.jpg';
       playlistCheck.creator = User();
 
-      Future<Playlist> playlistCreated = firebase.getPlaylistDetails(playlist);
+      Future<Playlist> playlistCreated = firebase.getPlaylistDetails("Test");//(playlist);
       expect(playlistCheck, playlistCreated);
     });
     test('Test if playlist is created', (){
@@ -45,7 +45,7 @@ void main(){
       User userCheck = User();
       userCheck.userID = "UserID";
       userCheck.username = "TestUser";
-      firebase.updateUser();
+      //firebase.updateUser();
       Future<User> user = firebase.getUser("UserID");
 
       expect(userCheck, user);
