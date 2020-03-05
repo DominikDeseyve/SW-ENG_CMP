@@ -17,13 +17,13 @@ class _SoundBarState extends State<SoundBar> {
     Controller().soundManager.addListener(this._initSoundbar);
     this._percentage = 0;
 
-    this._durationStream = Controller().soundManager.durationStream.listen((Duration p) {
-      Controller().soundManager.duration.then((int duration) {
-        if (!mounted) return;
-        setState(() {
-          this._percentage = (p.inMilliseconds / duration);
-        });
-      });
+    this._durationStream = Controller().soundManager.percentage.listen(this._percentageListener);
+  }
+
+  void _percentageListener(double pPercentage) {
+    if (!mounted) return;
+    setState(() {
+      this._percentage = pPercentage;
     });
   }
 
@@ -37,6 +37,8 @@ class _SoundBarState extends State<SoundBar> {
 
   void _initSoundbar() {
     print("CHANGE NOTIFIER IN INIT SOUNDBAR");
+    this._durationStream.cancel();
+    this._durationStream = Controller().soundManager.percentage.listen(this._percentageListener);
     setState(() {});
   }
 
@@ -119,6 +121,7 @@ class _SoundBarState extends State<SoundBar> {
   }
 
   void dispose() {
+    print("dispose sound bar");
     this._durationStream.cancel();
 
     Controller().soundManager.removeListener(this._initSoundbar);

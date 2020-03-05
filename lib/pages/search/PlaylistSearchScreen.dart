@@ -25,6 +25,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
         this._cachedPlaylists.add(playlist);
       }
     }).then((_) {
+      if (!mounted) return;
       setState(() {});
     });
   }
@@ -127,18 +128,27 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
               ),
               autocorrect: false,
               decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.camera_alt),
                   color: Controller().theming.fontSecondary,
+                  onPressed: this.scan,
                 ),
                 hintText: "Playlist eingeben",
                 hintStyle: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.camera_alt),
-                  color: Controller().theming.fontSecondary,
-                  onPressed: this.scan,
+                suffixIcon: GestureDetector(
+                  child: Icon(
+                    Icons.clear,
+                    color: Controller().theming.fontSecondary.withOpacity(0.75),
+                    size: 20,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      this._searchController.clear();
+                      this.selectedPlaylists.clear();
+                    });
+                  },
                 ),
                 border: InputBorder.none,
               ),

@@ -314,12 +314,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       Controller().firebase.updateSettings();
                                     }
                                   },
-                                  divisions: 10,
+                                  divisions: 20,
                                   activeColor: Controller().theming.accent,
                                   inactiveColor: Controller().theming.tertiary,
                                   label: _crossfade.toString() + 's',
                                   min: 0,
-                                  max: 10,
+                                  max: 20,
                                 ),
                               ),
                             ),

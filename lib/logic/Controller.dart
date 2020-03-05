@@ -1,6 +1,7 @@
 import 'package:cmp/logic/Authentificator.dart';
 import 'package:cmp/logic/Firebase.dart';
 import 'package:cmp/logic/LocalStorage.dart';
+import 'package:cmp/logic/SoundCloud.dart';
 import 'package:cmp/logic/SoundManager.dart';
 import 'package:cmp/logic/Storage.dart';
 import 'package:cmp/logic/Theming.dart';
@@ -17,6 +18,7 @@ class Controller {
   Theming _theming;
   SoundManager _soundManager;
   YouTube _youTube;
+  SoundCloud _soundCloud;
 
   static final Controller _controller = Controller._internal();
   factory Controller() {
@@ -33,6 +35,7 @@ class Controller {
     this._storage = new Storage();
     this._soundManager = new SoundManager();
     this._youTube = new YouTube();
+    this._soundCloud = new SoundCloud();
     this._localStorage = new LocalStorage();
   }
 
@@ -52,6 +55,8 @@ class Controller {
   SoundManager get soundManager => this._soundManager;
 
   YouTube get youTube => this._youTube;
+
+  SoundCloud get soundCloud => this._soundCloud;
 
   LocalStorage get localStorage => this._localStorage;
 }

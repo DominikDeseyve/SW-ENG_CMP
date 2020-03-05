@@ -75,17 +75,11 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
       });
     } else {
       TinyLoader.show(context, "Playlist wird geladen...");
-
-      bool success = await Controller().soundManager.setQueue(this._queue, this._playlist);
-      if (success) {
-        TinyLoader.hide();
-        setState(() {
-          this._isPlaying = true;
-        });
-      } else {
-        TinyLoader.hide();
-        Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" ist leer.');
-      }
+      await Controller().soundManager.setQueue(this._queue, this._playlist);
+      TinyLoader.hide();
+      setState(() {
+        this._isPlaying = true;
+      });
     }
   }
 
@@ -274,7 +268,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                   ),
                 ),
               ),
-              (Provider.of<RoleProvider>(context).role.isMaster
+              (Provider.of<RoleProvider>(context).role.isMaster && this._queue.length > 0
                   ? Positioned(
                       bottom: 10,
                       left: 50,
@@ -376,7 +370,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               ),
             ),
           ),
-          (this._queue.length > 0
+          (this._queue.songs.length > 0
               ? ListView.builder(
                   physics: ScrollPhysics(),
                   shrinkWrap: true,
@@ -401,7 +395,10 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   void dispose() {
-    this._queue.cancel();
+    if (Controller().soundManager.queue != this._queue) {
+      this._queue.cancel();
+    }
+
     Controller().soundManager.removeListener(this._buildQueue);
     super.dispose();
   }
@@ -525,8 +522,33 @@ class _SongItemState extends State<SongItem> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(width: 15),
-            SongAvatar(
-              this.widget._song,
+            Stack(
+              overflow: Overflow.visible,
+              children: [
+                SongAvatar(
+                  this.widget._song,
+                ),
+                Positioned(
+                  bottom: -3,
+                  right: -3,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: new BoxDecoration(
+                      color: Colors.redAccent,
+                      shape: BoxShape.circle,
+                    ),
+                    child: (this.widget._song.platform == 'YOUTUBE'
+                        ? Image.asset(
+                            'assets/icons/youtube.png',
+                            width: 20,
+                          )
+                        : Image.asset(
+                            'assets/icons/soundcloud.png',
+                            width: 20,
+                          )),
+                  ),
+                ),
+              ],
             ),
             SizedBox(width: 10),
             Expanded(
@@ -617,8 +639,33 @@ class CurrentSongItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(width: 15),
-            SongAvatar(
-              this._song,
+            Stack(
+              overflow: Overflow.visible,
+              children: [
+                SongAvatar(
+                  this._song,
+                ),
+                Positioned(
+                  bottom: -3,
+                  right: -3,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: new BoxDecoration(
+                      color: Colors.redAccent,
+                      shape: BoxShape.circle,
+                    ),
+                    child: (this._song.platform == 'YOUTUBE'
+                        ? Image.asset(
+                            'assets/icons/youtube.png',
+                            width: 20,
+                          )
+                        : Image.asset(
+                            'assets/icons/soundcloud.png',
+                            width: 20,
+                          )),
+                  ),
+                ),
+              ],
             ),
             SizedBox(width: 10),
             Expanded(

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
-import 'package:cmp/logic/HTTP.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song_status.dart';
 import 'package:cmp/models/user.dart';
@@ -10,7 +9,8 @@ class Song {
   String _songID;
   String _titel;
   String _artist;
-  String _youTubeID;
+  String _platform;
+  String _platformID;
   String _soundURL;
   String _imageURL;
   double _ranking;
@@ -19,22 +19,35 @@ class Song {
   int _upvoteCount;
   int _downvoteCount;
   SongStatus _songStatus;
-
   Playlist _playlist;
 
-  bool _isUpvoting;
-  bool _isDownvoting;
+  int _duration;
 
   Song.fromYoutube(dynamic pItem) {
-    this._youTubeID = pItem['id']['videoId'];
+    this._platform = 'YOUTUBE';
+    this._platformID = pItem['id']['videoId'];
     this._titel = new HtmlUnescape().convert(pItem['snippet']['title']);
     this._artist = pItem['snippet']['channelTitle'];
-    this._imageURL = pItem['snippet']['thumbnails']['high']['url'];
+    this._imageURL = pItem['snippet']['thumbnails']['default']['url'];
     User creator = new User();
     creator.userID = Controller().authentificator.user.userID;
     creator.username = Controller().authentificator.user.username;
     this._creator = creator;
     this._songStatus = new SongStatus();
+  }
+  Song.fromSoundCloud(dynamic pItem) {
+    this._platform = 'SOUNDCLOUD';
+    this._platformID = pItem['id'].toString();
+    this._titel = pItem['title'];
+    this._artist = pItem['user']['username'];
+    this._imageURL = pItem['user']['avatar_url'];
+    User creator = new User();
+    creator.userID = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.username;
+    this._creator = creator;
+    this._songStatus = new SongStatus();
+
+    //https://api.soundcloud.com/tracks?q=brassmusix&client_id=oSGk2QGxkm3FzfZxx3SXThrXN2qPpL3M
   }
   Song.fromFirebase(DocumentSnapshot pSnap, Playlist pPlaylist) {
     this._playlist = pPlaylist;
@@ -42,7 +55,8 @@ class Song {
     this._songID = pSnap.documentID;
     this._titel = pSnap['titel'];
     this._artist = pSnap['artist'];
-    this._youTubeID = pSnap['youtube_id'];
+    this._platform = pSnap['platform'];
+    this._platformID = pSnap['youtube_id'];
     this._imageURL = pSnap['image_url'];
     this._ranking = double.parse(pSnap['ranking'].toString());
     this._createdAt = DateTime.fromMillisecondsSinceEpoch(pSnap['created_at'].seconds * 1000);
@@ -51,12 +65,25 @@ class Song {
     this._upvoteCount = pSnap['upvote_count'];
     this._songStatus = SongStatus.fromFirebase(pSnap['song_status']);
   }
+  Song.fromLocal(dynamic pItem) {
+    this._titel = pItem['titel'];
+    this._artist = pItem['artist'];
+    this._platform = pItem['platform'];
+    this._platformID = pItem['youtube_id'];
+    this._imageURL = pItem['image_url'];
+    User creator = new User();
+    creator.userID = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.username;
+    this._creator = creator;
+    this._songStatus = new SongStatus();
+  }
   Map<String, dynamic> toFirebase() {
     return {
       'titel': this._titel,
       'artist': this._artist,
       'image_url': this._imageURL,
-      'youtube_id': this._youTubeID,
+      'platform': this._platform,
+      'youtube_id': this._platformID,
       'ranking': 1,
       'created_at': DateTime.now(),
       'upvote_count': 0,
@@ -66,20 +93,36 @@ class Song {
     };
   }
 
+  Map<String, dynamic> toLocal() {
+    return {
+      'titel': this._titel,
+      'artist': this._artist,
+      'image_url': this._imageURL,
+      'platform': this._platform,
+      'youtube_id': this._platformID,
+    };
+  }
+
   Future<void> loadURL() async {
-    return await HTTP.getSoundURL(this._youTubeID).then((String pURL) {
-      print("URL LOADED: " + pURL);
-      this._soundURL = pURL;
-    });
+    print("-- LOADING URL FOR " + this.titel);
+    switch (this._platform) {
+      case 'YOUTUBE':
+        this._soundURL = await Controller().youTube.getSoundUrlViaPlugin(this._platformID);
+
+        break;
+      case 'SOUNDCLOUD':
+        this._soundURL = await Controller().soundCloud.getSoundURL(this._platformID);
+        break;
+    }
   }
 
   Future<void> _updateStatus() async {
     await Controller().firebase.updateSongStatus(this._playlist, this);
   }
 
-  void play() {
+  Future<void> play() async {
     this._songStatus.status = 'PLAYING';
-    this._updateStatus();
+    await this._updateStatus();
   }
 
   void open() {
@@ -118,6 +161,14 @@ class Song {
     this._downvoteCount = pNr;
   }
 
+  set duration(int pDuration) {
+    this._duration = pDuration;
+  }
+
+  set soundURL(String pSoundURL) {
+    this._soundURL = pSoundURL;
+  }
+
   //***************************************************//
   //*********   GETTER
   //***************************************************//
@@ -137,8 +188,12 @@ class Song {
     return this._soundURL;
   }
 
-  String get youTubeID {
-    return this._youTubeID;
+  String get platform {
+    return this._platform;
+  }
+
+  String get platformID {
+    return this._platformID;
   }
 
   String get imageURL {
@@ -167,6 +222,10 @@ class Song {
 
   int get upvoteCount {
     return this._upvoteCount;
+  }
+
+  int get duration {
+    return this._duration;
   }
 
   User get creator {

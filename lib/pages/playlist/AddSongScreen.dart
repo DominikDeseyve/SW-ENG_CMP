@@ -1,6 +1,8 @@
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
+import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
+import 'package:cmp/widgets/SongAvatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,15 +15,28 @@ class AddSongScreen extends StatefulWidget {
 
 class _AddSongScreenState extends State<AddSongScreen> {
   List<Song> selectedSong = [];
+  List<Song> _cachedSongs = [];
+  TextEditingController _searchController;
+
+  void initState() {
+    super.initState();
+    this._searchController = new TextEditingController();
+
+    setState(() {
+      this._cachedSongs = Controller().localStorage.searchedSongs;
+    });
+  }
 
   initiateSearch(String pValue) async {
     if (pValue.isEmpty) return;
     List<Song> songs = await Controller().youTube.search(pValue);
     setState(() {
-      selectedSong = [];
-      songs.forEach((Song song) {
-        selectedSong.add(song);
-      });
+      this.selectedSong = songs;
+    });
+    List<Song> songs2 = await Controller().soundCloud.search(pValue);
+    songs..addAll(songs2);
+    setState(() {
+      this.selectedSong = songs;
     });
   }
 
@@ -75,6 +90,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
               ),
             ),
             child: TextField(
+              controller: this._searchController,
               onSubmitted: this.initiateSearch,
               style: TextStyle(
                 color: Controller().theming.fontSecondary,
@@ -86,6 +102,19 @@ class _AddSongScreenState extends State<AddSongScreen> {
                   Icons.search,
                   color: Controller().theming.fontSecondary,
                 ),
+                suffixIcon: GestureDetector(
+                  child: Icon(
+                    Icons.clear,
+                    color: Controller().theming.fontSecondary.withOpacity(0.75),
+                    size: 20,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      this._searchController.clear();
+                      this.selectedSong.clear();
+                    });
+                  },
+                ),
                 hintText: "Song eingeben",
                 hintStyle: TextStyle(
                   color: Controller().theming.fontSecondary,
@@ -94,29 +123,73 @@ class _AddSongScreenState extends State<AddSongScreen> {
               ),
             ),
           ),
-          ListView.builder(
-            physics: ScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: this.selectedSong.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (index < this.selectedSong.length - 1) {
-                return Column(
-                  children: <Widget>[
-                    SongtItem(this.selectedSong[index], this._saveSong),
+          (this._searchController.text.isEmpty
+              ? Column(
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                      child: Divider(
-                        thickness: 0.4,
-                        color: Controller().theming.tertiary,
-                        height: 4,
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Letzte Suchanfragen',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Controller().theming.fontPrimary,
+                            ),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              setState(() {
+                                this._cachedSongs.clear();
+                                Controller().localStorage.resetSearchSongs();
+                              });
+                            },
+                            child: Text(
+                              'Suchverlauf löschen',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Controller().theming.fontPrimary,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    ListView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      reverse: true,
+                      itemCount: this._cachedSongs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SongtItem(this._cachedSongs[index], this._saveSong);
+                      },
+                    ),
                   ],
-                );
-              }
-              return SongtItem(this.selectedSong[index], this._saveSong);
-            },
-          ),
+                )
+              : ListView.builder(
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: this.selectedSong.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index < this.selectedSong.length - 1) {
+                      return Column(
+                        children: <Widget>[
+                          SongtItem(this.selectedSong[index], this._saveSong),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                            child: Divider(
+                              thickness: 0.4,
+                              color: Controller().theming.tertiary,
+                              height: 4,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return SongtItem(this.selectedSong[index], this._saveSong);
+                  },
+                )),
         ],
       ),
     );
@@ -132,20 +205,38 @@ class SongtItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
+          await Controller().localStorage.pushSong(this._song);
           this._saveSongCallback(this._song);
         },
         child: ListTile(
-          leading: Container(
-            width: 60.0,
-            height: 60.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(_song.imageURL),
+          leading: Stack(
+            overflow: Overflow.visible,
+            children: [
+              SongAvatar(
+                this._song,
               ),
-            ),
+              Positioned(
+                bottom: -3,
+                right: -3,
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: new BoxDecoration(
+                    color: Colors.redAccent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: (this._song.platform == 'YOUTUBE'
+                      ? Image.asset(
+                          'assets/icons/youtube.png',
+                          width: 20,
+                        )
+                      : Image.asset(
+                          'assets/icons/soundcloud.png',
+                          width: 20,
+                        )),
+                ),
+              ),
+            ],
           ),
           title: Container(
             child: Text(
