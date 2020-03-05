@@ -43,10 +43,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
   String _getLabel() {
     switch (this.widget._category) {
       case 'ALL':
-        return 'Alle Playlists';
+        return Controller().translater.language.getLanguagePack("all_playlists");
         break;
       case 'POPULAR':
-        return "Aktuell beliebt";
+        return Controller().translater.language.getLanguagePack("actual_playlists");
         break;
       default:
         return "Fail";
@@ -117,7 +117,7 @@ class PlaylistItem extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          "erstellt von " + this._playlist.creator.username,
+          Controller().translater.language.getLanguagePack("created_by") + this._playlist.creator.username,
           style: TextStyle(
             color: Controller().theming.fontPrimary,
           ),

@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                Controller().translater.language.appName,
+                Controller().translater.language.getLanguagePack("cmp_long"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Herzlich Willkommen ' + Controller().authentificator.user.username,
+                    Controller().translater.language.getLanguagePack("welcome_back") + ' ' + Controller().authentificator.user.username,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: 15),
                               Text(
-                                Controller().translater.language.joinedPlaylists,
+                                Controller().translater.language.getLanguagePack("joined_playlists"),
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.normal,
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: 15),
                               Text(
-                                "Erstellte Playlists",
+                                Controller().translater.language.getLanguagePack("created_playlists"),
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.normal,
@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          "Aktuell beliebt",
+                          Controller().translater.language.getLanguagePack("actual_playlists"),
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,

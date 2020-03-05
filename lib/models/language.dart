@@ -1,16 +1,16 @@
 class Language {
-  String _appName = 'Connected-Music-Player';
-  String _joinedPlaylists;
+  Map<String, String> _languagePack;
 
-  Language(Map<String, dynamic> pNames) {
-    this._joinedPlaylists = pNames['joined_playlists'];
+  Language(Map<String, String> pNames) {
+    _languagePack = pNames;
   }
 
   //***************************************************//
   //*********   GETTER
   //***************************************************//
-  String get appName => this._appName;
-  String get joinedPlaylists => this._joinedPlaylists;
+  Map<String, String> get languagePack => this._languagePack;
+
+  String getLanguagePack(String pName) => this._languagePack[pName];
 }
 
 Language german = new Language({
@@ -32,6 +32,7 @@ Language german = new Language({
   'welcome_back': 'Herzlich Willkommen',
   'to': 'bei',
   'cmp': 'CMP',
+  'cmp_long': 'Connected Music Player',
   'search': 'Suchen',
   'or': 'ODER',
   'create': 'Erstellen',
@@ -80,9 +81,10 @@ Language english = new Language({
   'private': 'private playlist',
   'description': 'description',
   'welcome': 'Welcome',
-  'welcome_back': 'Welcome back ',
+  'welcome_back': 'Welcome back,',
   'to': 'to',
   'cmp': 'CMP',
+  'cmp_long': 'Connected Music Player',
   'search': 'Search',
   'or': 'OR',
   'create': 'Create',

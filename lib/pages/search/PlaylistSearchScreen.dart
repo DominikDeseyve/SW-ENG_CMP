@@ -91,7 +91,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                "Playlist suchen",
+                Controller().translater.language.getLanguagePack("search_playlists"),
                 style: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -133,7 +133,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                   color: Controller().theming.fontSecondary,
                   onPressed: this.scan,
                 ),
-                hintText: "Playlist eingeben",
+                hintText: Controller().translater.language.getLanguagePack("enter_playlist"),
                 hintStyle: TextStyle(
                   color: Controller().theming.fontSecondary,
                 ),
@@ -166,7 +166,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Letzte Suchanfragen',
+                                Controller().translater.language.getLanguagePack("last_search"),
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Controller().theming.fontPrimary,
@@ -180,7 +180,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
                                   });
                                 },
                                 child: Text(
-                                  'Suchverlauf löschen',
+                                  Controller().translater.language.getLanguagePack("delete_search"),
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Controller().theming.fontPrimary,
@@ -243,7 +243,7 @@ class PlaylistItem extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          "erstellt von " + this._playlist.creator.username,
+          Controller().translater.language.getLanguagePack("created_by") + this._playlist.creator.username,
           style: TextStyle(
             color: Controller().theming.fontPrimary,
           ),
