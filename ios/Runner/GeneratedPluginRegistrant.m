@@ -100,10 +100,10 @@
 @import wc_flutter_share;
 #endif
 
-#if __has_include(<webview_media/FLTWebViewFlutterPlugin.h>)
-#import <webview_media/FLTWebViewFlutterPlugin.h>
+#if __has_include(<webview_flutter/FLTWebViewFlutterPlugin.h>)
+#import <webview_flutter/FLTWebViewFlutterPlugin.h>
 #else
-@import webview_media;
+@import webview_flutter;
 #endif
 
 @implementation GeneratedPluginRegistrant
