@@ -9,7 +9,6 @@ class Settings {
   Settings() {
     this._darkMode = false;
     this._crossfade = 0;
-    this._language = 'GERMAN';
   }
   Settings.fromFirebase(DocumentSnapshot pSnap) {
     this._darkMode = pSnap['dark_mode'];
@@ -20,7 +19,13 @@ class Settings {
     }
 
     this._crossfade = pSnap['crossfade'];
-    //this._language = pSnap['language'];
+    this._language = pSnap['language'];
+
+    if (this._language == null) {
+      this._language = "GERMAN";
+    }
+
+    Controller().translater.switchLanguage(this._language);
   }
 
   Map<String, dynamic> toFirebase() {
@@ -48,5 +53,13 @@ class Settings {
 
   set crossfade(int pCrossfade) {
     this._crossfade = pCrossfade;
+  }
+
+  String get language {
+    return this._language;
+  }
+
+  set language(String pLanguage) {
+    this._language = pLanguage;
   }
 }

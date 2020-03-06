@@ -83,8 +83,8 @@ Language german = new Language({
   'full_playlist': 'Leider ist die Playlist bereits voll. \n Es tut uns sehr leid.',
   'played_from': 'Wiedergabe aus',
   'delete_profile': 'Profil löschen',
-  '': '',
-  '': '',
+  'change_darkmode': 'DarkMode wird geändert ...',
+  'change_language': 'Sprache wird geändert ...',
   '': '',
   '': '',
   '': '',
@@ -163,4 +163,7 @@ Language english = new Language({
   'max_members_reached': 'The maximum number of members has been reached.',
   'full_playlist': 'Unfortunately, the playlist is already full. \n We are very sorry.',
   'played_from': 'Music from',
+  'delete_profile': 'Delete profile',
+  'change_darkmode': 'DarkMode is changed ...',
+  'change_language': 'Language is changed ...',
 });

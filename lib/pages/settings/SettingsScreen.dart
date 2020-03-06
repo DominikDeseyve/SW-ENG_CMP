@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
@@ -186,6 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       inactiveTrackColor: Controller().theming.tertiary,
                                       value: _darkmode,
                                       onChanged: (value) async {
+                                        TinyLoader.show(context, Controller().translater.language.getLanguagePack("change_darkmode"));
                                         _darkmode = value;
                                         Controller().authentificator.user.settings.darkMode = value;
                                         await Controller().firebase.updateSettings();
@@ -196,6 +198,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           } else {
                                             Controller().theming.initDark();
                                           }
+
+                                          TinyLoader.hide();
                                         });
                                       }),
                                 ),
@@ -232,9 +236,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
                                     InkWell(
-                                      onTap: () {
+                                      onTap: () async {
+                                        TinyLoader.show(context, Controller().translater.language.getLanguagePack("change_language"));
+                                        Controller().authentificator.user.settings.language = "ENGLISH";
+                                        await Controller().firebase.updateSettings();
+
                                         DynamicTheme.of(context).setState(() {
                                           Controller().translater.switchLanguage('ENGLISH');
+                                          TinyLoader.hide();
                                         });
                                       },
                                       child: Container(
@@ -242,7 +251,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         width: 30,
                                         height: 30,
                                         decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
                                           image: DecorationImage(
+                                            colorFilter: (Controller().authentificator.user.settings.language == "GERMAN"
+                                                ? ColorFilter.mode(
+                                                    Colors.black.withOpacity(0.5),
+                                                    BlendMode.dstATop,
+                                                  )
+                                                : null),
                                             fit: BoxFit.cover,
                                             image: AssetImage('assets/images/flags/united-kingdom.png'),
                                           ),
@@ -253,9 +269,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       width: 5,
                                     ),
                                     InkWell(
-                                      onTap: () {
+                                      onTap: () async {
+                                        TinyLoader.show(context, Controller().translater.language.getLanguagePack("change_language"));
+                                        Controller().authentificator.user.settings.language = "GERMAN";
+                                        await Controller().firebase.updateSettings();
+
                                         DynamicTheme.of(context).setState(() {
                                           Controller().translater.switchLanguage('GERMAN');
+                                          TinyLoader.hide();
                                         });
                                       },
                                       child: Container(
@@ -263,7 +284,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         height: 30,
                                         margin: EdgeInsets.only(top: 5),
                                         decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
                                           image: DecorationImage(
+                                            colorFilter: (Controller().authentificator.user.settings.language == "ENGLISH"
+                                                ? ColorFilter.mode(
+                                                    Colors.black.withOpacity(0.5),
+                                                    BlendMode.dstATop,
+                                                  )
+                                                : null),
                                             fit: BoxFit.cover,
                                             image: AssetImage('assets/images/flags/germany.png'),
                                           ),
