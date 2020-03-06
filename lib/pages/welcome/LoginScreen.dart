@@ -21,8 +21,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
-    this._passwordController = new TextEditingController(text: 'test123');
+    this._mailController = new TextEditingController();
+    this._passwordController = new TextEditingController();
   }
 
   Widget build(BuildContext context) {

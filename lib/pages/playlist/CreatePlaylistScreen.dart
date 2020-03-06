@@ -96,11 +96,11 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
 
   Future _createPlaylist() async {
     if (this._nameError || this._amountError || this._descriptionError || this._maxAttendeesController.text.isEmpty) {
-      Controller().theming.showSnackbar(context, "Bitte überprüfen Sie ihre Angaben!");
-
+      Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("wrong_values"));
       return;
     }
-    TinyLoader.show(context, 'Playlist wird erstellt...');
+
+    TinyLoader.show(context, Controller().translater.language.getLanguagePack("create_playlist_loading"));
     Playlist playlist = new Playlist();
     playlist.name = this._nameController.text;
     playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
@@ -117,7 +117,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
       playlist.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'playlist/' + playlist.playlistID);
     }
     await Controller().firebase.updatePlaylist(playlist);
-    Controller().theming.showSnackbar(context, "Ihre Playlist wurde erfolgreich erstellt");
+    Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("playlist_created"));
     this.clearTextfields();
     TinyLoader.hide();
     await NestedNavigatorsBlocProvider.of(context).selectAndNavigate(
@@ -216,7 +216,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : Controller().translater.language.getLanguagePack("name_of_playlist")),
+                labelText: (this._nameError ? Controller().translater.language.getLanguagePack("playlistname_invalid") : Controller().translater.language.getLanguagePack("name_of_playlist")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -251,7 +251,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               maxLength: 3,
               decoration: InputDecoration(
                 counter: Offstage(),
-                labelText: (this._amountError ? "Geben Sie eine Teilnehmerzahl ein" : Controller().translater.language.getLanguagePack("max_members")),
+                labelText: (this._amountError ? Controller().translater.language.getLanguagePack("maxmembers_invalid") : Controller().translater.language.getLanguagePack("max_members")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -378,8 +378,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                labelText:
-                    (this._descriptionError ? "Geben Sie einen korrekte Beschreibung ein" : Controller().translater.language.getLanguagePack("description")),
+                labelText: (this._descriptionError ? Controller().translater.language.getLanguagePack("description_invalid") : Controller().translater.language.getLanguagePack("description")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(

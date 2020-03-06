@@ -136,7 +136,9 @@ class _UserItemState extends State<UserItem> {
         title: Text(
           Controller().translater.language.getLanguagePack("delete_user"),
         ),
-        content: Text('Bist Du dir sicher, dass du ' + this.widget._user.username + ' wirklich entfernen willst?'),
+        content: Text(
+          Controller().translater.language.getLanguagePack("remove_user1") + this.widget._user.username + Controller().translater.language.getLanguagePack("remove_user2"),
+        ),
         actions: <Widget>[
           FlatButton(
             child: Text(

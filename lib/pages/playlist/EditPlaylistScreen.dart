@@ -102,10 +102,10 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
   void _editPlaylist() async {
     if (this._nameError || this._amountError || this._descriptionError) {
-      Controller().theming.showSnackbar(context, "Bitte überprüfen Sie ihre Angaben!");
+      Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("wrong_values"));
       return;
     }
-    TinyLoader.show(context, 'Playlist wird gespeichert...');
+    TinyLoader.show(context, Controller().translater.language.getLanguagePack("edit_playlist_loading"));
     this.widget._playlist.name = this._nameController.text;
     this.widget._playlist.maxAttendees = int.parse(this._maxAttendeesController.text);
     this.widget._playlist.visibleness = this._visibleness;
@@ -118,7 +118,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     }
     await Controller().firebase.updatePlaylist(this.widget._playlist);
     TinyLoader.hide();
-    Controller().theming.showSnackbar(context, "Die Playlist wurde erfolgreich bearbeitet!");
+    Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("playlist_edited"));
     Navigator.of(context).pop();
   }
 
@@ -211,7 +211,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: (this._nameError ? "Geben Sie einen korrekten Namen ein" : Controller().translater.language.getLanguagePack("name_of_playlist")),
+                labelText: (this._nameError ? Controller().translater.language.getLanguagePack("playlistname_invalid") : Controller().translater.language.getLanguagePack("name_of_playlist")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -246,7 +246,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               maxLength: 3,
               decoration: InputDecoration(
                 counter: Offstage(),
-                labelText: (this._amountError ? "Geben Sie eine Anzahl an" : Controller().translater.language.getLanguagePack("max_members")),
+                labelText: (this._amountError ? Controller().translater.language.getLanguagePack("maxmembers_invalid") : Controller().translater.language.getLanguagePack("max_members")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -375,7 +375,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
               ),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                labelText: (this._nameError ? "Geben Sie eine korrekten Beschreibung ein" : Controller().translater.language.getLanguagePack("description")),
+                labelText: (this._nameError ? Controller().translater.language.getLanguagePack("description_invalid") : Controller().translater.language.getLanguagePack("description")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(

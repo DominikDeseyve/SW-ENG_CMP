@@ -68,14 +68,14 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void _togglePlay() async {
     if (this._isPlaying) {
-      Controller().theming.showSnackbar(context, 'Die Playlist "' + this._playlist.name + '" wurde angehalten!');
+      Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("stop_playlist"));
       Controller().soundManager.deleteQueue().then((_) {
         setState(() {
           this._isPlaying = false;
         });
       });
     } else {
-      TinyLoader.show(context, "Playlist wird geladen...");
+      TinyLoader.show(context, Controller().translater.language.getLanguagePack("load_playlist"));
       Controller().notification.setContext(context);
       await Controller().soundManager.setQueue(this._queue, this._playlist);
       TinyLoader.hide();
@@ -506,9 +506,7 @@ class _SongItemState extends State<SongItem> {
       enableFeedback: true,
       onTap: () {},
       onLongPress: () {
-        if (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN ||
-            Provider.of<RoleProvider>(context).role.isMaster ||
-            this.widget._song.creator.userID == Controller().authentificator.user.userID) {
+        if (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN || Provider.of<RoleProvider>(context).role.isMaster || this.widget._song.creator.userID == Controller().authentificator.user.userID) {
           this._showOptionDialog();
         }
       },
@@ -717,12 +715,7 @@ class _CodeDialogState extends State<CodeDialog> {
       await WcFlutterShare.share(
         sharePopupTitle: 'Playlist teilen',
         subject: this.widget._playlist.name,
-        text: 'Hey du, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' +
-            this.widget._playlist.name +
-            '\n' +
-            'Teilnehmeranzahl: ' +
-            this.widget._playlist.maxAttendees.toString() +
-            '\n Ich freue mich auf Dich!',
+        text: 'Hey du, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' + this.widget._playlist.name + '\n' + 'Teilnehmeranzahl: ' + this.widget._playlist.maxAttendees.toString() + '\n Ich freue mich auf Dich!',
         fileName: 'image.png',
         mimeType: 'image/png',
         bytesOfFile: byteData.buffer.asUint8List(),

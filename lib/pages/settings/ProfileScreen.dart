@@ -73,9 +73,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _editUser() async {
     if (this._usernameError && this._passwordError) {
-      Controller().theming.showSnackbar(context, "Bitte passende Werte eingeben!");
+      Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("wrong_values"));
     } else {
-      TinyLoader.show(context, 'Benutzer wird gespeichert...');
+      TinyLoader.show(context, Controller().translater.language.getLanguagePack("user_get_saved"));
       Controller().authentificator.user.username = this._usernameController.text;
       Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
 
@@ -88,11 +88,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (this._passwordController.text != null && this._passwordController.text != "test12") {
         try {
           await Controller().authentificator.updatePasswort(this._passwordController.text);
-          Controller().theming.showSnackbar(context, "Das Passwort wurde geändert!");
+          Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("saved_password"));
         } catch (e) {}
       }
       TinyLoader.hide();
-      Controller().theming.showSnackbar(context, "Dein Profil wurde gespeichert!");
+      Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("saved_user"));
       Navigator.of(context).pop();
     }
   }
@@ -120,20 +120,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: Text('Konto löschen'),
-        content: Text('Willst du dein Konto wirklich löschen?'),
+        title: Text(
+          Controller().translater.language.getLanguagePack("delete_account"),
+        ),
+        content: Text(Controller().translater.language.getLanguagePack("delete_account2")),
         actions: <Widget>[
           FlatButton(
             child: Text(Controller().translater.language.getLanguagePack("yes")),
             onPressed: () async {
               Navigator.of(dialogContext).pop();
-              TinyLoader.show(context, 'Dein Konto wird gelöscht...');
+              TinyLoader.show(
+                context,
+                Controller().translater.language.getLanguagePack("delete_account_load"),
+              );
               await Controller().authentificator.delete();
               await Controller().firebase.deleteUser();
               await Controller().authentificator.signOut();
               Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
               TinyLoader.hide();
-              Controller().theming.showSnackbar(context, 'Dein Konto wurde erfolgreich gelöscht');
+              Controller().theming.showSnackbar(context, Controller().translater.language.getLanguagePack("account_deleted"));
             },
           ),
           FlatButton(

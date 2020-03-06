@@ -51,7 +51,7 @@ class Welcome extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(20, MediaQuery.of(context).size.height * 0.08, 20, 20),
-                  child: FlatButton(
+                  child: RaisedButton(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     padding: const EdgeInsets.all(10),
                     onPressed: () {
@@ -97,7 +97,7 @@ class Welcome extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                  child: FlatButton(
+                  child: RaisedButton(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     padding: const EdgeInsets.all(10),
                     onPressed: () {
