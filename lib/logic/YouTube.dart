@@ -53,12 +53,14 @@ class YouTube {
 
   Future<String> getSoundUrlViaPlugin(String pVideoID) async {
     MediaStreamInfoSet mediaStreams = await this._youtubeExplode.getVideoMediaStream(pVideoID);
+    print(mediaStreams.validUntil);
     AudioStreamInfo a = mediaStreams.audio[0];
     return a.url.toString();
   }
 
   Future<String> getSoundURL(String pVideoID) async {
     String url = 'https://cmp02.herokuapp.com/api/info?url=https://www.youtube.com/watch?v=' + pVideoID + '&flatten=true';
+    //String url = "https://cmp02.herokuapp.com/api/play?url=https://www.youtube.com/watch?v=" + pVideoID + "&format=bestaudio";
     //url = 'http://youtube.com/get_video_info?video_id=RLWcYADoV84';
     try {
       var response = await http.get(

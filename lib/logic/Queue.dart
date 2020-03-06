@@ -49,6 +49,7 @@ class Queue {
     this._stream = Controller().firebase.getPlaylistQueue(this._playlist, this);
 
     this._streamSubscription = this._stream.listen((QuerySnapshot pQuery) {
+      print("QUEUE FETCHED " + pQuery.documentChanges.length.toString() + " SONGS");
       if (pQuery.documentChanges.length == 0) {
         this._isFinished = true;
         return;
@@ -75,13 +76,14 @@ class Queue {
             if (index == -1) {
               //if song is was current song
               if (this._currentSong != null && this._currentSong.songID == song.songID) {
+                print("ist das wirklich nötig?");
                 this._currentSong = null;
               }
               this._songs.add(song);
             }
             break;
           case DocumentChangeType.modified:
-            print("modiefied");
+            print("MODIFIED: " + song.titel);
 
             int index = this._songs.indexWhere((item) => item.songID == song.songID);
             if (index > -1) {
@@ -93,7 +95,7 @@ class Queue {
 
             break;
           case DocumentChangeType.removed:
-            print("removed");
+            print("REMOVED: " + song.titel);
             this._removeSong(song);
             break;
         }

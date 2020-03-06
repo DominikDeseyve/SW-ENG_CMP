@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
@@ -187,6 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       value: _darkmode,
                                       onChanged: (value) async {
                                         _darkmode = value;
+                                        TinyLoader.show(context, 'Theming wird gewechselt');
                                         Controller().authentificator.user.settings.darkMode = value;
                                         await Controller().firebase.updateSettings();
 
@@ -197,6 +199,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             Controller().theming.initDark();
                                           }
                                         });
+                                        TinyLoader.hide();
                                       }),
                                 ),
                               ),

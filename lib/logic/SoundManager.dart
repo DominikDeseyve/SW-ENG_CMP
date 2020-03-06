@@ -7,7 +7,7 @@ import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
 import 'package:cmp/logic/Queue.dart';
 import 'package:flutter/foundation.dart';
-import 'package:media_notification_control/media_notification.dart';
+import 'package:flutter/material.dart';
 
 class SoundManager extends ChangeNotifier {
   Queue _playingQueue;
@@ -62,9 +62,8 @@ class SoundManager extends ChangeNotifier {
     this._onPositionChange = this._activePlayer.durationStream.listen((Duration pPosition) {
       this._activePlayer.fetchDuration().then((int pDuration) {
         int differenzPos = pDuration - pPosition.inMilliseconds;
-        if (differenzPos <= 1000 * Controller().authentificator.user.settings.crossfade &&
-            !this._crossfadeTimer.isActivated &&
-            this._playingQueue.hasNextSong) {
+        if (differenzPos <= 1000 * Controller().authentificator.user.settings.crossfade && !this._crossfadeTimer.isActivated && this._playingQueue.hasNextSong) {
+          print(this._playingQueue.hasNextSong);
           print("-- STARTING CROSSFADE");
           this._loadNextSong();
           this._crossfadeTimer.start();
@@ -97,23 +96,7 @@ class SoundManager extends ChangeNotifier {
     this._crossfadeTimer.resume();
     this._activePlayer.song.play();
 
-    MediaNotification.setListener('pause', () {
-      this.pause();
-    });
-    MediaNotification.setListener('play', () {
-      this.play();
-    });
-
-    MediaNotification.setListener('next', () {
-      this.nextSong();
-    });
-
-    await MediaNotification.show(
-      play: true,
-      title: this.currentSong.titel,
-      author: this.currentSong.artist,
-    );
-
+    Controller().notification.showNotification();
     this.notifyListeners();
   }
 
@@ -124,11 +107,7 @@ class SoundManager extends ChangeNotifier {
     }
     this._crossfadeTimer.pause();
 
-    await MediaNotification.show(
-      play: false,
-      title: this.currentSong.titel,
-      author: this.currentSong.artist,
-    );
+    Controller().notification.pauseNotification();
     this.notifyListeners();
   }
 
@@ -153,6 +132,7 @@ class SoundManager extends ChangeNotifier {
     //temp
     if (this._playingQueue.currentSong != null && this._playingQueue.currentSong.soundURL == null) {
       await this._playingQueue.currentSong.loadURL();
+      return;
     }
     //temp end
     for (int i = 0; i < pLength; i++) {
@@ -183,11 +163,7 @@ class SoundManager extends ChangeNotifier {
     await this._initStreams();
     await this.play();
 
-    await MediaNotification.show(
-      play: true,
-      title: this.currentSong.titel,
-      author: this.currentSong.artist,
-    );
+    Controller().notification.showNotification();
 
     this.prepareNextSongs(2);
     return true;
@@ -201,7 +177,7 @@ class SoundManager extends ChangeNotifier {
     if (this._playingQueue.currentSong == null) {
       this._playingQueue.skip();
     }
-    await this.prepareNextSongs(1);
+    await this.prepareNextSongs(0);
     await this._passivePlayer.initSong(this._playingQueue.currentSong);
 
     await this._switchPlayer();
@@ -213,7 +189,6 @@ class SoundManager extends ChangeNotifier {
 
   Future<void> deleteQueue() async {
     await this.pause();
-    print(this._activePlayer.song.titel);
     this._crossfadeTimer.stop();
     this._activePlayer.song.open();
 
@@ -221,7 +196,7 @@ class SoundManager extends ChangeNotifier {
     this._playlingPlaylist = null;
     this._activePlayer = new Player();
     this._passivePlayer = new Player();
-    MediaNotification.hide();
+    Controller().notification.hideNotification();
   }
 
   Future<void> _switchPlayer() async {
@@ -232,8 +207,8 @@ class SoundManager extends ChangeNotifier {
 
   void dispose() {
     print("dispose soundManager");
+    this.deleteQueue();
     this._activePlayer.song.end();
-    this._passivePlayer.pause();
     this._onSongEnd.cancel();
     this._onPositionChange.cancel();
     super.dispose();
@@ -253,6 +228,10 @@ class SoundManager extends ChangeNotifier {
 
   Future<int> get duration async {
     return await this._activePlayer.fetchDuration();
+  }
+
+  Future<int> get position async {
+    return await this._activePlayer.position;
   }
 
   Stream<double> get percentage async* {

@@ -241,6 +241,8 @@ class SongtItem extends StatelessWidget {
           title: Container(
             child: Text(
               _song.titel,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Controller().theming.fontPrimary, fontSize: 20.0),
             ),
           ),
