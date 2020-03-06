@@ -52,12 +52,6 @@
 @import image_picker;
 #endif
 
-#if __has_include(<media_notification_control/MediaNotificationPlugin.h>)
-#import <media_notification_control/MediaNotificationPlugin.h>
-#else
-@import media_notification_control;
-#endif
-
 #if __has_include(<nested_navigators/NestedNavigatorsPlugin.h>)
 #import <nested_navigators/NestedNavigatorsPlugin.h>
 #else
@@ -117,7 +111,6 @@
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
-  [MediaNotificationPlugin registerWithRegistrar:[registry registrarForPlugin:@"MediaNotificationPlugin"]];
   [NestedNavigatorsPlugin registerWithRegistrar:[registry registrarForPlugin:@"NestedNavigatorsPlugin"]];
   [OpenFilePlugin registerWithRegistrar:[registry registrarForPlugin:@"OpenFilePlugin"]];
   [FLTPackageInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPackageInfoPlugin"]];

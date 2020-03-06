@@ -1,105 +1,122 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="fill_parent"
     android:layout_height="90dp"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"/>
+        <WebView
+            android:id="@+id/image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="#FFFFFF" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/image"
-        android:ellipsize="marquee"
-        android:maxLines="1"
-        android:layout_alignParentEnd="true"
-        android:singleLine="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:text="Nome do Episódio que pode sem muito muito muimsaosapdalkaslal"
-        android:textColor="#000"
-        android:focusable="true"
-        android:focusableInTouchMode="false"
-        android:textSize="16dp"
-        tools:ignore="EllipsizeMaxLines" >
-        <requestFocus/>
-    </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/image"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
+        <LinearLayout
+            android:id="@+id/textLayout"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-    <ImageView
-        android:id="@+id/toggle"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_below="@+id/title"
+            <TextView
+                android:id="@+id/artist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="künstlertext"
+                android:textColor="#000"
+                android:textSize="16sp"
+                tools:ignore="EllipsizeMaxLines" />
 
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="70dp"
-        android:src="@drawable/baseline_play_arrow_black_48"
-        android:tint="@android:color/black" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
 
-    <ImageView
-        android:id="@+id/prev"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_toLeftOf="@+id/retro"
-        android:padding="0dp"
-        android:paddingRight="0dp"
-        android:layout_below="@+id/title"
-        android:src="@drawable/baseline_skip_previous_black_36" />
+            <TextView
+                android:id="@+id/songname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="künstlertext"
+                android:textColor="#000"
+                android:textSize="20sp"
+                tools:ignore="EllipsizeMaxLines" />
+        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/controlLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_below="@id/close"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
-    <ImageView
-        android:id="@+id/retro"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="8dp"
-        android:tint="@android:color/black"
-        android:src="@drawable/rewind_10"
-        android:layout_below="@+id/title"
-        android:padding="10dp"
-        android:layout_toLeftOf="@+id/forward"
-        />
+                <ImageView
+                    android:id="@+id/stop"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_stop"
+                    android:contentDescription="Stop" />
 
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
 
-    <ImageView
-        android:id="@+id/forward"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/title"
-        android:layout_marginRight="15dp"
-        android:layout_toLeftOf="@+id/next"
-        android:padding="10dp"
-        android:src="@drawable/fast_forward_30"
-        android:tint="@android:color/black" />
+                <ImageView
+                    android:id="@+id/play"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_play"
+                    android:contentDescription="Play" />
 
-    <ImageView
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:padding="0dp"
-        android:src="@drawable/baseline_skip_next_black_36"
-        android:layout_toLeftOf="@+id/close"
-        android:layout_below="@+id/title"
-        android:layout_marginRight="15dp"
-        />
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
 
-    <ImageView
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:padding="0dp"
-        android:src="@android:drawable/ic_delete"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/title"
-        />
+                <ImageView
+                    android:id="@+id/forward"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_forward"
+                    android:contentDescription="Forward" />
+            </LinearLayout>
 
-
-
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:contentDescription="Close"
+            app:srcCompat="@drawable/ic_close" />
+    </LinearLayout>
 </RelativeLayout>

@@ -28,7 +28,7 @@ dependencies:
   #song-player-stuff
   audioplayers: ^0.13.4
 
-  media_notification_control: ^1.0.4
+  #media_notification_control: ^1.0.4
   youtube_player_flutter: ^6.0.3+2
   youtube_explode_dart: ^0.0.9
 
