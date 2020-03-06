@@ -6,6 +6,8 @@ const countUser_js_1 = require("./counter/countUser.js");
 const countSong_js_1 = require("./counter/countSong.js");
 const countUpvotes_js_1 = require("./counter/countUpvotes.js");
 const voteSong_js_1 = require("./functions/voteSong.js");
+const deleteUser_js_1 = require("./functions/deleteUser.js");
+const deletePlaylist_js_1 = require("./functions/deletePlaylist.js");
 admin.initializeApp(functions.config().firebase);
 //***************************************************//
 //***********  COUNTER
@@ -22,6 +24,9 @@ exports.countUpvotes = functions
     .region("europe-west2")
     .firestore.document("playlist/{playlistID}/queued_song/{songID}/votes/{typeUserID}")
     .onWrite(countUpvotes_js_1.countUpvotes);
+//***************************************************//
+//***********  CALLABLE FUNCTIONS
+//***************************************************//
 exports.voteSong = functions
     .region("europe-west2")
     .runWith({
@@ -29,39 +34,18 @@ exports.voteSong = functions
     memory: "2GB"
 })
     .https.onCall(voteSong_js_1.voteSong);
-exports.recursiveDelete = functions
+exports.deleteUser = functions
+    .region("europe-west2")
     .runWith({
     timeoutSeconds: 540,
     memory: "2GB"
 })
-    .https.onCall(async (data, context) => {
-    // Only allow admin users to execute this function.
-    /*if (!(context.auth && context.auth.token && context.auth.token.admin)) {
-      throw new functions.https.HttpsError(
-        "permission-denied",
-        "Must be an administrative user to initiate delete."
-      );
-      console.log(
-      `User ${context.auth.uid} has requested to delete path ${path}`
-    );
-    }*/
-    const path = data.playlist_id;
-    const db = admin.firestore();
-    const collectionRef = db.collection("playlist").doc(path);
-    const batch = db.batch();
-    let query = await collectionRef.collection("joined_user").get();
-    query.forEach(function (doc) {
-        batch.delete(doc.ref);
-    });
-    query = await collectionRef.collection("request").get();
-    query.forEach(function (doc) {
-        batch.delete(doc.ref);
-    });
-    query = await collectionRef.collection("queued_song").get();
-    query.forEach(function (doc) {
-        batch.delete(doc.ref);
-    });
-    batch.delete(collectionRef);
-    await batch.commit();
-});
+    .https.onCall(deleteUser_js_1.deleteUser);
+exports.deletePlaylist = functions
+    .region("europe-west2")
+    .runWith({
+    timeoutSeconds: 540,
+    memory: "2GB"
+})
+    .https.onCall(deletePlaylist_js_1.deletePlaylist);
 //# sourceMappingURL=index.js.map

@@ -80,8 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Controller().authentificator.user.birthday = DateFormat("dd.MM.yyyy").parse(this._birthdayController.text);
 
       if (this._selectedImage != null) {
-        Controller().authentificator.user.imageURL =
-            await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
+        Controller().authentificator.user.imageURL = await Controller().storage.uploadImage(this._selectedImage, 'user/' + Controller().authentificator.user.userID);
       }
 
       await Controller().firebase.updateUserData(Controller().authentificator.user);
@@ -115,6 +114,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     return DateFormat("dd.MM.yyyy").format(selectedDate);
+  }
+
+  void _showOptionAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        title: Text('Konto löschen'),
+        content: Text('Willst du dein Konto wirklich löschen?'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(Controller().translater.language.getLanguagePack("yes")),
+            onPressed: () async {
+              Navigator.of(dialogContext).pop();
+              TinyLoader.show(context, 'Dein Konto wird gelöscht...');
+              await Controller().authentificator.delete();
+              await Controller().firebase.deleteUser();
+              await Controller().authentificator.signOut();
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed('/welcome');
+              TinyLoader.hide();
+              Controller().theming.showSnackbar(context, 'Dein Konto wurde erfolgreich gelöscht');
+            },
+          ),
+          FlatButton(
+            child: Text(Controller().translater.language.getLanguagePack("no")),
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -181,9 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: (this._usernameError
-                    ? Controller().translater.language.getLanguagePack("username_invalid")
-                    : Controller().translater.language.getLanguagePack("username")),
+                labelText: (this._usernameError ? Controller().translater.language.getLanguagePack("username_invalid") : Controller().translater.language.getLanguagePack("username")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -262,9 +290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }
               },
               decoration: InputDecoration(
-                labelText: (this._passwordError
-                    ? Controller().translater.language.getLanguagePack("password_invalid")
-                    : Controller().translater.language.getLanguagePack("password")),
+                labelText: (this._passwordError ? Controller().translater.language.getLanguagePack("password_invalid") : Controller().translater.language.getLanguagePack("password")),
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
@@ -320,7 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: EdgeInsets.fromLTRB(50, 5, 50, 25),
             child: FlatButton(
               onPressed: () {
-                print("Profil sollte jetzt gelöscht werden.");
+                this._showOptionAlert();
               },
               padding: const EdgeInsets.all(10),
               color: Controller().theming.tertiary.withOpacity(0.3),

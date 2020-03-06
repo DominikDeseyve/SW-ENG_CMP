@@ -35,6 +35,27 @@ class Firebase {
     return keywordList;
   }
 
+  Future<HttpsCallableResult> _callCloudFunction(String pName, Map<String, dynamic> pParams) async {
+    CloudFunctions cf = CloudFunctions(region: 'europe-west2');
+    HttpsCallableResult response;
+
+    print("CALL CLOUD FUNCTION: " + pName);
+    try {
+      final HttpsCallable callable = cf.getHttpsCallable(functionName: pName);
+      response = await callable.call(pParams);
+      return response;
+    } on CloudFunctionsException catch (e) {
+      print('caught firebase functions exception');
+      print(e.code);
+      print(e.message);
+      print(e.details);
+    } catch (e) {
+      print('caught generic exception');
+      print(e);
+    }
+    return null;
+  }
+
   //***************************************************//
   //*********       USER FUNKTIONEN         ***********//
   //***************************************************//
@@ -55,6 +76,9 @@ class Firebase {
   Future<void> deleteUser() async {
     User user = Controller().authentificator.user;
 
+    await this._callCloudFunction('deleteUser', {
+      'user_id': user.userID,
+    });
     //TODO
     await this._ref.collection('user').document(user.userID).delete();
   }
@@ -211,26 +235,9 @@ class Firebase {
 
   // Löschen
   Future<void> deletePlaylist(Playlist pPlaylist) async {
-    CloudFunctions cf = CloudFunctions(region: 'us-central1');
-    try {
-      final HttpsCallable callable = cf.getHttpsCallable(
-        functionName: 'recursiveDelete',
-      );
-      HttpsCallableResult resp = await callable.call(<String, dynamic>{
-        'playlist_id': pPlaylist.playlistID,
-      });
-      print("RESULT:" + resp.data);
-    } on CloudFunctionsException catch (e) {
-      print('caught firebase functions exception');
-      print(e.code);
-      print(e.message);
-      print(e.details);
-    } catch (e) {
-      print('caught generic exception');
-      print(e);
-    }
-
-    //return this._ref.collection('playlist').document(pPlaylist.playlistID).delete();
+    await this._callCloudFunction('deletePlaylist', {
+      'playlist_id': pPlaylist.playlistID,
+    });
   }
 
   // Request

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,18 +8,26 @@ class Authentificator {
   Controller _controller;
   FirebaseAuth _firebaseAuth;
   FirebaseUser _firebaseUser;
+  StreamSubscription _streamSubscription;
   User _user;
 
   Authentificator(Controller pController) {
     this._controller = pController;
     this._firebaseAuth = FirebaseAuth.instance;
+/*
+    this._streamSubscription = this._firebaseAuth.onAuthStateChanged.listen((FirebaseUser pUser) {
+      print("on Auth sTate changed");
+      if (pUser is FirebaseUser) {
+        print(pUser.isEmailVerified);
+      }
+    });*/
   }
 
   Future<bool> signUp(String pEmail, String pPassword, User pUser) async {
     try {
       AuthResult authResult = await this._firebaseAuth.createUserWithEmailAndPassword(email: pEmail, password: pPassword);
       pUser.userID = authResult.user.uid;
-      this._controller.firebase.createUser(pUser, pEmail);
+      await this._controller.firebase.createUser(pUser, pEmail);
       await authResult.user.sendEmailVerification();
       return true;
     } catch (e) {
@@ -32,13 +42,19 @@ class Authentificator {
       this._firebaseUser = authResult.user;
       await this.initializeUser();
       return true;
+    } else {
+      print("keine email verified");
+      this.signOut();
+      return false;
     }
-    print("keine email verified");
-    return false;
   }
 
   Future<void> signOut() async {
     await this._firebaseAuth.signOut();
+  }
+
+  Future<void> delete() async {
+    await this._firebaseUser.delete();
   }
 
   Future<bool> authentificate() async {
@@ -80,6 +96,10 @@ class Authentificator {
     } catch (e) {
       return e.code;
     }
+  }
+
+  void dispose() {
+    this._streamSubscription.cancel();
   }
 
   //***************************************************//

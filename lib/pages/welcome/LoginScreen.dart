@@ -1,3 +1,4 @@
+import 'package:cmp/widgets/TinyLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:cmp/logic/Controller.dart';
 
@@ -20,9 +21,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    this._mailController =
-        new TextEditingController(text: 'dominik.deseyve@gmx.de');
-    this._passwordController = new TextEditingController(text: '123456');
+    this._mailController = new TextEditingController(text: 'dominik.deseyve@gmx.de');
+    this._passwordController = new TextEditingController(text: 'test123');
   }
 
   Widget build(BuildContext context) {
@@ -46,17 +46,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 )),
             SizedBox(height: 48.0),
-            Text(error,
-                style: TextStyle(color: Colors.red),
-                textAlign: TextAlign.center),
+            Text(error, style: TextStyle(color: Colors.red), textAlign: TextAlign.center),
             SizedBox(height: 5.0),
             TextFormField(
               controller: this._mailController,
               keyboardType: TextInputType.emailAddress,
               autofocus: false,
               validator: (value) {
-                Pattern pattern =
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                 RegExp regex = new RegExp(pattern);
                 if (!regex.hasMatch(value)) {
                   return 'Geben Sie eine gültige Email an';
@@ -70,8 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 icon: Icon(Icons.email),
                 hintText: 'Email',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 8.0),
@@ -91,8 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                 icon: Icon(Icons.lock),
                 hintText: 'Passwort',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 24.0),
@@ -108,28 +103,29 @@ class _LoginPageState extends State<LoginPage> {
                   });
 
                   try {
+                    TinyLoader.show(context, "Du wirst angemeldet...");
                     String email = this._mailController.text;
                     String password = this._passwordController.text;
 
                     if (_formKey.currentState.validate()) {
-                      bool success = await Controller()
-                          .authentificator
-                          .signIn(email, password);
+                      bool success = await Controller().authentificator.signIn(email, password);
+                      TinyLoader.hide();
                       if (success) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/start', (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil('/start', (route) => false);
                       } else {
-                        Controller()
-                            .theming
-                            .showSnackbar(context, "Fehler beim Anmelden");
+                        setState(() {
+                          error = "E-Mail wurde nicht bestätigt";
+                        });
+                        //Controller().theming.showSnackbar(context, "Fehler beim Anmelden");
                       }
                     }
                   } catch (e) {
+                    TinyLoader.hide();
                     setState(() {
-                      error = "Email oder Passwort ist falsch";
+                      error = "Email oder Passwort ist falsch, ";
                     });
-                    Controller().theming.showSnackbar(context, e.code);
-                    print(e.code);
+                    //Controller().theming.showSnackbar(context, e.code);
+                    print(e);
                   }
 
                   //Navigator.of(context).pushNamed(HomePage.tag);
@@ -215,8 +211,7 @@ class _PasswordDialogState extends State<PasswordDialog> {
               icon: Icon(Icons.email),
               hintText: 'Email',
               contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
             ),
           ),
           Divider(
@@ -229,8 +224,7 @@ class _PasswordDialogState extends State<PasswordDialog> {
             children: [
               Expanded(
                 child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)),
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   onPressed: this._send,
                   color: Colors.redAccent,
                   child: Text(
