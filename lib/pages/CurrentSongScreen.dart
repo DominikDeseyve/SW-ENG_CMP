@@ -31,12 +31,16 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
 
     Controller().soundManager.addListener(this._updateScreen);
     this._position = new Duration();
-    Controller().soundManager.duration.then((int pDuration) {
-      this._duration = new Duration(milliseconds: pDuration);
-      this._durationStream = Controller().soundManager.durationStream.listen((Duration p) {
-        setState(() {
-          this._position = p;
-        });
+    this._init();
+  }
+
+  void _init() async {
+    this._duration = Duration(milliseconds: await Controller().soundManager.duration);
+    this._position = Duration(milliseconds: await Controller().soundManager.position);
+    setState(() {});
+    this._durationStream = Controller().soundManager.durationStream.listen((Duration p) {
+      setState(() {
+        this._position = p;
       });
     });
   }
@@ -75,12 +79,13 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   }
 
   Widget build(BuildContext context) {
-    if (this._duration == null) return Container();
+    if (this._duration == null || Controller().soundManager.state == null) return Container();
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: AppBar(
+          elevation: 0,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: InkWell(
@@ -121,7 +126,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
           leading: IconButton(
             splashColor: Colors.transparent,
             icon: Icon(Icons.keyboard_arrow_down),
-            iconSize: 30,
+            iconSize: 34,
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -162,10 +167,10 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                   ),
                 )
               : Container(
-                  padding: const EdgeInsets.all(25),
+                  padding: const EdgeInsets.all(50),
                   child: Image.network(
                     Controller().soundManager.currentSong.imageURL,
-                    height: 175,
+                    height: 150,
                     fit: BoxFit.contain,
                   ),
                 )),
@@ -249,7 +254,10 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                         Icons.stop,
                         color: Controller().theming.fontPrimary,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await Controller().soundManager.deleteQueue();
+                        Navigator.of(context).pop();
+                      },
                     ),
                     SizedBox(width: 10),
                     Container(
@@ -276,7 +284,6 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                         color: Controller().theming.fontPrimary,
                       ),
                       onPressed: () {
-                        this._position = new Duration();
                         Controller().soundManager.nextSong();
                       },
                     ),

@@ -76,6 +76,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
       });
     } else {
       TinyLoader.show(context, "Playlist wird geladen...");
+      Controller().notification.setContext(context);
       await Controller().soundManager.setQueue(this._queue, this._playlist);
       TinyLoader.hide();
       setState(() {
@@ -85,7 +86,6 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
   }
 
   void _loadMoreSongs(QuerySnapshot pQuery) {
-    print("SONGS LOADED: " + pQuery.documentChanges.length.toString());
     if (!mounted) return;
     setState(() {
       this._isPlaying = (this._queue.currentSong != null && Controller().soundManager.currentSong != null);
@@ -181,12 +181,10 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
               onSelected: (int pValue) {
                 switch (pValue) {
                   case 1:
-                    _showOptionAlert(Controller().translater.language.getLanguagePack("delete_playlist"),
-                        Controller().translater.language.getLanguagePack("delete_playlist_text"));
+                    _showOptionAlert(Controller().translater.language.getLanguagePack("delete_playlist"), Controller().translater.language.getLanguagePack("delete_playlist_text"));
                     break;
                   case 2:
-                    _showOptionAlert(Controller().translater.language.getLanguagePack("leave_playlist"),
-                        Controller().translater.language.getLanguagePack("leave_playlist_text"));
+                    _showOptionAlert(Controller().translater.language.getLanguagePack("leave_playlist"), Controller().translater.language.getLanguagePack("leave_playlist_text"));
                     break;
                   case 3:
                     showDialog(
@@ -446,7 +444,6 @@ class _SongItemState extends State<SongItem> {
   }
 
   void _showOptionDialog() {
-    HapticFeedback.vibrate();
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
@@ -506,6 +503,7 @@ class _SongItemState extends State<SongItem> {
 
   Widget build(BuildContext context) {
     return InkWell(
+      enableFeedback: true,
       onTap: () {},
       onLongPress: () {
         if (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN ||
@@ -564,6 +562,7 @@ class _SongItemState extends State<SongItem> {
                   ),
                   Text(
                     this.widget._song.titel,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 18,

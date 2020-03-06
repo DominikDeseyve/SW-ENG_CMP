@@ -66,8 +66,11 @@ class Player {
   }
 
   Stream<Duration> get durationStream {
-    //print(this.song.duration);
     return this._audioPlayer.onAudioPositionChanged;
+  }
+
+  Future<int> get position async {
+    return await this._audioPlayer.getCurrentPosition();
   }
 
   Stream<void> get onPlayerCompletion {

@@ -107,13 +107,14 @@ class Song {
     print("-- LOADING URL FOR " + this.titel);
     switch (this._platform) {
       case 'YOUTUBE':
-        this._soundURL = await Controller().youTube.getSoundUrlViaPlugin(this._platformID);
-
+        //this._soundURL = await Controller().youTube.getSoundUrlViaPlugin(this._platformID);
+        this._soundURL = await Controller().youTube.getSoundURL(this._platformID);
         break;
       case 'SOUNDCLOUD':
         this._soundURL = await Controller().soundCloud.getSoundURL(this._platformID);
         break;
     }
+    print("-- LOADED URL FOR " + this.titel);
   }
 
   Future<void> _updateStatus() async {

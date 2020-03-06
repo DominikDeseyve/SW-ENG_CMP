@@ -87,7 +87,7 @@ class Theming {
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Text(
           pText,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
         ),
       ),
       action: SnackBarAction(

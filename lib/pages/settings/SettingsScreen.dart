@@ -189,6 +189,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       onChanged: (value) async {
                                         TinyLoader.show(context, Controller().translater.language.getLanguagePack("change_darkmode"));
                                         _darkmode = value;
+                                        TinyLoader.show(context, 'Theming wird gewechselt');
                                         Controller().authentificator.user.settings.darkMode = value;
                                         await Controller().firebase.updateSettings();
 
@@ -201,6 +202,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                                           TinyLoader.hide();
                                         });
+                                        TinyLoader.hide();
                                       }),
                                 ),
                               ),

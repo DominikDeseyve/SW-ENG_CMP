@@ -6,7 +6,6 @@ import 'package:cmp/provider/RoleProvider.dart';
 import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SubscriberScreen extends StatefulWidget {
@@ -169,11 +168,11 @@ class _UserItemState extends State<UserItem> {
 
   Widget build(BuildContext context) {
     return InkWell(
+      enableFeedback: true,
       onTap: () {},
       onLongPress: () {
         //if member want to give other roles
         if (Provider.of<RoleProvider>(context).role.role != ROLE.MEMBER) {
-          HapticFeedback.vibrate();
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) => RoleDialog(this.widget._playlist, this.widget._user, this.widget._updateUserCallback),
