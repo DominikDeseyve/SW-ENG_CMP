@@ -20,6 +20,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   bool _validate = false;
 
+  bool usernameExisting;
+  bool emailExisting;
+
   Future<DateTime> selectedDate;
   String geburtsdatum = "";
 
@@ -34,6 +37,30 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     setState(() {});
+  }
+
+  checkUsername(username) async {
+    if (await Controller().firebase.isUsernameExisting(username)) {
+      setState(() {
+        usernameExisting = true;
+      });
+    } else {
+      setState(() {
+        usernameExisting = false;
+      });
+    }
+  }
+
+  checkEmail(email) async {
+    if (await Controller().firebase.isEmailExisting(email)) {
+      setState(() {
+        emailExisting = true;
+      });
+    } else {
+      setState(() {
+        emailExisting = false;
+      });
+    }
   }
 
   void initState() {
@@ -71,11 +98,15 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: this._userController,
               autofocus: false,
               validator: (value) {
+                checkUsername(value);
                 if (value.isEmpty) {
                   return 'Geben Sie einen Benutzernamen an';
                 } else if (value.length <= 4) {
                   return 'Benutzername muss aus mind. 5 Buchstaben bestehen';
+                } else if (usernameExisting == true) {
+                  return 'Benutzername existiert bereits';
                 }
+
                 return null;
               },
               decoration: InputDecoration(
@@ -92,12 +123,15 @@ class _RegisterPageState extends State<RegisterPage> {
               keyboardType: TextInputType.emailAddress,
               autofocus: false,
               validator: (value) {
+                checkEmail(value);
                 Pattern pattern =
                     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                 RegExp regex = new RegExp(pattern);
-                if (!regex.hasMatch(value))
+                if (!regex.hasMatch(value)) {
                   return 'Geben Sie eine gültige Email an';
-                else
+                } else if (emailExisting == true) {
+                  return 'Email existiert bereits';
+                } else
                   return null;
               },
               decoration: InputDecoration(
@@ -124,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
               autofocus: false,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Geben Sie einen Geburtsdatum an';
+                  return 'Geben Sie ein Geburtsdatum an';
                 }
                 return null;
               },
