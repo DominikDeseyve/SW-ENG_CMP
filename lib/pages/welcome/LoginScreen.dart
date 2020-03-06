@@ -46,9 +46,17 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 )),
             SizedBox(height: 48.0),
-            Text(error,
+            InkWell(
+              child: Text(
+                error,
                 style: TextStyle(color: Colors.red),
-                textAlign: TextAlign.center),
+                textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/register', (route) => false);
+              },
+            ),
             SizedBox(height: 5.0),
             TextFormField(
               controller: this._mailController,
@@ -126,7 +134,8 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   } catch (e) {
                     setState(() {
-                      error = "Email oder Passwort ist falsch";
+                      error =
+                          "Email oder Passwort sind falsch. Noch kein Account?\nJetzt registrieren!";
                     });
                     Controller().theming.showSnackbar(context, e.code);
                     print(e.code);
