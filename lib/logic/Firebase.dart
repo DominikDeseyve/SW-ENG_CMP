@@ -129,6 +129,27 @@ class Firebase {
     return ref.exists;
   }
 
+  String createplaylist(Playlist pPlaylist){
+    if (pPlaylist.description == null) {
+      pPlaylist.description = " ";
+    }
+
+    DocumentReference ref = this._ref.collection('playlist').add({
+      'name': pPlaylist.name,
+      'image_url': pPlaylist.imageURL,
+      'max_attendees': pPlaylist.maxAttendees,
+      'description': pPlaylist.description,
+      'visibleness': pPlaylist.visibleness.key,
+      'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
+      'creator': pPlaylist.creator.toFirebase(),
+      'keywords': this._generateKeywords([pPlaylist.name]),
+      'joined_user_count': 0,
+      'queued_song_count': 0,
+      'created_at': DateTime.now(),
+    }) as DocumentReference;
+    return ref.documentID;
+  }
+
   //***************************************************//
   //*********       PLAYLIST-FUNKTIONEN     ***********//
   //***************************************************//
@@ -153,6 +174,10 @@ class Firebase {
     });
     return ref.documentID;
   }
+
+  /*void addSong(Playlist pPlaylist, Song pSong){
+    this._ref.collection('playlist').document(pPlaylist.playlistID).collection('queued_song').add(pSong.toFirebase());
+  }*/
 
   // Erstelle Song
   Future<void> createSong(Playlist pPlaylist, Song pSong) async {
