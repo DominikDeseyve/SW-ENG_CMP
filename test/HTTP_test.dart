@@ -5,7 +5,8 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group('HTTP', () {
     test('throws an exception if the http call completes with an error', () {
-      
+      HTTP h = HTTP();
+      expect(h.getSoundURI("RLWcYADoV84"), "");
     });
   });
 }
