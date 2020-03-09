@@ -1,2 +1,0 @@
-include ':testmedianotification'
-rootProject.name = 'media_notification'
