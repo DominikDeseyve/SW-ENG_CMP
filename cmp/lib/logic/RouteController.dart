@@ -2,7 +2,7 @@ import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/pages/CurrentSongScreen.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
-import 'package:cmp/pages/home/StartScreen.dart';
+import 'package:cmp/pages/navigation.dart';
 import 'package:cmp/pages/playlist/AddSongScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
 import 'package:cmp/pages/playlist/CategoryScreen.dart';
@@ -19,6 +19,7 @@ import 'package:cmp/pages/welcome/RegisterScreen.dart';
 import 'package:cmp/pages/welcome/WelcomeScreen.dart';
 import 'package:cmp/pages/settings/SettingsScreen.dart';
 import 'package:cmp/widgets/HugeLoader.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 
 class RouteController {
@@ -36,7 +37,36 @@ class RouteController {
         return RootScreen(args);
         break;
       case '/start':
-        return StartScreen();
+        Widget page = FutureBuilder<bool>(
+          future: Controller().authentificator.authentificate(),
+          builder: (BuildContext context, AsyncSnapshot<bool> isAuth) {
+            switch (isAuth.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.active:
+              case ConnectionState.done:
+                try {
+                  if (isAuth.data) {
+                    return DynamicTheme(
+                      defaultBrightness: Brightness.light,
+                      data: (brightness) => new ThemeData(
+                        brightness: brightness,
+                      ),
+                      themedWidgetBuilder: (context, theme) {
+                        return RootScreen(Navigation.home);
+                      },
+                    );
+                  } else {
+                    return Welcome();
+                  }
+                } catch (error) {}
+                break;
+              default:
+                break;
+            }
+            return HugeLoader.show();
+          },
+        );
+        return page;
         break;
       case '/welcome':
         return Welcome();

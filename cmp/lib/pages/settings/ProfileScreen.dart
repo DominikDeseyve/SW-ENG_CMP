@@ -98,8 +98,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<String> _chooseDate() async {
-    int year = DateTime.now().year + 1;
-
     DateTime selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
