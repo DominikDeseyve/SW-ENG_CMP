@@ -58,21 +58,21 @@ public class NotificationPanel {
 
         remoteView.setTextViewText(R.id.title, title);
         remoteView.setInt(R.id.title,"setTextColor", colorInt);
-     //   remoteView.setTextViewText(R.id.author, author);
-        remoteView.setImageViewResource(R.id.image, R.mipmap.ic_launcher);
-        //remoteView.setInt(R.id.image,"setColorFilter", colorInt);
+        remoteView.setTextViewText(R.id.author, author);
+        remoteView.setInt(R.id.author,"setTextColor", colorInt);
+        remoteView.setImageViewResource(R.id.image, R.drawable.app_icon);
 
-        remoteView.setInt(R.id.next,"setColorFilter", colorInt);
-        remoteView.setInt(R.id.retro,"setColorFilter", colorInt);
+        remoteView.setInt(R.id.stop,"setColorFilter", colorInt);
         remoteView.setInt(R.id.toggle,"setColorFilter", colorInt);
+        remoteView.setInt(R.id.next,"setColorFilter", colorInt);
         remoteView.setInt(R.id.forward,"setColorFilter", colorInt);
-        remoteView.setInt(R.id.prev,"setColorFilter", colorInt);
+        remoteView.setInt(R.id.close,"setColorFilter", colorInt);
 
 
         if (this.play) {
-            remoteView.setImageViewResource(R.id.toggle, android.R.drawable.ic_media_pause);
+            remoteView.setImageViewResource(R.id.toggle, android.R.drawable.ic_pause);
         } else {
-            remoteView.setImageViewResource(R.id.toggle, android.R.drawable.ic_media_play);
+            remoteView.setImageViewResource(R.id.toggle, android.R.drawable.ic_play);
         }
 
         setListeners(remoteView);
@@ -85,7 +85,14 @@ public class NotificationPanel {
     }
 
     public void setListeners(RemoteViews view){
-        // Пауза/Воспроизведение
+
+        // STOP Button
+        Intent stopIntent = new Intent(parent, NotificationReturnSlot.class)
+                .setAction("stop");
+        PendingIntent pendingStopIntent = PendingIntent.getBroadcast(parent, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        view.setOnClickPendingIntent(R.id.stop, pendingStopIntent);
+
+        // TOGGLE between PLAY & PAUSE
         Intent intent = new Intent(parent, NotificationReturnSlot.class)
             .setAction("toggle")
             .putExtra("title", this.title)
@@ -96,41 +103,31 @@ public class NotificationPanel {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(parent, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         view.setOnClickPendingIntent(R.id.toggle, pendingIntent);
 
-        //Retro
-        Intent retroIntent = new Intent(parent, NotificationReturnSlot.class)
-                .setAction("retro");
-        PendingIntent pendingRetroIntent = PendingIntent.getBroadcast(parent, 0, retroIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        view.setOnClickPendingIntent(R.id.retro, pendingRetroIntent);
-
-        // Вперед
+        // NEXT Button
         Intent nextIntent = new Intent(parent, NotificationReturnSlot.class)
                 .setAction("next");
         PendingIntent pendingNextIntent = PendingIntent.getBroadcast(parent, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         view.setOnClickPendingIntent(R.id.next, pendingNextIntent);
 
-        // Назад
-        Intent prevIntent = new Intent(parent, NotificationReturnSlot.class)
-                .setAction("prev");
-        PendingIntent pendingPrevIntent = PendingIntent.getBroadcast(parent, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        view.setOnClickPendingIntent(R.id.prev, pendingPrevIntent);
-
-        //Retro
+        // FORWARD Button
         Intent forwardIntent = new Intent(parent, NotificationReturnSlot.class)
                 .setAction("forward");
         PendingIntent pendingForwardIntent = PendingIntent.getBroadcast(parent, 0, forwardIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         view.setOnClickPendingIntent(R.id.forward, pendingForwardIntent);
 
-        // Close
+        // CLOSE Button
         Intent closeIntent = new Intent(parent, NotificationReturnSlot.class)
                 .setAction("close");
         PendingIntent closePendingIntent = PendingIntent.getBroadcast(parent, 0, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         view.setOnClickPendingIntent(R.id.close, closePendingIntent);
 
+        /*  ONCLICK
         // Нажатие на уведомление
         Intent selectIntent = new Intent(parent, NotificationReturnSlot.class)
                 .setAction("select");
         PendingIntent selectPendingIntent = PendingIntent.getBroadcast(parent, 0, selectIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         view.setOnClickPendingIntent(R.id.layout, selectPendingIntent);
+        */
     }
 
 

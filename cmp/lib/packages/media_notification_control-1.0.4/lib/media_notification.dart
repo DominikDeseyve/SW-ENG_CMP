@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
@@ -17,7 +16,7 @@ class MediaNotification {
     });
   }
 
-  static Future show({@required title, @required author, backgroundColor = '0xFFFFFFFF', color = '0xFF000000', play = true}) async {
+  static Future show({@required title, @required author, backgroundColor = '0xFF253A4B', color = '0xFFFFFFFF', play = true}) async {
     final Map<String, dynamic> params = <String, dynamic>{'title': title, 'author': author, 'play': play, 'backgroundColor': backgroundColor, 'color': color};
     await _channel.invokeMethod('show', params);
 
