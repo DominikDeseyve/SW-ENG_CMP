@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-hi/values-hi.xml",
+            "outputFile": "/home/dominsch/Dokumente/dhbw/SW-ENG_CMP/cmp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-hi/values-hi.xml",
             "map": [
                 {
                     "source": "/home/dominsch/.gradle/caches/transforms-2/files-2.1/3a8df0f0ffa089edc45fa5033bef42b3/res/values-hi/values-hi.xml",

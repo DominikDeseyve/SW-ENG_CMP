@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "/home/dominsch/Dokumente/dhbw/SW-ENG_CMP/cmp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "/home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/res/values-en-rXC/values-en-rXC.xml",
