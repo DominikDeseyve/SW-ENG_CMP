@@ -1,0 +1,729 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+MERGED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+MERGED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-19:12
+MERGED from [:audioplayers] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/audioplayers/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:path_provider] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:path_provider_macos] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/path_provider_macos/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-22:12
+MERGED from [:flutter_plugin_android_lifecycle] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:cloud_functions_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions_web/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:cloud_firestore_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore_web/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_core_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core_web/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:webview_media] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/webview_media/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-17:12
+MERGED from [:nested_navigators] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/nested_navigators/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:package_info] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:firebase_auth_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth_web/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:shared_preferences] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-12:12
+MERGED from [:shared_preferences_macos] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences_macos/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:shared_preferences_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences_web/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-24:12
+MERGED from [:sqflite] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.multidex:multidex:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/21cf818169b12c022b6c426b53072f58/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-core:16.0.8] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3e36eada4398b8af26ba4868f4a3d16a/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-analytics:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/307bcdff488b696856c4c44927d063ef/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:17:1-42:12
+MERGED from [com.google.android.material:material:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87072ca12dd9bed3923cd235455a9d5b/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3a8df0f0ffa089edc45fa5033bef42b3/AndroidManifest.xml:17:1-22:12
+MERGED from [me.dm7.barcodescanner:zxing:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f153fe1da73b4dbd438ec505bd26810d/AndroidManifest.xml:2:1-13:12
+MERGED from [me.dm7.barcodescanner:core:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/6c464b0bc0f86967e23d944a1547fb64/AndroidManifest.xml:2:1-13:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b3bfa0592107f492a74060c1b362fe24/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:17:1-55:12
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:17:1-36:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4e3c9f97eec46b2fa0b2f20a0aefd08c/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:2:1-22:12
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:15:1-37:12
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:17:1-47:12
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/18a4d0445534007d635f5758cffd5101/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:15:1-39:12
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:17:1-40:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.android.gms:play-services-measurement-base:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d3205402e21a6654a41e5ff5f066ca49/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-stats:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f2dc38747e799fca91732b821222c88f/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/757642260c08eed8565fa073dae2c523/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/532a6fe529cc552860e87e5d7bf232da/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/148ea92ed26400a3247d132ee65ac1f3/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/36eec71c68ed18b8088e20e896f41570/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.fragment:fragment:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/7418e3b9b17328b5ac659ce647241d59/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.webkit:webkit:1.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3f67e56b5f68481e7a332edda4146c9c/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.media:media:1.1.0-alpha04] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d0fabb6d2fbad5b3a4e6de8d3a5fb0bc/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/14054692da695f444c8ff305e444fb73/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/8558b2eede285c74632a3493172f72c3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/00458c9535fbafcf7db25fd67a13eb78/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/54c65cb2207c6b23fbccac9f140947ae/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b8884e5fba5c35c556d194bcd4f2301d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.transition:transition:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9c6c2895f5dee8338e2faaaf5e7b9d40/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/dominsch/.gradle/caches/transforms-2/files-2.1/35ef9222560cf1d19709a14a567edd39/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4aad1964c2a11e518445d26f0a7f7e67/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/205d21fb19d1f74c74f4ae5deba440be/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f0024307130da491ed5928835ffd04c2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/42757428e9f80e7d5187f8573e6388b4/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/2454207bd430ca661fe8b1755f802f78/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/95da0a9885d29b905ba4a47ee5a4e832/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f3dc863c85c095e7b9485683dc62c065/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/5a0562de09433d98125c5f04b373ce37/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/43f3718c5bd45798d945b135d932babd/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0afca25aa4e6cbe0b4284222bc919d3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/bd895119e25b918b529a6e4b3bf104bf/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/ab9095cc75c083e77e44d327f56252c2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-rc01] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0d1cdfd0756c7620ecaa5b7781d6aeb/AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.firebase:firebase-components:16.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0dcb3a441bc2886aba83aa99bab83f57/AndroidManifest.xml:15:1-23:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a0638d1cb31098620f1a87104019c468/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/7a526877f4f3ffabdd35d5e1f1cbe1f7/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0817fe43b2629e49ca0cd8613b193869/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0059c3a5d3ea29282156eea34a9e4aaa/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/02604235fb97b83197991fa33c1cdb66/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/fd75729f019df10b37824ba91ef7220b/AndroidManifest.xml:17:1-22:12
+MERGED from [io.grpc:grpc-android:1.21.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/13d66a8e84200aa3521aae49320be905/AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.firebase:firebase-database-collection:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/5d17c8343e837e64b38fb7655dc5485c/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e2a6cb1868b419c1aa3aecbae4296403/AndroidManifest.xml:2:1-11:12
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml:1:1-7:12
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml:1:1-7:12
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml:1:1-7:12
+	package
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:2:5-30
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:1-30:12
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:8:5-29:19
+MERGED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-17:19
+MERGED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-17:19
+MERGED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
+MERGED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
+MERGED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-15:19
+MERGED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-15:19
+MERGED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:19
+MERGED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:19
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-22:19
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-core:16.0.8] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3e36eada4398b8af26ba4868f4a3d16a/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-core:16.0.8] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3e36eada4398b8af26ba4868f4a3d16a/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-analytics:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/307bcdff488b696856c4c44927d063ef/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-analytics:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/307bcdff488b696856c4c44927d063ef/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.android.material:material:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87072ca12dd9bed3923cd235455a9d5b/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87072ca12dd9bed3923cd235455a9d5b/AndroidManifest.xml:22:5-20
+MERGED from [me.dm7.barcodescanner:zxing:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f153fe1da73b4dbd438ec505bd26810d/AndroidManifest.xml:11:5-20
+MERGED from [me.dm7.barcodescanner:zxing:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f153fe1da73b4dbd438ec505bd26810d/AndroidManifest.xml:11:5-20
+MERGED from [me.dm7.barcodescanner:core:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/6c464b0bc0f86967e23d944a1547fb64/AndroidManifest.xml:11:5-20
+MERGED from [me.dm7.barcodescanner:core:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/6c464b0bc0f86967e23d944a1547fb64/AndroidManifest.xml:11:5-20
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:28:5-53:19
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:28:5-53:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:26:5-34:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:26:5-34:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4e3c9f97eec46b2fa0b2f20a0aefd08c/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4e3c9f97eec46b2fa0b2f20a0aefd08c/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:16:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:16:5-24:19
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:14:5-20:19
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:14:5-20:19
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:29:5-35:19
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:29:5-35:19
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:28:5-45:19
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:28:5-45:19
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/18a4d0445534007d635f5758cffd5101/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/18a4d0445534007d635f5758cffd5101/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:25:5-37:19
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:25:5-37:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:28:5-38:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:28:5-38:19
+MERGED from [com.google.android.gms:play-services-measurement-base:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d3205402e21a6654a41e5ff5f066ca49/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d3205402e21a6654a41e5ff5f066ca49/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f2dc38747e799fca91732b821222c88f/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f2dc38747e799fca91732b821222c88f/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/757642260c08eed8565fa073dae2c523/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/757642260c08eed8565fa073dae2c523/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/532a6fe529cc552860e87e5d7bf232da/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/532a6fe529cc552860e87e5d7bf232da/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/148ea92ed26400a3247d132ee65ac1f3/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/148ea92ed26400a3247d132ee65ac1f3/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/36eec71c68ed18b8088e20e896f41570/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/36eec71c68ed18b8088e20e896f41570/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-rc01] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0d1cdfd0756c7620ecaa5b7781d6aeb/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-rc01] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0d1cdfd0756c7620ecaa5b7781d6aeb/AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:24:18-86
+	android:label
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:10:9-28
+	android:icon
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:11:9-43
+	android:name
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:9:9-57
+activity#com.example.cmp.MainActivity
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:12:9-23:20
+	android:launchMode
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:14:13-43
+	android:hardwareAccelerated
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:17:13-47
+	android:windowSoftInputMode
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:18:13-55
+	android:configChanges
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:16:13-163
+	android:theme
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:15:13-47
+	android:name
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:13:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:19:13-22:29
+action#android.intent.action.MAIN
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:20:17-68
+	android:name
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:20:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:21:17-76
+	android:name
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:21:27-74
+meta-data#flutterEmbedding
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:26:9-28:33
+	android:value
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:28:13-30
+	android:name
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml:27:13-44
+uses-sdk
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+MERGED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:audioplayers] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/audioplayers/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-44
+MERGED from [:audioplayers] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/audioplayers/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-44
+MERGED from [:path_provider] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_macos] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/path_provider_macos/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_macos] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/path_provider_macos/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_functions_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_functions_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:webview_media] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/webview_media/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:webview_media] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/webview_media/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:nested_navigators] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/nested_navigators/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:nested_navigators] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/nested_navigators/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:package_info] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:package_info] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-44
+MERGED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-44
+MERGED from [:shared_preferences_macos] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences_macos/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_macos] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences_macos/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_web] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/shared_preferences_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-44
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-44
+MERGED from [:sqflite] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [androidx.multidex:multidex:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/21cf818169b12c022b6c426b53072f58/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/21cf818169b12c022b6c426b53072f58/AndroidManifest.xml:20:5-43
+MERGED from [com.google.firebase:firebase-core:16.0.8] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3e36eada4398b8af26ba4868f4a3d16a/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-core:16.0.8] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3e36eada4398b8af26ba4868f4a3d16a/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-analytics:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/307bcdff488b696856c4c44927d063ef/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-analytics:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/307bcdff488b696856c4c44927d063ef/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:21:5-44
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.material:material:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87072ca12dd9bed3923cd235455a9d5b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87072ca12dd9bed3923cd235455a9d5b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3a8df0f0ffa089edc45fa5033bef42b3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3a8df0f0ffa089edc45fa5033bef42b3/AndroidManifest.xml:20:5-44
+MERGED from [me.dm7.barcodescanner:zxing:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f153fe1da73b4dbd438ec505bd26810d/AndroidManifest.xml:7:5-9:41
+MERGED from [me.dm7.barcodescanner:zxing:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f153fe1da73b4dbd438ec505bd26810d/AndroidManifest.xml:7:5-9:41
+MERGED from [me.dm7.barcodescanner:core:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/6c464b0bc0f86967e23d944a1547fb64/AndroidManifest.xml:7:5-9:41
+MERGED from [me.dm7.barcodescanner:core:1.9.13] /home/dominsch/.gradle/caches/transforms-2/files-2.1/6c464b0bc0f86967e23d944a1547fb64/AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b3bfa0592107f492a74060c1b362fe24/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b3bfa0592107f492a74060c1b362fe24/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4e3c9f97eec46b2fa0b2f20a0aefd08c/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4e3c9f97eec46b2fa0b2f20a0aefd08c/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/18a4d0445534007d635f5758cffd5101/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/18a4d0445534007d635f5758cffd5101/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d3205402e21a6654a41e5ff5f066ca49/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d3205402e21a6654a41e5ff5f066ca49/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f2dc38747e799fca91732b821222c88f/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f2dc38747e799fca91732b821222c88f/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/757642260c08eed8565fa073dae2c523/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/757642260c08eed8565fa073dae2c523/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/532a6fe529cc552860e87e5d7bf232da/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/532a6fe529cc552860e87e5d7bf232da/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/148ea92ed26400a3247d132ee65ac1f3/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/148ea92ed26400a3247d132ee65ac1f3/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/36eec71c68ed18b8088e20e896f41570/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/36eec71c68ed18b8088e20e896f41570/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/7418e3b9b17328b5ac659ce647241d59/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/7418e3b9b17328b5ac659ce647241d59/AndroidManifest.xml:20:5-44
+MERGED from [androidx.webkit:webkit:1.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3f67e56b5f68481e7a332edda4146c9c/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.webkit:webkit:1.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/3f67e56b5f68481e7a332edda4146c9c/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.1.0-alpha04] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d0fabb6d2fbad5b3a4e6de8d3a5fb0bc/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.1.0-alpha04] /home/dominsch/.gradle/caches/transforms-2/files-2.1/d0fabb6d2fbad5b3a4e6de8d3a5fb0bc/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/14054692da695f444c8ff305e444fb73/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/14054692da695f444c8ff305e444fb73/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/8558b2eede285c74632a3493172f72c3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/8558b2eede285c74632a3493172f72c3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/00458c9535fbafcf7db25fd67a13eb78/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/00458c9535fbafcf7db25fd67a13eb78/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/54c65cb2207c6b23fbccac9f140947ae/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/54c65cb2207c6b23fbccac9f140947ae/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b8884e5fba5c35c556d194bcd4f2301d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b8884e5fba5c35c556d194bcd4f2301d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9c6c2895f5dee8338e2faaaf5e7b9d40/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9c6c2895f5dee8338e2faaaf5e7b9d40/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/dominsch/.gradle/caches/transforms-2/files-2.1/35ef9222560cf1d19709a14a567edd39/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/dominsch/.gradle/caches/transforms-2/files-2.1/35ef9222560cf1d19709a14a567edd39/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4aad1964c2a11e518445d26f0a7f7e67/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/4aad1964c2a11e518445d26f0a7f7e67/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/205d21fb19d1f74c74f4ae5deba440be/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/205d21fb19d1f74c74f4ae5deba440be/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f0024307130da491ed5928835ffd04c2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f0024307130da491ed5928835ffd04c2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/42757428e9f80e7d5187f8573e6388b4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/42757428e9f80e7d5187f8573e6388b4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/2454207bd430ca661fe8b1755f802f78/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/2454207bd430ca661fe8b1755f802f78/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/95da0a9885d29b905ba4a47ee5a4e832/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/95da0a9885d29b905ba4a47ee5a4e832/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f3dc863c85c095e7b9485683dc62c065/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/f3dc863c85c095e7b9485683dc62c065/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/5a0562de09433d98125c5f04b373ce37/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/5a0562de09433d98125c5f04b373ce37/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/43f3718c5bd45798d945b135d932babd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/43f3718c5bd45798d945b135d932babd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0afca25aa4e6cbe0b4284222bc919d3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0afca25aa4e6cbe0b4284222bc919d3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/bd895119e25b918b529a6e4b3bf104bf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/bd895119e25b918b529a6e4b3bf104bf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/ab9095cc75c083e77e44d327f56252c2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/ab9095cc75c083e77e44d327f56252c2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-rc01] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0d1cdfd0756c7620ecaa5b7781d6aeb/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-rc01] /home/dominsch/.gradle/caches/transforms-2/files-2.1/b0d1cdfd0756c7620ecaa5b7781d6aeb/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-components:16.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0dcb3a441bc2886aba83aa99bab83f57/AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-components:16.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0dcb3a441bc2886aba83aa99bab83f57/AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a0638d1cb31098620f1a87104019c468/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a0638d1cb31098620f1a87104019c468/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/7a526877f4f3ffabdd35d5e1f1cbe1f7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/7a526877f4f3ffabdd35d5e1f1cbe1f7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0817fe43b2629e49ca0cd8613b193869/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0817fe43b2629e49ca0cd8613b193869/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0059c3a5d3ea29282156eea34a9e4aaa/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0059c3a5d3ea29282156eea34a9e4aaa/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/02604235fb97b83197991fa33c1cdb66/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/02604235fb97b83197991fa33c1cdb66/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/fd75729f019df10b37824ba91ef7220b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/fd75729f019df10b37824ba91ef7220b/AndroidManifest.xml:20:5-44
+MERGED from [io.grpc:grpc-android:1.21.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/13d66a8e84200aa3521aae49320be905/AndroidManifest.xml:7:5-9:41
+MERGED from [io.grpc:grpc-android:1.21.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/13d66a8e84200aa3521aae49320be905/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-database-collection:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/5d17c8343e837e64b38fb7655dc5485c/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database-collection:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/5d17c8343e837e64b38fb7655dc5485c/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e2a6cb1868b419c1aa3aecbae4296403/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e2a6cb1868b419c1aa3aecbae4296403/AndroidManifest.xml:7:5-9:41
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml:6:5-66
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:14:5-67
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:14:5-67
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:12:5-67
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:12:5-67
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:27:5-67
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:27:5-67
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/android/app/src/debug/AndroidManifest.xml:6:22-64
+provider#com.wisecrab.wc_flutter_share.WcFlutterShareFileProvider
+ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
+	android:grantUriPermissions
+		ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
+	android:authorities
+		ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-105
+	android:exported
+		ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-84
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:70
+	android:resource
+		ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-67
+	android:name
+		ADDED from [:wc_flutter_share] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/wc_flutter_share/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-80
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-80
+MERGED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-80
+	android:name
+		ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-78
+provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
+ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
+	android:grantUriPermissions
+		ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
+	android:authorities
+		ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
+	android:exported
+		ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
+	android:name
+		ADDED from [:image_picker] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:33:9-39:19
+MERGED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:33:9-39:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:17:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:17:9-23:19
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:15:9-19:19
+MERGED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:15:9-19:19
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:30:9-34:19
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:30:9-34:19
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:29:9-35:19
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:29:9-35:19
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:32:9-36:35
+MERGED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:32:9-36:35
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:35:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:36:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:34:13-43
+	android:name
+		ADDED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-89
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.cloudfunctions.FlutterFirebaseAppRegistrar
+ADDED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:cloud_functions] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_functions/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-133
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.cloudfirestore.FlutterFirebaseAppRegistrar
+ADDED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:cloud_firestore] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-133
+meta-data#com.google.firebase.components:io.flutter.plugins.firebaseauth.FlutterFirebaseAppRegistrar
+ADDED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_auth] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-122
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar
+ADDED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_storage] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-126
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseAppRegistrar
+ADDED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_core] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-123
+uses-permission#android.permission.CAMERA
+ADDED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-65
+	android:name
+		ADDED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:11:22-62
+activity#de.mintware.barcode_scan.BarcodeScannerActivity
+ADDED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:14:9-84
+	android:name
+		ADDED from [:barcode_scan] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/barcode_scan/intermediates/library_manifest/debug/AndroidManifest.xml:14:19-81
+receiver#com.example.medianotification.NotificationReturnSlot
+ADDED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:9:9-89
+	android:name
+		ADDED from [:media_notification_control] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/media_notification_control/intermediates/library_manifest/debug/AndroidManifest.xml:9:19-86
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-83
+	android:name
+		ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-80
+provider#androidx.core.content.FileProvider
+ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-21:20
+	android:grantUriPermissions
+		ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:16:13-47
+	android:authorities
+		ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-64
+	android:exported
+		ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-37
+	tools:replace
+		ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-48
+	android:name
+		ADDED from [:open_file] /home/dominsch/Dokumente/dhbw/cmp_java_neu/cmp/build/open_file/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-62
+activity#com.google.firebase.auth.internal.FederatedSignInActivity
+ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:24:9-31:50
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:26:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:28:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:27:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:29:13-102
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:30:13-72
+	tools:replace
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:31:13-47
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:25:13-85
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:36:13-38:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:38:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:19.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/1ebee880a04e82421de0a424a740984f/AndroidManifest.xml:37:17-109
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:13:5-79
+MERGED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:13:5-79
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:26:5-79
+MERGED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:26:5-79
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:24:5-79
+MERGED from [io.grpc:grpc-android:1.21.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/13d66a8e84200aa3521aae49320be905/AndroidManifest.xml:11:5-79
+MERGED from [io.grpc:grpc-android:1.21.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/13d66a8e84200aa3521aae49320be905/AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:24:22-76
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/93de222f204b2115d4419d8df81c9324/AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:25:22-65
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:26:5-110
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:26:22-107
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:31:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:30:13-85
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:34:9-42:20
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:29:9-37:20
+MERGED from [com.google.android.gms:play-services-measurement-impl:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/9bb94bbe2d95e100b493336deb92b249/AndroidManifest.xml:29:9-37:20
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:36:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:37:13-36
+	android:permission
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:38:13-69
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:35:13-100
+intent-filter#action:name:com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:39:13-41:29
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:40:17-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:40:25-76
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:44:9-47:40
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:46:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:47:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:45:13-84
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:48:9-52:72
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:50:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:51:13-37
+	android:permission
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:52:13-69
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/c1a954fee95839a46cbc0364be0fea22/AndroidManifest.xml:49:13-87
+meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
+ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:30:13-32:85
+	android:value
+		ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:32:17-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/192496edf80cbd81f4d833d505870420/AndroidManifest.xml:31:17-139
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
+ADDED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:20:13-22:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:21.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/a1e5bf265ee24f747153beeba30a9740/AndroidManifest.xml:21:17-111
+meta-data#com.google.firebase.components:com.google.firebase.functions.FunctionsRegistrar
+ADDED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:16:13-18:85
+	android:value
+		ADDED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:18:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-functions:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/0839bcf714f80515c62c103abf7f2031/AndroidManifest.xml:17:17-111
+meta-data#com.google.firebase.components:com.google.firebase.storage.StorageRegistrar
+ADDED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:31:13-33:85
+	android:value
+		ADDED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:33:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-storage:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/64cae15fe7d1c0616dd5130e2c90edf1/AndroidManifest.xml:32:17-107
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:26:5-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:26:22-79
+meta-data#com.google.firebase.components:com.google.firebase.iid.Registrar
+ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:32:13-34:85
+	android:value
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:34:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:33:17-96
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:37:9-44:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:39:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:40:13-73
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:38:13-78
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:41:13-43:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:42:17-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:19.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/e045f3e55c9b0d402bad9ace74cd35d4/AndroidManifest.xml:42:25-78
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:26:9-30:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:28:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:29:13-37
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:30:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:19.3.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/89e035be90a58e2659c06f2084708884/AndroidManifest.xml:27:13-77
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/39e971591d95bd06d0806cb74f285bdc/AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:17.0.0] /home/dominsch/.gradle/caches/transforms-2/files-2.1/87d00629eb4c68c93ff0bd5acb90fca2/AndroidManifest.xml:24:13-58

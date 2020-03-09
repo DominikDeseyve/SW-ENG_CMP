@@ -1,0 +1,29 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.wisecrab.wc_flutter_share" >
+4
+5    <uses-sdk android:minSdkVersion="16" />
+5-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml
+6
+7    <application>
+7-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:3:5-13:19
+8        <provider
+8-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:4:9-12:20
+9            android:name="com.wisecrab.wc_flutter_share.WcFlutterShareFileProvider"
+9-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:5:13-55
+10            android:authorities="dollar_openBracket_applicationId_closeBracket.fileprovider.github.com/com/wisecrab/wc-flutter-share"
+10-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:6:13-105
+11            android:exported="false"
+11-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:7:13-37
+12            android:grantUriPermissions="true" >
+12-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:8:13-47
+13            <meta-data
+13-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:9:13-11:69
+14                android:name="android.support.FILE_PROVIDER_PATHS"
+14-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:10:17-67
+15                android:resource="@xml/wc_flutter_share_filepaths" />
+15-->/home/dominsch/flutter/.pub-cache/hosted/pub.dartlang.org/wc_flutter_share-0.1.1/android/src/main/AndroidManifest.xml:11:17-67
+16        </provider>
+17    </application>
+18
+19</manifest>

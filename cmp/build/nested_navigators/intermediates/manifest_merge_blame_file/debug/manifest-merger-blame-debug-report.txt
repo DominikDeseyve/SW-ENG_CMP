@@ -1,0 +1,8 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.vb.nested_navigators" >
+4
+5    <uses-sdk android:minSdkVersion="16" />
+5-->/home/dominsch/flutter/.pub-cache/git/nested_navigators-6bfd5ac93d8fd2f2290224d935587a7689498a62/android/src/main/AndroidManifest.xml
+6
+7</manifest>
