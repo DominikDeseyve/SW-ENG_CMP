@@ -28,6 +28,7 @@ class CMP extends StatelessWidget {
           case ConnectionState.done:
             try {
               if (isAuth.data) {
+                print("dynmaic theme");
                 return DynamicTheme(
                   defaultBrightness: Brightness.light,
                   data: (brightness) => new ThemeData(

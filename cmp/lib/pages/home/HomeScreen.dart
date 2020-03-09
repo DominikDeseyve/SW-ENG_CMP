@@ -94,16 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Controller().translater.language.getLanguagePack("welcome_back") + ' ' + Controller().authentificator.user.username,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 18,
                       color: Controller().theming.fontPrimary,
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Icon(
-                    Icons.mood,
-                    size: 25,
-                    color: Controller().theming.fontPrimary,
-                  ),
+                  
                 ],
               ),
             ),

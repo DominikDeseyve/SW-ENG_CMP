@@ -31,9 +31,9 @@ class _RegisterPageState extends State<RegisterPage> {
   _showDateTimePicker() async {
     selected = await showDatePicker(
       context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(1960),
-      lastDate: new DateTime(2050),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
 
     setState(() {});
@@ -113,8 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: Icon(Icons.account_circle),
                 hintText: 'Benutzername',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 8.0),
@@ -124,8 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
               autofocus: false,
               validator: (value) {
                 checkEmail(value);
-                Pattern pattern =
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                 RegExp regex = new RegExp(pattern);
                 if (!regex.hasMatch(value)) {
                   return 'Geben Sie eine gültige Email an';
@@ -138,8 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: Icon(Icons.email),
                 hintText: 'Email',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 8.0),
@@ -166,8 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: Icon(Icons.date_range),
                 hintText: 'Geburtsdatum',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 8.0),
@@ -187,8 +183,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: Icon(Icons.lock),
                 hintText: 'Passwort',
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 8.0),
@@ -206,8 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: Icon(Icons.lock),
                 hintText: "Passwort wiederholen",
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
               ),
             ),
             SizedBox(height: 24.0),
@@ -227,14 +221,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       User user = new User();
                       user.username = this._userController.text;
                       user.birthday = DateTime.now();
-                      bool success = await Controller()
-                          .authentificator
-                          .signUp(email, password, user);
+                      bool success = await Controller().authentificator.signUp(email, password, user);
                       TinyLoader.hide();
                       if (success) {
-                        Navigator.of(context).pushReplacementNamed(
-                            '/register/email',
-                            arguments: email);
+                        Navigator.of(context).pushReplacementNamed('/register/email', arguments: email);
                       }
                     } catch (e) {
                       print(e.code);
@@ -249,8 +239,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 padding: EdgeInsets.all(12),
                 color: Colors.redAccent,
-                child:
-                    Text('REGISTRIEREN', style: TextStyle(color: Colors.white)),
+                child: Text('REGISTRIEREN', style: TextStyle(color: Colors.white)),
               ),
             ),
             FlatButton(

@@ -13,6 +13,8 @@ class LocalStorage {
   List<Song> _searchedSongs;
 
   LocalStorage() {
+    this._searchedPlaylists = [];
+    this._searchedSongs = [];
     _storeRef = StoreRef.main();
     this._init();
   }
@@ -27,18 +29,19 @@ class LocalStorage {
   void fetchValues() async {
     this._searchedPlaylists = [];
     this._searchedSongs = [];
-    try {
-      var searchedPlaylists = await this._storeRef.record('searched_playlist').get(this._database);
-      this._searchedPlaylists = List.from(searchedPlaylists);
 
-      var searchedSongs = await this._storeRef.record('searched_songs').get(this._database);
-      List jsonList = List.from(searchedSongs);
+    var searchedPlaylists = await this._storeRef.record('searched_playlist').get(this._database);
+    if (searchedPlaylists != null) {
+      this._searchedPlaylists = List.from(searchedPlaylists);
+    }
+
+    var searchedSongs = await this._storeRef.record('searched_songs').get(this._database);
+    if (searchedSongs != null) {
+      List jsonList = List.castFrom(searchedSongs);
 
       jsonList.forEach((dynamic item) {
         this._searchedSongs.add(Song.fromLocal(item));
       });
-    } catch (e) {
-      print(e);
     }
   }
 

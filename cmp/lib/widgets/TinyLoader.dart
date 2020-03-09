@@ -1,4 +1,3 @@
-import 'package:cmp/logic/Controller.dart';
 import 'package:flutter/material.dart';
 
 class TinyLoader {
@@ -26,7 +25,7 @@ class TinyLoader {
                         padding: const EdgeInsets.all(40),
                         child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation<Color>(
-                            Controller().theming.fontAccent,
+                            Colors.redAccent,
                           ),
                         ),
                       ),
@@ -36,7 +35,7 @@ class TinyLoader {
                           pText,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Controller().theming.fontSecondary,
+                            color: Colors.white,
                             fontSize: 22,
                           ),
                         ),

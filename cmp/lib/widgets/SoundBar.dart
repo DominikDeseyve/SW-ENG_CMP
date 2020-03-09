@@ -64,9 +64,33 @@ class _SoundBarState extends State<SoundBar> {
             padding: const EdgeInsets.all(5),
             child: Row(
               children: <Widget>[
-                SongAvatar(
-                  Controller().soundManager.currentSong,
-                  width: 50,
+                Stack(
+                  overflow: Overflow.visible,
+                  children: [
+                    SongAvatar(
+                      Controller().soundManager.currentSong,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: new BoxDecoration(
+                          color: Colors.redAccent,
+                          shape: BoxShape.circle,
+                        ),
+                        child: (Controller().soundManager.currentSong.platform == 'YOUTUBE'
+                            ? Image.asset(
+                                'assets/icons/youtube.png',
+                                width: 15,
+                              )
+                            : Image.asset(
+                                'assets/icons/soundcloud.png',
+                                width: 15,
+                              )),
+                      ),
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: Padding(
@@ -77,6 +101,8 @@ class _SoundBarState extends State<SoundBar> {
                       children: <Widget>[
                         Text(
                           Controller().soundManager.currentSong.artist + ' aus  ' + Controller().soundManager.playlist.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white.withOpacity(0.6),

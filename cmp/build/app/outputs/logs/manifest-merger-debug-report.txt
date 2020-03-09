@@ -186,7 +186,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-rc01] /home/
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.2.0-alpha02] /home/dominsch/.gradle/caches/transforms-2/files-2.1/52433f0990d3a527c2fc45fd475e7f8c/AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from /home/dominsch/Dokumente/dhbw/SW-ENG_CMP/cmp/android/app/src/main/AndroidManifest.xml:10:9-28
+		ADDED from /home/dominsch/Dokumente/dhbw/SW-ENG_CMP/cmp/android/app/src/main/AndroidManifest.xml:10:9-47
 	android:icon
 		ADDED from /home/dominsch/Dokumente/dhbw/SW-ENG_CMP/cmp/android/app/src/main/AndroidManifest.xml:11:9-43
 	android:name

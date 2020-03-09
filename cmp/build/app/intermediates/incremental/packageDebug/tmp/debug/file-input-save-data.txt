@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Mon Mar 09 10:05:51 CET 2020
+#Mon Mar 09 12:24:44 CET 2020
 17.baseType=DIRECTORY
 4.path=flutter_assets/assets/icons/icon-blue-256x256.png
 25.base=/home/dominsch/Dokumente/dhbw/SW-ENG_CMP/cmp/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
