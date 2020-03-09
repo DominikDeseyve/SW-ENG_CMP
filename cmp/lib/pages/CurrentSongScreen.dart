@@ -26,6 +26,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
         autoPlay: true,
         hideControls: false,
         forceHideAnnotation: true,
+        hideThumbnail: false,
       ),
     );
 
@@ -50,10 +51,10 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
       AudioPlayerState state = Controller().soundManager.state;
       switch (state) {
         case AudioPlayerState.PLAYING:
-          this._youtubePlayerController.play();
+          this._youtubePlayerController.pause();
           break;
         case AudioPlayerState.PAUSED:
-          this._youtubePlayerController.pause();
+          this._youtubePlayerController.play();
           break;
         default:
       }
@@ -80,6 +81,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
 
   Widget build(BuildContext context) {
     if (this._duration == null || Controller().soundManager.state == null) return Container();
+
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -152,6 +154,9 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
           SizedBox(height: 30),
           (Controller().soundManager.currentSong.platform == 'YOUTUBE'
               ? GestureDetector(
+                  onTap: () {
+                    print(_youtubePlayerController.value.isPlaying);
+                  },
                   onDoubleTap: () {
                     this._youtubePlayerController.toggleFullScreenMode();
                   },
@@ -160,15 +165,19 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                     showVideoProgressIndicator: true,
                     topActions: <Widget>[],
                     bottomActions: <Widget>[
+                      Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          this._youtubePlayerController.toggleFullScreenMode();
+                        },
                         icon: Icon(Icons.fullscreen),
+                        color: Colors.white,
+                        iconSize: 35,
                       )
                     ],
                     onReady: () {
                       print('Player is ready.');
                       this._youtubePlayerController.seekTo(this._position);
-                      this._youtubePlayerController.play();
                     },
                   ),
                 )
@@ -306,6 +315,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   void dispose() {
     Controller().soundManager.removeListener(this._updateScreen);
     this._durationStream.cancel();
+    this._youtubePlayerController.dispose();
     super.dispose();
   }
 }

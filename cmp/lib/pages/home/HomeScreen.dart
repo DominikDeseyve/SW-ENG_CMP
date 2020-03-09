@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getPlaylists() async {
+    print("get playlists");
     Controller().firebase.getCreatedPlaylist().then((pCreatedPlaylist) {
       if (!mounted) return;
       setState(() {
@@ -47,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
+    print("build home");
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -163,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shrinkWrap: true,
                           itemCount: this._joinedPlaylist.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return PlaylistItem(this._joinedPlaylist.elementAt(index));
+                            return PlaylistItem(this._joinedPlaylist.elementAt(index), UniqueKey());
                           },
                         ),
                       ),
@@ -221,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shrinkWrap: true,
                           itemCount: this._createdPlaylist.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return PlaylistItem(this._createdPlaylist.elementAt(index));
+                            return PlaylistItem(this._createdPlaylist.elementAt(index), UniqueKey());
                           },
                         ),
                       ),
@@ -289,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: true,
                     itemCount: this._popularPlaylist.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PlaylistItem(this._popularPlaylist.elementAt(index));
+                      return PlaylistItem(this._popularPlaylist.elementAt(index), UniqueKey());
                     },
                   ),
                 ),
@@ -304,7 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class PlaylistItem extends StatelessWidget {
   final Playlist _playlist;
-  PlaylistItem(this._playlist);
+  final UniqueKey _key;
+  PlaylistItem(this._playlist, this._key);
 
   @override
   Widget build(BuildContext context) {
