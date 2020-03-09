@@ -268,8 +268,9 @@ class Firebase {
   }
 
   // Verlassen
-  Future<void> leavePlaylist(Playlist pPlaylist, User pUser) {
-    return this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).delete();
+  Future<void> leavePlaylist(Playlist pPlaylist, User pUser) async {
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).collection('joined_user').document(pUser.userID).delete();
+    await this._ref.collection('user').document(pUser.userID).collection('joined_playlist').document(pPlaylist.playlistID).delete();
   }
 
   // Get (Erstellte Playlists)

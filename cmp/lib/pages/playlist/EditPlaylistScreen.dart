@@ -33,7 +33,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   bool _descriptionError;
   void initState() {
     super.initState();
-
+    print("INIT");
     this._nameError = false;
     this._nameController = new TextEditingController();
     this._nameController.text = this.widget._playlist.name;
@@ -62,6 +62,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   void _chooseFile() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      print(this._nameController.text);
       this._selectedImage = image;
     });
   }
@@ -124,6 +125,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
   @override
   void dispose() {
+    print("dispose");
     // Clean up the controller when the widget is closed
     _nameController.dispose();
     _descriptionController.dispose();
@@ -133,6 +135,8 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("build here");
+    print(this._nameController.text);
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -202,7 +206,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: TextField(
+            child: TextFormField(
               onChanged: (String pText) => this._validateInput('NAME', pText),
               controller: _nameController,
               style: TextStyle(

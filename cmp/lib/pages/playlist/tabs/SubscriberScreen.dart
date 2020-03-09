@@ -233,7 +233,7 @@ class _UserItemState extends State<UserItem> {
                       ),
                     )
                   : SizedBox.shrink()),
-              (this.widget._user.userID != Controller().authentificator.user.userID
+              (this.widget._user.userID != Controller().authentificator.user.userID && Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN
                   ? IconButton(
                       icon: Icon(
                         Icons.clear,

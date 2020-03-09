@@ -36,7 +36,7 @@ class RouteController {
       case '/root':
         return RootScreen(args);
         break;
-      case '/start':
+      case '/':
         Widget page = FutureBuilder<bool>(
           future: Controller().authentificator.authentificate(),
           builder: (BuildContext context, AsyncSnapshot<bool> isAuth) {
@@ -136,6 +136,7 @@ class RouteController {
       default:
         print(pRouteSettings.name);
         return _errorRoute();
+        break;
     }
   }
 

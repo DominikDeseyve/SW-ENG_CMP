@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
+import 'package:cmp/widgets/UserAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -84,22 +85,31 @@ class _HomeScreenState extends State<HomeScreen> {
         onRefresh: this.getPlaylists,
         child: ListView(
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
-              color: Controller().theming.tertiary.withOpacity(0.2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    Controller().translater.language.getLanguagePack("welcome_back") + ' ' + Controller().authentificator.user.username,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Controller().theming.fontPrimary,
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed('/settings/profile');
+              },
+              child: Container(
+                color: Controller().theming.tertiary.withOpacity(0.2),
+                padding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    UserAvatar(
+                      Controller().authentificator.user,
+                      width: 40,
                     ),
-                  ),
-                  
-                ],
+                    SizedBox(width: 15),
+                    Text(
+                      Controller().translater.language.getLanguagePack("welcome_back") + ' ' + Controller().authentificator.user.username + '!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Controller().theming.fontPrimary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             //erstellte Playlists

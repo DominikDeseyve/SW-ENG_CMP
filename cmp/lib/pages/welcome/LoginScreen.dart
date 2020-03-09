@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                       bool success = await Controller().authentificator.signIn(email, password);
                       TinyLoader.hide();
                       if (success) {
-                        Navigator.of(context).pushNamedAndRemoveUntil('/start', (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                       } else {
                         setState(() {
                           error = "E-Mail wurde nicht bestätigt";

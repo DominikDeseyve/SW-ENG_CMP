@@ -1,6 +1,7 @@
 import 'package:cmp/logic/RouteController.dart';
 import 'package:cmp/pages/navigation.dart';
 import 'package:cmp/provider/RoleProvider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nested_navigators/nested_nav_bloc.dart';
@@ -20,7 +21,7 @@ class CMP extends StatelessWidget {
         builder: (_) => RoleProvider(),
         child: MaterialApp(
           title: 'CMP',
-          initialRoute: '/start',
+          initialRoute: '/',
           theme: new ThemeData(fontFamily: 'Ubuntu'),
           onGenerateRoute: RouteController.generateRoute,
           localizationsDelegates: [

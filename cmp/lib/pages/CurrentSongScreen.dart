@@ -24,7 +24,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
         disableDragSeek: true,
         mute: true,
         autoPlay: true,
-        hideControls: true,
+        hideControls: false,
         forceHideAnnotation: true,
       ),
     );
@@ -159,6 +159,12 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                     controller: _youtubePlayerController,
                     showVideoProgressIndicator: true,
                     topActions: <Widget>[],
+                    bottomActions: <Widget>[
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.fullscreen),
+                      )
+                    ],
                     onReady: () {
                       print('Player is ready.');
                       this._youtubePlayerController.seekTo(this._position);
