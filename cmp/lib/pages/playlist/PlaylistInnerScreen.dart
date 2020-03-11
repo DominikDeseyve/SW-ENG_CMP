@@ -37,6 +37,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   void initState() {
     super.initState();
+    Controller().spotify.connectToSpotifyRemote();
     //initialize default values
     this._isPlaying = false;
     this._fetchRole();
@@ -172,14 +173,39 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                     ),
                   )
                 : SizedBox.shrink()),
+            IconButton(
+              onPressed: () async {
+                Uri link = await Controller().linker.generateShortLink(this._playlist);
+                await WcFlutterShare.share(
+                  sharePopupTitle: 'Playlist teilen',
+                  subject: this._playlist.name,
+                  text: 'Hey du, hast Du Lust meiner Playlist auf CMP beizutreten? \nPlaylist: ' +
+                      this._playlist.name +
+                      '\n' +
+                      'Teilnehmeranzahl: ' +
+                      this._playlist.joinedUserCount.toString() +
+                      '\nIch freue mich auf Dich! \n' +
+                      link.toString(),
+                  mimeType: 'text/plain',
+                );
+              },
+              icon: Icon(
+                Icons.share,
+              ),
+            ),
             PopupMenuButton(
               color: Controller().theming.background,
               icon: Icon(
                 Icons.more_vert,
                 color: Controller().theming.fontSecondary,
               ),
-              onSelected: (int pValue) {
+              onSelected: (int pValue) async {
                 switch (pValue) {
+                  case 0:
+                    Navigator.of(context).pushNamed('/playlist/detailview', arguments: this._playlist).then((_) {
+                      setState(() {});
+                    });
+                    break;
                   case 1:
                     _showOptionAlert(Controller().translater.language.getLanguagePack("delete_playlist"), Controller().translater.language.getLanguagePack("delete_playlist_text"));
                     break;
@@ -195,6 +221,15 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 }
               },
               itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 0,
+                  child: Text(
+                    'Playlistinfo',
+                    style: TextStyle(
+                      color: Controller().theming.fontPrimary,
+                    ),
+                  ),
+                ),
                 (this._playlist.creator.userID == Controller().authentificator.user.userID
                     ? PopupMenuItem(
                         value: 1,
@@ -291,7 +326,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                 child: Container(
                   child: RawMaterialButton(
                     onPressed: () async {
-                      await Navigator.pushNamed(context, '/playlist/add', arguments: this._playlist);
+                      await Navigator.pushNamed(context, '/playlist/type', arguments: this._playlist);
                       this._queue.loadMore();
                     },
                     child: Icon(
@@ -506,7 +541,9 @@ class _SongItemState extends State<SongItem> {
       enableFeedback: true,
       onTap: () {},
       onLongPress: () {
-        if (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN || Provider.of<RoleProvider>(context).role.isMaster || this.widget._song.creator.userID == Controller().authentificator.user.userID) {
+        if (Provider.of<RoleProvider>(context).role.role == ROLE.ADMIN ||
+            Provider.of<RoleProvider>(context).role.isMaster ||
+            this.widget._song.creator.userID == Controller().authentificator.user.userID) {
           this._showOptionDialog();
         }
       },
@@ -528,20 +565,15 @@ class _SongItemState extends State<SongItem> {
                   bottom: -3,
                   right: -3,
                   child: Container(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(3),
                     decoration: new BoxDecoration(
-                      color: Colors.redAccent,
+                      color: (this.widget._song.platform == 'SPOTIFY' ? Colors.white : Colors.redAccent),
                       shape: BoxShape.circle,
                     ),
-                    child: (this.widget._song.platform == 'YOUTUBE'
-                        ? Image.asset(
-                            'assets/icons/youtube.png',
-                            width: 20,
-                          )
-                        : Image.asset(
-                            'assets/icons/soundcloud.png',
-                            width: 20,
-                          )),
+                    child: Image.asset(
+                      'assets/icons/' + this.widget._song.platform.toLowerCase() + '.png',
+                      width: 22,
+                    ),
                   ),
                 ),
               ],
@@ -646,20 +678,15 @@ class CurrentSongItem extends StatelessWidget {
                   bottom: -3,
                   right: -3,
                   child: Container(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(3),
                     decoration: new BoxDecoration(
-                      color: Colors.redAccent,
+                      color: (this._song.platform == 'SPOTIFY' ? Colors.white : Colors.redAccent),
                       shape: BoxShape.circle,
                     ),
-                    child: (this._song.platform == 'YOUTUBE'
-                        ? Image.asset(
-                            'assets/icons/youtube.png',
-                            width: 20,
-                          )
-                        : Image.asset(
-                            'assets/icons/soundcloud.png',
-                            width: 20,
-                          )),
+                    child: Image.asset(
+                      'assets/icons/' + this._song.platform.toLowerCase() + '.png',
+                      width: 22,
+                    ),
                   ),
                 ),
               ],
@@ -701,10 +728,21 @@ class CodeDialog extends StatefulWidget {
 
 class _CodeDialogState extends State<CodeDialog> {
   GlobalKey globalKey = new GlobalKey();
+  String _qrCode;
+
+  void initState() {
+    super.initState();
+    Controller().linker.generateShortLink(this.widget._playlist).then((Uri pURL) {
+      setState(() {
+        this._qrCode = pURL.toString();
+      });
+    });
+  }
+
   Future<void> _captureAndShare() async {
     try {
       RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
+      var image = await boundary.toImage(pixelRatio: 4.0);
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
@@ -712,10 +750,18 @@ class _CodeDialogState extends State<CodeDialog> {
       File file = await new File('${tempDir.path}/image.png').create();
       await file.writeAsBytes(pngBytes);
 
+      Uri link = await Controller().linker.generateShortLink(this.widget._playlist);
+
       await WcFlutterShare.share(
         sharePopupTitle: 'Playlist teilen',
         subject: this.widget._playlist.name,
-        text: 'Hey du, hast Du Lust meiner Playlist auf CMP beizutreten? \n Playlist: ' + this.widget._playlist.name + '\n' + 'Teilnehmeranzahl: ' + this.widget._playlist.maxAttendees.toString() + '\n Ich freue mich auf Dich!',
+        text: 'Hey du, hast Du Lust meiner Playlist auf CMP beizutreten? \nPlaylist: ' +
+            this.widget._playlist.name +
+            '\n' +
+            'Teilnehmeranzahl: ' +
+            this.widget._playlist.maxAttendees.toString() +
+            '\nIch freue mich auf Dich! \n' +
+            link.toString(),
         fileName: 'image.png',
         mimeType: 'image/png',
         bytesOfFile: byteData.buffer.asUint8List(),
@@ -751,31 +797,52 @@ class _CodeDialogState extends State<CodeDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              this.widget._playlist.name,
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 15),
-            Row(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: RepaintBoundary(
-                      key: globalKey,
-                      child: QrImage(
-                        data: this.widget._playlist.playlistID,
-                        backgroundColor: Colors.white,
-                        size: MediaQuery.of(context).size.width * 0.70,
-                        gapless: true,
-                        foregroundColor: Colors.black87,
-                        onError: (ex) {
-                          print("[QR] ERROR - $ex");
-                        },
+            RepaintBoundary(
+              key: globalKey,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+                      child: Text(
+                        this.widget._playlist.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 26),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: (this._qrCode != null
+                              ? QrImage(
+                                  data: _qrCode,
+                                  backgroundColor: Colors.white,
+                                  size: MediaQuery.of(context).size.width * 0.70,
+                                  gapless: true,
+                                  foregroundColor: Colors.black87,
+                                  onError: (ex) {
+                                    print("[QR] ERROR - $ex");
+                                  },
+                                )
+                              : Container(
+                                  width: MediaQuery.of(context).size.width * 0.70,
+                                  height: MediaQuery.of(context).size.width * 0.70,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor: new AlwaysStoppedAnimation<Color>(
+                                        Colors.redAccent,
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
             SizedBox(height: 20),
             Row(

@@ -22,7 +22,7 @@ class Firebase {
     this._source = Source.server;
   }
 
-  List<String> _generateKeywords(List<String> pItems) {
+  static List<String> generateKeywords(List<String> pItems) {
     List<String> keywordList = [];
     pItems = pItems.toSet().toList(); //delete duplicates
     pItems.forEach((String pItem) {
@@ -167,19 +167,9 @@ class Firebase {
       pPlaylist.description = " ";
     }
 
-    DocumentReference ref = await this._ref.collection('playlist').add({
-      'name': pPlaylist.name,
-      'image_url': pPlaylist.imageURL,
-      'max_attendees': pPlaylist.maxAttendees,
-      'description': pPlaylist.description,
-      'visibleness': pPlaylist.visibleness.key,
-      'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
-      'creator': pPlaylist.creator.toFirebase(),
-      'keywords': this._generateKeywords([pPlaylist.name]),
-      'joined_user_count': 0,
-      'queued_song_count': 0,
-      'created_at': DateTime.now(),
-    });
+    DocumentReference ref = await this._ref.collection('playlist').add(
+          pPlaylist.toFirebase(),
+        );
     return ref.documentID;
   }
 
@@ -221,16 +211,9 @@ class Firebase {
         pSnap.reference.updateData(pPlaylist.toFirebase(short: true));
       });
     });
-    await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData({
-      'name': pPlaylist.name,
-      'image_url': pPlaylist.imageURL,
-      'max_attendees': pPlaylist.maxAttendees,
-      'description': pPlaylist.description,
-      'keywords': this._generateKeywords([pPlaylist.name]),
-      'visibleness': pPlaylist.visibleness.key,
-      //'blacked_genre': pPlaylist.blackedGenre.map((genre) => genre.toFirebase()).toList(),
-      'creator': pPlaylist.creator.toFirebase(),
-    });
+    await this._ref.collection('playlist').document(pPlaylist.playlistID).updateData(
+          pPlaylist.toFirebase(),
+        );
   }
 
   // Löschen
@@ -387,7 +370,7 @@ class Firebase {
         .getDocuments(source: this._source)
         .then((QuerySnapshot pQuery) {
       pQuery.documents.forEach((DocumentSnapshot pSnap) {
-        user.add(User.fromFirebase(pSnap));
+        user.add(User.fromFirebase(pSnap, short: true));
       });
     });
     return user;

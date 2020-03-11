@@ -10,15 +10,15 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   List<Playlist> _createdPlaylist = [];
   List<Playlist> _joinedPlaylist = [];
   List<Playlist> _popularPlaylist = [];
 
   void initState() {
     super.initState();
-
-    getPlaylists();
+    Controller().linker.setContext(context);
+    this.getPlaylists();
   }
 
   Future<void> getPlaylists() async {
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
-    print("build home");
+    super.build(context);
     return Scaffold(
       backgroundColor: Controller().theming.background,
       appBar: PreferredSize(
@@ -302,6 +302,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class PlaylistItem extends StatelessWidget {

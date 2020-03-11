@@ -33,7 +33,6 @@ class Notification {
   }
 
   void showNotification() async {
-    print("test");
     await MediaNotification.show(
       play: true,
       title: this._controller.soundManager.currentSong.titel,

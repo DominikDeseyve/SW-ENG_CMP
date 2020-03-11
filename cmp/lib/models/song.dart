@@ -49,6 +49,20 @@ class Song {
 
     //https://api.soundcloud.com/tracks?q=brassmusix&client_id=oSGk2QGxkm3FzfZxx3SXThrXN2qPpL3M
   }
+  Song.fromSpotify(dynamic pItem) {
+    this._platform = 'SPOTIFY';
+    this._platformID = pItem['id'];
+    this._titel = pItem['name'];
+    this._artist = pItem['artists'][0]['name'];
+    this._imageURL = pItem['album']['images'][0]['url'];
+    User creator = new User();
+    creator.userID = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.username;
+    this._creator = creator;
+    this._songStatus = new SongStatus();
+
+    //https://api.soundcloud.com/tracks?q=brassmusix&client_id=oSGk2QGxkm3FzfZxx3SXThrXN2qPpL3M
+  }
   Song.fromFirebase(DocumentSnapshot pSnap, Playlist pPlaylist) {
     this._playlist = pPlaylist;
 
@@ -88,7 +102,7 @@ class Song {
       'created_at': DateTime.now(),
       'upvote_count': 0,
       'downvote_count': 0,
-      'creator': this._creator.toFirebase(),
+      'creator': this._creator.toFirebase(short: true),
       'song_status': this._songStatus.toFirebase(),
     };
   }
@@ -115,6 +129,7 @@ class Song {
         break;
     }
     print("-- LOADED URL FOR " + this.titel);
+    print(this._soundURL);
   }
 
   Future<void> _updateStatus() async {

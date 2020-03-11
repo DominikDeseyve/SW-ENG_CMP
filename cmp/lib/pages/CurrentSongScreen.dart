@@ -47,25 +47,20 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   }
 
   void _updateScreen() {
-    setState(() {
-      AudioPlayerState state = Controller().soundManager.state;
-      switch (state) {
-        case AudioPlayerState.PLAYING:
-          this._youtubePlayerController.pause();
-          break;
-        case AudioPlayerState.PAUSED:
-          this._youtubePlayerController.play();
-          break;
-        default:
-      }
-    });
+    print("## CurrentSongScreen._updateScreen");
+    print(Controller().soundManager.state);
+    setState(() {});
   }
 
   void _togglePlay() async {
     if (Controller().soundManager.state == AudioPlayerState.PLAYING) {
-      Controller().soundManager.pause();
+      this._youtubePlayerController.pause();
+      await Controller().soundManager.pause();
     } else {
-      Controller().soundManager.play();
+      int position = await Controller().soundManager.position;
+      this._youtubePlayerController.seekTo(Duration(milliseconds: position + 450), allowSeekAhead: true);
+      await Controller().soundManager.play();
+      this._youtubePlayerController.play();
     }
   }
 
@@ -162,7 +157,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                   },
                   child: YoutubePlayer(
                     controller: _youtubePlayerController,
-                    showVideoProgressIndicator: true,
+                    showVideoProgressIndicator: false,
                     topActions: <Widget>[],
                     bottomActions: <Widget>[
                       Spacer(),
@@ -177,7 +172,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                     ],
                     onReady: () {
                       print('Player is ready.');
-                      this._youtubePlayerController.seekTo(this._position);
+                      this._youtubePlayerController.seekTo(Duration(milliseconds: this._position.inMilliseconds + 450), allowSeekAhead: true);
                     },
                   ),
                 )

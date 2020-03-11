@@ -1,3 +1,5 @@
+import 'package:cmp/includes.dart/english.dart';
+import 'package:cmp/includes.dart/german.dart';
 import 'package:cmp/models/language.dart';
 
 class Translater {

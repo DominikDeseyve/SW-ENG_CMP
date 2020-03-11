@@ -1,4 +1,4 @@
-package com.example.cmp;
+package com.deseyve.cmp;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;

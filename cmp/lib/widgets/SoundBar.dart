@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/widgets/SongAvatar.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class _SoundBarState extends State<SoundBar> {
   }
 
   void _togglePlay() async {
-    if (Controller().soundManager.state == AudioPlayerState.PLAYING) {
+    if (Controller().soundManager.state == SoundState.PLAYING) {
       Controller().soundManager.pause();
     } else {
       Controller().soundManager.play();
@@ -123,7 +122,7 @@ class _SoundBarState extends State<SoundBar> {
                 IconButton(
                   onPressed: this._togglePlay,
                   icon: Icon(
-                    (Controller().soundManager.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
+                    (Controller().soundManager.state == SoundState.PLAYING ? Icons.pause : Icons.play_arrow),
                     color: Colors.white,
                     size: 26,
                   ),

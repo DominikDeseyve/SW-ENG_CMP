@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmp/logic/Firebase.dart';
 import 'package:cmp/models/genre.dart';
 import 'package:intl/intl.dart';
 import 'package:cmp/models/user.dart';
@@ -17,7 +18,11 @@ class Playlist {
   User _creator;
   DateTime _createdAt;
 
-  Playlist();
+  Playlist() {
+    this._joinedUserCount = 0;
+    this._queuedSongCount = 0;
+    this._createdAt = DateTime.now();
+  }
 
   Playlist.fromFirebase(DocumentSnapshot pSnap, {bool short = false}) {
     this._playlistID = pSnap.documentID;
@@ -44,8 +49,21 @@ class Playlist {
         'image_url': this._imageURL,
         'creator': this.creator.toFirebase(short: true),
       };
+    } else {
+      return {
+        'name': this.name,
+        'image_url': this.imageURL,
+        'max_attendees': this.maxAttendees,
+        'description': this.description,
+        'visibleness': this.visibleness.key,
+        //'blacked_genre': this.blackedGenre.map((genre) => genre.toFirebase()).toList(),
+        'creator': this.creator.toFirebase(short: true),
+        'keywords': Firebase.generateKeywords([this.name]),
+        'joined_user_count': this._joinedUserCount,
+        'queued_song_count': this._queuedSongCount,
+        'created_at': this._createdAt,
+      };
     }
-    return null;
   }
 
   //***************************************************//

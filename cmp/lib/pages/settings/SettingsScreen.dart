@@ -138,6 +138,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
+                /*Container(
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: InkWell(
+                    onTap: () {
+
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Design",
+                            style: TextStyle(
+                              color: Controller().theming.fontPrimary,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            "hell",
+                            style: TextStyle(
+                              color: Controller().theming.fontPrimary.withOpacity(0.5),
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),*/
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: Column(
@@ -170,7 +200,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 child: Container(
                                   width: 120,
                                   child: Text(
-                                    "DarkMode",
+                                    "Dark Mode",
                                     style: TextStyle(
                                       color: Controller().theming.fontPrimary,
                                       fontSize: 18,
@@ -197,7 +227,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           } else {
                                             Controller().theming.initDark();
                                           }
-
                                           TinyLoader.hide();
                                         });
                                       }),
