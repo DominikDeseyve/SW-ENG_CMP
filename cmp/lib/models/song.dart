@@ -23,6 +23,20 @@ class Song {
 
   int _duration;
 
+  Song.fromAPI(dynamic pItem, String pCategory) {
+    this._platform = pCategory;
+    this._platformID = pItem['id'].toString();
+    this._titel = new HtmlUnescape().convert(pItem['title']);
+    this._artist = pItem['artist'];
+    this._imageURL = pItem['image_url'];
+    this._duration = pItem['duration'];
+    User creator = new User();
+    creator.userID = Controller().authentificator.user.userID;
+    creator.username = Controller().authentificator.user.username;
+    this._creator = creator;
+    this._songStatus = new SongStatus();
+  }
+
   Song.fromYoutube(dynamic pItem) {
     this._platform = 'YOUTUBE';
     this._platformID = pItem['id']['videoId'];
@@ -39,6 +53,7 @@ class Song {
     this._platform = 'SOUNDCLOUD';
     this._platformID = pItem['id'].toString();
     this._titel = pItem['title'];
+    this._duration = pItem['duration'];
     this._artist = pItem['user']['username'];
     this._imageURL = pItem['user']['avatar_url'];
     User creator = new User();
@@ -54,6 +69,7 @@ class Song {
     this._platformID = pItem['id'];
     this._titel = pItem['name'];
     this._artist = pItem['artists'][0]['name'];
+    this._duration = pItem['duration_ms'];
     this._imageURL = pItem['album']['images'][0]['url'];
     User creator = new User();
     creator.userID = Controller().authentificator.user.userID;
@@ -69,6 +85,7 @@ class Song {
     this._songID = pSnap.documentID;
     this._titel = pSnap['titel'];
     this._artist = pSnap['artist'];
+    this._duration = (pSnap['duration'] == null ? null : pSnap['duration']);
     this._platform = pSnap['platform'];
     this._platformID = pSnap['youtube_id'];
     this._imageURL = pSnap['image_url'];
@@ -82,6 +99,7 @@ class Song {
   Song.fromLocal(dynamic pItem) {
     this._titel = pItem['titel'];
     this._artist = pItem['artist'];
+    this._duration = pItem['duration'];
     this._platform = pItem['platform'];
     this._platformID = pItem['youtube_id'];
     this._imageURL = pItem['image_url'];
@@ -95,6 +113,7 @@ class Song {
     return {
       'titel': this._titel,
       'artist': this._artist,
+      'duration': this._duration,
       'image_url': this._imageURL,
       'platform': this._platform,
       'youtube_id': this._platformID,
@@ -112,6 +131,7 @@ class Song {
       'titel': this._titel,
       'artist': this._artist,
       'image_url': this._imageURL,
+      'duration': this._duration,
       'platform': this._platform,
       'youtube_id': this._platformID,
     };
@@ -121,8 +141,8 @@ class Song {
     print("-- LOADING URL FOR " + this.titel);
     switch (this._platform) {
       case 'YOUTUBE':
-        this._soundURL = await Controller().youTube.getSoundUrlViaPlugin(this._platformID);
-        //this._soundURL = await Controller().youTube.getSoundURL(this._platformID);
+        //this._soundURL = await Controller().youTube.getSoundUrlViaPlugin(this._platformID);
+        this._soundURL = await Controller().youTube.getSoundURL(this._platformID);
         break;
       case 'SOUNDCLOUD':
         this._soundURL = await Controller().soundCloud.getSoundURL(this._platformID);
@@ -141,9 +161,9 @@ class Song {
     await this._updateStatus();
   }
 
-  void open() {
+  Future<void> open() async {
     this._songStatus.status = 'OPEN';
-    this._updateStatus();
+    await this._updateStatus();
   }
 
   Future<void> end() async {
@@ -200,6 +220,10 @@ class Song {
     return this._artist;
   }
 
+  int get duration {
+    return this._duration;
+  }
+
   String get soundURL {
     return this._soundURL;
   }
@@ -238,10 +262,6 @@ class Song {
 
   int get upvoteCount {
     return this._upvoteCount;
-  }
-
-  int get duration {
-    return this._duration;
   }
 
   User get creator {

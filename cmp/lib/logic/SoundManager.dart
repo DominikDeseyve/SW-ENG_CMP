@@ -96,12 +96,13 @@ class SoundManager extends ChangeNotifier {
     } else {
       await this._activePlayer.play();
     }
+    this._activePlayer.song.play();
+    this._state = SoundState.PLAYING;
 
     if (this._crossfadeTimer.isActivated) {
       await this._passivePlayer.play();
     }
     this._crossfadeTimer.resume();
-    this._activePlayer.song.play();
 
     Controller().notification.showNotification();
     this.notifyListeners();
@@ -126,15 +127,23 @@ class SoundManager extends ChangeNotifier {
 
   Future<void> stop() async {
     this._state = SoundState.STOPPED;
-    await this._activePlayer.pause();
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      await Controller().spotify.stop();
+    } else {
+      await this._activePlayer.stop();
+    }
+    await this._activePlayer.song.end();
     this._crossfadeTimer.stop();
-    this._activePlayer.song.end();
 
     this.notifyListeners();
   }
 
   void seek(Duration pPosition) async {
-    await this._activePlayer.seek(pPosition);
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      await Controller().spotify.seek(pPosition);
+    } else {
+      await this._activePlayer.seek(pPosition);
+    }
   }
 
   Future<void> prepareNextSongs(int pLength) async {
@@ -162,6 +171,9 @@ class SoundManager extends ChangeNotifier {
 
   Future<bool> nextSong() async {
     print("next Song");
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      Controller().spotify.stop();
+    }
     //this._crossfadeTimer.stop();
     if (!this._playingQueue.hasNextSong) {
       print("--- PLAYLIST STOPPED BECAUSE NO MORE SONGS FOUND");
@@ -203,14 +215,7 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<void> deleteQueue() async {
-    if (this._activePlayer.song.platform == 'SPOTIFY') {
-      await Controller().spotify.stop();
-    } else {
-      await this.pause();
-    }
-
-    this._crossfadeTimer.stop();
-    this._activePlayer.song.open();
+    await this.stop();
 
     this._playingQueue = null;
     this._playlingPlaylist = null;
@@ -247,10 +252,18 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<int> get duration async {
-    return await this._activePlayer.fetchDuration();
+    if (this._activePlayer.song.platform == 'YOUTUBE') {
+      return await this._activePlayer.fetchDuration();
+    } else {
+      print(this._activePlayer.song.duration);
+      return this._activePlayer.song.duration;
+    }
   }
 
   Future<int> get position async {
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      return 100;
+    }
     return await this._activePlayer.position;
   }
 

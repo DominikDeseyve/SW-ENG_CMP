@@ -1,4 +1,5 @@
 import 'package:cmp/logic/Controller.dart';
+import 'package:cmp/logic/HTTP.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/song.dart';
 
@@ -30,20 +31,19 @@ class _TypeScreenState extends State<TypeScreen> {
 
   initiateSearch(String pQuery) async {
     if (pQuery.isEmpty) return;
-    List<Song> ytSongs = await Controller().youTube.search(pQuery);
-    setState(() {
-      this._youtubeSongs = ytSongs;
-    });
+    var results = await HTTP.search(pQuery);
+    print(results.runtimeType);
 
-    List<Song> scSongs = await Controller().soundCloud.search(pQuery);
-    setState(() {
-      this._soundCloudSongs = scSongs;
-    });
-
-    List<Song> spSongs = await Controller().spotify.search(pQuery);
-    setState(() {
-      this._spotifySongs = spSongs;
-    });
+    for (var song in results['youtube']) {
+      this._youtubeSongs.add(Song.fromAPI(song, 'YOUTUBE'));
+    }
+    for (var song in results['soundcloud']) {
+      this._soundCloudSongs.add(Song.fromAPI(song, 'SOUNDCLOUD'));
+    }
+    for (var song in results['spotify']) {
+      this._spotifySongs.add(Song.fromAPI(song, 'SPOTIFY'));
+    }
+    setState(() {});
   }
 
   void _saveSong(Song pSong) async {
@@ -70,6 +70,7 @@ class _TypeScreenState extends State<TypeScreen> {
           title: TextField(
             controller: _searchController,
             autofocus: true,
+            textInputAction: TextInputAction.search,
             decoration: InputDecoration(
               hintText: "Suche nach Song, Video, URL,...",
               border: InputBorder.none,
@@ -105,7 +106,7 @@ class _TypeScreenState extends State<TypeScreen> {
         ),
       ),
       body: (this._searchController.text.isEmpty
-          ? Column(
+          ? ListView(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(20),

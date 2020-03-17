@@ -36,7 +36,11 @@ class Player {
   }
 
   Future<void> pause() async {
-    this._audioPlayer.pause();
+    await this._audioPlayer.pause();
+  }
+
+  Future<void> stop() async {
+    await this._audioPlayer.pause();
   }
 
   Future<void> seek(Duration pPosition) async {

@@ -73,20 +73,15 @@ class _SoundBarState extends State<SoundBar> {
                       bottom: 0,
                       right: 0,
                       child: Container(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(3),
                         decoration: new BoxDecoration(
-                          color: Colors.redAccent,
+                          color: (Controller().soundManager.currentSong.platform == 'SPOTIFY' ? Colors.white : Colors.redAccent),
                           shape: BoxShape.circle,
                         ),
-                        child: (Controller().soundManager.currentSong.platform == 'YOUTUBE'
-                            ? Image.asset(
-                                'assets/icons/youtube.png',
-                                width: 15,
-                              )
-                            : Image.asset(
-                                'assets/icons/soundcloud.png',
-                                width: 15,
-                              )),
+                        child: Image.asset(
+                          'assets/icons/' + Controller().soundManager.currentSong.platform.toLowerCase() + '.png',
+                          width: 18,
+                        ),
                       ),
                     ),
                   ],
