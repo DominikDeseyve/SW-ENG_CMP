@@ -4,7 +4,6 @@ import 'package:cmp/pages/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:nested_navigators/nested_nav_item.dart';
 import 'package:nested_navigators/nested_navigators.dart';
-
 class RootScreen extends StatefulWidget {
   final Navigation _initialNav;
   RootScreen(this._initialNav);

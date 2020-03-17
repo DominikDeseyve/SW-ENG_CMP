@@ -10,7 +10,7 @@ class Queue {
   bool _isFinished;
   DocumentSnapshot _lastDocument;
   Stream<QuerySnapshot> _stream;
-  StreamSubscription<QuerySnapshot> _streamSubscription;
+  List<StreamSubscription<QuerySnapshot>> _streamSubscription = [];
 
   Song _currentSong;
   List<Song> _songs = [];
@@ -48,61 +48,61 @@ class Queue {
   void listen() {
     this._stream = Controller().firebase.getPlaylistQueue(this._playlist, this);
 
-    this._streamSubscription = this._stream.listen((QuerySnapshot pQuery) {
-      print("QUEUE FETCHED " + pQuery.documentChanges.length.toString() + " SONGS");
-      if (pQuery.documentChanges.length == 0) {
-        this._isFinished = true;
-        return;
-      } else if (pQuery.documentChanges.length < this._stepSize) {
-        this._isFinished = true;
-      } else {
-        //pQuery.documentChanges.length = this._stepSize;
-      }
-      this._lastDocument = pQuery.documentChanges.last.document;
+    this._streamSubscription.add(this._stream.listen((QuerySnapshot pQuery) {
+          print("QUEUE FETCHED " + pQuery.documentChanges.length.toString() + " SONGS");
+          if (pQuery.documentChanges.length == 0) {
+            this._isFinished = true;
+            return;
+          } else if (pQuery.documentChanges.length < this._stepSize) {
+            this._isFinished = true;
+          } else {
+            //pQuery.documentChanges.length = this._stepSize;
+          }
+          this._lastDocument = pQuery.documentChanges.last.document;
 
-      pQuery.documentChanges.forEach((DocumentChange pSong) {
-        Song song = Song.fromFirebase(pSong.document, this._playlist);
-        song = this._copySoundURL(song);
+          pQuery.documentChanges.forEach((DocumentChange pSong) {
+            Song song = Song.fromFirebase(pSong.document, this._playlist);
+            song = this._copySoundURL(song);
 
-        if (song.songStatus.isPlaying) {
-          this._currentSong = song;
-          this._removeSong(song);
-          return;
-        }
-        switch (pSong.type) {
-          case DocumentChangeType.added:
-            print('ADD: ' + song.titel);
-            int index = this._songs.indexWhere((item) => item.songID == song.songID);
-            if (index == -1) {
-              //if song is was current song
-              if (this._currentSong != null && this._currentSong.songID == song.songID) {
-                print("ist das wirklich nötig?");
-                this._currentSong = null;
-              }
-              this._songs.add(song);
+            if (song.songStatus.isPlaying) {
+              this._currentSong = song;
+              this._removeSong(song);
+              return;
             }
-            break;
-          case DocumentChangeType.modified:
-            print("MODIFIED: " + song.titel);
+            switch (pSong.type) {
+              case DocumentChangeType.added:
+                print('ADD: ' + song.titel);
+                int index = this._songs.indexWhere((item) => item.songID == song.songID);
+                if (index == -1) {
+                  //if song is was current song
+                  if (this._currentSong != null && this._currentSong.songID == song.songID) {
+                    print("ist das wirklich nötig?");
+                    this._currentSong = null;
+                  }
+                  this._songs.add(song);
+                }
+                break;
+              case DocumentChangeType.modified:
+                print("MODIFIED: " + song.titel);
 
-            int index = this._songs.indexWhere((item) => item.songID == song.songID);
-            if (index > -1) {
-              this._songs[index] = song;
-            } else {
-              this._songs.add(song);
-              this._currentSong = null;
+                int index = this._songs.indexWhere((item) => item.songID == song.songID);
+                if (index > -1) {
+                  this._songs[index] = song;
+                } else {
+                  this._songs.add(song);
+                  this._currentSong = null;
+                }
+
+                break;
+              case DocumentChangeType.removed:
+                print("REMOVED: " + song.titel);
+                this._removeSong(song);
+                break;
             }
-
-            break;
-          case DocumentChangeType.removed:
-            print("REMOVED: " + song.titel);
-            this._removeSong(song);
-            break;
-        }
-      });
-      this.sort();
-      this._callback(pQuery);
-    });
+          });
+          this.sort();
+          this._callback(pQuery);
+        }));
   }
 
   void _removeSong(Song pSong) {
@@ -128,7 +128,9 @@ class Queue {
   }
 
   void cancel() {
-    this._streamSubscription.cancel();
+    this._streamSubscription.forEach((StreamSubscription pSub) {
+      pSub.cancel();
+    });
   }
 
   void dispose() {

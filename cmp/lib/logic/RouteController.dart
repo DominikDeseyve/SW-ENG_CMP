@@ -3,13 +3,14 @@ import 'package:cmp/pages/CurrentSongScreen.dart';
 import 'package:cmp/pages/RootScreen.dart';
 import 'package:cmp/pages/home/HomeScreen.dart';
 import 'package:cmp/pages/navigation.dart';
-import 'package:cmp/pages/playlist/AddSongScreen.dart';
 import 'package:cmp/pages/playlist/BlackedGenreScreen.dart';
 import 'package:cmp/pages/playlist/CategoryScreen.dart';
 import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/EditPlaylistScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
+import 'package:cmp/pages/playlist/ad_song/AddSongScreen.dart';
+import 'package:cmp/pages/playlist/ad_song/TypeScreen.dart';
 import 'package:cmp/pages/search/PlaylistSearchScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
 import 'package:cmp/pages/settings/ProfileScreen.dart';
@@ -47,7 +48,6 @@ class RouteController {
                 try {
                   if (isAuth.data) {
                     return DynamicTheme(
-                      defaultBrightness: Brightness.light,
                       data: (brightness) => new ThemeData(
                         brightness: brightness,
                       ),
@@ -110,6 +110,9 @@ class RouteController {
         break;
       case '/playlist/add':
         return AddSongScreen(args);
+        break;
+      case '/playlist/type':
+        return TypeScreen(args);
         break;
       case '/song/current':
         return CurrentSongScreen();

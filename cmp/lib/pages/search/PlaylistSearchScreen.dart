@@ -1,4 +1,5 @@
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:cmp/includes.dart/Config.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/widgets/PlaylistAvatar.dart';
@@ -39,15 +40,21 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
   }
 
   Future scan() async {
-    String barcode;
+    String qrCode;
     bool error = false;
     try {
-      barcode = await BarcodeScanner.scan();
+      qrCode = await BarcodeScanner.scan();
+      if (qrCode.contains(Config.linkURL)) {
+        Map<String, String> params = await Controller().linker.decodeURL(qrCode);
+        qrCode = params['playlistID'];
+      } else {
+        error = true;
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
-        barcode = 'The user did not grant the camera permission!';
+        qrCode = 'The user did not grant the camera permission!';
       } else {
-        barcode = 'Unknown error: $e';
+        qrCode = 'Unknown error: $e';
       }
       error = true;
     } on FormatException {
@@ -56,14 +63,15 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
       //barcode = 'null (User returned using the "back"-button before scanning anything. Result)';
     } catch (e) {
       error = true;
-      barcode = 'Unknown error: $e';
-    }
-    if (error) {
-      Controller().theming.showSnackbar(context, barcode);
-      return;
+      qrCode = 'Unknown error: $e';
     }
 
-    Navigator.of(context).pushNamed('/playlist', arguments: barcode);
+    if (error) {
+      Controller().theming.showSnackbar(context, qrCode);
+      return;
+    } else {
+      Navigator.of(context).pushNamed('/playlist', arguments: qrCode);
+    }
   }
 
   void pushCachedPlaylist(Playlist pPlaylist) {

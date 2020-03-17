@@ -30,7 +30,6 @@ class YouTube {
     try {
       Uri uri = Uri(path: this._url, queryParameters: queryParameters);
       String url = Uri.decodeFull(uri.toString());
-      print(url);
       var response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       });
@@ -53,7 +52,6 @@ class YouTube {
 
   Future<String> getSoundUrlViaPlugin(String pVideoID) async {
     MediaStreamInfoSet mediaStreams = await this._youtubeExplode.getVideoMediaStream(pVideoID);
-    print(mediaStreams.validUntil);
     AudioStreamInfo a = mediaStreams.audio[0];
     return a.url.toString();
   }

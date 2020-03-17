@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/Queue.dart';
-import 'package:cmp/models/genre.dart';
 import 'package:cmp/models/playlist.dart';
 import 'package:cmp/models/user.dart';
 import 'package:cmp/models/visibleness.dart';

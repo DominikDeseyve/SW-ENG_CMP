@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cmp/logic/Controller.dart';
 import 'package:cmp/logic/CrossfadeTimer.dart';
 import 'package:cmp/logic/Player.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SoundManager extends ChangeNotifier {
+  SoundState _state;
+
   Queue _playingQueue;
   Playlist _playlingPlaylist;
   StreamSubscription _onSongEnd;
@@ -21,6 +22,7 @@ class SoundManager extends ChangeNotifier {
   CrossfadeTimer _crossfadeTimer;
 
   SoundManager() {
+    this._state = SoundState.STOPPED;
     this._activePlayer = new Player();
     this._passivePlayer = new Player();
 
@@ -63,8 +65,8 @@ class SoundManager extends ChangeNotifier {
       this._activePlayer.fetchDuration().then((int pDuration) {
         int differenzPos = pDuration - pPosition.inMilliseconds;
         if (differenzPos <= 1000 * Controller().authentificator.user.settings.crossfade && !this._crossfadeTimer.isActivated && this._playingQueue.hasNextSong) {
-          print(this._playingQueue.hasNextSong);
           print("-- STARTING CROSSFADE");
+          this.prepareNextSongs(2);
           this._loadNextSong();
           this._crossfadeTimer.start();
         }
@@ -89,7 +91,12 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<void> play() async {
-    await this._activePlayer.play();
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      await Controller().spotify.play(this._activePlayer.song.platformID, this._state);
+    } else {
+      await this._activePlayer.play();
+    }
+
     if (this._crossfadeTimer.isActivated) {
       await this._passivePlayer.play();
     }
@@ -101,7 +108,13 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<void> pause() async {
-    await this._activePlayer.pause();
+    this._state = SoundState.PAUSED;
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      await Controller().spotify.stop();
+    } else {
+      await this._activePlayer.pause();
+    }
+
     if (this._crossfadeTimer.isActivated) {
       await this._passivePlayer.pause();
     }
@@ -112,6 +125,7 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<void> stop() async {
+    this._state = SoundState.STOPPED;
     await this._activePlayer.pause();
     this._crossfadeTimer.stop();
     this._activePlayer.song.end();
@@ -135,10 +149,11 @@ class SoundManager extends ChangeNotifier {
       return;
     }
     //temp end
+    if (this._playingQueue.songs.length < pLength) {
+      print("check for load more");
+      this._playingQueue.loadMore();
+    }
     for (int i = 0; i < pLength; i++) {
-      if (this._playingQueue.songs.length - 1 < i) {
-        this._playingQueue.loadMore();
-      }
       if (this._playingQueue.songs[i].soundURL == null) {
         await this._playingQueue.songs[i].loadURL();
       }
@@ -188,7 +203,12 @@ class SoundManager extends ChangeNotifier {
   }
 
   Future<void> deleteQueue() async {
-    await this.pause();
+    if (this._activePlayer.song.platform == 'SPOTIFY') {
+      await Controller().spotify.stop();
+    } else {
+      await this.pause();
+    }
+
     this._crossfadeTimer.stop();
     this._activePlayer.song.open();
 
@@ -218,8 +238,8 @@ class SoundManager extends ChangeNotifier {
   //*********   GETTER
   //***************************************************//
 
-  AudioPlayerState get state {
-    return this._activePlayer.state;
+  SoundState get state {
+    return this._state;
   }
 
   Stream<Duration> get durationStream {

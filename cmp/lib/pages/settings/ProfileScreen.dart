@@ -204,6 +204,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Container(
+            margin: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+            child: TextFormField(
+              initialValue: Controller().authentificator.user.email,
+              enabled: false,
+              style: TextStyle(
+                fontSize: 18,
+                color: Controller().theming.fontPrimary,
+              ),
+              onTap: () {},
+              decoration: InputDecoration(
+                labelText: Controller().translater.language.getLanguagePack("mail"),
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                helperStyle: TextStyle(fontSize: 18),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Controller().theming.fontTertiary,
+                  ),
+                ),
+                labelStyle: TextStyle(
+                  fontSize: 18,
+                  color: (!this._passwordError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
+                ),
+                focusColor: Controller().theming.tertiary,
+              ),
+            ),
+          ),
+          Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(
               onChanged: (String pText) => this._validateInput('USERNAME', pText),

@@ -1,3 +1,5 @@
+import 'package:cmp/includes.dart/english.dart';
+import 'package:cmp/includes.dart/german.dart';
 import 'package:cmp/logic/Translater.dart';
 import 'package:cmp/models/language.dart';
 import 'package:flutter_test/flutter_test.dart';

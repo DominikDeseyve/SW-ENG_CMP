@@ -5,6 +5,7 @@ import 'package:cmp/models/song.dart';
 class User {
   String _userID;
   String _username;
+  String _email;
 
   DateTime _birthday;
   String _imageURL;
@@ -22,15 +23,16 @@ class User {
     } else {
       this._userID = pSnapOrMap.documentID;
     }
+    this._username = pSnapOrMap['username'];
+    this._imageURL = pSnapOrMap['image_url'];
+    if (pSnapOrMap['role'] != null) {
+      this._role = Role.fromFirebase(pSnapOrMap['role']);
+    }
+
     if (!short) {
-      this._username = pSnapOrMap['username'];
-      this._imageURL = pSnapOrMap['image_url'];
+      this._email = pSnapOrMap['email'];
       if (pSnapOrMap['birthday'] != null) {
         this._birthday = DateTime.fromMillisecondsSinceEpoch(pSnapOrMap['birthday'].seconds * 1000);
-      }
-
-      if (pSnapOrMap['role'] != null) {
-        this._role = Role.fromFirebase(pSnapOrMap['role']);
       }
       if (pSnapOrMap['upvotes'] != null) {
         this._upvotedSongs = List.from(pSnapOrMap['upvotes']);
@@ -52,6 +54,8 @@ class User {
     } else {
       return {
         'user_id': this._userID,
+        'username': this._username,
+        'image_url': this._imageURL,
       };
     }
   }
@@ -112,6 +116,10 @@ class User {
 
   String get username {
     return this._username;
+  }
+
+  String get email {
+    return this._email;
   }
 
   DateTime get birthday {

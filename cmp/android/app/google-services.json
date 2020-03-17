@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:753301992410:android:e74b8fe3bfb2917bd806e3",
+        "mobilesdk_app_id": "1:753301992410:android:8e1d4126364209e9d806e3",
         "android_client_info": {
-          "package_name": "com.cmp"
+          "package_name": "com.deseyve.cmp"
         }
       },
       "oauth_client": [
