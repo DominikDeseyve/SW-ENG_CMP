@@ -53,7 +53,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   }
 
   void _togglePlay() async {
-    if (Controller().soundManager.state == AudioPlayerState.PLAYING) {
+    if (Controller().soundManager.state == SoundState.PLAYING) {
       this._youtubePlayerController.pause();
       await Controller().soundManager.pause();
     } else {
@@ -75,7 +75,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   }
 
   Widget build(BuildContext context) {
-    if (this._duration == null || Controller().soundManager.state == null) return Container();
+    if (this._duration == null || Controller().soundManager.state == null || Controller().soundManager.currentSong == null) return Container();
 
     return Scaffold(
       backgroundColor: Controller().theming.background,
@@ -177,10 +177,10 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                   ),
                 )
               : Container(
-                  padding: const EdgeInsets.all(50),
+                  padding: const EdgeInsets.all(15),
                   child: Image.network(
                     Controller().soundManager.currentSong.imageURL,
-                    height: 150,
+                    height: 225,
                     fit: BoxFit.contain,
                   ),
                 )),
@@ -279,7 +279,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
                       child: new IconButton(
                         iconSize: 40,
                         icon: new Icon(
-                          (Controller().soundManager.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
+                          (Controller().soundManager.state == SoundState.PLAYING ? Icons.pause : Icons.play_arrow),
                           color: Colors.white,
                         ),
                         onPressed: this._togglePlay,

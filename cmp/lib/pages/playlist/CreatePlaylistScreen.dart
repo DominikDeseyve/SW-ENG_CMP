@@ -50,7 +50,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
       Visibleness('PUBLIC'),
       Visibleness('PRIVATE'),
     ];
-    this._visibleness = this._visiblenessList[0];
+    this._visibleness = null;
   }
 
   void _chooseFile() async {
@@ -238,148 +238,178 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: TextField(
-              onChanged: (String pText) => this._validateInput('AMOUNT', pText),
-              controller: _maxAttendeesController,
-              style: TextStyle(
-                fontSize: 18,
-                color: Controller().theming.fontPrimary,
-              ),
-              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-              maxLength: 3,
-              decoration: InputDecoration(
-                counter: Offstage(),
-                labelText: (this._amountError ? Controller().translater.language.getLanguagePack("maxmembers_invalid") : Controller().translater.language.getLanguagePack("max_members")),
-                contentPadding: EdgeInsets.symmetric(vertical: 10),
-                helperStyle: TextStyle(fontSize: 18),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
+            margin: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                  child: Icon(
+                    Icons.group,
                     color: Controller().theming.fontPrimary,
                   ),
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Controller().theming.fontTertiary,
+                Expanded(
+                  child: TextField(
+                    onChanged: (String pText) => this._validateInput('AMOUNT', pText),
+                    controller: _maxAttendeesController,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Controller().theming.fontPrimary,
+                    ),
+                    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
+                    maxLength: 3,
+                    decoration: InputDecoration(
+                      counter: Offstage(),
+                      labelText: (this._amountError ? Controller().translater.language.getLanguagePack("maxmembers_invalid") : Controller().translater.language.getLanguagePack("max_members")),
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
+                      helperStyle: TextStyle(fontSize: 18),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Controller().theming.background,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Controller().theming.fontTertiary,
+                        ),
+                      ),
+                      labelStyle: TextStyle(
+                        color: (!this._amountError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
+                        fontSize: 18,
+                      ),
+                      focusColor: Controller().theming.fontPrimary,
+                    ),
                   ),
                 ),
-                labelStyle: TextStyle(
+              ],
+            ),
+          ),
+          /*Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: InkWell(
+              onTap: () {
+                int _selectedVisibleness;
+                return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Platformen'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RadioListTile(
+                              title: Text("YouTube"),
+                              groupValue: 0,
+                              value: 1,
+                              onChanged: (val) {
+                                setState(() {
+                                  // _currentIndex = val;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text(
+                              'Fertig',
+                              style: TextStyle(color: Controller().theming.fontAccent),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    });
+              },
+              child: Text(
+                'Platform wählen',
+                style: TextStyle(
                   color: (!this._amountError ? Controller().theming.fontPrimary : Controller().theming.fontAccent),
                   fontSize: 18,
                 ),
-                focusColor: Controller().theming.fontPrimary,
               ),
             ),
-          ),
+          ),*/
           Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  width: 1,
-                  color: Controller().theming.fontPrimary,
-                ),
-              ),
-            ),
-            margin: const EdgeInsets.fromLTRB(30, 15, 30, 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            margin: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+            child: Row(
               children: <Widget>[
-                Text(
-                  Controller().translater.language.getLanguagePack("type_of_playlist"),
-                  style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                  child: Icon(
+                    Icons.music_note,
                     color: Controller().theming.fontPrimary,
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    InkWell(
-                      child: Row(
-                        children: <Widget>[
-                          Radio(
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            activeColor: Controller().theming.fontAccent,
-                            value: 0,
-                            groupValue: _radioGroup,
-                            onChanged: (t) {
-                              setState(() {
-                                this._visibleness = this._visiblenessList[t];
-                                _radioGroup = t;
-                              });
-                            },
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                this._visibleness = this._visiblenessList[0];
-                                _radioGroup = 0;
-                              });
-                            },
-                            child: Text(
-                              Controller().translater.language.getLanguagePack("public"),
-                              style: TextStyle(
-                                color: Controller().theming.fontPrimary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                Expanded(
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: Controller().theming.background,
                     ),
-                    InkWell(
-                      child: Row(
-                        children: <Widget>[
-                          Radio(
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            activeColor: Controller().theming.fontAccent,
-                            value: 1,
-                            groupValue: _radioGroup,
-                            onChanged: (t) {
-                              setState(() {
-                                this._visibleness = this._visiblenessList[t];
-                                _radioGroup = t;
-                              });
-                            },
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                this._visibleness = this._visiblenessList[1];
-                                _radioGroup = 1;
-                              });
-                            },
-                            child: Text(
-                              Controller().translater.language.getLanguagePack("private"),
-                              style: TextStyle(
-                                color: Controller().theming.fontPrimary,
-                              ),
+                    child: DropdownButton<Visibleness>(
+                      value: this._visibleness,
+                      icon: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Icon(
+                          Icons.arrow_drop_down_circle,
+                          color: Controller().theming.fontPrimary,
+                        ),
+                      ),
+                      iconSize: 25,
+                      hint: new Text(Controller().translater.language.getLanguagePack("type_of_playlist"),
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Controller().theming.fontPrimary,
+                          )),
+                      iconEnabledColor: Controller().theming.fontPrimary,
+                      isExpanded: true,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Controller().theming.fontPrimary,
+                      ),
+                      underline: Container(
+                        height: 0,
+                      ),
+                      onChanged: (Visibleness newCat) {
+                        setState(() {
+                          this._visibleness = newCat;
+                        });
+                      },
+                      items: this._visiblenessList.map((Visibleness pCategory) {
+                        return DropdownMenuItem<Visibleness>(
+                          value: pCategory,
+                          child: Text(
+                            pCategory.longValue,
+                            style: TextStyle(
+                              color: Controller().theming.fontPrimary,
                             ),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            margin: const EdgeInsets.fromLTRB(30, 5, 30, 5),
             child: TextField(
               onChanged: (String pText) => this._validateInput('DESCRIPTION', pText),
-              minLines: 3,
               maxLines: null,
+              minLines: 2,
               maxLength: 300,
-              controller: _descriptionController,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
               style: TextStyle(
                 fontSize: 18,
                 color: Controller().theming.fontPrimary,
               ),
-              keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 labelText: (this._descriptionError ? Controller().translater.language.getLanguagePack("description_invalid") : Controller().translater.language.getLanguagePack("description")),
-                contentPadding: EdgeInsets.symmetric(vertical: 10),
                 helperStyle: TextStyle(fontSize: 18),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(

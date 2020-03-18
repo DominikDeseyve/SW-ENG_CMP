@@ -9,7 +9,6 @@ import 'package:cmp/pages/playlist/CreatePlaylistScreen.dart';
 import 'package:cmp/pages/playlist/EditPlaylistScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistDetailScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistInnerScreen.dart';
-import 'package:cmp/pages/playlist/ad_song/AddSongScreen.dart';
 import 'package:cmp/pages/playlist/ad_song/TypeScreen.dart';
 import 'package:cmp/pages/search/PlaylistSearchScreen.dart';
 import 'package:cmp/pages/playlist/PlaylistViewScreen.dart';
@@ -108,9 +107,7 @@ class RouteController {
       case '/playlist/blacked-genre':
         return BlackedGenreScreen(args);
         break;
-      case '/playlist/add':
-        return AddSongScreen(args);
-        break;
+
       case '/playlist/type':
         return TypeScreen(args);
         break;

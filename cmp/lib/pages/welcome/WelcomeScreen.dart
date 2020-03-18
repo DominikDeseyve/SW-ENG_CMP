@@ -11,14 +11,14 @@ class Welcome extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(Colors.redAccent, 0.29, 0.36, 0.29),
+              painter: CurvePainter(Colors.redAccent, 0.40, 0.46, 0.40),
             ),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomPaint(
-              painter: CurvePainter(Color(0xFF253A4B), 0.28, 0.35, 0.28),
+              painter: CurvePainter(Color(0xFF253A4B), 0.39, 0.45, 0.39),
             ),
           ),
           Container(
@@ -27,10 +27,18 @@ class Welcome extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.26,
+                  height: MediaQuery.of(context).size.height * 0.36,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: 30),
+                      Container(
+                        width: 100,
+                        child: Image(
+                          image: AssetImage('assets/icons/icon-blue-256x256.png'),
+                        ),
+                      ),
+                      SizedBox(height: 5),
                       Text(
                         "CMP",
                         style: TextStyle(

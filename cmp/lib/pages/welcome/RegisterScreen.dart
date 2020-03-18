@@ -89,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 backgroundColor: Colors.transparent,
                 radius: 48.0,
                 child: Image(
-                  image: AssetImage('assets/images/symbol_rot.jpeg'),
+                  image: AssetImage('assets/icons/icon-blue-256x256.png'),
                 ),
               ),
             ),

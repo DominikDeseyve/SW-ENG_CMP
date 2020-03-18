@@ -26,15 +26,15 @@ class Linker {
     });
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       // This should match firebase but without the username query param
-      uriPrefix: Config.linkURL,
+      uriPrefix: Config.LINK_URL,
       // This can be whatever you want for the uri, https://yourapp.com/groupinvite?username=$userName
-      link: Uri.parse(Config.linkURL + 'playlist' + query),
+      link: Uri.parse(Config.LINK_URL + 'playlist' + query),
       androidParameters: AndroidParameters(
-        packageName: Config.packageName,
+        packageName: Config.PACKAGE_NAME,
         minimumVersion: 1,
       ),
       iosParameters: IosParameters(
-        bundleId: Config.packageName,
+        bundleId: Config.PACKAGE_NAME,
         minimumVersion: '1',
         appStoreId: '',
       ),

@@ -306,62 +306,68 @@ class _RoleDialogState extends State<RoleDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(Role(ROLE.ADMIN, false).icon),
-                      SizedBox(width: 8),
-                      Text(
-                        Role(ROLE.ADMIN, false).name,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 40),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(Role(ROLE.MEMBER, false).icon),
-                      SizedBox(width: 8),
-                      Text(
-                        Role(ROLE.MEMBER, false).name,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Container(
-                width: 50,
-                height: 120,
-                child: RotatedBox(
-                  quarterTurns: 3,
-                  child: Slider(
-                    activeColor: Controller().theming.accent,
-                    inactiveColor: Controller().theming.tertiary,
-                    value: this._roleLevel,
-                    min: 0,
-                    max: 1,
-                    divisions: 1,
-                    onChanged: (double d) {
-                      setState(() {
-                        this._roleLevel = d;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 0.5,
-            color: Colors.black87,
-          ),
+          (this.widget._playlist.creator.userID != Controller().authentificator.user.userID
+              ? Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Role(ROLE.ADMIN, false).icon),
+                                SizedBox(width: 8),
+                                Text(
+                                  Role(ROLE.ADMIN, false).name,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 40),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Role(ROLE.MEMBER, false).icon),
+                                SizedBox(width: 8),
+                                Text(
+                                  Role(ROLE.MEMBER, false).name,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: 50,
+                          height: 120,
+                          child: RotatedBox(
+                            quarterTurns: 3,
+                            child: Slider(
+                              activeColor: Controller().theming.accent,
+                              inactiveColor: Controller().theming.tertiary,
+                              value: this._roleLevel,
+                              min: 0,
+                              max: 1,
+                              divisions: 1,
+                              onChanged: (double d) {
+                                setState(() {
+                                  this._roleLevel = d;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 0.5,
+                      color: Colors.black87,
+                    ),
+                  ],
+                )
+              : SizedBox.shrink()),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,

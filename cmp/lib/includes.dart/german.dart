@@ -10,7 +10,7 @@ Language german = new Language({
   'edit_playlist': 'Playlist bearbeiten',
   'enter_playlist': 'Playlist eingeben',
   'name_of_playlist': 'Name der Playlist',
-  'max_members': 'Maximale Teilnehmeranzahl',
+  'max_members': 'maximale Teilnehmeranzahl',
   'type_of_playlist': 'Art der Playlist',
   'public': 'öffentliche Playlist',
   'private': 'private Playlist',

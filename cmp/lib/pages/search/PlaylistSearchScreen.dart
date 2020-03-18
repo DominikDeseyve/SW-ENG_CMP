@@ -44,7 +44,7 @@ class _PlaylistSearchScreenState extends State<PlaylistSearchScreen> {
     bool error = false;
     try {
       qrCode = await BarcodeScanner.scan();
-      if (qrCode.contains(Config.linkURL)) {
+      if (qrCode.contains(Config.LINK_URL)) {
         Map<String, String> params = await Controller().linker.decodeURL(qrCode);
         qrCode = params['playlistID'];
       } else {

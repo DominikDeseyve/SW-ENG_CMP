@@ -49,7 +49,7 @@ class Queue {
     this._stream = Controller().firebase.getPlaylistQueue(this._playlist, this);
 
     this._streamSubscription.add(this._stream.listen((QuerySnapshot pQuery) {
-          print("QUEUE FETCHED " + pQuery.documentChanges.length.toString() + " SONGS");
+          print("STREAM LISTENER -- QUEUE FETCHED " + pQuery.documentChanges.length.toString() + " SONGS");
           if (pQuery.documentChanges.length == 0) {
             this._isFinished = true;
             return;
@@ -64,7 +64,7 @@ class Queue {
             Song song = Song.fromFirebase(pSong.document, this._playlist);
             song = this._copySoundURL(song);
 
-            if (song.songStatus.isPlaying) {
+            if (song.songStatus.isPlaying && pSong.type != DocumentChangeType.removed) {
               this._currentSong = song;
               this._removeSong(song);
               return;
@@ -96,6 +96,7 @@ class Queue {
                 break;
               case DocumentChangeType.removed:
                 print("REMOVED: " + song.titel);
+                this._currentSong = null;
                 this._removeSong(song);
                 break;
             }
@@ -130,7 +131,9 @@ class Queue {
   void cancel() {
     this._streamSubscription.forEach((StreamSubscription pSub) {
       pSub.cancel();
+      pSub = null;
     });
+    this._streamSubscription = null;
   }
 
   void dispose() {
